@@ -1,0 +1,236 @@
+//! Project lifecycle evidence is captured from real, accessible attachment links.
+//! Every read and write uses the caller's existing transaction.
+use crate::{
+    approval_common::CommonSession,
+    contract_support::{Actor, Error, canonical_hash, new_uuid},
+    project_operating_common::model::LifecycleEvidenceRef,
+};
+use serde_json::{Value, json};
+use std::collections::BTreeSet;
+use uuid::Uuid;
+
+#[derive(Clone, Copy)]
+pub enum EvidenceOwner {
+    Stage(Uuid),
+    Acceptance(Uuid),
+    Completion(Uuid),
+    Condition(Uuid),
+    Closure(Uuid),
+    Archive(Uuid),
+}
+impl EvidenceOwner {
+    fn columns(self) -> [Option<Uuid>; 6] {
+        match self {
+            Self::Stage(id) => [Some(id), None, None, None, None, None],
+            Self::Acceptance(id) => [None, Some(id), None, None, None, None],
+            Self::Completion(id) => [None, None, Some(id), None, None, None],
+            Self::Condition(id) => [None, None, None, Some(id), None, None],
+            Self::Closure(id) => [None, None, None, None, Some(id), None],
+            Self::Archive(id) => [None, None, None, None, None, Some(id)],
+        }
+    }
+}
+
+#[derive(Clone, Copy)]
+pub enum EvidenceAccess {
+    FullProject,
+    /// A task holder can add their own uploaded evidence or reuse evidence already
+    /// frozen to that task. Knowing another project's attachment ID grants nothing.
+    OwnCondition(Uuid),
+}
+
+pub struct FrozenEvidenceSet {
+    rows: Vec<Value>,
+}
+impl FrozenEvidenceSet {
+    pub fn public_refs(&self) -> Vec<Value> {
+        self.rows.iter().map(public_ref).collect()
+    }
+}
+
+fn permitted(actor: &Actor, permission: &str) -> bool {
+    actor
+        .session
+        .user
+        .permissions
+        .iter()
+        .any(|p| p.as_str() == permission)
+}
+
+fn readable_classification(actor: &Actor, row: &Value) -> bool {
+    !matches!(
+        row["securityLevel"].as_str(),
+        Some("confidential" | "restricted")
+    ) || [
+        "contract:finance:sensitive:read",
+        "operating:finance:sensitive:read",
+        "commission:amount:sensitive:read",
+        "platform:roles:manage",
+    ]
+    .iter()
+    .any(|permission| permitted(actor, permission))
+}
+
+fn public_ref(row: &Value) -> Value {
+    json!({
+        "attachmentLinkId":row["attachmentLinkId"],
+        "attachmentId":row["attachmentId"],
+        "attachmentRowVersion":row["attachmentRowVersion"],
+        "checksumSha256":row["checksumSha256"],
+        "fileName":row["fileName"]
+    })
+}
+
+/// Locks exact source links and attachments in UUID order. The project scope
+/// proof is checked by the owning command before calling this helper.
+pub async fn validate_and_freeze(
+    session: &mut CommonSession<'_, '_>,
+    project_id: Uuid,
+    refs: &[LifecycleEvidenceRef],
+    access: EvidenceAccess,
+    actor: &Actor,
+) -> Result<FrozenEvidenceSet, Error> {
+    if !permitted(actor, "project:read") {
+        return Err(Error::Forbidden(
+            "读取生命周期证据需要 project:read。".into(),
+        ));
+    }
+    let mut ids = refs
+        .iter()
+        .map(|r| r.attachment_link_id)
+        .collect::<Vec<_>>();
+    ids.sort();
+    if ids.is_empty()
+        || ids.len() > 100
+        || ids.iter().copied().collect::<BTreeSet<_>>().len() != ids.len()
+    {
+        return Err(Error::BadRequest(
+            "证据必须为 1 到 100 个不同的真实附件关联。".into(),
+        ));
+    }
+    let mut rows = Vec::with_capacity(ids.len());
+    let mut attachments = BTreeSet::new();
+    for link_id in ids {
+        let row: Value = sqlx::query_scalar(
+            r#"SELECT jsonb_build_object(
+          'attachmentLinkId',l.id,'attachmentId',a.id,'attachmentRowVersion',a.row_version,
+          'checksumSha256',a.checksum_sha256,'fileName',a.original_name,
+          'targetType',l.target_type,'targetId',l.target_id,'linkStatus',l.status,
+          'attachmentStatus',a.status,'securityLevel',a.security_level,
+          'uploadedBy',a.uploaded_by,'relationType',l.relation_type)
+          FROM poms.attachment_link l JOIN poms.attachment a ON a.id=l.attachment_id
+          WHERE l.id=$1 FOR UPDATE OF l,a"#,
+        )
+        .bind(link_id)
+        .fetch_optional(&mut *session.connection)
+        .await?
+        .ok_or_else(|| Error::NotFound("生命周期证据不存在。".into()))?;
+        if row["targetType"] != "project"
+            || row["targetId"] != project_id.to_string()
+            || row["linkStatus"] != "active"
+            || row["attachmentStatus"] != "active"
+        {
+            return Err(Error::Conflict("证据须是本项目当前有效的附件关联。".into()));
+        }
+        if !readable_classification(actor, &row) {
+            return Err(Error::Forbidden("无权读取该附件安全等级。".into()));
+        }
+        if let EvidenceAccess::OwnCondition(condition_id) = access {
+            let already_owned: bool = sqlx::query_scalar("SELECT EXISTS(SELECT 1 FROM poms.project_lifecycle_evidence_ref WHERE project_id=$1 AND completion_condition_id=$2 AND attachment_link_id=$3 AND attachment_id=$4)")
+                .bind(project_id).bind(condition_id).bind(link_id)
+                .bind(uuid_field(&row, "attachmentId")?).fetch_one(&mut *session.connection).await?;
+            if row["uploadedBy"] != actor.id.to_string() && !already_owned {
+                return Err(Error::NotFound("本人条件证据不存在。".into()));
+            }
+        }
+        let checksum = row["checksumSha256"].as_str().unwrap_or_default();
+        let version = row["attachmentRowVersion"].as_i64().unwrap_or(0);
+        if checksum.len() != 64
+            || !checksum
+                .bytes()
+                .all(|b| b.is_ascii_digit() || (b'a'..=b'f').contains(&b))
+            || version <= 0
+            || version > i64::from(i32::MAX)
+            || row["fileName"].as_str().is_none_or(|v| v.trim().is_empty())
+            || !attachments.insert(uuid_field(&row, "attachmentId")?)
+        {
+            return Err(Error::Conflict("证据版本、校验和或文件标识无效。".into()));
+        }
+        rows.push(row);
+    }
+    Ok(FrozenEvidenceSet { rows })
+}
+
+fn uuid_field(value: &Value, name: &str) -> Result<Uuid, Error> {
+    value[name]
+        .as_str()
+        .and_then(|v| Uuid::parse_str(v).ok())
+        .ok_or(Error::Internal)
+}
+
+pub async fn persist(
+    session: &mut CommonSession<'_, '_>,
+    project_id: Uuid,
+    owner: EvidenceOwner,
+    evidence: &FrozenEvidenceSet,
+    actor: &Actor,
+) -> Result<(), Error> {
+    let columns = owner.columns();
+    for row in &evidence.rows {
+        let id = new_uuid()?;
+        let payload = json!({"schemaVersion":1,"projectId":project_id,"source":row});
+        let hash = canonical_hash(&payload)?;
+        sqlx::query("INSERT INTO poms.project_lifecycle_evidence_ref(id,project_id,stage_record_id,acceptance_record_id,completion_record_id,completion_condition_id,condition_closure_id,archive_record_id,attachment_link_id,attachment_id,attachment_row_version,checksum_sha256,file_name,source_payload,source_payload_hash,frozen_at,frozen_by) VALUES($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15,$16,$17)")
+            .bind(id).bind(project_id).bind(columns[0]).bind(columns[1]).bind(columns[2]).bind(columns[3]).bind(columns[4]).bind(columns[5])
+            .bind(uuid_field(row,"attachmentLinkId")?).bind(uuid_field(row,"attachmentId")?)
+            .bind(i32::try_from(row["attachmentRowVersion"].as_i64().ok_or(Error::Internal)?).map_err(|_| Error::Internal)?)
+            .bind(row["checksumSha256"].as_str().ok_or(Error::Internal)?).bind(row["fileName"].as_str().ok_or(Error::Internal)?)
+            .bind(payload).bind(hash).bind(crate::auth::model::clock_now()).bind(actor.id)
+            .execute(&mut *session.connection).await?;
+        session
+            .state
+            .trace
+            .inserted("project_lifecycle_evidence_ref", &id.to_string());
+    }
+    Ok(())
+}
+
+/// Reads only the exact owner's frozen references. It never joins parent
+/// acceptance/completion payloads or broadens to all project attachments.
+pub async fn read(
+    session: &mut CommonSession<'_, '_>,
+    project_id: Uuid,
+    owner: EvidenceOwner,
+    actor: &Actor,
+) -> Result<Vec<Value>, Error> {
+    let columns = owner.columns();
+    let rows: Vec<Value> = sqlx::query_scalar("SELECT to_jsonb(e) FROM poms.project_lifecycle_evidence_ref e WHERE project_id=$1 AND (stage_record_id=$2 OR acceptance_record_id=$3 OR completion_record_id=$4 OR completion_condition_id=$5 OR condition_closure_id=$6 OR archive_record_id=$7) ORDER BY attachment_link_id")
+        .bind(project_id).bind(columns[0]).bind(columns[1]).bind(columns[2]).bind(columns[3]).bind(columns[4]).bind(columns[5])
+        .fetch_all(&mut *session.connection).await?;
+    let mut result = Vec::with_capacity(rows.len());
+    for row in rows {
+        let source = &row["source_payload"]["source"];
+        let hash = canonical_hash(&row["source_payload"])?;
+        if row["source_payload_hash"].as_str() != Some(hash.as_str())
+            || !readable_classification(actor, source)
+        {
+            return Err(Error::Forbidden("证据不可读取或冻结校验失败。".into()));
+        }
+        result.push(public_ref(source));
+    }
+    Ok(result)
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    #[test]
+    fn evidence_projection_cannot_copy_attachment_authority_or_parent_payload() {
+        let projected = public_ref(
+            &json!({"attachmentLinkId":"l","attachmentId":"a","attachmentRowVersion":1,"checksumSha256":"h","fileName":"proof","uploadedBy":"private","storageKey":"secret","acceptanceRecordId":"parent"}),
+        );
+        assert_eq!(projected.as_object().unwrap().len(), 5);
+        assert!(!projected.to_string().contains("private"));
+        assert!(!projected.to_string().contains("parent"));
+    }
+}

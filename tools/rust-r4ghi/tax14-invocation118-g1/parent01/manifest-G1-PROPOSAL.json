@@ -1,0 +1,170 @@
+{
+  "kind": "I-Tax14-invocation-proof-technical-G1-proposal-only",
+  "schemaVersion": 1,
+  "status": "PROPOSED-AWAIT-ROOT-ISSUE-G1",
+  "author": "I",
+  "executor": "Root-only",
+  "issue": null,
+  "feasibility": "external-only with six explicit leaves; view alone insufficient; no H2 seam required if bounded wire/FI/assertRecorded copies approved",
+  "proposedExternalLeaves": [
+    "run-tax14-once.mjs",
+    "invocation-proof.mjs",
+    "retained-tax-proof.mjs",
+    "tax14-once-effects.mjs",
+    "tax14-once-wire.mjs",
+    "tax14-once-ledger.mjs"
+  ],
+  "supportedModes": [
+    "fi-family",
+    "commit-once",
+    "verify-committed",
+    "disarm-owned"
+  ],
+  "full252PassesPerInvocation": {
+    "entry": 1,
+    "exit": 1,
+    "perEffectImmutableParentPasses": 0
+  },
+  "requiredFreshChecksEveryEffect": [
+    "full source420 and actual H2-218/external graph",
+    "typed live API PID/start/boot/binary identity",
+    "real DB namespace/OID/marker/role",
+    "all before/after139x2 raw/xmin/meta/seq/objects",
+    "actual prepared targets/body/inventory/CAS",
+    "auth permission/cookie/session deadlines",
+    "exact-owned FI OID/control identities and hit counts",
+    "full ownership/ledger/rollback/same-TX audit-auth"
+  ],
+  "originalContractsNotBytePreserved": [
+    "A258 heavy entry and FI dispatch scheduling",
+    "original createApi direct invocation",
+    "assertRecorded loader into schema108"
+  ],
+  "originalFunctionsReused": [
+    "createContext once at entry",
+    "assertCodeEpochContext252 once at exit",
+    "verifyRetainedMain252 pure bridge",
+    "snapshot.capture and difference",
+    "reconcileAttempt unchanged",
+    "source-derived inventory/selectors and actual rollback/final semantic checks"
+  ],
+  "files": [
+    {
+      "file": "E:/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/tax14-invocation-proof-G1-proposal01/TECHNICAL-G1-PROPOSAL.md",
+      "bytes": 11902,
+      "rawBytesSha256": "d4fd1b615f4caee9637fab94d296158919b3fac785068e02a7a053312ddbd2d5"
+    },
+    {
+      "file": "E:/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/tax14-invocation-proof-G1-proposal01/input.PROPOSED.null.json",
+      "bytes": 691,
+      "rawBytesSha256": "3b071fd0896b19add76af828e3827889784fb828d9b5a862d5d163b14519c8f1"
+    },
+    {
+      "file": "E:/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/tax14-invocation-proof-G1-proposal01/negative-matrix.PROPOSED.json",
+      "bytes": 3096,
+      "rawBytesSha256": "a0a9c4c1bc544ea4ce9912bb7f197e9ecad54557492ce8e4fef8eb9fe321c47e"
+    }
+  ],
+  "narrowSourceEvidence": [
+    {
+      "file": "E:/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/business/context.mjs",
+      "bytes": 11614,
+      "rawBytesSha256": "d73d0e24cf7ff880537f7372ad362ff75eeb4f9d7daadb6a520ae691afd26017"
+    },
+    {
+      "file": "E:/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/business/same-m98-code-admission252.mjs",
+      "bytes": 26461,
+      "rawBytesSha256": "7fb6fbb03f44a4498134ab63dfac83dbf0cdbdc228ac3d99429dc660ee822fc9"
+    },
+    {
+      "file": "E:/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/business/same-m98-code-core252.mjs",
+      "bytes": 25976,
+      "rawBytesSha256": "fca1688a50545ecc5015d11bf927f3ae74b74279fdf3daf78596f111d0f3ba85"
+    },
+    {
+      "file": "E:/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/business/tax14-runner258.mjs",
+      "bytes": 5342,
+      "rawBytesSha256": "e3006b448f7111992f660dc1f5aed3a2c7478b74480060857829c925b2495081"
+    },
+    {
+      "file": "E:/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/business/tax14-provenance258.mjs",
+      "bytes": 17504,
+      "rawBytesSha256": "11c283e6f4fdb317027ad305262d0d811e6d7f172be5cee84a5d31227639bb81"
+    },
+    {
+      "file": "E:/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/business/tax14-sweep258.mjs",
+      "bytes": 21143,
+      "rawBytesSha256": "d8e53be6f5a821abd5635dbfd01d0fb515c161977ee423688ea3fd1a8b936c55"
+    },
+    {
+      "file": "E:/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/business/tax14-main258.mjs",
+      "bytes": 6468,
+      "rawBytesSha256": "fe6c9aca5b03d166b6da273ad972087f2a1dab31e5cdf3887fba4b4fe2c7c700"
+    },
+    {
+      "file": "E:/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/business/http.mjs",
+      "bytes": 11472,
+      "rawBytesSha256": "7eb4ca4a5c15bccfd85256e7ea0b18e8ad2b905341f876e1ab21a25f2745ae86"
+    },
+    {
+      "file": "E:/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/business/ledger.mjs",
+      "bytes": 14909,
+      "rawBytesSha256": "ca72e96a2485b84372f703be879adb5e0d7a0e93db8d8bbe87f65a9283b959c9"
+    },
+    {
+      "file": "E:/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/business/snapshot.mjs",
+      "bytes": 9906,
+      "rawBytesSha256": "0ab579d978d6d8e4b6401ff6004f9d4dc42d88be88391c34621d8135356fb7fa"
+    },
+    {
+      "file": "E:/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/business/fault-sweep.mjs",
+      "bytes": 24936,
+      "rawBytesSha256": "ee120228f9a671b9de6b7b6ca6434e628d5ad447e4dd9846bbee422563e8b846"
+    },
+    {
+      "file": "E:/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/business/ef-fault-sweep40.mjs",
+      "bytes": 25023,
+      "rawBytesSha256": "d5b48b44306b3adbccca46f157706490814c724e7fe90644611182e097b08d97"
+    },
+    {
+      "file": "E:/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/policy-continuation14-287-code04/facts287.mjs",
+      "bytes": 7892,
+      "rawBytesSha256": "25c84b1a6920980d63a30e95c3017ae6965c10200f227a8e3241d4e419888d35"
+    },
+    {
+      "file": "E:/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/legacy-authority14-284-code02/facts284.mjs",
+      "bytes": 15619,
+      "rawBytesSha256": "8041db2923b7eb72ea71687e39cf5351da127aedd1ca69788e90b0df42f50139"
+    }
+  ],
+  "validations": {
+    "proposalJSONParsed": true,
+    "requiredNegativeCases": 30,
+    "implemented": false,
+    "testsExecuted": false,
+    "fullSourceOrSnapshotScan": false
+  },
+  "actual": {
+    "runtimeBindings": null,
+    "prepared341": null,
+    "executionSources": null,
+    "codeReview": null,
+    "exactInputReview": null,
+    "invocationCapability": null
+  },
+  "RootWritten": false,
+  "SQL": false,
+  "HTTP": false,
+  "processOrSignal": false,
+  "ctxCreated": false,
+  "persistedRuntimeState": false,
+  "Git": false,
+  "IssueWritten": false,
+  "H2Modified": false,
+  "epochChanged": false,
+  "G1Frozen": false,
+  "implementationAuthorized": false,
+  "G2Authorized": false,
+  "G3Certified": false,
+  "G4Certified": false
+}

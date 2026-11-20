@@ -1,0 +1,115 @@
+{
+  "kind": "independent-review05-specific-S5-A-G2-input-commit-review",
+  "reviewedAt": "2026-11-07T07:03:46.970652+00:00",
+  "reviewerIsProductAuthor": false,
+  "G2InputCommitAllowed": true,
+  "approvedCandidateManifest": "tools/openapi/checkpoints/r4ghi-s5/input-manifest01.json",
+  "approvedCandidateManifestSHA256": "9f1d5c6b712af05b4eef0b82dc62c47ae40d59e62ff827d975a711dacb550cbc",
+  "approvedSpecSHA256": "8965393af9264e0805c3174520816673a1a56920944428bb8a9321e81da74ab0",
+  "parentHead": "ba775dd291171bde361d8fc145ead9e5bb1887a5",
+  "permanentS4": "4f0ad88e78622a75b88b4e3cc72aded9da67458a",
+  "scope": "One feature-only immutable S5 generator input checkpoint A; does not approve product/main commit, SDK write, official delivery or any Issue closeout.",
+  "allowedAPaths": [
+    "libs/shared/api-spec/openapi.json",
+    "tools/openapi/checkpoints/r4ghi-s5/**",
+    "necessary review/export/validation/typecheck provenance archived as additional append-only checkpoint artifacts"
+  ],
+  "mustNotInclude": [
+    "other WIP product edits",
+    "generated SDK output",
+    "main advancement or rewrite",
+    "business G3/G4 certification",
+    "official Rust count beyond240",
+    "closing57/101/116 or batch children before their actual gates"
+  ],
+  "evidence": {
+    "rawInputs": 414,
+    "allCurrentRawAndNormalizedHashesMatch": true,
+    "fullInventory": {
+      "rawSHA256": "8965393af9264e0805c3174520816673a1a56920944428bb8a9321e81da74ab0",
+      "paths": 242,
+      "operations": 296,
+      "schemas": 689
+    },
+    "inventoryExactlyMatches": true,
+    "old293OperationsAnd626SchemaNamesRetained": true,
+    "newOperations": [
+      [
+        "POST",
+        "/api/project-completion-records/{completionRecordId}/conditions/{id}:close",
+        "ProjectCompletionRecordController_closeCompletionCondition"
+      ],
+      [
+        "POST",
+        "/api/projects/{id}:startAcceptance",
+        "ProjectController_startAcceptance"
+      ],
+      [
+        "POST",
+        "/api/projects/{id}:startExecution",
+        "ProjectController_startExecution"
+      ]
+    ],
+    "localReferenceCount": 1397,
+    "unresolvedOrExternalReferences": [],
+    "otherFiveProtectedSourcesExactlyS4": true,
+    "sourceSnapshotsPreservedByLocalGitAttributes": true,
+    "formalRustDelivered": 240,
+    "originalManifestAndFiveProtectedRootsUnmodified": true
+  },
+  "EOContract": {
+    "FullProjectDetailRequiredNullable": true,
+    "sixExactStartExecutionSourceFieldsOnly": true,
+    "creatorAndLegacyBranchesDoNotContainContext": true,
+    "noRoleGetPermissionBroadening": true,
+    "runtimeScopeAcceptance": "not certified"
+  },
+  "actualReceiptsInspected": {
+    "fullExport09": {
+      "exitCode": 0,
+      "specSHA256": "8965393af9264e0805c3174520816673a1a56920944428bb8a9321e81da74ab0",
+      "paths": 242,
+      "operations": 296,
+      "schemas": 689
+    },
+    "specValidate03": {
+      "exitCode": 0,
+      "warnings": "5 unused-model recommendations retained",
+      "runUsesFixedJava17AndPinnedJar": true
+    },
+    "apiTsc03": {
+      "exitCode": 0,
+      "relation": "captured API sources match414manifest"
+    }
+  },
+  "appendOnlyProvenanceRecommendation": "Append raw export09/validate03/tsc03 receipts/logs and this review to A checkpoint; do not alter original414 manifest. A source-tree API code remains WIP; snapshots are the exact exporter provenance, not a claim that A runs the new product.",
+  "BConstraints": [
+    "Set sourceHead to exact immutable A after committing; verifyS4 ancestry andA tree for six protected bytes.",
+    "Pin242 paths/296 exactmethod-path-operationId rows/689 schemas, preserving full coverage and exact hardcounts.",
+    "Retain pre/post working-tree/index/untracked guards onall6protected sources and generator-time input snapshots.",
+    "Keep pinned Java17 executable/version, JAR7.20.0 exacthash, wrapper2.41.0 andconfig; do not auto-download or switch.",
+    "Preserve3hand-managed metadata bytes captured inincremental-input-manifest03; alltemp checks must finish before SDKwrite.",
+    "Failed generation/validation/guard must leave client untouched; actual write/check and UI compilation still required."
+  ],
+  "IncrementalFindings": {
+    "IR05-03": {
+      "status": "static-fix-accepted-actual-HTTP-and-FI-pending",
+      "sourceSHA256": "0e11a9f45699815f74c49c773f4c92b0abb6c1a776276084aa335a7571daf872",
+      "promotionAll3SHAsMatch": false,
+      "reason": "Own-only passes exactparent/child and reads authentic originalK refs or matchingcompleted purpose; uploader equality no longer grants authority. FullProject selection is explicitly separately proven.",
+      "promotionClassification": "Attachment/evidence2files exact; service differs in4inspected formatting hunks with optionaltrailingcommas. CurrentSHA70fdc0463dcae8558ec0ddaac5ad4dc6abf17532c38914fde5042d659d62c590; seei12-format-drift03.json."
+    },
+    "IR05-02": {
+      "status": "static-fix-accepted-current-rebuild/full-tests-pending",
+      "registrySHA256": "dbb44193f7750d084ba3f3ba6ac7f744fb5cae469c092f3f8c1dd8aa6bdff68a",
+      "reason": "Fragment registration andsuccessstatus are checked; unknownschema/ref rejected; allwireparts consume canonical and final merge staysstrict. Actualruntime08 succeeded before130/689; build02 at06:31 predatesI12promotion06:40 andShared130, so it is not currentfixcompile certification."
+    },
+    "IR05-01": {
+      "status": "not-yet-reviewed-append02-not-present-at-root-proposed-path",
+      "reason": "Root originalui-integration/proposed stillhasconditionId andoldEOassembly; await exactappend02 input. No fixacceptance claimed."
+    }
+  },
+  "G3Certified": false,
+  "G4Certified": false,
+  "businessActualAcceptanceStillRequired": true
+}

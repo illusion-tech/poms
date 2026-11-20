@@ -1,0 +1,54 @@
+{
+  "kind": "isolated exact candidate nested Zod schema runtime tests; not whole request/type/HTTP validation",
+  "sourceFile": "tools/rust-r4ghi/I/implementation/support-patches/attachment-scope08/candidate/libs/shared/contracts/src/lib/shared-contracts.ts",
+  "sourceSHA256": "ae2f43023d7b465bd362ea0945e2746b2169a69d94c838e8b19fd4e073c34c28",
+  "definitionSHA256": "dd492a86d6ec7f6d2c5a69d358b924dd8013d19fba5cb426adc6d20f5fabd8cd",
+  "results": [
+    {
+      "name": "valid-real-shaped-UUID-pair",
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "missing-parent",
+      "expected": false,
+      "actual": false
+    },
+    {
+      "name": "missing-child",
+      "expected": false,
+      "actual": false
+    },
+    {
+      "name": "wrong-parent-UUID",
+      "expected": false,
+      "actual": false
+    },
+    {
+      "name": "unknown-project-field",
+      "expected": false,
+      "actual": false
+    },
+    {
+      "name": "unknown-related-field",
+      "expected": false,
+      "actual": false
+    },
+    {
+      "name": "null",
+      "expected": false,
+      "actual": false
+    },
+    {
+      "name": "array",
+      "expected": false,
+      "actual": false
+    },
+    {
+      "name": "string",
+      "expected": false,
+      "actual": false
+    }
+  ],
+  "passed": true
+}

@@ -11,6 +11,10 @@
 
 export enum OperatingRiskLevel {
 
+    Normal = 'normal',
+
+    Unknown = 'unknown',
+
     Attention = 'attention',
 
     Risk = 'risk'

@@ -1,0 +1,124 @@
+{
+  "kind": "I-Tax14-invocation-proof-technical-G1-proposal02-only",
+  "schemaVersion": 2,
+  "status": "PROPOSED-AWAIT-ROOT-ISSUE-G1",
+  "author": "I",
+  "executor": "Root-only",
+  "issue": null,
+  "parent01": {
+    "file": "E:/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/tax14-invocation-proof-G1-proposal01/manifest-G1-PROPOSAL.json",
+    "rawBytesSha256": "57254961eab1602ebd9b722568fdfd2203c7759a71e03d6e69f49eada0ae1835",
+    "preserved": true
+  },
+  "commonContractsInheritedFrom01": [
+    {
+      "file": "E:/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/tax14-invocation-proof-G1-proposal01/TECHNICAL-G1-PROPOSAL.md",
+      "bytes": 11902,
+      "rawBytesSha256": "d4fd1b615f4caee9637fab94d296158919b3fac785068e02a7a053312ddbd2d5"
+    },
+    {
+      "file": "E:/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/tax14-invocation-proof-G1-proposal01/input.PROPOSED.null.json",
+      "bytes": 691,
+      "rawBytesSha256": "3b071fd0896b19add76af828e3827889784fb828d9b5a862d5d163b14519c8f1"
+    },
+    {
+      "file": "E:/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/tax14-invocation-proof-G1-proposal01/negative-matrix.PROPOSED.json",
+      "bytes": 3096,
+      "rawBytesSha256": "a0a9c4c1bc544ea4ce9912bb7f197e9ecad54557492ce8e4fef8eb9fe321c47e"
+    }
+  ],
+  "narrowSourceEvidenceInheritedFrom01": true,
+  "newRootSourceOrSnapshotScan": false,
+  "proposedExternalLeaves": [
+    "run-tax14-once.mjs",
+    "invocation-proof.mjs",
+    "retained-tax-proof.mjs",
+    "tax14-once-effects.mjs",
+    "tax14-once-wire.mjs",
+    "tax14-once-ledger.mjs"
+  ],
+  "supportedModes": [
+    "fi-closed-set",
+    "fi-family",
+    "commit-once",
+    "verify-committed",
+    "disarm-owned"
+  ],
+  "policyChanges": [
+    "restore one Root exact G2 for actual complete ordered FI inventory",
+    "one entry and one exit full252 for the whole approved closed set",
+    "single-step family cursor/sub-capability; durable per-family originals and no replay",
+    "first failure/unknown/control/semantic issue stops the closed set",
+    "FI-complete STOP; normal201 separately exact G2"
+  ],
+  "superseded01Policies": [
+    "no batch FI entry",
+    "every family requires independent invocation/exact G2",
+    "close invocation after every successful family"
+  ],
+  "full252PassesPerApprovedClosedSet": {
+    "entry": 1,
+    "exit": 1,
+    "perEffectImmutableParentPasses": 0
+  },
+  "perFamilyFreshChecksUnchanged": true,
+  "requiresExactCompleteInventoryOrder": true,
+  "dynamicFamilyDiscoveryAllowed": false,
+  "skipFailedFamiliesAllowed": false,
+  "unknownAutomaticResumeAllowed": false,
+  "alreadyExecutedFamilyReplayAllowed": false,
+  "normalPOSTWithinClosedSetAllowed": false,
+  "fiFamilyRecoveryRequiresSeparateExactReview": true,
+  "consumerSidecarAndNewExecutorPrinciplesUnchanged": true,
+  "files": [
+    {
+      "file": "E:/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/tax14-invocation-proof-G1-proposal02/TECHNICAL-G1-PROPOSAL02.md",
+      "bytes": 7407,
+      "rawBytesSha256": "d9648944bbd7e3f11e4f044183f52029aaf5fb4a16f1e17d5205055a42670ba0"
+    },
+    {
+      "file": "E:/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/tax14-invocation-proof-G1-proposal02/input.PROPOSED.null.json",
+      "bytes": 790,
+      "rawBytesSha256": "ba82eec3e1e0a38151da149e487f387d8dafe8242f29149eda00a5c0e70299ae"
+    },
+    {
+      "file": "E:/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/tax14-invocation-proof-G1-proposal02/negative-matrix.PROPOSED.json",
+      "bytes": 4247,
+      "rawBytesSha256": "3d0ed0c54fa9dc5a0b9ba729eec838825146cd030f53e92535759ff8e393a56f"
+    }
+  ],
+  "validations": {
+    "proposalJSONParsed": true,
+    "requiredNegativeCases": 40,
+    "implemented": false,
+    "testsExecuted": false,
+    "parent01RawFilesReverified": true
+  },
+  "actual": {
+    "runtimeBindings": null,
+    "prepared341": null,
+    "fullInventory": null,
+    "orderedFamilyKeys": null,
+    "approvedClosedFISet": null,
+    "approvedCompletedPrefix": null,
+    "cursor": null,
+    "executionSources": null,
+    "codeReview": null,
+    "exactInputReview": null
+  },
+  "RootWritten": false,
+  "SQL": false,
+  "HTTP": false,
+  "processOrSignal": false,
+  "ctxCreated": false,
+  "persistedRuntimeState": false,
+  "Git": false,
+  "IssueWritten": false,
+  "H2Modified": false,
+  "epochChanged": false,
+  "G1Frozen": false,
+  "implementationAuthorized": false,
+  "G2Authorized": false,
+  "G3Certified": false,
+  "G4Certified": false
+}

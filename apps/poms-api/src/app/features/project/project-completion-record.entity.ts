@@ -1,3 +1,4 @@
+import { ProjectStageRecord } from '../project-cost/rust-r4ghi-entities.entity';
 import { defineEntity } from '@mikro-orm/core';
 import { AcceptanceRecord } from './acceptance-record.entity';
 import { Project } from './project.entity';
@@ -8,6 +9,13 @@ export type ProjectCompletionRecordStatus = 'confirmed';
 const p = defineEntity.properties;
 
 export const ProjectCompletionRecordSchema = defineEntity({
+    uniques: [
+        {"name":"uq_jghi_completion_project","properties":["id","projectId"]},
+        {"name":"uq_completion_project_new_confirmed","expression":"CREATE UNIQUE INDEX uq_completion_project_new_confirmed ON poms.project_completion_record(project_id)\n    WHERE producer_version=1 AND status='confirmed'"}
+    ],
+    checks: [
+        {"name":"completion_new_producer_check","expression":"producer_version=0 OR (producer_version=1 AND source_stage_record_id IS NOT NULL\n    AND source_payload_hash IS NOT NULL AND source_payload_hash ~ '^[0-9a-f]{64}$' AND completed_by IS NOT NULL AND condition_status IS NOT NULL\n    AND ((completion_result='completed' AND condition_status='not-applicable')\n      OR (completion_result='conditional-completed' AND condition_status IN ('pending','closed'))))"}
+    ],
     name: 'ProjectCompletionRecord',
     tableName: 'project_completion_record',
     schema: 'poms',
@@ -47,6 +55,13 @@ export const ProjectCompletionRecordSchema = defineEntity({
         updatedAt: p.datetime().defaultRaw('now()').onCreate(() => new Date()).onUpdate(() => new Date()).fieldName('updated_at').comment('最后更新时间'),
         updatedBy: p.uuid().nullable().fieldName('updated_by').comment('最后更新人'),
         rowVersion: p.integer().version().default(1).fieldName('row_version').comment('乐观锁版本号')
+    ,
+        producerVersion: p.smallint().default(0).fieldName("producer_version"),
+        sourceStageRecordId: () => p.manyToOne(ProjectStageRecord).mapToPk().joinColumns("source_stage_record_id").referencedColumnNames("id").foreignKeyName("project_completion_record_source_stage_record_id_fkey").deleteRule("restrict").updateRule("no action").nullable(),
+        sourcePayloadHash: p.string().length(64).nullable().fieldName("source_payload_hash"),
+        conditionStatus: p.text().nullable().fieldName("condition_status"),
+        jghiScopeConstraint1: () => p.manyToOne(ProjectStageRecord).mapToPk().joinColumns("source_stage_record_id","project_id").referencedColumnNames("id","project_id").columnTypes("uuid","uuid").ownColumns().hydrate(false).hidden().foreignKeyName("fk_jghi_completion_stage_project").deleteRule("no action").updateRule("no action").nullable(),
+        jghiScopeConstraint2: () => p.manyToOne(AcceptanceRecord).mapToPk().joinColumns("acceptance_record_id","project_id").referencedColumnNames("id","project_id").columnTypes("uuid","uuid").ownColumns().hydrate(false).hidden().foreignKeyName("fk_jghi_completion_acceptance_project").deleteRule("no action").updateRule("no action")
     }
 });
 

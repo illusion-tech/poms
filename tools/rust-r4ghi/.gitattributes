@@ -5,3 +5,36 @@
 *.patch binary
 # Executed helper originals retain their existing final blank lines.
 userfix/*.mjs whitespace=cr-at-eol,-blank-at-eof
+# The sealed H design proposal is a preserved raw input.
+H/final-g1/proposal01.md whitespace=cr-at-eol,-blank-at-eof
+# Preserve sealed streams, patch context and executed runtime bytes.
+*.log whitespace=cr-at-eol,-blank-at-eof
+*.diff whitespace=cr-at-eol,-blank-at-eol,-blank-at-eof
+H/implementation/support-patches/ui-integration/runtime13/max13.mjs whitespace=cr-at-eol,-blank-at-eof
+H/implementation/support-patches/ui-integration/runtime13/mask13.mjs whitespace=cr-at-eol,-blank-at-eof
+H/implementation/support-patches/ui-integration/runtime14/browser-cases14.mjs whitespace=cr-at-eol,-blank-at-eol,-blank-at-eof
+# Preserve the sealed G/H UI policy's final blank line and registered hash.
+business/ui-gh18-policy.mjs whitespace=cr-at-eol,-blank-at-eof
+# Keep this sealed proposal's original bytes and registered hash.
+H/implementation/support-patches/ui-integration/creator-readback29/proposed/tools/rust-r4ghi/H/implementation/support-patches/ui-integration/runtime14/browser-cases14.mjs whitespace=cr-at-eol,-blank-at-eof
+# Preserve exact reviewed and executed Source12 tool bytes; do not trim sealed inputs.
+H/implementation/support-patches/ui-integration/gh-baseline45/proposed/tools/rust-r4ghi/business/ui-gh18-policy.mjs whitespace=cr-at-eol,-blank-at-eof
+H/implementation/support-patches/ui-integration/lifecycle-read44/proposed/tools/rust-r4ghi/business/ui-lifecycle18-browser.mjs whitespace=cr-at-eol,-blank-at-eol
+H/implementation/support-patches/ui-integration/ui-runtime32-02/proposed/tools/rust-r4ghi/H/implementation/support-patches/ui-integration/runtime14/browser-cases14.mjs whitespace=cr-at-eol,-blank-at-eol,-blank-at-eof
+H/implementation/support-patches/ui-integration/ui-runtime32/proposed/tools/rust-r4ghi/H/implementation/support-patches/ui-integration/runtime14/browser-cases14.mjs whitespace=cr-at-eol,-blank-at-eol,-blank-at-eof
+H/implementation/support-patches/ui-integration/ui-runtime32/proposed/tools/rust-r4ghi/business/ui-expense18-browser.mjs whitespace=cr-at-eol,-blank-at-eol
+H/implementation/support-patches/ui-integration/ui-runtime32/proposed/tools/rust-r4ghi/business/ui-lifecycle18-browser.mjs whitespace=cr-at-eol,-blank-at-eol
+business/ui-expense18-browser.mjs whitespace=cr-at-eol,-blank-at-eol
+business/ui-lifecycle18-browser.mjs whitespace=cr-at-eol,-blank-at-eol
+checkpoints/reviewed162/gh18-source12-04/tools/rust-r4ghi/business/ui-gh18-policy.mjs whitespace=cr-at-eol,-blank-at-eof
+checkpoints/reviewed162/lifecycle18-source12-02/tools/rust-r4ghi/business/ui-lifecycle18-browser.mjs whitespace=cr-at-eol,-blank-at-eol
+independent/review05/retention-review98/verify98-02.mjs whitespace=cr-at-eol,-blank-at-eol
+# Preserve the sealed unsuccessful schema-test streams byte for byte.
+I/implementation/schema-admission108-02/attempt01/pure108.stdout.log whitespace=cr-at-eol,-blank-at-eol,-blank-at-eof
+I/implementation/schema-admission108/pure108-attempt02.stdout.log whitespace=cr-at-eol,-blank-at-eol,-blank-at-eof
+# Preserve the exact helper assembly used by independent review129.
+independent/review05/helper-fixture-review129/assembly/business/ui-expense18-browser.mjs whitespace=cr-at-eol,-blank-at-eol
+independent/review05/helper-fixture-review129/assembly/business/ui-gh18-policy.mjs whitespace=cr-at-eol,-blank-at-eof
+independent/review05/helper-fixture-review129/assembly/business/ui-lifecycle18-browser.mjs whitespace=cr-at-eol,-blank-at-eol
+# Preserve the independent Rust regression's sealed standard output.
+independent/review05/inferred249-review134/test134.stdout whitespace=cr-at-eol,-blank-at-eof

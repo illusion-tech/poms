@@ -23,3 +23,5 @@
 - `pnpm nx run poms-api:migration-check`
 - `pnpm nx run poms-api:migration-up`
 - `pnpm nx run poms-api:seeder-run`
+
+`Migration20261117160000_commission_settlement_unknown_tax`允许最终结算的待闭合税额为NULL，并移除默认0，以保存上游的未知金额。已有值不改写，ORM映射同步nullable。回滚的SET NOT NULL在仍有NULL时会原子失败，不能以回填0代替真实业务处置；本轮只在独立提成测试库应用和验证，目标环境发布需先纳入该迁移。

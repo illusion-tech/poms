@@ -1,0 +1,390 @@
+{
+  "status": "proposal-not-applied",
+  "source": "libs/shared/contracts/src/lib/shared-contracts.ts",
+  "rawProtection": "For each protect[] raw key, keep compatibility key literal null for every caller; add <key>Projection:SensitiveStringFieldProjection. Never raw mirror for privileged callers. Existing projection keys unchanged.",
+  "commonRequiredFields": {
+    "evaluationContext": "OperatingEvaluationContext required",
+    "reasonItems": "OperatingReasonView[] required; complete, sorted",
+    "reviewState": "not-required|pending|acknowledged|manual-confirmed|stale",
+    "metricKnowledge": "OperatingMetricKnowledge required; no raw amounts",
+    "currentActionLevel": "OperatingSnapshotActionLevel required"
+  },
+  "fieldDeltas": [
+    {
+      "schema": "ReviewOperatingSignalEvaluationRequest",
+      "lines": "9929-9939",
+      "strictSourceAssertions": [
+        "resolvedDataMaturityLevel",
+        "costActionRecommendation",
+        "referencedBaselineVersion",
+        "referencedSnapshotVersion"
+      ],
+      "requiredExisting": [
+        "expectedVersion"
+      ],
+      "add": {
+        "expectedSourceHash": "SHA256",
+        "expectedEvaluationHash": "SHA256",
+        "requestKey": "UUID",
+        "manualMaterialityReview": "ManualOperatingMaterialityReview|null optional; only manual-confirmed"
+      },
+      "keep": {
+        "reviewDecision": "approve|manual-confirmed",
+        "reviewComment": "nullable optional; required nonempty for manual-confirmed"
+      },
+      "guard": "No maturity/cost-action override; manual review only enumerated qualitative issues, never missing facts or source amount/classification."
+    },
+    {
+      "schema": "ReviewCommissionGateBindingRequest",
+      "lines": "9981-9994",
+      "strictSourceAssertions": [
+        "bindingAction",
+        "baselineSelectionSource",
+        "summaryPackageKey",
+        "summarySnapshotId",
+        "referencedBaselineVersion",
+        "referencedSnapshotVersion"
+      ],
+      "requiredExisting": [
+        "expectedVersion"
+      ],
+      "change": {
+        "gateReviewDecision": "confirmed|review-required|blocked; assertion of derived server outcome",
+        "blockingReasonCode": "nullable; if present equal first sorted active blocking code"
+      },
+      "add": {
+        "expectedSourceHash": "SHA256",
+        "expectedEvaluationHash": "SHA256",
+        "requestKey": "UUID",
+        "reviewAction": "acknowledge|tighten-review|tighten-block",
+        "blockingReasonCodes": "required exact sorted full active blocking codes"
+      },
+      "guard": "bindingAction asserts pre-review action. Cannot confirm a BLOCK, missing hard facts or unassessed materiality. Requested summarySnapshotId is current source-summary assertion; response can return a newly reviewed summary."
+    },
+    {
+      "schema": "ReviewOperatingSignalEvaluationResult",
+      "lines": "9943-9956",
+      "add": {
+        "evaluationContext": "OperatingEvaluationContext required",
+        "reasonItems": "OperatingReasonView[] required; complete, sorted",
+        "reviewState": "not-required|pending|acknowledged|manual-confirmed|stale",
+        "metricKnowledge": "OperatingMetricKnowledge required; no raw amounts",
+        "currentActionLevel": "OperatingSnapshotActionLevel required",
+        "rowVersion": "next OSER version",
+        "signalLevel": "effective OperatingSignalLevel",
+        "riskLevel": "effective OperatingRiskLevel",
+        "systemSignalLevel": "OperatingSignalLevel",
+        "systemRiskLevel": "OperatingRiskLevel",
+        "gateBindingIds": "record four stages -> UUID"
+      },
+      "protect": [
+        "taxImpactSummary"
+      ]
+    },
+    {
+      "schema": "OperatingSignalEvaluationView",
+      "lines": "9960-9977",
+      "add": {
+        "evaluationContext": "OperatingEvaluationContext required",
+        "reasonItems": "OperatingReasonView[] required; complete, sorted",
+        "reviewState": "not-required|pending|acknowledged|manual-confirmed|stale",
+        "metricKnowledge": "OperatingMetricKnowledge required; no raw amounts",
+        "currentActionLevel": "OperatingSnapshotActionLevel required",
+        "rowVersion": "OSER version",
+        "riskLevel": "effective OperatingRiskLevel",
+        "systemSignalLevel": "OperatingSignalLevel",
+        "systemRiskLevel": "OperatingRiskLevel"
+      },
+      "protect": [
+        "taxImpactSummary",
+        "allocationStabilitySummary",
+        "unmappedCostSummary",
+        "reviewSummary"
+      ],
+      "semantics": "signalLevel is effective; systemSignalLevel preserves generated result. reviewRequired is rule requirement; reviewState is handling of exact source version."
+    },
+    {
+      "schema": "ReviewCommissionGateBindingResult",
+      "lines": "9998-10018",
+      "add": {
+        "evaluationContext": "OperatingEvaluationContext required",
+        "reasonItems": "OperatingReasonView[] required; complete, sorted",
+        "reviewState": "not-required|pending|acknowledged|manual-confirmed|stale",
+        "metricKnowledge": "OperatingMetricKnowledge required; no raw amounts",
+        "currentActionLevel": "OperatingSnapshotActionLevel required",
+        "rowVersion": "next binding version",
+        "gateStageType": "OperatingGateStage",
+        "systemBindingAction": "action",
+        "bindingAction": "effective action",
+        "gateReviewDecision": "confirmed|review-required|blocked"
+      },
+      "protect": [
+        "taxImpactSummary",
+        "taxImpactPendingAmount",
+        "nextActionSummary"
+      ]
+    },
+    {
+      "schema": "CommissionGateBindingHistoryView",
+      "lines": "10022-10049",
+      "add": {
+        "evaluationContext": "OperatingEvaluationContext required",
+        "reasonItems": "OperatingReasonView[] required; complete, sorted",
+        "reviewState": "not-required|pending|acknowledged|manual-confirmed|stale",
+        "metricKnowledge": "OperatingMetricKnowledge required; no raw amounts",
+        "currentActionLevel": "OperatingSnapshotActionLevel required",
+        "rowVersion": "binding version",
+        "systemBindingAction": "action",
+        "systemSignalLevel": "OperatingSignalLevel",
+        "sourceSummarySnapshotId": "UUID|null"
+      },
+      "change": {
+        "gateStageType": "OperatingGateStage",
+        "gateReviewDecision": "confirmed|review-required|blocked|null"
+      },
+      "protect": [
+        "taxImpactSummary",
+        "taxImpactPendingAmount",
+        "blockingReasonSummary",
+        "nextActionSummary"
+      ]
+    },
+    {
+      "schema": "ProjectBusinessOutcomeOverviewView",
+      "lines": "10053-10071",
+      "add": {
+        "evaluationContext": "OperatingEvaluationContext required",
+        "reasonItems": "OperatingReasonView[] required; complete, sorted",
+        "reviewState": "not-required|pending|acknowledged|manual-confirmed|stale",
+        "metricKnowledge": "OperatingMetricKnowledge required; no raw amounts",
+        "currentActionLevel": "OperatingSnapshotActionLevel required",
+        "signalLevel": "effective OperatingSignalLevel",
+        "riskLevel": "effective OperatingRiskLevel",
+        "costActionRecommendation": "action"
+      },
+      "protect": [
+        "allocationStabilitySummary",
+        "unmappedCostSummary"
+      ],
+      "preserveAllExistingProjections": true
+    },
+    {
+      "schema": "ProjectUnifiedAccountingView",
+      "lines": "10075-10093",
+      "add": {
+        "evaluationContext": "OperatingEvaluationContext required",
+        "reasonItems": "OperatingReasonView[] required; complete, sorted",
+        "reviewState": "not-required|pending|acknowledged|manual-confirmed|stale",
+        "metricKnowledge": "OperatingMetricKnowledge required; no raw amounts",
+        "currentActionLevel": "OperatingSnapshotActionLevel required"
+      },
+      "protect": [
+        "allocationStabilitySummary",
+        "unmappedCostSummary"
+      ],
+      "preserveAllExistingProjections": true
+    },
+    {
+      "schema": "ProjectVarianceRiskExplanationView",
+      "lines": "10097-10114",
+      "add": {
+        "evaluationContext": "OperatingEvaluationContext required",
+        "reasonItems": "OperatingReasonView[] required; complete, sorted",
+        "reviewState": "not-required|pending|acknowledged|manual-confirmed|stale",
+        "metricKnowledge": "OperatingMetricKnowledge required; no raw amounts",
+        "currentActionLevel": "OperatingSnapshotActionLevel required",
+        "systemRiskLevel": "OperatingRiskLevel"
+      },
+      "protect": [
+        "allocationStabilitySummary",
+        "unmappedCostSummary",
+        "recommendedActionSummary"
+      ],
+      "preserveAllExistingProjections": true
+    },
+    {
+      "schema": "BusinessAccountingFeedbackView",
+      "lines": "10118-10134",
+      "add": {
+        "evaluationContext": "OperatingEvaluationContext required",
+        "reasonItems": "OperatingReasonView[] required; complete, sorted",
+        "reviewState": "not-required|pending|acknowledged|manual-confirmed|stale",
+        "metricKnowledge": "OperatingMetricKnowledge required; no raw amounts",
+        "currentActionLevel": "OperatingSnapshotActionLevel required",
+        "signalEvaluationId": "UUID",
+        "stageBindings": "OperatingGateFeedbackItem[4], exactly one per stage"
+      },
+      "protect": [
+        "allocationStabilitySummary",
+        "unmappedCostSummary"
+      ],
+      "preserveAllExistingProjections": true
+    }
+  ],
+  "newSchemas": {
+    "OperatingEvaluationContext": {
+      "schemaVersion": "literal 1",
+      "projectId": "UUID",
+      "snapshotId": "UUID",
+      "snapshotRowVersion": "positive int",
+      "snapshotMode": "realtime|period-end|restated",
+      "maturityEvaluationId": "UUID",
+      "signalEvaluationId": "UUID",
+      "signalReviewRecordId": "UUID|null",
+      "sourceHash": "SHA256",
+      "evaluationHash": "SHA256",
+      "policyVersion": "r4h-operating-v1",
+      "policyHash": "SHA256",
+      "producerVersion": "literal 1",
+      "certification": "verified|missing-evidence|legacy-unverified",
+      "evaluationStatus": "complete|missing-evidence|manual-review-required|stale",
+      "rowVersion": "positive OSER version"
+    },
+    "OperatingMetricKnowledge": {
+      "confirmedReceipts": "known|unknown",
+      "includedCost": "known|unknown",
+      "taxPending": "known|unknown",
+      "grossMargin": "known|unknown",
+      "grossMarginRate": "known|unknown",
+      "grossMarginRateReason": "zero-denominator|missing-evidence|low-receipt-ratio|unstable|null",
+      "ratiosStable": "bool; only mature plus known nonzero denominator",
+      "grossMarginRateUse": "unavailable|observation-only|business-judgment"
+    },
+    "OperatingReasonView": {
+      "reasonId": "SHA256(ruleId+sorted evidence hashes)",
+      "code": "OperatingReasonCode",
+      "category": "evidence|maturity|cost|receipt|risk|restatement|formula|manual",
+      "ruleId": "string",
+      "projectAction": "action",
+      "stageActions": "four-stage record -> action",
+      "isPrimaryProjectReason": "bool",
+      "primaryStages": "OperatingGateStage[]",
+      "detailProjection": "SensitiveStringFieldProjection",
+      "evidenceProjection": "SensitiveStringFieldProjection; JSON text of verified source refs"
+    },
+    "ManualOperatingMaterialityReview": {
+      "policyVersion": "exact active version",
+      "issueCodes": "all unresolved qualitative issues being assessed",
+      "riskDecision": "normal|attention|risk",
+      "evidenceRefs": "SourceRef[] same frozen context only",
+      "rationale": "nonempty <=2000 chars, sensitive",
+      "actor": "derived server-side, never client"
+    },
+    "OperatingGateFeedbackItem": {
+      "bindingId": "UUID",
+      "rowVersion": "positive int",
+      "gateStageType": "four-stage enum",
+      "systemBindingAction": "action",
+      "bindingAction": "effective action",
+      "gateReviewDecision": "confirmed|review-required|blocked|null",
+      "reviewState": "common enum",
+      "summaryPackageKey": "string",
+      "summarySnapshotId": "UUID",
+      "projectionLevel": "commission-gate-review",
+      "exportPolicy": "internal-only",
+      "evaluationHash": "same as evaluationContext",
+      "primaryReasonIds": "SHA256[]",
+      "reasonItems": "complete OperatingReasonView[]",
+      "nextActionSummaryProjection": "SensitiveStringFieldProjection"
+    },
+    "OperatingEvaluationNotReadyError": {
+      "statusCode": "literal 409",
+      "error": "Conflict",
+      "message": "safe nonfinancial Chinese explanation",
+      "projectId": "UUID",
+      "evaluationStatus": "not-evaluated|missing-evidence",
+      "reasonCodes": "sorted nonfinancial codes; no raw IDs/amounts/notes"
+    }
+  },
+  "enumDelta": [
+    {
+      "position": "9331-9342 OPERATING_SIGNAL_LEVEL_DEFINITIONS",
+      "add": [
+        {
+          "key": "Normal",
+          "value": "normal",
+          "label": "正常",
+          "severity": "success",
+          "order": 0
+        },
+        {
+          "key": "Unknown",
+          "value": "unknown",
+          "label": "待确认",
+          "severity": "secondary",
+          "order": 30
+        }
+      ],
+      "retain": [
+        "attention",
+        "alert"
+      ]
+    },
+    {
+      "position": "9344-9355 OPERATING_RISK_LEVEL_DEFINITIONS",
+      "add": [
+        {
+          "key": "Normal",
+          "value": "normal",
+          "label": "正常",
+          "severity": "success",
+          "order": 0
+        },
+        {
+          "key": "Unknown",
+          "value": "unknown",
+          "label": "待确认",
+          "severity": "secondary",
+          "order": 30
+        }
+      ],
+      "retain": [
+        "attention",
+        "risk"
+      ]
+    }
+  ],
+  "newEnumsNear9318": {
+    "OperatingAmountKnowledgeState": [
+      "known",
+      "unknown"
+    ],
+    "OperatingEvaluationStatus": [
+      "not-evaluated",
+      "complete",
+      "missing-evidence",
+      "manual-review-required",
+      "stale"
+    ],
+    "OperatingEvaluationCertification": [
+      "verified",
+      "missing-evidence",
+      "legacy-unverified"
+    ],
+    "OperatingGateStage": [
+      "first",
+      "second",
+      "final",
+      "retention"
+    ],
+    "OperatingGateReviewDecision": [
+      "confirmed",
+      "review-required",
+      "blocked"
+    ],
+    "OperatingReviewState": [
+      "not-required",
+      "pending",
+      "acknowledged",
+      "manual-confirmed",
+      "stale"
+    ]
+  },
+  "unchangedMaturity": [
+    "insufficient",
+    "preliminary",
+    "mature"
+  ],
+  "noUnknownMaturity": true,
+  "nonEvaluatedViews": "No fabricated evaluation UUID/context. Six GET success schemas require an actual produced package. Current-project GET before evaluation, or blocked formal publication, returns 409 OperatingEvaluationNotReadyError with evaluationStatus; item unknown IDs remain 404. Root adds typed error schema and adapter wiring, no new route."
+}

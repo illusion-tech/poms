@@ -1,0 +1,57 @@
+{
+  "kind": "actual-runtime-triggered-G-H-tax-knowledge-assertion-diagnosis",
+  "observedBy": "Root actual operating-sweep epoch08",
+  "authorReadOnlyDiagnosis": true,
+  "actualObservation": {
+    "phasePartial": "000532",
+    "responseOriginal": "000614-http-response-body.bin",
+    "message": "Frozen metric assertion differs from source facts: taxPendingAmount",
+    "bodyAssertions": null,
+    "contextPrimaryActuallyReached": false,
+    "RootReportedActiveFault": null,
+    "RootReportedBlockedObservation": false
+  },
+  "cause": {
+    "G": "context::build preserves unknown/null tax-assessment-missing when actual cost tax is nonzero/unknown and no assessment exists. Source tax650 is not an assessed pending tax amount.",
+    "H": "assert_metrics calls sum(empty tax_treatments), which returns Some(0) from its known zero initial state; strict amount returnsNone for G unknown and rejects.",
+    "loader": "hash/schema/ref checks do not manufacture zero and remain unchanged.",
+    "adjacentMaturity": "optional_pending did not inspect unknown metrics.taxPendingAmount, so an assert-only fix would wrongly allow mature/normal despite the frozen tax-uncertainty contract."
+  },
+  "minimalFix": [
+    "H independently determines missing assessment from the same frozen source cost-tax/assessment presence, then assertsNone or actual assessment sum.",
+    "Keep strict amount/assert_amount, exact canonical cents, unknown null/noZeroProof and source-specific missing-assessment reason; forged known0 still rejects.",
+    "Treat unknown pending-tax as optional pending (H02/preliminary), not hard admission loss, and never H11 normal merely because the assessment vector is empty."
+  ],
+  "unchanged": [
+    "G cost tax650/net5000/gross5650",
+    "G unknown/null construction",
+    "shared model/schema/scalars/hash/loader",
+    "all source ratios and financial assertions",
+    "policy version/hash/threshold constants",
+    "HTTP/DDL/source producers/auth/transaction/audit behavior"
+  ],
+  "frozenPolicySource": {
+    "file": "tools/rust-r4ghi/joint-g1/effective-v2/policy-definition.json",
+    "sha256": "3417ba89e270582260ea6a7a33a6b6a7923a21867a0d4e499fd0f568f491d88b",
+    "maturity": [
+      "insufficient if necessary effective contract/confirmed receipt basis/explicit classified cost scope/factual layer missing. Ordinary review cannot change this. Official eligibility guard applies separately.",
+      "preliminary if necessary evidence exists but pending/unmapped/tax/allocation/restatement uncertainty remains, even when its qualitative materiality has been reviewed.",
+      "mature only complete classified known current-scope sources with no pending gaps/corrections/restatements; maturity is not risk normality."
+    ],
+    "risk": [
+      "Auto risk/alert for proven negative margin only when known facts, mature, receipt ratio>=0.20 and receipt net>0. Independent authoritative cost BLOCK survives regardless receipt ratio.",
+      "Negative observed margin at low/zero receipts or immature data => qualitative-materiality-unassessed, unknown risk/signal and explicit manual review; preserve independent cost/formula/maturity/restatement actions.",
+      "Any adverse positive cost variance or pending impact with only qualitative materiality adds unassessed review. No invented amount/percentage threshold. Verified manual review classifies only exact qualitative issues normal/attention/risk, not facts or maturity.",
+      "normal only complete facts and no automatic risk/attention or unresolved qualitative issues. unknown never means normal or confirmed release."
+    ]
+  },
+  "regressionsPrepared": [
+    "nonzero taxed expense without assessment remains unknown/preliminary/Unknown risk/H02, noH11",
+    "forged known zero rejects even after valid source hash refresh",
+    "nonnull unknown or wrong missing-assessment reason rejects",
+    "zero-tax source keeps factual known-zero pending and fabricated unknown rejects",
+    "real assessed pending123.45 is replayed, not substituted with cost tax650 or0",
+    "unknown source tax without assessment also requires unknown pending"
+  ],
+  "validationBoundary": "Rustfmt check PASS; six real model tests prepared, Cargo/fullH/PG/HTTP not run by author."
+}

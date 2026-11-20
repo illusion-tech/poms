@@ -1,0 +1,15 @@
+import fs from 'node:fs';
+import assert from 'node:assert/strict';
+import {createHash} from 'node:crypto';
+import {spawnSync} from 'node:child_process';
+assert.equal(process.platform,'linux');
+const source='/mnt/e/projects/worktrees/poms-r3hijk-next28/poms',root='/home/wangzishi/.cache/poms-r4ghi-java17';
+const metadata=JSON.parse(fs.readFileSync(root+'/vendor-api-original.json'));
+const asset=metadata.flatMap(x=>x.binaries??[]).find(x=>x.os==='linux'&&x.architecture==='x64'&&x.image_type==='jre').package;
+const from=source+'/tmp/rust-r4ghi/root/java-linux08/portable-jre17.tar.gz',bytes=fs.readFileSync(from);
+assert.equal(bytes.length,asset.size);assert.equal(createHash('sha256').update(bytes).digest('hex'),asset.checksum);
+const archive=root+'/portable-jre17-verified.tar.gz';fs.writeFileSync(archive,bytes,{flag:'wx',mode:0o600});
+const list=spawnSync('/usr/bin/tar',['-tzf',archive],{encoding:'utf8'});assert.equal(list.status,0);assert(list.stdout.trim().split('\n').every(x=>x.startsWith('jdk-17.0.12+7-jre/')&&!x.split('/').includes('..')));assert(!fs.existsSync(root+'/jdk-17.0.12+7-jre'));
+const extract=spawnSync('/usr/bin/tar',['-xzf',archive,'-C',root],{encoding:'utf8'});assert.equal(extract.status,0);
+const java=root+'/jdk-17.0.12+7-jre/bin/java',probe=spawnSync(java,['-version'],{encoding:'utf8'});assert.equal(probe.status,0);assert(probe.stderr.includes('17.0.12'));
+const result={kind:'verified-scoped-portable-Temurin-JRE17',archiveLink:asset.link,archiveSHA256:asset.checksum,bytes:bytes.length,java,version:probe.stderr.trim(),globalEnvironmentChanged:false,productG3:false};fs.writeFileSync(root+'/receipt.json',JSON.stringify(result,null,2)+'\n',{flag:'wx'});fs.writeFileSync(source+'/tmp/rust-r4ghi/root/java-linux08.json',JSON.stringify(result,null,2)+'\n',{flag:'wx'});console.log(JSON.stringify(result));

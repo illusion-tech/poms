@@ -1,0 +1,23 @@
+{
+  "kind": "approved-retained-evidence-impact-review62",
+  "producerEpoch": "g2-business11",
+  "consumerEpoch": "g2-business12",
+  "producerSourcePinsSHA256": "06d80fa6e766c2704664dc1828ccbedadd6bb5fba2798e3e5b42cc02a759274e",
+  "consumerSourcePinsSHA256": null,
+  "retainHistoricalLabels": true,
+  "currentConsumerCertificationGranted": false,
+  "reviewer": null,
+  "sourceComparisonReceipt": null,
+  "evidenceGroups": [
+    { "group": "operating-and-EF-102-required-write", "producerAPI": "134", "producerEpoch": "g2-business11", "receipt": null, "use": "historical-by-impact-review", "certifiesCurrentConsumerExecution": false },
+    { "group": "lifecycle-45-required-write", "producerAPI": "134", "producerEpoch": "g2-business11", "receipt": null, "use": "historical-by-impact-review", "certifiesCurrentConsumerExecution": false },
+    { "group": "modern-34-negative", "producerAPI": "134", "producerEpoch": "g2-business11", "receipt": null, "use": "historical-by-impact-review", "certifiesCurrentConsumerExecution": false }
+  ],
+  "requiredCurrentConsumerChecks": [
+    "actual new owner differs from persisted updater after public reassignment",
+    "canonical empty and same-value PATCH preserve project rawSHA/xmin/version/time/updater and add no business audit",
+    "actual changed metadata still has one CAS update/canonical audit/managed-auth transaction"
+  ],
+  "G3Certified": false,
+  "G4Certified": false
+}

@@ -7,20 +7,26 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
+import { OperatingEvaluationContext } from './operating-evaluation-context';
 import { OperatingSnapshotActionLevel } from './operating-snapshot-action-level';
 import { BaselineSelectionSource } from './baseline-selection-source';
+import { OperatingGateReviewDecision } from './operating-gate-review-decision';
+import { OperatingMetricKnowledge } from './operating-metric-knowledge';
+import { OperatingReasonView } from './operating-reason-view';
 import { OperatingDataMaturityLevel } from './operating-data-maturity-level';
+import { SensitiveStringFieldProjection } from './sensitive-string-field-projection';
+import { OperatingGateStage } from './operating-gate-stage';
 
 
 export interface ReviewCommissionGateBindingResult {
     targetId: string;
     bindingResultId: string;
     gateReviewRecordId: string;
-    taxImpactSummary: string;
-    taxImpactPendingAmount: string;
+    taxImpactSummary: ReviewCommissionGateBindingResultTaxImpactSummaryEnum | null;
+    taxImpactPendingAmount: ReviewCommissionGateBindingResultTaxImpactPendingAmountEnum | null;
     dataMaturityLevel: OperatingDataMaturityLevel;
     costActionRecommendation: OperatingSnapshotActionLevel;
-    currentActionLevel: OperatingSnapshotActionLevel;
+    currentActionLevel: ReviewCommissionGateBindingResultCurrentActionLevelEnum;
     baselineSelectionSource: BaselineSelectionSource;
     referencedBaselineVersion: string;
     referencedSnapshotVersion: string;
@@ -28,6 +34,43 @@ export interface ReviewCommissionGateBindingResult {
     summarySnapshotId: string;
     projectionLevel: string;
     exportPolicy: string;
-    nextActionSummary: string | null;
+    nextActionSummary: ReviewCommissionGateBindingResultNextActionSummaryEnum | null;
     businessStatusAfter: string;
+    evaluationContext: OperatingEvaluationContext;
+    reasonItems: Array<OperatingReasonView>;
+    reviewState: ReviewCommissionGateBindingResultReviewStateEnum;
+    metricKnowledge: OperatingMetricKnowledge;
+    rowVersion: number;
+    gateStageType: OperatingGateStage;
+    systemBindingAction: ReviewCommissionGateBindingResultSystemBindingActionEnum;
+    bindingAction: ReviewCommissionGateBindingResultBindingActionEnum;
+    gateReviewDecision: OperatingGateReviewDecision;
+    taxImpactSummaryProjection: SensitiveStringFieldProjection;
+    taxImpactPendingAmountProjection: SensitiveStringFieldProjection;
+    nextActionSummaryProjection: SensitiveStringFieldProjection;
 }
+export type ReviewCommissionGateBindingResultTaxImpactSummaryEnum = null;;
+export type ReviewCommissionGateBindingResultTaxImpactPendingAmountEnum = null;;
+export enum ReviewCommissionGateBindingResultCurrentActionLevelEnum {
+    Prompt = 'prompt',
+    Review = 'review',
+    Block = 'block'
+};
+export type ReviewCommissionGateBindingResultNextActionSummaryEnum = null;;
+export enum ReviewCommissionGateBindingResultReviewStateEnum {
+    NotRequired = 'not-required',
+    Pending = 'pending',
+    Acknowledged = 'acknowledged',
+    ManualConfirmed = 'manual-confirmed',
+    Stale = 'stale'
+};
+export enum ReviewCommissionGateBindingResultSystemBindingActionEnum {
+    Prompt = 'prompt',
+    Review = 'review',
+    Block = 'block'
+};
+export enum ReviewCommissionGateBindingResultBindingActionEnum {
+    Prompt = 'prompt',
+    Review = 'review',
+    Block = 'block'
+};

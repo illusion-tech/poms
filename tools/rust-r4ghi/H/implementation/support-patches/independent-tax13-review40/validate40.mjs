@@ -1,0 +1,7 @@
+import fs from'node:fs';import path from'node:path';import assert from'node:assert/strict';import{spawnSync}from'node:child_process';import{fileURLToPath}from'node:url';
+const d=path.dirname(fileURLToPath(import.meta.url)),base='E:/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/independent/review05/shared-source-followup58/tax-continuation13-draft85-04/sandbox/';
+const checked=JSON.parse(fs.readFileSync(d+'/checked40.json')),composition=JSON.parse(fs.readFileSync(d+'/composition40.json'));composition.graphCopiedFiles=checked.filter(x=>x.file.replaceAll('\\','/').startsWith(base)).length;assert(composition.graphCopiedFiles>0);fs.writeFileSync(d+'/composition40.json',JSON.stringify(composition,null,2)+'\n');
+const temp=path.resolve(d,'owned-test-temp');assert(temp.startsWith(d+path.sep));fs.mkdirSync(temp);
+const result=spawnSync(process.execPath,['--test',path.resolve(d,'pure-graph/tools/rust-r4ghi/business/tax13.test.mjs')],{encoding:'utf8',windowsHide:true,timeout:30000,env:{...process.env,TMPDIR:temp,TEMP:temp,TMP:temp}});
+fs.writeFileSync(d+'/pure40.stdout.log',result.stdout??'',{flag:'wx'});fs.writeFileSync(d+'/pure40.stderr.log',result.stderr??'',{flag:'wx'});
+console.log(JSON.stringify({isolatedGraphFiles:composition.graphCopiedFiles,pureExitCode:result.status,stdoutTail:result.stdout.trim().split('\n').slice(-9),stderr:result.stderr}));assert.equal(result.status,0);

@@ -1,0 +1,55 @@
+{
+  "kind": "source15-admission119-raw-execution-history-field-contract",
+  "purpose": "Keep the truthful original Root execution path while verifying its immutable archived bytes after a separately approved same-path tool upgrade",
+  "raw149InputShapeChanged": false,
+  "buildBindingRequiredAdditionalPins": ["rustExecutionHistory", "rustExecutionReview"],
+  "historyBody": {
+    "kind": "Root-actual-raw-build119-execution-history",
+    "namespace": "poms-r4ghi",
+    "inventory": null,
+    "rawPair": null,
+    "modes": [
+      { "mode": "inventory-copy", "input": null, "approval": null, "intent": null, "complete": null, "codeMappings": null },
+      { "mode": "checks-build", "input": null, "approval": null, "intent": null, "complete": null, "codeMappings": null }
+    ],
+    "actualHelperBinding": null,
+    "actualAPI15": null,
+    "actualState15": null
+  },
+  "codeMappingShape": {
+    "target": "tools/rust-r4ghi/source15-admission119/build-source15.mjs",
+    "original": {
+      "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/source15-admission119/build-source15.mjs",
+      "rawBytesSha256": "149bed1b19ebb1b1abdfeb0ebbf4b3184ad47d97aba94d597543bc7b68195ec8"
+    },
+    "retained": null
+  },
+  "nativeVerification": [
+    "Read original raw input/approval/intent/complete pins, preserving their actual paths and mode labels",
+    "Verify exact originalRootPath/rawSHA from input.tooling.entry and every executionSources entry against explicit codeMappings",
+    "Read each retained regular single-link no-alias source; require retained SHA and bytes equal the original declaration, never silently rewrite input.entry to its archived path",
+    "Verify original code-review and manifest/code references; a later current Root path is not reread as the old149 code",
+    "Resolve the historical currentHelperPins218 only through typed344's explicit immutable helper mapping, never as active current15 H3",
+    "Verify original exact G2 mode/input/tooling flags and actual internal intent/complete result equality",
+    "Verify raw pair/inventory/all8 actual argv/cwd/targets/exit0/raw logs/typed binaries plus complete source/compile facts",
+    "No statement that Rust Cargo compiled Node helpers, no inheritance of current15 or business acceptance"
+  ],
+  "reviewBody": {
+    "kind": "non-author-actual-raw-build119-history-readback",
+    "verdict": "approved-raw-build-only",
+    "reviewer": null,
+    "reviewerIsRootExecutor": false,
+    "history": null,
+    "rawPair": null,
+    "sourcePins": null,
+    "compilePins": null,
+    "actualEightCargoCommandsVerified": true,
+    "actualSource15Admission": false,
+    "G3": false,
+    "G4": false
+  },
+  "publicationOrder": "Actual raw execution and source copies -> history index with no review pin -> independent readback pins the real index -> later FS buildBinding references index and review; no index/review self-reference",
+  "actualHistory": null,
+  "actualReview": null,
+  "authorExecutedRawMode": false
+}

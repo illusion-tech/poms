@@ -7,9 +7,15 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
-import { CommissionRoleAssignmentSummaryParticipantsJsonInner } from './commission-role-assignment-summary-participants-json-inner';
+import { CommissionParticipantInput } from './commission-participant-input';
 
 
 export interface CreateCommissionRoleAssignmentRequest {
-    participants: Array<CommissionRoleAssignmentSummaryParticipantsJsonInner>;
+    participants: Array<CommissionParticipantInput>;
+    expectedCurrentAssignmentId: string | null;
+    expectedCurrentRowVersion: number | null;
+    inputVersion: CreateCommissionRoleAssignmentRequestInputVersionEnum;
 }
+export enum CreateCommissionRoleAssignmentRequestInputVersionEnum {
+    ServerDerivedV1 = 'server-derived-v1'
+};

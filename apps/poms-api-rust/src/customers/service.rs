@@ -85,13 +85,25 @@ impl CustomersService {
         &self,
         id: &str,
     ) -> Result<ActiveCustomerReference, CustomersError> {
-        let customer = self.require_customer(id).await?;
-        if customer.status != CustomerStatus::Active.as_str() {
-            return Err(CustomersError::BadRequest(format!(
-                "Customer {id} is not active"
-            )));
-        }
-        Ok(ActiveCustomerReference {
+        Self::active_customer_reference(self.require_customer(id).await?)
+            .ok_or_else(|| CustomersError::BadRequest(format!("Customer {id} is not active")))
+    }
+
+    /// Same active-customer contract, borrowing the caller's physical transaction.
+    pub async fn require_active_customer_with_connection(
+        connection: &mut sqlx::PgConnection,
+        id: &str,
+    ) -> Result<ActiveCustomerReference, crate::contract_support::Error> {
+        use crate::contract_support::Error as BusinessError;
+        let customer = store::find_customer(connection, id)
+            .await?
+            .ok_or_else(|| BusinessError::NotFound(format!("Customer {id} not found")))?;
+        Self::active_customer_reference(customer)
+            .ok_or_else(|| BusinessError::BadRequest(format!("Customer {id} is not active")))
+    }
+
+    fn active_customer_reference(customer: CustomerRow) -> Option<ActiveCustomerReference> {
+        (customer.status == CustomerStatus::Active.as_str()).then_some(ActiveCustomerReference {
             id: customer.id,
             display_name: customer.display_name,
         })

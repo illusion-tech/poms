@@ -7,16 +7,24 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
-import { BaselineSelectionSource } from './baseline-selection-source';
-import { ActivateOperatingBaselinePackageRequestChangePackagesInner } from './activate-operating-baseline-package-request-change-packages-inner';
+import { LegacyAssertions } from './legacy-assertions';
+import { ExpectedRef } from './expected-ref';
 
 
 export interface ActivateOperatingBaselinePackageRequest {
+    inputVersion: ActivateOperatingBaselinePackageRequestInputVersionEnum;
     projectId: string;
-    originalBaselineCost: string;
-    baselineSelectionSource?: BaselineSelectionSource;
-    effectiveOperatingBaselineId?: string | null;
-    baselineSummary?: string | null;
-    changePackages?: Array<ActivateOperatingBaselinePackageRequestChangePackagesInner>;
-    expectedCurrentPackageVersion?: number;
+    expectedVersion: number;
+    expectedProjectVersion: number;
+    expectedInputHash: string;
+    assertions: LegacyAssertions | null;
+    expectedCurrentPackageRef: ExpectedRef | null;
+    originalAdoptedCostRef: ExpectedRef;
+    selectedHandoverBasisRef: ExpectedRef | null;
+    handoverRebaselineRef: ExpectedRef | null;
+    approvedChangeRefs: Array<ExpectedRef>;
+    reason: string;
 }
+export enum ActivateOperatingBaselinePackageRequestInputVersionEnum {
+    ServerDerivedV1 = 'server-derived-v1'
+};

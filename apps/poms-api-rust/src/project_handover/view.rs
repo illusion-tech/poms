@@ -186,6 +186,7 @@ pub(super) async fn detail(
     let mut items = Vec::new();
     let mut historical = s.members.clone();
     let mut source_changed = false;
+    let mut current_source_hash = s.hash.clone();
     let mut materials = Value::Null;
     let mut inactive_participant = false;
     if let Some(h) = h {
@@ -196,7 +197,17 @@ pub(super) async fn detail(
                 .ok_or(Error::Internal)?
                 .clone();
             materials = frozen_materials(h, &historical).unwrap_or(Value::Null);
-            source_changed = h["source_payload_hash"] != s.hash || materials.is_null();
+            if h["status"] == "confirmed" {
+                current_source_hash =
+                    sources::confirmed_source_hash(&s.project, &s.members, &b["source_payload"])?;
+                source_changed = h["source_payload_hash"] != current_source_hash
+                    || materials.is_null()
+                    || !s.blockers.is_empty()
+                    || !sources::fixed_included_materials_current(session, &b["source_payload"])
+                        .await?;
+            } else {
+                source_changed = h["source_payload_hash"] != s.hash || materials.is_null();
+            }
             confirmation=sqlx::query_scalar("SELECT to_jsonb(c) FROM poms.confirmation_record c WHERE id=$1 AND target_id=$2 AND target_type='project-handover' AND project_id=$3").bind(id(h,"confirmation_record_id")?).bind(id(h,"id")?).bind(project).fetch_optional(&mut *session.connection).await?.ok_or(Error::Internal)?;
             participants=sqlx::query_scalar(r#"SELECT jsonb_build_object('participantId',p.participant_id,'participantRoleKey',p.participant_role_key,'participantDisplayName',p.participant_display_name,'participantStatus',p.participant_status,'confirmedAt',p.confirmed_at,'confirmedComment',p.confirmed_comment,'responsibilities',(SELECT jsonb_agg(jsonb_build_object('roleKey',r.role_key,'responsibilitySummary',r.responsibility_summary) ORDER BY r.role_key) FROM poms.project_handover_participant_role r WHERE r.confirmation_participant_id=p.id AND r.handover_id=$2)) FROM poms.confirmation_participant p WHERE p.confirmation_record_id=$1 ORDER BY p.participant_id"#).bind(id(h,"confirmation_record_id")?).bind(id(h,"id")?).fetch_all(&mut *session.connection).await?;
             inactive_participant=sqlx::query_scalar("SELECT EXISTS(SELECT 1 FROM poms.project_handover_participant_role r LEFT JOIN poms.platform_user u ON u.id=r.participant_user_id WHERE r.handover_id=$1 AND (u.id IS NULL OR NOT u.is_active))").bind(id(h,"id")?).fetch_one(&mut *session.connection).await?;
@@ -254,7 +265,7 @@ pub(super) async fn detail(
         json!({"handoverId":h.map(|h|h["id"].clone()),"projectId":project,"projectNo":s.project["project_no"],"projectName":s.project["project_name"],"handoverStatus":status,"confirmedAt":h.map(|h|iso(&h["confirmed_at"])),"confirmedBy":h.map(|h|h["confirmed_by"].clone()),"comment":h.map(|h|h["comment"].clone()),"rowVersion":h.map(|h|h["row_version"].clone()),
         "effectiveContractSetSummary":contract_set(session,actor,project,&historical).await?,"contractSummarySnapshotId":h.map(|h|h["contract_summary_snapshot_id"].clone()),"currentHandoverBaselineSummary":baseline(h),
         "participantConfirmationSummary":{"status":confirmation["status"].as_str().unwrap_or("not-started"),"confirmationRecordId":confirmation["id"],"requiredCount":participants.len(),"confirmedCount":participants.iter().filter(|p|p["participantStatus"]=="confirmed").count(),"pendingCount":participants.iter().filter(|p|p["participantStatus"]=="pending").count(),"closedCount":participants.iter().filter(|p|p["participantStatus"]=="closed").count(),"submittedAt":iso(&confirmation["submitted_at"]),"confirmedAt":iso(&confirmation["confirmed_at"]),"closedAt":iso(&confirmation["closed_at"]),"rowVersion":confirmation["row_version"],"participants":participants},
-        "receiptJudgmentModeSummary":receipt,"summaryPackageKey":h.map(|_|"project-handover-confirmation"),"summarySnapshotId":h.map(|h|h["summary_snapshot_id"].clone()),"projectionLevel":h.map(|_|"handover-confirmation"),"exportPolicy":h.map(|_|"handover-controlled"),"allowedActions":actions,"blockingReasons":blockers,"generatedAt":now(),"projectRowVersion":s.project["row_version"],"handoverBasisSnapshotId":h.map(|h|h["basis_snapshot_id"].clone()),"sourcePayloadHash":h.map(|h|h["source_payload_hash"].clone()),"currentSourcePayloadHash":s.hash,"sourceChanged":source_changed,"executionOwnerUserId":h.map(|h|h["execution_owner_user_id"].clone()),"financeConfirmationRequired":h.map(|h|h["finance_confirmation_required"].clone()),"version":h.map(|h|h["version"].clone()),
+        "receiptJudgmentModeSummary":receipt,"summaryPackageKey":h.map(|_|"project-handover-confirmation"),"summarySnapshotId":h.map(|h|h["summary_snapshot_id"].clone()),"projectionLevel":h.map(|_|"handover-confirmation"),"exportPolicy":h.map(|_|"handover-controlled"),"allowedActions":actions,"blockingReasons":blockers,"generatedAt":now(),"projectRowVersion":s.project["row_version"],"handoverBasisSnapshotId":h.map(|h|h["basis_snapshot_id"].clone()),"sourcePayloadHash":h.map(|h|h["source_payload_hash"].clone()),"currentSourcePayloadHash":current_source_hash,"sourceChanged":source_changed,"executionOwnerUserId":h.map(|h|h["execution_owner_user_id"].clone()),"financeConfirmationRequired":h.map(|h|h["finance_confirmation_required"].clone()),"version":h.map(|h|h["version"].clone()),
         "closureStatus":if source_changed{"review-required"}else if status=="confirmed"{"handover-confirmed-freeze-pending"}else if h.is_some(){"handover-in-progress"}else{"not-started"},"executionAdmission":{"allowed":false,"blockingReasons":["正式执行准入仍需 R5 同链有效提成角色冻结。"]},"handoverBasisItems":items,"frozenMaterials":materials}),
     )
 }

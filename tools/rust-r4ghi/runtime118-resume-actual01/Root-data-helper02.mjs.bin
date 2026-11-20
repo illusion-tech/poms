@@ -1,0 +1,50 @@
+// Root-only metadata assembly and exact Root signatures. Builtins only.
+// Every supplied pin must exist before invocation; no execution or peer signing.
+import fs from 'node:fs';
+import path from 'node:path';
+import assert from 'node:assert/strict';
+import {createHash,randomUUID} from 'node:crypto';
+const R='/mnt/e/projects/worktrees/poms-r3hijk-next28/poms';
+const P='/home/wangzishi/.local/share/poms-r4ghi/private';
+const D=P+'/business/g2-business15/main01';
+const OUT=R+'/tmp/rust-r4ghi/root/runtime118-resume-root01';
+const SC='37171dee1176336b372040ec308d76a4f83ce45fc60842d0b2bfab2792eab06c';
+const OWN='1da85861708f1d1c37389385f6c86741e46a7053d5c0eb034260ff8c01aba517';
+const sha=b=>createHash('sha256').update(b).digest('hex');
+function keys(v,k){assert(v&&Object.getPrototypeOf(v)===Object.prototype);assert.deepEqual(Object.keys(v).sort(),[...k].sort());}
+function raw(file){assert(typeof file==='string'&&file.startsWith('/')&&!/[\\\0\r\n]/.test(file));assert.equal(path.posix.normalize(file),file);const a=fs.lstatSync(file,{bigint:true});assert(a.isFile()&&!a.isSymbolicLink()&&a.nlink===1n);assert.equal(fs.realpathSync(file),file);const fd=fs.openSync(file,fs.constants.O_RDONLY|fs.constants.O_NOFOLLOW);try{const s=fs.fstatSync(fd,{bigint:true});for(const k of ['dev','ino','size','nlink','mtimeNs','ctimeNs'])assert.equal(a[k],s[k]);const b=fs.readFileSync(fd),t=fs.fstatSync(fd,{bigint:true}),u=fs.lstatSync(file,{bigint:true});for(const k of ['dev','ino','size','nlink','mtimeNs','ctimeNs']){assert.equal(t[k],s[k]);assert.equal(u[k],s[k]);}assert.equal(BigInt(b.length),s.size);return b;}finally{fs.closeSync(fd);}}
+function pin(file){const b=raw(file);return{file,bytes:b.length,rawBytesSha256:sha(b)};}
+function read(p){keys(p,['file','bytes','rawBytesSha256']);const b=raw(p.file);assert.equal(b.length,p.bytes);assert.equal(sha(b),p.rawBytesSha256);return b;}
+const json=p=>JSON.parse(read(p));
+const same=(a,b)=>{assert.equal(a.file,b.file);assert.equal(a.rawBytesSha256,b.rawBytesSha256);if(a.bytes!==undefined&&b.bytes!==undefined)assert.equal(a.bytes,b.bytes);};
+function dir(file){if(!fs.existsSync(file))fs.mkdirSync(file,{mode:0o700});const s=fs.lstatSync(file);assert(s.isDirectory()&&!s.isSymbolicLink());assert.equal(fs.realpathSync(file),file);}
+function save(file,v){const b=Buffer.from(JSON.stringify(v,null,2)+'\n');fs.writeFileSync(file,b,{flag:'wx',mode:0o600});const p=pin(file);assert(read(p).equals(b));return p;}
+assert.equal(process.platform,'linux');assert.equal(process.getuid(),1000);assert.equal(process.cwd(),R);assert.equal(process.version,'v24.19.0');assert.deepEqual(process.execArgv,[]);
+const a=process.argv.slice(2);assert.equal(a.length,4);assert.deepEqual([a[0],a[2]],['--request','--request-sha']);const request=pin(a[1]);assert.equal(request.rawBytesSha256,a[3]);const q=json(request);keys(q,['mode','pins']);
+let value,output;
+if(q.mode==='native-options'){
+ keys(q.pins,['handoff','apiComplete','compositionComplete']);const s=json(q.pins.handoff),api=json(q.pins.apiComplete),sc=json(q.pins.compositionComplete);
+ assert.equal(s.kind,'Root-runtime121-successful-prepare-adoption-handoff');assert.equal(s.schemaVersion,4);assert.equal(s.allowedPurpose,'budget-probe');assert.equal(api.kind,'Root-runtime118-same-byte-API-start');assert.equal(sc.kind,'Root-runtime118-successful-prepare-source-only-complete');assert.equal(q.pins.compositionComplete.rawBytesSha256,SC);
+ const b=json(s.recoveryReceipt),c=json(b.recoveryComplete);same(c.steps.API,q.pins.apiComplete);same(c.sourceDelivery.sourceComplete,q.pins.compositionComplete);assert.equal(json(b.independentReadback).verdict,'approved-actual-source-bound-reentry');
+ assert(raw(D+'/state.json').equals(read(s.retainedCurrentState)));assert.equal(sha(raw(D+'/ownership.jsonl')),OWN);
+ const nonce=randomUUID();value={apiComplete:q.pins.apiComplete,compositionComplete:q.pins.compositionComplete,nonce,outputDirectory:P+'/runtime121-native-plan-data/'+nonce,successor:q.pins.handoff};output=OUT+'/native-options-'+nonce+'.json';
+}else if(q.mode==='native-approval'){
+ keys(q.pins,['plan','peer','inspection','independentEvidence']);const p=json(q.pins.plan),peer=json(q.pins.peer),i=json(q.pins.inspection);read(q.pins.independentEvidence);
+ assert.equal(p.protocolVersion,5);keys(peer,['kind','approvedPlan','scope121','operator','reviewerIsAuthor','verdict','sourceClosures']);assert.equal(peer.kind,'non-author-runtime121-input-review');assert.equal(peer.verdict,'approved-exact-FS-runtime-publication-only');assert.equal(peer.reviewerIsAuthor,false);same(peer.approvedPlan,q.pins.plan);assert.deepEqual(peer.sourceClosures,p.tooling.executionSources);
+ assert.equal(i.kind,'runtime121-FS-plan-inspected');assert.equal(i.currentGranted,false);assert.equal(i.statePublished,false);same(i.approvedPlan,q.pins.plan);assert.equal(i.scope121,peer.scope121);for(const x of p.tooling.executionSources){const measured=pin(x.file);same(measured,x);read(measured);}same(peer.operator,pin(R+'/tools/rust-r4ghi/runtime-recovery121/native/publish-runtime121.mjs'));
+ assert(raw(D+'/state.json').equals(read(p.stateTransfer.expectedState)));assert(raw(D+'/ownership.jsonl').equals(read(p.stateTransfer.expectedOwnership)));assert.equal(p.stateTransfer.expectedOwnership.rawBytesSha256,OWN);
+ value={kind:'Root-approved-exact-runtime-admission121',approvedPlan:q.pins.plan,scope121:i.scope121,independentInputReview:q.pins.peer,operator:peer.operator,expectedState:p.stateTransfer.expectedState,expectedOwnership:p.stateTransfer.expectedOwnership,actualG2Authorized:true,FSStatePublicationGranted:true,APIStartGranted:false,PGWriteGranted:false,TaxHTTPGranted:false};
+ dir(P+'/runtime118-native-Root-approvals');output=P+'/runtime118-native-Root-approvals/Root-native-'+p.nonce+'.json';
+}else if(q.mode==='tax-options'){
+ keys(q.pins,['publication','snapshot','compositionComplete','codeReadyCarrier','independentPublicationReview']);const p=json(q.pins.publication),carrier=json(q.pins.codeReadyCarrier);read(q.pins.independentPublicationReview);const measuredPlan=pin(p.input.file);same(measuredPlan,p.input);const plan=json(measuredPlan);
+ assert.equal(p.kind,'actual-Source15-runtime121-FS-publication-complete');assert.equal(p.statePublished,true);assert.equal(plan.protocolVersion,5);assert.equal(q.pins.compositionComplete.rawBytesSha256,SC);json(q.pins.compositionComplete);assert.equal(q.pins.snapshot.rawBytesSha256,p.state.rawBytesSha256);assert.notEqual(q.pins.snapshot.file,D+'/state.json');assert(raw(D+'/state.json').equals(read(q.pins.snapshot)));assert.equal(sha(raw(D+'/ownership.jsonl')),OWN);
+ assert.equal(carrier.kind,'non-author-Tax15-invocation118-code-review');assert.equal(carrier.reviewerIsAuthor,false);assert.equal(carrier.verdict,'code-ready-for-exact-input-review');assert.equal(carrier.technicalG1.rawBytesSha256,'80ea3db59386f935b733e5e29b7b8a4db860c408ccb84f9204b9b5adebac00a1');for(const x of carrier.executionSources)read(x);
+ const nonce=randomUUID();value={nativePublication:{complete:q.pins.publication,expectedEntryState:q.pins.snapshot},compositionComplete:q.pins.compositionComplete,codeReadyCarrier:q.pins.codeReadyCarrier,nonce,phase:'budget118',outputDirectory:D+'/tax121-budget-metadata-'+nonce};output=OUT+'/tax-options-'+nonce+'.json';
+}else if(q.mode==='tax-approval'){
+ keys(q.pins,['metadataComplete','independentExactReview']);const m=json(q.pins.metadataComplete),request=json(m.request),input=json(m.input),peer=json(q.pins.independentExactReview);
+ assert.equal(m.kind,'Root-runtime121-fresh67-metadata-prepared');assert.equal(m.inputKeys,34);assert.equal(input.mode,'budget-probe');assert.equal(Object.keys(input).length,34);assert.equal(request.RootReviewSigned,false);assert.equal(request.actualG2,false);assert.equal(input.expectedEntryState.file,m.nativePublication.expectedEntryState.file);read(input.expectedEntryState);assert(raw(D+'/state.json').equals(read(input.expectedEntryState)));
+ assert.equal(peer.verdict,'approved-exact-budget-probe-only');same(peer.approvedInput,m.input);assert.equal(peer.reviewerIsExecutor,false);read(peer.evidence);
+ value=request.expectedRootReviewBody;keys(value,['kind','approvedInput','codeReview','expectedEntryState','mode','nonce','actualG2Authorized','normalTaxPOSTGranted','FIGranted']);same(value.approvedInput,m.input);assert.equal(value.mode,'budget-probe');assert.equal(value.actualG2Authorized,true);assert.equal(value.normalTaxPOSTGranted,false);assert.equal(value.FIGranted,false);output=request.expectedRootReview.file;assert.equal(output,m.expectedRootReview.file);
+ const encoded=Buffer.from(JSON.stringify(value,null,2)+'\n');assert.equal(encoded.length,m.expectedRootReview.bytes);assert.equal(sha(encoded),m.expectedRootReview.rawBytesSha256);
+}else assert.fail('Unknown Root data mode');
+const result=save(output,value);console.log(JSON.stringify({mode:q.mode,result,request,RootSignature:q.mode.endsWith('-approval'),effectExecuted:false}));

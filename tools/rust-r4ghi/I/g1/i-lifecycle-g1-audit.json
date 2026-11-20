@@ -1,0 +1,748 @@
+{
+  "formatVersion": 1,
+  "status": "G1-Pending",
+  "slice": "I: acceptance 2 + completion 2 + archive 4",
+  "taskIds": {
+    "I": 113,
+    "independentUserFix": 115,
+    "migrationParent": 57,
+    "batch": 110,
+    "R4Parent": 101,
+    "stageAcceptance": 114
+  },
+  "baseline": {
+    "headVerified": false,
+    "formalR4DeliveredInput": 67,
+    "providedHead": "aaa4b16ac66092f0cb1dc6646a02cf14e80823ee",
+    "root": "E:\\projects\\worktrees\\poms-r3hijk-next28\\poms",
+    "IAddedCertified": 0,
+    "providedBranch": "codex/poms-r4ghi-next25",
+    "formalR4TotalInput": 92,
+    "formalRustOperationsInput": 240
+  },
+  "scope": {
+    "allowedWrites": "tools/rust-r4ghi/I/g1/**",
+    "databaseOrApiStarted": false,
+    "productImplementation": false,
+    "credentialsRead": false,
+    "runtimeTestClaims": false,
+    "actualModelVerified": false,
+    "FastVerified": false,
+    "expectedModel": "gpt-6.1-sol/max",
+    "gitOrGithubUsed": false
+  },
+  "artifacts": {
+    "review": "i-lifecycle-g1-audit.md",
+    "sources": "i-source-manifest.json"
+  },
+  "operations": [
+    {
+      "operationId": "ProjectArchiveRecordController_replaceProjectArchiveRecord",
+      "method": "POST",
+      "path": "/api/project-archive-records/{id}:replace",
+      "canonicalPath": "/project-archive-records/{id}:replace",
+      "canonicalCapability": "replaceProjectArchiveRecord",
+      "canonicalCurrentLine": 257,
+      "inventorySource": "docs/design/rust-r0-api-operations.json",
+      "inventoryJsonPointer": "/operations/212",
+      "migrationPrimary": "R4",
+      "migrationDependencies": [
+        "R2: approval framework"
+      ],
+      "permissionsAll": [
+        "project:write"
+      ],
+      "csrf": "double-submit-and-session-bound-token",
+      "requestBody": {
+        "required": true,
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/ReplaceProjectArchiveRecordRequest"
+            }
+          }
+        }
+      },
+      "responseStatusesDeclared": [
+        "200"
+      ],
+      "schemas": [
+        "#/components/schemas/ProjectArchiveRecordSummary",
+        "#/components/schemas/ReplaceProjectArchiveRecordRequest"
+      ],
+      "dtoSources": [
+        {
+          "name": "ProjectArchiveRecordDto",
+          "schema": "ProjectArchiveRecordSummarySchema",
+          "path": "libs/api/contracts/src/lib/project/project.dto.ts"
+        },
+        {
+          "name": "ReplaceProjectArchiveRecordRequestDto",
+          "schema": "ReplaceProjectArchiveRecordRequestSchema",
+          "path": "libs/api/contracts/src/lib/project/project.dto.ts"
+        }
+      ],
+      "currentControllerPath": "apps/poms-api/src/app/features/project/project.controller.ts",
+      "limitation": "R0 inventory source line numbers are historical; current controller/schema/manifest are authoritative for this audit"
+    },
+    {
+      "operationId": "ProjectArchiveRecordController_voidProjectArchiveRecord",
+      "method": "POST",
+      "path": "/api/project-archive-records/{id}:void",
+      "canonicalPath": "/project-archive-records/{id}:void",
+      "canonicalCapability": "voidProjectArchiveRecord",
+      "canonicalCurrentLine": 258,
+      "inventorySource": "docs/design/rust-r0-api-operations.json",
+      "inventoryJsonPointer": "/operations/213",
+      "migrationPrimary": "R4",
+      "migrationDependencies": [
+        "R2: approval framework"
+      ],
+      "permissionsAll": [
+        "project:write"
+      ],
+      "csrf": "double-submit-and-session-bound-token",
+      "requestBody": {
+        "required": true,
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/VoidProjectArchiveRecordRequest"
+            }
+          }
+        }
+      },
+      "responseStatusesDeclared": [
+        "200"
+      ],
+      "schemas": [
+        "#/components/schemas/ProjectArchiveRecordSummary",
+        "#/components/schemas/VoidProjectArchiveRecordRequest"
+      ],
+      "dtoSources": [
+        {
+          "name": "ProjectArchiveRecordDto",
+          "schema": "ProjectArchiveRecordSummarySchema",
+          "path": "libs/api/contracts/src/lib/project/project.dto.ts"
+        },
+        {
+          "name": "VoidProjectArchiveRecordRequestDto",
+          "schema": "VoidProjectArchiveRecordRequestSchema",
+          "path": "libs/api/contracts/src/lib/project/project.dto.ts"
+        }
+      ],
+      "currentControllerPath": "apps/poms-api/src/app/features/project/project.controller.ts",
+      "limitation": "R0 inventory source line numbers are historical; current controller/schema/manifest are authoritative for this audit"
+    },
+    {
+      "operationId": "ProjectController_listAcceptanceRecords",
+      "method": "GET",
+      "path": "/api/projects/{projectId}/acceptance-records",
+      "canonicalPath": "/projects/{projectId}/acceptance-records",
+      "canonicalCapability": "listProjectAcceptanceRecords",
+      "canonicalCurrentLine": 252,
+      "inventorySource": "docs/design/rust-r0-api-operations.json",
+      "inventoryJsonPointer": "/operations/226",
+      "migrationPrimary": "R4",
+      "migrationDependencies": [
+        "R2: approval framework"
+      ],
+      "permissionsAll": [
+        "project:read"
+      ],
+      "csrf": "safe-method-no-CSRF-check",
+      "requestBody": null,
+      "responseStatusesDeclared": [
+        "200"
+      ],
+      "schemas": [
+        "#/components/schemas/AcceptanceRecordList"
+      ],
+      "dtoSources": [
+        {
+          "name": "AcceptanceRecordListDto",
+          "schema": "AcceptanceRecordListSchema",
+          "path": "libs/api/contracts/src/lib/project/project.dto.ts"
+        }
+      ],
+      "currentControllerPath": "apps/poms-api/src/app/features/project/project.controller.ts",
+      "limitation": "R0 inventory source line numbers are historical; current controller/schema/manifest are authoritative for this audit"
+    },
+    {
+      "operationId": "ProjectController_createAcceptanceRecord",
+      "method": "POST",
+      "path": "/api/projects/{projectId}/acceptance-records",
+      "canonicalPath": "/projects/{projectId}/acceptance-records",
+      "canonicalCapability": "createAcceptanceRecord",
+      "canonicalCurrentLine": 251,
+      "inventorySource": "docs/design/rust-r0-api-operations.json",
+      "inventoryJsonPointer": "/operations/227",
+      "migrationPrimary": "R4",
+      "migrationDependencies": [
+        "R2: approval framework"
+      ],
+      "permissionsAll": [
+        "project:write"
+      ],
+      "csrf": "double-submit-and-session-bound-token",
+      "requestBody": {
+        "required": true,
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/CreateAcceptanceRecordRequest"
+            }
+          }
+        }
+      },
+      "responseStatusesDeclared": [
+        "201"
+      ],
+      "schemas": [
+        "#/components/schemas/AcceptanceRecordSummary",
+        "#/components/schemas/CreateAcceptanceRecordRequest"
+      ],
+      "dtoSources": [
+        {
+          "name": "AcceptanceRecordDto",
+          "schema": "AcceptanceRecordSummarySchema",
+          "path": "libs/api/contracts/src/lib/project/project.dto.ts"
+        },
+        {
+          "name": "CreateAcceptanceRecordRequestDto",
+          "schema": "CreateAcceptanceRecordRequestSchema",
+          "path": "libs/api/contracts/src/lib/project/project.dto.ts"
+        }
+      ],
+      "currentControllerPath": "apps/poms-api/src/app/features/project/project.controller.ts",
+      "limitation": "R0 inventory source line numbers are historical; current controller/schema/manifest are authoritative for this audit"
+    },
+    {
+      "operationId": "ProjectController_listProjectArchiveRecords",
+      "method": "GET",
+      "path": "/api/projects/{projectId}/archive-records",
+      "canonicalPath": "/projects/{projectId}/archive-records",
+      "canonicalCapability": "listProjectArchiveRecords",
+      "canonicalCurrentLine": 256,
+      "inventorySource": "docs/design/rust-r0-api-operations.json",
+      "inventoryJsonPointer": "/operations/232",
+      "migrationPrimary": "R4",
+      "migrationDependencies": [
+        "R2: approval framework"
+      ],
+      "permissionsAll": [
+        "project:read"
+      ],
+      "csrf": "safe-method-no-CSRF-check",
+      "requestBody": null,
+      "responseStatusesDeclared": [
+        "200"
+      ],
+      "schemas": [
+        "#/components/schemas/ProjectArchiveRecordList"
+      ],
+      "dtoSources": [
+        {
+          "name": "ProjectArchiveRecordListDto",
+          "schema": "ProjectArchiveRecordListSchema",
+          "path": "libs/api/contracts/src/lib/project/project.dto.ts"
+        }
+      ],
+      "currentControllerPath": "apps/poms-api/src/app/features/project/project.controller.ts",
+      "limitation": "R0 inventory source line numbers are historical; current controller/schema/manifest are authoritative for this audit"
+    },
+    {
+      "operationId": "ProjectController_createProjectArchiveRecord",
+      "method": "POST",
+      "path": "/api/projects/{projectId}/archive-records",
+      "canonicalPath": "/projects/{projectId}/archive-records",
+      "canonicalCapability": "createProjectArchiveRecord",
+      "canonicalCurrentLine": 255,
+      "inventorySource": "docs/design/rust-r0-api-operations.json",
+      "inventoryJsonPointer": "/operations/233",
+      "migrationPrimary": "R4",
+      "migrationDependencies": [
+        "R2: approval framework"
+      ],
+      "permissionsAll": [
+        "project:write"
+      ],
+      "csrf": "double-submit-and-session-bound-token",
+      "requestBody": {
+        "required": true,
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/CreateProjectArchiveRecordRequest"
+            }
+          }
+        }
+      },
+      "responseStatusesDeclared": [
+        "201"
+      ],
+      "schemas": [
+        "#/components/schemas/CreateProjectArchiveRecordRequest",
+        "#/components/schemas/ProjectArchiveRecordSummary"
+      ],
+      "dtoSources": [
+        {
+          "name": "CreateProjectArchiveRecordRequestDto",
+          "schema": "CreateProjectArchiveRecordRequestSchema",
+          "path": "libs/api/contracts/src/lib/project/project.dto.ts"
+        },
+        {
+          "name": "ProjectArchiveRecordDto",
+          "schema": "ProjectArchiveRecordSummarySchema",
+          "path": "libs/api/contracts/src/lib/project/project.dto.ts"
+        }
+      ],
+      "currentControllerPath": "apps/poms-api/src/app/features/project/project.controller.ts",
+      "limitation": "R0 inventory source line numbers are historical; current controller/schema/manifest are authoritative for this audit"
+    },
+    {
+      "operationId": "ProjectController_listProjectCompletionRecords",
+      "method": "GET",
+      "path": "/api/projects/{projectId}/completion-records",
+      "canonicalPath": "/projects/{projectId}/completion-records",
+      "canonicalCapability": "listProjectCompletionRecords",
+      "canonicalCurrentLine": 254,
+      "inventorySource": "docs/design/rust-r0-api-operations.json",
+      "inventoryJsonPointer": "/operations/250",
+      "migrationPrimary": "R4",
+      "migrationDependencies": [
+        "R2: approval framework"
+      ],
+      "permissionsAll": [
+        "project:read"
+      ],
+      "csrf": "safe-method-no-CSRF-check",
+      "requestBody": null,
+      "responseStatusesDeclared": [
+        "200"
+      ],
+      "schemas": [
+        "#/components/schemas/ProjectCompletionRecordList"
+      ],
+      "dtoSources": [
+        {
+          "name": "ProjectCompletionRecordListDto",
+          "schema": "ProjectCompletionRecordListSchema",
+          "path": "libs/api/contracts/src/lib/project/project.dto.ts"
+        }
+      ],
+      "currentControllerPath": "apps/poms-api/src/app/features/project/project.controller.ts",
+      "limitation": "R0 inventory source line numbers are historical; current controller/schema/manifest are authoritative for this audit"
+    },
+    {
+      "operationId": "ProjectController_createProjectCompletionRecord",
+      "method": "POST",
+      "path": "/api/projects/{projectId}/completion-records",
+      "canonicalPath": "/projects/{projectId}/completion-records",
+      "canonicalCapability": "createProjectCompletionRecord",
+      "canonicalCurrentLine": 253,
+      "inventorySource": "docs/design/rust-r0-api-operations.json",
+      "inventoryJsonPointer": "/operations/251",
+      "migrationPrimary": "R4",
+      "migrationDependencies": [
+        "R2: approval framework"
+      ],
+      "permissionsAll": [
+        "project:write"
+      ],
+      "csrf": "double-submit-and-session-bound-token",
+      "requestBody": {
+        "required": true,
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/CreateProjectCompletionRecordRequest"
+            }
+          }
+        }
+      },
+      "responseStatusesDeclared": [
+        "201"
+      ],
+      "schemas": [
+        "#/components/schemas/CreateProjectCompletionRecordRequest",
+        "#/components/schemas/ProjectCompletionRecordSummary"
+      ],
+      "dtoSources": [
+        {
+          "name": "CreateProjectCompletionRecordRequestDto",
+          "schema": "CreateProjectCompletionRecordRequestSchema",
+          "path": "libs/api/contracts/src/lib/project/project.dto.ts"
+        },
+        {
+          "name": "ProjectCompletionRecordDto",
+          "schema": "ProjectCompletionRecordSummarySchema",
+          "path": "libs/api/contracts/src/lib/project/project.dto.ts"
+        }
+      ],
+      "currentControllerPath": "apps/poms-api/src/app/features/project/project.controller.ts",
+      "limitation": "R0 inventory source line numbers are historical; current controller/schema/manifest are authoritative for this audit"
+    }
+  ],
+  "minimumR5Dependency": [
+    {
+      "operationId": "CommissionRoleAssignmentController_getRoleAssignmentDetail",
+      "method": "GET",
+      "path": "/api/commission-role-assignments/{id}",
+      "canonicalPath": "/commission-role-assignments/{id}",
+      "canonicalCapability": "getCommissionRoleAssignment",
+      "canonicalCurrentLine": 118,
+      "inventorySource": "docs/design/rust-r0-api-operations.json",
+      "inventoryJsonPointer": "/operations/58",
+      "migrationPrimary": "R5",
+      "migrationDependencies": [
+        "R2: approval framework",
+        "R4: contract/cost/payment facts"
+      ],
+      "permissionsAll": [
+        "commission:assignments:manage"
+      ],
+      "csrf": "safe-method-no-CSRF-check",
+      "requestBody": null,
+      "responseStatusesDeclared": [
+        "200"
+      ],
+      "schemas": [
+        "#/components/schemas/CommissionRoleAssignmentDetailView"
+      ],
+      "dtoSources": [
+        {
+          "name": "CommissionRoleAssignmentDetailViewDto",
+          "schema": "CommissionRoleAssignmentDetailViewSchema",
+          "path": "libs/api/contracts/src/lib/commission/commission.dto.ts"
+        }
+      ],
+      "currentControllerPath": "apps/poms-api/src/app/features/commission/commission-role-assignment.controller.ts",
+      "limitation": "R0 inventory source line numbers are historical; current controller/schema/manifest are authoritative for this audit"
+    },
+    {
+      "operationId": "CommissionRoleAssignmentController_freezeRoleAssignment",
+      "method": "POST",
+      "path": "/api/commission-role-assignments/{id}:freeze",
+      "canonicalPath": "/commission-role-assignments/{id}:freeze",
+      "canonicalCapability": "freezeCommissionRoleAssignment",
+      "canonicalCurrentLine": 119,
+      "inventorySource": "docs/design/rust-r0-api-operations.json",
+      "inventoryJsonPointer": "/operations/59",
+      "migrationPrimary": "R5",
+      "migrationDependencies": [
+        "R2: approval framework",
+        "R4: contract/cost/payment facts"
+      ],
+      "permissionsAll": [
+        "commission:assignments:manage"
+      ],
+      "csrf": "double-submit-and-session-bound-token",
+      "requestBody": {
+        "required": true,
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/FreezeCommissionRoleAssignmentRequest"
+            }
+          }
+        }
+      },
+      "responseStatusesDeclared": [
+        "200"
+      ],
+      "schemas": [
+        "#/components/schemas/FreezeCommissionRoleAssignmentRequest",
+        "#/components/schemas/FreezeCommissionRoleAssignmentResult"
+      ],
+      "dtoSources": [
+        {
+          "name": "FreezeCommissionRoleAssignmentRequestDto",
+          "schema": "FreezeCommissionRoleAssignmentRequestSchema",
+          "path": "libs/api/contracts/src/lib/commission/commission.dto.ts"
+        },
+        {
+          "name": "FreezeCommissionRoleAssignmentResultDto",
+          "schema": "FreezeCommissionRoleAssignmentResultSchema",
+          "path": "libs/api/contracts/src/lib/commission/commission.dto.ts"
+        }
+      ],
+      "currentControllerPath": "apps/poms-api/src/app/features/commission/commission-role-assignment.controller.ts",
+      "limitation": "R0 inventory source line numbers are historical; current controller/schema/manifest are authoritative for this audit"
+    },
+    {
+      "operationId": "CommissionController_getCurrentRoleAssignment",
+      "method": "GET",
+      "path": "/api/projects/{projectId}/commission-role-assignment",
+      "canonicalPath": "/projects/{projectId}/commission-role-assignment",
+      "canonicalCapability": "getCurrentRoleAssignment",
+      "canonicalCurrentLine": 200,
+      "inventorySource": "docs/design/rust-r0-api-operations.json",
+      "inventoryJsonPointer": "/operations/247",
+      "migrationPrimary": "R5",
+      "migrationDependencies": [
+        "R2: approval framework",
+        "R4: contract/cost/payment facts"
+      ],
+      "permissionsAll": [
+        "commission:assignments:manage"
+      ],
+      "csrf": "safe-method-no-CSRF-check",
+      "requestBody": null,
+      "responseStatusesDeclared": [
+        "200"
+      ],
+      "schemas": [
+        "#/components/schemas/CommissionRoleAssignmentSummary"
+      ],
+      "dtoSources": [
+        {
+          "name": "CommissionRoleAssignmentSummaryDto",
+          "schema": "CommissionRoleAssignmentSummarySchema",
+          "path": "libs/api/contracts/src/lib/commission/commission.dto.ts"
+        }
+      ],
+      "currentControllerPath": "apps/poms-api/src/app/features/commission/commission.controller.ts",
+      "limitation": "R0 inventory source line numbers are historical; current controller/schema/manifest are authoritative for this audit"
+    },
+    {
+      "operationId": "CommissionController_createRoleAssignment",
+      "method": "POST",
+      "path": "/api/projects/{projectId}/commission-role-assignments",
+      "canonicalPath": "/projects/{projectId}/commission-role-assignments",
+      "canonicalCapability": "createRoleAssignment",
+      "canonicalCurrentLine": 201,
+      "inventorySource": "docs/design/rust-r0-api-operations.json",
+      "inventoryJsonPointer": "/operations/248",
+      "migrationPrimary": "R5",
+      "migrationDependencies": [
+        "R2: approval framework",
+        "R4: contract/cost/payment facts"
+      ],
+      "permissionsAll": [
+        "commission:assignments:manage"
+      ],
+      "csrf": "double-submit-and-session-bound-token",
+      "requestBody": {
+        "required": true,
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/CreateCommissionRoleAssignmentRequest"
+            }
+          }
+        }
+      },
+      "responseStatusesDeclared": [
+        "200"
+      ],
+      "schemas": [
+        "#/components/schemas/CommissionRoleAssignmentSummary",
+        "#/components/schemas/CreateCommissionRoleAssignmentRequest"
+      ],
+      "dtoSources": [
+        {
+          "name": "CommissionRoleAssignmentSummaryDto",
+          "schema": "CommissionRoleAssignmentSummarySchema",
+          "path": "libs/api/contracts/src/lib/commission/commission.dto.ts"
+        },
+        {
+          "name": "CreateCommissionRoleAssignmentRequestDto",
+          "schema": "CreateCommissionRoleAssignmentRequestSchema",
+          "path": "libs/api/contracts/src/lib/commission/commission.dto.ts"
+        }
+      ],
+      "currentControllerPath": "apps/poms-api/src/app/features/commission/commission.controller.ts",
+      "limitation": "R0 inventory source line numbers are historical; current controller/schema/manifest are authoritative for this audit"
+    }
+  ],
+  "currentProducerAudit": [
+    {
+      "present": false,
+      "note": "Approval consumes current frozen rows; generic ORM mapping is not a producer",
+      "evidence": [
+        "apps/poms-api-rust/src/lib.rs",
+        "apps/poms-api-rust/src/contract_support/http.rs:44-52",
+        "apps/poms-api-rust/src/approval/domain.rs:90-91"
+      ],
+      "capability": "commission role assignment / freeze"
+    },
+    {
+      "present": true,
+      "note": "Four read projections only, no writes, status gate or role freeze producer",
+      "evidence": [
+        "apps/poms-api-rust/src/handover_facts/mod.rs:1-3"
+      ],
+      "capability": "attachment handover minimal facts"
+    },
+    {
+      "present": true,
+      "note": "Leaves project stage unchanged and explicitly blocks execution pending R5 freeze",
+      "evidence": [
+        "apps/poms-api-rust/src/project_handover/service.rs:568-646"
+      ],
+      "capability": "real handover and receipt-mode freeze"
+    },
+    {
+      "present": false,
+      "note": "Creation accepts arbitrary currentStage; not valid progression evidence",
+      "evidence": [
+        "apps/poms-api-rust/src/project_handover/service.rs:646",
+        "apps/poms-api-rust/src/projects/service.rs:158-161",
+        "apps/poms-api/src/app/features/project/project.service.ts:266-475"
+      ],
+      "capability": "handover to execution / execution to acceptance command"
+    }
+  ],
+  "blockers": [
+    {
+      "summary": "Arbitrary advanced CreateProject.currentStage bypasses actual admission; freeze/create/phase commands absent",
+      "resolution": "Tighten new creation, deliver minimum R5 and two governed phase commands; never fabricate state via SQL",
+      "id": "I-B1",
+      "classification": "existing-baseline-drift"
+    },
+    {
+      "summary": "New phase action routes have no canonical inventory rows",
+      "resolution": "Root freezes authoritative rows, DTO/OpenAPI, stage facts and permissions before coding",
+      "id": "I-B2",
+      "classification": "design-change-required"
+    },
+    {
+      "summary": "Creation=assessment has no route to handover if upstream producer stage synchronization is omitted",
+      "resolution": "Real D prepare emits handover-entered plus project CAS in same outer transaction; do not invent early history",
+      "id": "I-B3",
+      "classification": "design-change-required"
+    },
+    {
+      "summary": "Node allows createRoleAssignment to supersede frozen assignment directly, and lacks valid weight-total and responsibility guards",
+      "resolution": "Minimum R5 replaces drafts only; freeze exact weights and responsibilities; frozen changes remain dispute-first",
+      "id": "I-B4",
+      "classification": "existing-baseline-drift"
+    },
+    {
+      "summary": "Native freeze summarySnapshotId aliases handover summary, which does not freeze assignment participants/weights",
+      "resolution": "Freeze own immutable payload/summary and document field semantics before implementation",
+      "id": "I-B5",
+      "classification": "design-change-required"
+    }
+  ],
+  "dependencyOrder": [
+    "real pre-signing and activated contract plus receivable plan",
+    "D prepare and handover-entered, real per-user confirmations, confirmed handover plus receipt freeze",
+    "R5-P1 current draft and explicit role freeze with same immutable source chain",
+    "R4 explicit startExecution",
+    "R4 explicit startAcceptance",
+    "I acceptance confirmed",
+    "I completion and project completed atomically",
+    "I archive optional terminal milestone, replace or void"
+  ],
+  "dependencyCycleRule": "R5-P1 may consume confirmed handover facts and receipt freeze, never I acceptance/completion or H/R5 payout; I terminal facts do not require payout. H consumes real R4 producers without waiting for R5.",
+  "stageCommandProposals": [
+    {
+      "requestFields": [
+        "expectedProjectVersion: positive int",
+        "sourceHandoverId: UUID",
+        "commissionRoleAssignmentId: UUID",
+        "expectedRoleAssignmentVersion: positive int",
+        "handoverSummarySnapshotId: UUID",
+        "sourcePayloadHash: lowercase 64 hex",
+        "reason: trimmed 1..1000"
+      ],
+      "method": "POST",
+      "canonicalFrozen": false,
+      "path": "/api/projects/{projectId}:startExecution",
+      "effects": [
+        "execution-entered immutable record",
+        "project stage CAS to execution",
+        "same-transaction audit"
+      ],
+      "sourceGate": "active handover project + current confirmed producer handover + current frozen producer role assignment, same chain",
+      "operationId": "ProjectController_startExecution",
+      "permission": "project:write"
+    },
+    {
+      "requestFields": [
+        "expectedProjectVersion: positive int",
+        "executionStageRecordId: UUID",
+        "readinessSummary: trimmed 1..2000",
+        "evidenceSummary: trimmed 1..2000"
+      ],
+      "method": "POST",
+      "canonicalFrozen": false,
+      "path": "/api/projects/{projectId}:startAcceptance",
+      "effects": [
+        "acceptance-entered immutable record",
+        "project stage CAS to acceptance",
+        "same-transaction audit"
+      ],
+      "sourceGate": "active execution project and true same-project execution record, still-valid freeze chain",
+      "operationId": "ProjectController_startAcceptance",
+      "permission": "project:write"
+    }
+  ],
+  "creationPolicyProposal": {
+    "upstreamBridge": "Real D prepare validates approved activated contract, plan, pre-signing producers, then handover-entered + project CAS in same outer TX",
+    "historicalRecovery": "Separate controlled requalification/import slice if needed",
+    "historicalRead": "Preserve stored stage and source facts; do not backfill generated admission history",
+    "newCreate": "currentStage missing or assessment only; explicit invalid advanced stage 400; no silent rewrite",
+    "historicalWrite": "Require real source qualification; missing producer facts cannot pass certification"
+  },
+  "transactionRules": [
+    "one outer transaction and borrowed CommonSession/PendingAuthentication",
+    "project lock then source/target rows in stable order; re-read after locking",
+    "CAS checked row_version even when legacy expectedVersion omitted",
+    "completion insert + project CAS + audit atomically",
+    "archive old exit current + new insert + audit atomically",
+    "freeze payload/summary + assignment CAS + audit atomically",
+    "audit or pending-auth flush failure rolls back business facts",
+    "unknown commit remains unknown, not certified rollback"
+  ],
+  "archiveRules": {
+    "current": "recorded status; existing partial unique",
+    "stage": "terminal ancillary milestone, no new stage",
+    "settlement": "archive/completion does not assert payout or final financial settlement complete",
+    "completedSource": "same-project confirmed completion",
+    "closedSource": "project closed-lost/closed-terminated with status closed and closedAt",
+    "void": "current recorded to voided, keep history, no project rollback",
+    "replacement": "path identity old current recorded, status superseded, new recorded with same anchor and supersedes id",
+    "afterVoid": "no current, new create allowed"
+  },
+  "independentDelivery": {
+    "cannotCertify": [
+      "real execution to completion happy path without minimum R5 and phase producer facts",
+      "closed branch from fresh project without a real close producer",
+      "UI producer flow using current read-only acceptance/completion/freeze pages"
+    ],
+    "canAcceptBeforeDependencies": [
+      "three lists under genuine missing/empty/history read scenarios",
+      "guard rejection/authorization/DTO behavior",
+      "archive behavior only against genuine existing terminal facts, labeled partial compatibility"
+    ],
+    "canImplement": "All 8 after their own G1, independently of future full R5 settlement"
+  },
+  "publicEditOwner": "Root; I agent only proposes DDL/DTO/UI in own directory",
+  "userDecisionsPending": [
+    "4 R5 operations + 2 phase commands + initial-stage tightening and D handover bridge",
+    "exact commission role categories, duplicate-user-role/zero-weight/precision/responsibility policy",
+    "own freeze-summary field semantics",
+    "whether completion remains accepted/conditional of any existing acceptanceType",
+    "whether fresh closed path is required, which would require a governed close producer"
+  ],
+  "checks": {
+    "UI": "not run",
+    "gitDiff": "not allowed in this audit",
+    "faultInjection": "not run",
+    "staticSourceAudit": "ran and completed",
+    "concurrency": "not run",
+    "PostgreSQL": "not run",
+    "HTTP": "not run",
+    "RustAndNodeBuildTests": "not required for read-only audit; final G1 must freeze implementation checks"
+  },
+  "parentCloseRule": "#113 child close does not close #101; #114 complete stage acceptance is mandatory before #101. #57 remains Open.",
+  "memoryUsed": {
+    "lines": "347-352",
+    "purpose": "governance boundaries only, not current business/runtime evidence",
+    "rolloutId": "01a1745d-bfa3-7603-b07d-16afa227d566",
+    "path": "MEMORY.md"
+  }
+}

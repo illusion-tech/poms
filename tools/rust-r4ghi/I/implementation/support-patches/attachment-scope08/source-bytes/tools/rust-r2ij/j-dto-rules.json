@@ -1,0 +1,669 @@
+{
+  "formatVersion": 1,
+  "sourceHead": "61d6df1e971e7e785382dc85c75273e584ee2545",
+  "schemas": {
+    "AttachmentListQuery": {
+      "type": "object",
+      "fields": [
+        {
+          "key": "targetType",
+          "rule": {
+            "type": "enum",
+            "values": [
+              "lead",
+              "customer",
+              "project",
+              "contract",
+              "sales-follow-up",
+              "project-handover"
+            ]
+          }
+        },
+        {
+          "key": "targetId",
+          "rule": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "/^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$/"
+          }
+        },
+        {
+          "key": "category",
+          "rule": {
+            "type": "optional",
+            "inner": {
+              "type": "string",
+              "checks": [
+                {
+                  "check": "overwrite"
+                },
+                {
+                  "check": "min_length",
+                  "minimum": 1
+                },
+                {
+                  "check": "max_length",
+                  "maximum": 64
+                },
+                {
+                  "check": "string_format",
+                  "format": "regex",
+                  "pattern": "/^[a-z][a-z0-9-]*$/",
+                  "message": "Dictionary code must use lower kebab-case"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "key": "status",
+          "rule": {
+            "type": "optional",
+            "inner": {
+              "type": "enum",
+              "values": [
+                "active",
+                "voided",
+                "deleted",
+                "failed"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    "CreateAttachmentUploadSessionRequest": {
+      "type": "object",
+      "fields": [
+        {
+          "key": "operationType",
+          "rule": {
+            "type": "enum",
+            "values": [
+              "create-attachment",
+              "create-version"
+            ]
+          }
+        },
+        {
+          "key": "targetType",
+          "rule": {
+            "type": "optional",
+            "inner": {
+              "type": "enum",
+              "values": [
+                "lead",
+                "customer",
+                "project",
+                "contract",
+                "sales-follow-up",
+                "project-handover"
+              ]
+            }
+          }
+        },
+        {
+          "key": "targetId",
+          "rule": {
+            "type": "optional",
+            "inner": {
+              "type": "string",
+              "format": "uuid",
+              "pattern": "/^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$/"
+            }
+          }
+        },
+        {
+          "key": "baseAttachmentId",
+          "rule": {
+            "type": "optional",
+            "inner": {
+              "type": "string",
+              "format": "uuid",
+              "pattern": "/^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$/"
+            }
+          }
+        },
+        {
+          "key": "originalName",
+          "rule": {
+            "type": "string",
+            "checks": [
+              {
+                "check": "overwrite"
+              },
+              {
+                "check": "min_length",
+                "minimum": 1
+              },
+              {
+                "check": "max_length",
+                "maximum": 255
+              }
+            ]
+          }
+        },
+        {
+          "key": "displayName",
+          "rule": {
+            "type": "optional",
+            "inner": {
+              "type": "string",
+              "checks": [
+                {
+                  "check": "overwrite"
+                },
+                {
+                  "check": "min_length",
+                  "minimum": 1
+                },
+                {
+                  "check": "max_length",
+                  "maximum": 255
+                }
+              ]
+            }
+          }
+        },
+        {
+          "key": "mimeType",
+          "rule": {
+            "type": "optional",
+            "inner": {
+              "type": "string",
+              "checks": [
+                {
+                  "check": "overwrite"
+                },
+                {
+                  "check": "min_length",
+                  "minimum": 1
+                },
+                {
+                  "check": "max_length",
+                  "maximum": 255
+                }
+              ]
+            }
+          }
+        },
+        {
+          "key": "sizeBytes",
+          "rule": {
+            "type": "number",
+            "checks": [
+              {
+                "type": "number",
+                "check": "number_format",
+                "abort": false,
+                "format": "safeint"
+              },
+              {
+                "check": "greater_than",
+                "value": 0,
+                "inclusive": false
+              }
+            ]
+          }
+        },
+        {
+          "key": "checksumSha256",
+          "rule": {
+            "type": "optional",
+            "inner": {
+              "type": "string",
+              "checks": [
+                {
+                  "check": "overwrite"
+                },
+                {
+                  "check": "length_equals",
+                  "length": 64
+                }
+              ]
+            }
+          }
+        },
+        {
+          "key": "category",
+          "rule": {
+            "type": "optional",
+            "inner": {
+              "type": "string",
+              "checks": [
+                {
+                  "check": "overwrite"
+                },
+                {
+                  "check": "min_length",
+                  "minimum": 1
+                },
+                {
+                  "check": "max_length",
+                  "maximum": 64
+                },
+                {
+                  "check": "string_format",
+                  "format": "regex",
+                  "pattern": "/^[a-z][a-z0-9-]*$/",
+                  "message": "Dictionary code must use lower kebab-case"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "key": "securityLevel",
+          "rule": {
+            "type": "optional",
+            "inner": {
+              "type": "enum",
+              "values": [
+                "normal",
+                "internal",
+                "sensitive",
+                "confidential",
+                "restricted"
+              ]
+            }
+          }
+        },
+        {
+          "key": "relationType",
+          "rule": {
+            "type": "optional",
+            "inner": {
+              "type": "enum",
+              "values": [
+                "normal",
+                "source",
+                "evidence",
+                "final",
+                "handover"
+              ]
+            }
+          }
+        },
+        {
+          "key": "description",
+          "rule": {
+            "type": "optional",
+            "inner": {
+              "type": "nullable",
+              "inner": {
+                "type": "string",
+                "checks": [
+                  {
+                    "check": "overwrite"
+                  },
+                  {
+                    "check": "max_length",
+                    "maximum": 4000
+                  }
+                ]
+              }
+            }
+          }
+        },
+        {
+          "key": "changeNote",
+          "rule": {
+            "type": "optional",
+            "inner": {
+              "type": "string",
+              "checks": [
+                {
+                  "check": "overwrite"
+                },
+                {
+                  "check": "min_length",
+                  "minimum": 1
+                },
+                {
+                  "check": "max_length",
+                  "maximum": 2000
+                }
+              ]
+            }
+          }
+        }
+      ],
+      "checks": [
+        {
+          "check": "custom"
+        }
+      ]
+    },
+    "CreateAttachmentUploadTargetRequest": {
+      "type": "object",
+      "fields": [
+        {
+          "key": "expectedVersion",
+          "rule": {
+            "type": "optional",
+            "inner": {
+              "type": "number",
+              "checks": [
+                {
+                  "type": "number",
+                  "check": "number_format",
+                  "abort": false,
+                  "format": "safeint"
+                },
+                {
+                  "check": "greater_than",
+                  "value": 0,
+                  "inclusive": false
+                }
+              ]
+            }
+          }
+        }
+      ]
+    },
+    "CompleteAttachmentUploadSessionRequest": {
+      "type": "object",
+      "fields": [
+        {
+          "key": "expectedVersion",
+          "rule": {
+            "type": "optional",
+            "inner": {
+              "type": "number",
+              "checks": [
+                {
+                  "type": "number",
+                  "check": "number_format",
+                  "abort": false,
+                  "format": "safeint"
+                },
+                {
+                  "check": "greater_than",
+                  "value": 0,
+                  "inclusive": false
+                }
+              ]
+            }
+          }
+        },
+        {
+          "key": "checksumSha256",
+          "rule": {
+            "type": "optional",
+            "inner": {
+              "type": "string",
+              "checks": [
+                {
+                  "check": "overwrite"
+                },
+                {
+                  "check": "length_equals",
+                  "length": 64
+                }
+              ]
+            }
+          }
+        }
+      ]
+    },
+    "AbortAttachmentUploadSessionRequest": {
+      "type": "object",
+      "fields": [
+        {
+          "key": "expectedVersion",
+          "rule": {
+            "type": "optional",
+            "inner": {
+              "type": "number",
+              "checks": [
+                {
+                  "type": "number",
+                  "check": "number_format",
+                  "abort": false,
+                  "format": "safeint"
+                },
+                {
+                  "check": "greater_than",
+                  "value": 0,
+                  "inclusive": false
+                }
+              ]
+            }
+          }
+        },
+        {
+          "key": "reason",
+          "rule": {
+            "type": "optional",
+            "inner": {
+              "type": "string",
+              "checks": [
+                {
+                  "check": "overwrite"
+                },
+                {
+                  "check": "min_length",
+                  "minimum": 1
+                },
+                {
+                  "check": "max_length",
+                  "maximum": 1000
+                }
+              ]
+            }
+          }
+        }
+      ]
+    },
+    "UpdateAttachmentRequest": {
+      "type": "object",
+      "fields": [
+        {
+          "key": "displayName",
+          "rule": {
+            "type": "optional",
+            "inner": {
+              "type": "string",
+              "checks": [
+                {
+                  "check": "overwrite"
+                },
+                {
+                  "check": "min_length",
+                  "minimum": 1
+                },
+                {
+                  "check": "max_length",
+                  "maximum": 255
+                }
+              ]
+            }
+          }
+        },
+        {
+          "key": "category",
+          "rule": {
+            "type": "optional",
+            "inner": {
+              "type": "string",
+              "checks": [
+                {
+                  "check": "overwrite"
+                },
+                {
+                  "check": "min_length",
+                  "minimum": 1
+                },
+                {
+                  "check": "max_length",
+                  "maximum": 64
+                },
+                {
+                  "check": "string_format",
+                  "format": "regex",
+                  "pattern": "/^[a-z][a-z0-9-]*$/",
+                  "message": "Dictionary code must use lower kebab-case"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "key": "securityLevel",
+          "rule": {
+            "type": "optional",
+            "inner": {
+              "type": "enum",
+              "values": [
+                "normal",
+                "internal",
+                "sensitive",
+                "confidential",
+                "restricted"
+              ]
+            }
+          }
+        },
+        {
+          "key": "description",
+          "rule": {
+            "type": "optional",
+            "inner": {
+              "type": "nullable",
+              "inner": {
+                "type": "string",
+                "checks": [
+                  {
+                    "check": "overwrite"
+                  },
+                  {
+                    "check": "max_length",
+                    "maximum": 4000
+                  }
+                ]
+              }
+            }
+          }
+        }
+      ]
+    },
+    "MarkAttachmentFinalRequest": {
+      "type": "object",
+      "fields": [
+        {
+          "key": "note",
+          "rule": {
+            "type": "optional",
+            "inner": {
+              "type": "nullable",
+              "inner": {
+                "type": "string",
+                "checks": [
+                  {
+                    "check": "overwrite"
+                  },
+                  {
+                    "check": "max_length",
+                    "maximum": 1000
+                  }
+                ]
+              }
+            }
+          }
+        }
+      ]
+    },
+    "ClearAttachmentFinalRequest": {
+      "type": "object",
+      "fields": [
+        {
+          "key": "reason",
+          "rule": {
+            "type": "string",
+            "checks": [
+              {
+                "check": "overwrite"
+              },
+              {
+                "check": "min_length",
+                "minimum": 1
+              },
+              {
+                "check": "max_length",
+                "maximum": 1000
+              }
+            ]
+          }
+        }
+      ]
+    },
+    "VoidAttachmentRequest": {
+      "type": "object",
+      "fields": [
+        {
+          "key": "reason",
+          "rule": {
+            "type": "string",
+            "checks": [
+              {
+                "check": "overwrite"
+              },
+              {
+                "check": "min_length",
+                "minimum": 1
+              },
+              {
+                "check": "max_length",
+                "maximum": 1000
+              }
+            ]
+          }
+        }
+      ]
+    },
+    "CreateAttachmentLinkRequest": {
+      "type": "object",
+      "fields": [
+        {
+          "key": "targetType",
+          "rule": {
+            "type": "enum",
+            "values": [
+              "lead",
+              "customer",
+              "project",
+              "contract",
+              "sales-follow-up",
+              "project-handover"
+            ]
+          }
+        },
+        {
+          "key": "targetId",
+          "rule": {
+            "type": "string",
+            "format": "uuid",
+            "pattern": "/^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$/"
+          }
+        },
+        {
+          "key": "relationType",
+          "rule": {
+            "type": "default",
+            "inner": {
+              "type": "enum",
+              "values": [
+                "normal",
+                "source",
+                "evidence",
+                "final",
+                "handover"
+              ]
+            },
+            "defaultValue": "normal"
+          }
+        }
+      ]
+    }
+  }
+}

@@ -1,0 +1,33 @@
+{
+  "schemaVersion": 1,
+  "proposal": "I54-02-retained-path-cannot-relabel-current",
+  "state": "frozen-unrun-consumer-mint",
+  "files": [
+    {
+      "file": "tools/rust-r4ghi/business/consumer-admission54.mjs",
+      "beforeSHA256": "618511bf763bf3838c3a7dcae40b9a4c7f45e918eb79a6c7e8497dea37c5ec72",
+      "afterSHA256": "884db1d08d260b8a58e7b7578a4c2c3eee06169f6eafb0298c4c347ff8270fff",
+      "candidate": "proposed/tools/rust-r4ghi/business/consumer-admission54.mjs",
+      "beforeCandidate": "before/tools/rust-r4ghi/business/consumer-admission54.mjs"
+    },
+    {
+      "file": "tools/rust-r4ghi/business/consumer-admission54.test.mjs",
+      "beforeSHA256": "632ea1acd2edd91c8030e548f834fc17eebf8404803b6ccbd8b0cd2fc848e79e",
+      "afterSHA256": "60656be08d729d556e1b71c69691624eb02153e74e9595e7e0e1696a44406bd8",
+      "candidate": "proposed/tools/rust-r4ghi/business/consumer-admission54.test.mjs",
+      "beforeCandidate": "before/tools/rust-r4ghi/business/consumer-admission54.test.mjs"
+    }
+  ],
+  "finding": "Registered old EO/Own/A05 path could take current-source early return before registry entry checks.",
+  "fix": "Resolve the actual admitted context and matching path first; registered old paths always retain old-source identity/projection checks. Same-source initialization is only for unregistered genuinely new paths.",
+  "tests": 77,
+  "fail": 0,
+  "log": "offline-tests54-02.log",
+  "logSHA256": "98bb1413f7109539a0965889ed54cb5dc3b3c3ee81c75a00756e2c29fdbc0d4a",
+  "newRegression": "Old label->current with/without other field tamper rejects; genuinely new unregistered current record remains allowed.",
+  "RootProductOrDocsChanged": false,
+  "SQLOrHTTPOrMintExecuted": false,
+  "original54Preserved": true,
+  "G3Certified": false,
+  "G4Certified": false
+}

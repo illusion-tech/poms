@@ -1008,6 +1008,28 @@ async fn replace_labor(
     actor: &Actor,
     op: &str,
 ) -> Result<Value, Error> {
+    replace_labor_inner(session, id, body, actor, op, None).await
+}
+
+pub(crate) async fn replace_labor_with_restatement_scope(
+    session: &mut CommonSession<'_, '_>,
+    id: Uuid,
+    body: &Value,
+    actor: &Actor,
+    op: &str,
+    scope: &crate::project_operating_common::model::VerifiedRestatementScope<'_>,
+) -> Result<Value, Error> {
+    replace_labor_inner(session, id, body, actor, op, Some(scope)).await
+}
+
+async fn replace_labor_inner(
+    session: &mut CommonSession<'_, '_>,
+    id: Uuid,
+    body: &Value,
+    actor: &Actor,
+    op: &str,
+    scope: Option<&crate::project_operating_common::model::VerifiedRestatementScope<'_>>,
+) -> Result<Value, Error> {
     require_labor_read(actor)?;
     let discovered = store::row(session.connection, Table::Cost, id, false).await?;
     let project = uid(&discovered, "project_id")?;
@@ -1016,26 +1038,60 @@ async fn replace_labor(
     if uid(&old, "project_id")? != project {
         return Err(Error::Conflict("Cost project changed".into()));
     }
+    if let Some(scope) = scope {
+        scope.access.assert_session(session, actor).await?;
+        scope.access.assert_project(project)?;
+        if scope.actor_id != actor.id {
+            return Err(Error::Forbidden("Sealed labor actor mismatch".into()));
+        }
+        let actual = crate::project_operating::sources::source_reference_with_session(
+            session,
+            "ProjectActualCostRecord",
+            id,
+        )
+        .await?;
+        if !scope.locked_source_refs.iter().any(|r| {
+            r.kind == actual.kind
+                && r.id == actual.id
+                && r.row_version == actual.row_version
+                && r.payload_hash == actual.payload_hash
+        }) {
+            return Err(Error::Conflict("Sealed labor source changed".into()));
+        }
+    } else if sqlx::query_scalar::<_, bool>(
+        "SELECT EXISTS(SELECT 1 FROM poms.operating_source_member WHERE source_id=$1)",
+    )
+    .bind(id)
+    .fetch_one(&mut *session.connection)
+    .await?
+    {
+        return Err(Error::CodedConflict {
+            code: "operating_restatement_required",
+            message: "Consumed labor requires atomic operating restatement".into(),
+        });
+    }
     expected(body, "expectedSupersededRecordVersion", version(&old)?)?;
     if old["cost_type"] != "labor"
         || !matches!(
             old["record_status"].as_str(),
             Some("registered" | "confirmed")
-        )
-        || old["is_included_in_project_cost"] != false
+        ) && !(scope.is_some()
+            && old["record_status"] == "included"
+            && old["is_included_in_project_cost"] == true)
+        || (scope.is_none() && old["is_included_in_project_cost"] != false)
         || store::successor(session.connection, id).await?.is_some()
     {
         return Err(Error::Conflict(
             "Only the current unincluded labor record can be replaced".into(),
         ));
     }
-    if store::allocated(session.connection, id).await? {
+    if store::allocated(session.connection, id).await? && scope.is_none() {
         return Err(Error::Conflict(
             "Allocation has frozen this cost source".into(),
         ));
     }
     let locked = store::frozen_stage(session.connection, id).await?;
-    if locked {
+    if locked && scope.is_none() {
         return Err(Error::Conflict(
             "Historical closing snapshot requires explicit restatement".into(),
         ));
@@ -1868,4 +1924,50 @@ mod tests {
             vec!["operating-finance", "labor-cost-rate"]
         );
     }
+}
+
+/// Read-only preflight through the very same real E labor builder. No number,
+/// cost row, audit or fabricated persisted draft is produced by this helper.
+pub(crate) async fn validate_labor_replacement_with_restatement_scope(
+    session: &mut CommonSession<'_, '_>,
+    id: Uuid,
+    body: &Value,
+    actor: &Actor,
+    scope: &crate::project_operating_common::model::VerifiedRestatementScope<'_>,
+) -> Result<(), Error> {
+    scope.access.assert_session(session, actor).await?;
+    require_labor_read(actor)?;
+    let old = store::row(session.connection, Table::Cost, id, true).await?;
+    scope.access.assert_project(uid(&old, "project_id")?)?;
+    let actual = crate::project_operating::sources::source_reference_with_session(
+        session,
+        "ProjectActualCostRecord",
+        id,
+    )
+    .await?;
+    if !scope.locked_source_refs.iter().any(|r| {
+        r.id == actual.id
+            && r.kind == actual.kind
+            && r.row_version == actual.row_version
+            && r.payload_hash == actual.payload_hash
+    }) {
+        return Err(Error::Conflict(
+            "Labor preflight is outside exact sealed source scope".into(),
+        ));
+    }
+    expected(body, "expectedSupersededRecordVersion", version(&old)?)?;
+    if old["cost_type"] != "labor"
+        || !matches!(
+            old["record_status"].as_str(),
+            Some("registered" | "confirmed" | "included")
+        )
+        || store::successor(session.connection, id).await?.is_some()
+    {
+        return Err(Error::Conflict(
+            "Labor preflight requires the actual current source".into(),
+        ));
+    }
+    let mut checked = old.clone();
+    build_labor(session, body, &mut checked, Some(&old), actor).await?;
+    Ok(())
 }

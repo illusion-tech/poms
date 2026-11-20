@@ -1004,6 +1004,7 @@ export function checkArtifacts(expected, root = ROOT) {
 }
 
 export function main(args = process.argv.slice(2), root = ROOT) {
+    if (args[0] === '--s5') return import('./s5/export-s5.mjs').then(({ mainS5 }) => mainS5(args.slice(1), root, { artifacts }));
     if (args.length !== 1 || !['--write', '--check'].includes(args[0])) throw new Error('Usage: node tools/rust-r1b/export-shared.mjs --write|--check');
     const manifest = buildManifest({ root });
     const outputs = artifacts(manifest);
@@ -1017,4 +1018,4 @@ export function main(args = process.argv.slice(2), root = ROOT) {
     return manifest;
 }
 
-if (process.argv[1] && resolve(process.argv[1]) === fileURLToPath(import.meta.url)) main();
+if (process.argv[1] && resolve(process.argv[1]) === fileURLToPath(import.meta.url)) await main();

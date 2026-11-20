@@ -1,0 +1,56 @@
+{
+  "kind": "G2-concrete-closure-corrective-public-schema-delta",
+  "base": "tools/rust-r4ghi/joint-g1/effective-v2/public-contracts.schema.json",
+  "operationCountChanged": false,
+  "newHttpOperations": 0,
+  "addSchemas": {
+    "LegacyOwnerAnchorView": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["scopeKind", "projectId", "projectNo", "projectName", "currentStage", "rowVersion", "ownerUserId", "ownerOrgId", "sourceQualification", "allowedActions", "explanation"],
+      "properties": {
+        "scopeKind": {"type": "string", "const": "legacy-owner-anchor-only"},
+        "projectId": {"type": "string", "format": "uuid"},
+        "projectNo": {"type": "string", "minLength": 1},
+        "projectName": {"type": "string", "minLength": 1},
+        "currentStage": {"$ref": "#/components/schemas/ProjectStage"},
+        "rowVersion": {"type": "integer", "minimum": 1, "maximum": 2147483647},
+        "ownerUserId": {"type": "string", "format": "uuid"},
+        "ownerOrgId": {"type": "null"},
+        "sourceQualification": {"type": "string", "const": "legacy-unverified"},
+        "allowedActions": {"type": "array", "items": {"type": "string"}, "maxItems": 0},
+        "explanation": {"type": "string", "minLength": 1, "maxLength": 2000}
+      }
+    }
+  },
+  "components": {
+    "ProjectDetailView": {
+      "appendOneOf": [{"$ref": "#/components/schemas/LegacyOwnerAnchorView"}]
+    },
+    "OperatingPreparation": {
+      "addRequired": ["proposedAffectedTargets"],
+      "addProperties": {
+        "proposedAffectedTargets": {
+          "type": "array",
+          "items": {"$ref": "#/components/schemas/AffectedRestatementTarget"},
+          "maxItems": 1000,
+          "description": "Complete real project/terminal targets discovered for this restatement preparation; empty for non-restatement. Never guessed IDs or financial values."
+        }
+      }
+    }
+  },
+  "query": {
+    "operationId": "ProjectCostController_getProjectUnifiedAccounting",
+    "name": "correctionSourceRefs",
+    "type": "string",
+    "required": false,
+    "encoding": "JSON array of exact ExpectedRef; server validates and expands the actual affected set",
+    "appliesTo": "view=preparation with restatement intent"
+  },
+  "internal": {
+    "OperatingPreparationIntent.Restatement.correction_source_refs": "Vec<ExpectedRef>; empty is the explicit-producer-correction-free late-facts preparation",
+    "preEffectHash.businessScope.correctionSourceRefs": "Exact selected original ExpectedRef set, sorted kind/id/rowVersion/payloadHash; producer/write and preparation share it. Proposed financial decisions remain excluded."
+  },
+  "G3Certified": false,
+  "actualAcceptancePassed": false
+}

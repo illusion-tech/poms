@@ -1,0 +1,20 @@
+import fs from 'node:fs';
+import path from 'node:path';
+import assert from 'node:assert/strict';
+import {createHash} from 'node:crypto';
+import {spawnSync} from 'node:child_process';
+assert.equal(process.platform,'linux');
+const root='/home/wangzishi/.cache/poms-r4ghi-java17',source='/mnt/e/projects/worktrees/poms-r3hijk-next28/poms';
+assert(!fs.existsSync(root));fs.mkdirSync(root,{recursive:true});
+const url='https://api.adoptium.net/v3/assets/version/17.0.12%2B7?architecture=x64&image_type=jre&jvm_impl=hotspot&os=linux&vendor=eclipse';
+const response=await fetch(url,{signal:AbortSignal.timeout(30000)});assert(response.ok);const meta=Buffer.from(await response.arrayBuffer());fs.writeFileSync(root+'/vendor-api-original.json',meta,{flag:'wx'});
+const releases=JSON.parse(meta),items=releases.flatMap(r=>r.binaries??[]).filter(x=>x.os==='linux'&&x.architecture==='x64'&&x.image_type==='jre');assert.equal(items.length,1);
+const asset=items[0].package,location=new URL(asset.link);assert.equal(location.hostname,'github.com');assert(location.pathname.startsWith('/adoptium/temurin17-binaries/releases/download/'));assert(location.pathname.includes('17.0.12'));
+assert(/^[a-f0-9]{64}$/.test(asset.checksum));assert(asset.size>10000000&&asset.size<80000000);
+const archive=root+'/'+path.basename(location.pathname),download=await fetch(asset.link,{signal:AbortSignal.timeout(180000)});assert(download.ok);const fd=fs.openSync(archive+'.part','wx',0o600),hash=createHash('sha256');let bytes=0;
+try{for await(const chunk of download.body){bytes+=chunk.length;assert(bytes<=asset.size);hash.update(chunk);fs.writeSync(fd,chunk);}}finally{fs.closeSync(fd);}
+assert.equal(bytes,asset.size);assert.equal(hash.digest('hex'),asset.checksum);fs.renameSync(archive+'.part',archive);
+const list=spawnSync('/usr/bin/tar',['-tzf',archive],{encoding:'utf8'});assert.equal(list.status,0);const names=list.stdout.trim().split('\n');assert(names.every(x=>x.startsWith('jdk-17.0.12+7-jre/')&&!x.split('/').includes('..')));
+const extract=spawnSync('/usr/bin/tar',['-xzf',archive,'-C',root],{encoding:'utf8'});assert.equal(extract.status,0);
+const java=root+'/jdk-17.0.12+7-jre/bin/java',probe=spawnSync(java,['-version'],{encoding:'utf8'});assert.equal(probe.status,0);assert(probe.stderr.includes('17.0.12'));
+const result={kind:'scoped-portable-Temurin-JRE17-for-actual-S5-check',vendorAPI:url,archiveLink:asset.link,archiveSHA256:asset.checksum,bytes,java,version:probe.stderr.trim(),globalEnvironmentChanged:false,productG3:false};fs.writeFileSync(root+'/receipt.json',JSON.stringify(result,null,2)+'\n',{flag:'wx'});fs.writeFileSync(source+'/tmp/rust-r4ghi/root/java-linux08.json',JSON.stringify(result,null,2)+'\n',{flag:'wx'});console.log(JSON.stringify(result));

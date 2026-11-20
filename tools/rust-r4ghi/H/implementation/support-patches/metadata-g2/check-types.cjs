@@ -1,0 +1,10 @@
+const fs=require('node:fs'),path=require('node:path'),{createRequire}=require('node:module');
+const ts=createRequire('E:/projects/poms/package.json')('typescript');
+const root='E:/projects/worktrees/poms-r3hijk-next28/poms',proposed=path.join(__dirname,'proposed');
+const configFile=path.join(root,'tsconfig.base.json');const config=ts.readConfigFile(configFile,ts.sys.readFile);const parsed=ts.parseJsonConfigFileContent(config.config,ts.sys,path.dirname(configFile));
+const options={...parsed.options,noEmit:true,types:['node'],typeRoots:['E:/projects/poms/node_modules/@types'],skipLibCheck:true};
+const candidate=file=>{const rel=path.relative(root,file),p=path.join(proposed,rel);return !rel.startsWith('..')&&fs.existsSync(p)?p:file;};
+const host=ts.createCompilerHost(options),get=host.getSourceFile.bind(host);host.readFile=file=>ts.sys.readFile(candidate(file));host.fileExists=file=>ts.sys.fileExists(candidate(file));host.getSourceFile=(file,version,...rest)=>candidate(file)!==file?ts.createSourceFile(file,host.readFile(file),version,true):get(file,version,...rest);host.resolveModuleNames=(names,from)=>names.map(n=>ts.resolveModuleName(n,from,options,host).resolvedModule);
+const program=ts.createProgram(['dto.ts','cleanupOpenApiDoc.ts','const.ts'].map(n=>path.join(root,'libs/vendor/nestjs-zod/src',n)),options,host);
+const errors=ts.getPreEmitDiagnostics(program).map(d=>({file:d.file?.fileName,code:d.code,message:ts.flattenDiagnosticMessageText(d.messageText,'\n')}));
+const result={status:errors.length?'failed':'passed',phase:'isolated-vendor-metadata-types',errors};fs.writeFileSync(path.join(__dirname,'typecheck-result.json'),JSON.stringify(result,null,2)+'\n');console.log(JSON.stringify(result));if(errors.length)process.exitCode=1;

@@ -1,0 +1,702 @@
+{
+  "kind": "Root-frozen-Source13-corrective-G2-136",
+  "frozenAtUTC": "2026-11-08T15:27:11.420Z",
+  "G2Authorized": true,
+  "actualM98Applied": false,
+  "G3Certified": false,
+  "G4Certified": false,
+  "baseline": "docs/design/rust-r4ghi/g2-source13-corrective136.md",
+  "inputCheckpoint": "d90811f2e422d8037699058452d42cfbbd020345",
+  "publicRouteAndDTOChanges": false,
+  "scopedOperations": {
+    "G": 9,
+    "H": 8,
+    "I": 11,
+    "minimumR5": 4,
+    "total": 32
+  },
+  "retainedSource12": {
+    "index": {
+      "file": "/home/wangzishi/.local/share/poms-r4ghi/private/retention/epoch12-before-source13-139/index.json",
+      "rawBytesSha256": "fed889a2c467945656d7c317f006b5ba2bc9780435459460863b3735dacb17b7"
+    },
+    "frozenState": {
+      "file": "/home/wangzishi/.local/share/poms-r4ghi/private/retention/epoch12-before-source13-139/state-at-retention139.json",
+      "bytes": 12362792,
+      "rawBytesSha256": "ee7371dc4fc5d388f6898fb1c6eb90bebb6404eca6c31d23599469445804a628"
+    },
+    "receipt": {
+      "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business12/main01/007493-retention139-complete.json",
+      "bytes": 122891,
+      "rawBytesSha256": "5b9949ebe20058971ba924e01da0f984043aa50f0961e17fb266451ee0948cc4"
+    },
+    "snapshot": {
+      "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business12/main01/snapshot-007492-retained139-after.json",
+      "bytes": 3137240,
+      "rawBytesSha256": "106c66efc668090d4605b6a953ebfddfa65aa2df8c13c3e7531a51bf57130d15"
+    },
+    "sourcePacket": {
+      "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/docs/design/rust-r4ghi/retention/final12-source140/receipt.json",
+      "rawBytesSha256": "f48a01dada316d1628600dfdf92a467437be0fc89104fa7562c73765bd5602cc"
+    },
+    "old135And1351LabelsRetained": true
+  },
+  "productStaging": {
+    "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/docs/design/rust-r4ghi/source13-staging177.json",
+    "rawBytesSha256": "e88f4e0fa181c97408314554b0e0f1ff7e3ae71224d5ffa7bf85b40c54df88aa"
+  },
+  "externalDependencyCorrection": {
+    "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/docs/design/rust-r4ghi/source-dependencies181-corrective.json",
+    "rawBytesSha256": "a2fb4732be660d3668630f53f9362f91d429bb46f5c7a18acd5934b491e837c1"
+  },
+  "finalHToolManifests": [
+    {
+      "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/H/implementation/support-patches/policy-source13-46/manifest46.json",
+      "rawBytesSha256": "fc1e9ab561ea3aa107acb0d458f57bdd12ab2bef003a716874975e5f7d6d2d45"
+    },
+    {
+      "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/docs/design/rust-r4ghi/labor184-final-union.json",
+      "rawBytesSha256": "eecf867e7cc787961a2947dfa80b576a990c18a8c60b7a7b71ec56c1f30a48c2"
+    }
+  ],
+  "independentReviews": [
+    {
+      "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/independent/review05/source13-constructor-review107/review107-03.json",
+      "rawBytesSha256": "9fa316ef0ecf7e62b889d87ad5d1e32e3e1f57327e2959717124ac2398d61fc7"
+    },
+    {
+      "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/independent/review05/source-build-review109/review109A-181.json",
+      "rawBytesSha256": "492da9351a727a699b80834bf5248f57c84d19c932f105290d816b1ef89ab70a"
+    },
+    {
+      "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/independent/review05/source-build-review109/review109B-02.json",
+      "rawBytesSha256": "3455d862ba26c3d3331d6b4ddfdacb64fee9426cba7d0ff135f126b222f328e9"
+    },
+    {
+      "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/independent/review05/labor-masking-review110/review110-03.json",
+      "rawBytesSha256": "4c5925b23c83a5f4c3a23749b126dcd34ecd2b04e4ce865ac64439a07032024b"
+    },
+    {
+      "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/independent/review05/api-start-review111/review111.json",
+      "rawBytesSha256": "206051f81ed7dcab205a0c2c2a54a68bf33bd7a971e4babfc1b686b67a55ce4d"
+    },
+    {
+      "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/independent/review05/freeze-source13-review112/review112.json",
+      "rawBytesSha256": "3c61d100539e19528b722ae8c7c23bcd4dbbd022d08e5e3d82ac21092b920a6b"
+    },
+    {
+      "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/independent/review05/frozen-external-review108/review108-02.json",
+      "rawBytesSha256": "adaf0082aedc325ba38a0c0c5d3743a2776c38dfecb25797e760524e5de44532"
+    },
+    {
+      "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/independent/review05/m98-wrapper-review105/review105.json",
+      "rawBytesSha256": "79073855b17bdb79d5e229517d3c117145d579a4b56dc82587096a9df73287fe"
+    },
+    {
+      "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/independent/review05/m98-after-adapter-review104/review104-02.json",
+      "rawBytesSha256": "29e6677709cf7eeeb11248255dbebe0ff968bd4ebbfe997a77c4bbc32f27c666"
+    }
+  ],
+  "supportingTools": {
+    "migrationWrapper": {
+      "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/run-m98-168.mjs",
+      "rawBytesSha256": "5378d792f94f8fd8cf0b2e4f5cc974fc027c12557498278cc068be07135df802"
+    },
+    "migrationAfterCapture": {
+      "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/capture-m98-after164.mjs",
+      "rawBytesSha256": "2d04daff673fe36a68d33e7c11a7e677956034eb59cf38e823a38fa9cee3d0ee"
+    },
+    "source13Constructor": {
+      "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/construct-source13-bindings.mjs",
+      "rawBytesSha256": "3d0f1f6368f24a2f2e88125f1dffe5441a31450b0b0bab33f4e2b896ec7d7b5c"
+    },
+    "source13BuildRunner": {
+      "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/build-source13-180-03.mjs",
+      "rawBytesSha256": "48c232b935fbaab402becc08f8964b40bcef9ccc122db851ec0a8d32e47f3698"
+    },
+    "apiRuntimeWrapper": {
+      "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/start-api136-182.mjs",
+      "rawBytesSha256": "5607b9e95ea3837d205ff696516a5be3c8bef9e556c9becb8a9f4aa9b6e38b81"
+    },
+    "apiRuntimeLauncher": {
+      "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/api-runtime01.mjs",
+      "rawBytesSha256": "7f5702e6a086900e73fe0afde106bb252485b9a4893b3d5f66ed9a286072dfaf"
+    },
+    "postM98FrozenNegative": {
+      "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/probe-m98-frozen-external.mjs",
+      "rawBytesSha256": "f340e65e2ee59d184c5711587d24c79e4f5ca43fabd0f356a4485ce542cad37a"
+    },
+    "source13Freezer": {
+      "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/freeze-source13-183.mjs",
+      "rawBytesSha256": "e2f13efc02fc6214563bd66fcd0d8ffa2ac10e1dafb2dd6ab74384cdeaa56e7f"
+    },
+    "trustedSummaryExampleSource": {
+      "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/apps/poms-api-rust/examples/r4ghi_summary_producer08.rs",
+      "rawBytesSha256": "9d44caaa2a0369baf7d83d256fe7b6225a66614837300fccac01a82b779fe23e"
+    }
+  },
+  "finalHelperH0": {
+    "file": "/home/wangzishi/.local/share/poms-r4ghi/private/source13-preparation183/helperH0.json",
+    "rawBytesSha256": "e65db96998f5dc15ed406bf5d30b2a1bfa95c82affb448b625ca3295227d0459"
+  },
+  "forwardMigration": {
+    "databases": [
+      "poms_r4ghi_native",
+      "poms_r4ghi_rust"
+    ],
+    "from": 97,
+    "to": 98,
+    "name": "Migration20261108090000_rust_frozen_assignment_parent_lock",
+    "mechanism": "programmatic-MikroORM-migrator-up-only",
+    "runner": {
+      "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/migrate-frozen-parent98-136.mjs",
+      "rawBytesSha256": "29e195b4e80c6089387d66e384eb7b7eef28f5c58cf047a7ce87726e6cc0e5e1"
+    },
+    "node": {
+      "file": "/home/wangzishi/.local/share/fnm/node-versions/v24.19.0/installation/bin/node",
+      "rawBytesSha256": "bc17c508ffeed0ec622934f9b7fa72f8e78da65350e63c3eceb56fa688aa5e12"
+    },
+    "migrationTS": {
+      "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/apps/poms-api/src/migrations/Migration20261108090000_rust_frozen_assignment_parent_lock.ts",
+      "rawBytesSha256": "daf3656ec2a726c30ebaba8b0ba91945404f9b7a5848d8d293546bc3c7fa4916"
+    },
+    "migrationSQL": {
+      "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/docs/design/rust-r4ghi/g2-frozen-participant-parent-lock65.sql",
+      "rawBytesSha256": "90b091eb36a7f58ae0cf3a9504b2426ea6de868a4bab9af5a2c1e6bd89e0106e"
+    },
+    "inputs": [
+      {
+        "file": "apps/poms-api/src/migrations/Migration20260322193000_init_project.ts",
+        "rawBytesSha256": "4caf9cc9ef4b4071bf1e0c9dc83fc7dee509ff100f9ed862dadff805d0927488"
+      },
+      {
+        "file": "apps/poms-api/src/migrations/Migration20260322233000_init_contract.ts",
+        "rawBytesSha256": "28a6ff1503db62c63133422b69562f2ca41f5fddff3ee1a68bf2779e35ed550d"
+      },
+      {
+        "file": "apps/poms-api/src/migrations/Migration20260322235500_init_approval_and_todo.ts",
+        "rawBytesSha256": "736d5a1fa69846219f809e77c737e7b2aa3f13bb66374bef4a18cc72a91e56fc"
+      },
+      {
+        "file": "apps/poms-api/src/migrations/Migration20260325153000_init_platform_governance_core.ts",
+        "rawBytesSha256": "8583cbeb7f5ec4ba42af26c47014871650c357e9bd79e7c2754df94c4131c402"
+      },
+      {
+        "file": "apps/poms-api/src/migrations/Migration20260325180000_add_password_hash_to_platform_user.ts",
+        "rawBytesSha256": "3e72cf80554fb6ab53ec7579452739677aaa7ed14d728a9d23de24f92aa88cdc"
+      },
+      {
+        "file": "apps/poms-api/src/migrations/Migration20260325190000_init_commission_s10.ts",
+        "rawBytesSha256": "d2ddddc758365f12416de54725ad25725da8b985114502a97b280cae206042f1"
+      },
+      {
+        "file": "apps/poms-api/src/migrations/Migration20260325200000_init_commission_s11.ts",
+        "rawBytesSha256": "c693c296be97e02f9c285bde4df8f58a81fb3d3ca5ca3db4a1998e1307b29a4e"
+      },
+      {
+        "file": "apps/poms-api/src/migrations/Migration20260327090000_init_commission_s12.ts",
+        "rawBytesSha256": "38aa5b68ebfc46a725dd103ee7dd260bb1052afa2a3e0482268994fc00f6c4fc"
+      },
+      {
+        "file": "apps/poms-api/src/migrations/Migration20260327170000_init_contract_finance_facts.ts",
+        "rawBytesSha256": "6af62cbeb11c72e4013f389c9788dc9315c34d4e90f853e55f48d68df3d26e4d"
+      },
+      {
+        "file": "apps/poms-api/src/migrations/Migration20260328120000_init_runtime_audit_and_security_event.ts",
+        "rawBytesSha256": "5d45f17a8abfeafe7cec0ce92c5b6fa1b2f8d096c07e2a8ca59d9b47564d9e08"
+      },
+      {
+        "file": "apps/poms-api/src/migrations/Migration20260404074500_add_org_unit_structure_constraints.ts",
+        "rawBytesSha256": "17f4c39ec62f15488f37aca9d0ae3a784014bf11f4df4aa8bb64b26f3bc289d5"
+      },
+      {
+        "file": "apps/poms-api/src/migrations/Migration20260405100000_extract_local_credential_and_add_verified_fields.ts",
+        "rawBytesSha256": "b9056ef64d7bcdca917edefdc3b35b495526d57078dfa3b096898be5227a390f"
+      },
+      {
+        "file": "apps/poms-api/src/migrations/Migration20260405113000_init_contract_readiness_chain.ts",
+        "rawBytesSha256": "11faff7ad079f5af7f0eecc7857df7f13f85784d681b468f81d5810f8e4d8e63"
+      },
+      {
+        "file": "apps/poms-api/src/migrations/Migration20260405164244_init_actual_cost.ts",
+        "rawBytesSha256": "53d9ebc777f7287529f31c280cfaee8ac6bac62cb6032089b4a7af65e41710b1"
+      },
+      {
+        "file": "apps/poms-api/src/migrations/Migration20260411120000_align_actual_cost_rate_version.ts",
+        "rawBytesSha256": "bc8947752c716acafd6cd511bce70af64f25057301c65ec252ac2da0b8036409"
+      },
+      {
+        "file": "apps/poms-api/src/migrations/Migration20260412121500_add_payment_fact_source_current_unique.ts",
+        "rawBytesSha256": "5c9b7fd9513e937d3b6d4ab62a8e4de9a29cad778ab0faa2f08be5082824a31b"
+      },
+      {
+        "file": "apps/poms-api/src/migrations/Migration20260412152000_add_invoice_record.ts",
+        "rawBytesSha256": "27396bc8808315a4676ba35c9100170fa827a6a67bf5d1d40be2fd3ace615962"
+      },
+      {
+        "file": "apps/poms-api/src/migrations/Migration20260412174000_add_invoice_source_current_unique.ts",
+        "rawBytesSha256": "6c954d15b01870552162a8e99bbfd26fa425f06b78147a450cfb9d5c677b42b5"
+      },
+      {
+        "file": "apps/poms-api/src/migrations/Migration20260412193000_add_expense_record.ts",
+        "rawBytesSha256": "716c0de0ac3700e3c5484e7b562edc00a834e8196bb6e10fdf2d7882422f0d48"
+      },
+      {
+        "file": "apps/poms-api/src/migrations/Migration20260412195000_add_expense_source_current_unique.ts",
+        "rawBytesSha256": "45e894632ac5783dfef0e8a2e64ef20e1d2a7902e5a261cc168ede0b201ad9aa"
+      },
+      {
+        "file": "apps/poms-api/src/migrations/Migration20260412212000_add_payable_record.ts",
+        "rawBytesSha256": "f3c6b28de18b4e1550afc6b776f88daaf7a6203a7b920164ce8d48d7311be856"
+      },
+      {
+        "file": "apps/poms-api/src/migrations/Migration20260412233000_add_procurement_source_current_unique.ts",
+        "rawBytesSha256": "5e939d89dea8f2e2200539fa8e21e3110777cb2216b8ca530fc4ffd35a5e60c8"
+      },
+      {
+        "file": "apps/poms-api/src/migrations/Migration20260413093000_ex06d_payable_payment_tax_semantics.ts",
+        "rawBytesSha256": "ae423d970c79315cdd9b95df8f76620dee6c2a2e0ac269ff4d357895a1772626"
+      },
+      {
+        "file": "apps/poms-api/src/migrations/Migration20260414100000_ex07a_cost_accumulation_snapshot_model.ts",
+        "rawBytesSha256": "8efe816a18ebb9b6c348f7c1ccb0b229a6882df2026a4135bbe6a34ff2925c94"
+      },
+      {
+        "file": "apps/poms-api/src/migrations/Migration20260414111805_ex07a_add_comments.ts",
+        "rawBytesSha256": "9daecfcd9c69a835189795e7e66ea1a52edd7068a8359a259933bd219700151b"
+      },
+      {
+        "file": "apps/poms-api/src/migrations/Migration20260414130000_ex07b_operating_restatement_record.ts",
+        "rawBytesSha256": "8e765bc065ba6c4b60dace5bc6b60ac31dfe5e7b3ffee72166978dcd577194b5"
+      },
+      {
+        "file": "apps/poms-api/src/migrations/Migration20260414131000_ex07b_operating_restatement_comments.ts",
+        "rawBytesSha256": "7de24decbad7285ca0d852b15ac7ffa535ba3b4db96fc0f8ce69c30349732a49"
+      },
+      {
+        "file": "apps/poms-api/src/migrations/Migration20260415090000_ex08a1_project_handover_core.ts",
+        "rawBytesSha256": "ab9378f7df4659ba3d0b72bf1e96a3cd8f3c441031276b14053b726f5a68afa7"
+      },
+      {
+        "file": "apps/poms-api/src/migrations/Migration20260415100000_ex08a2_approval_summary_snapshot.ts",
+        "rawBytesSha256": "ec42a5074ff2e39d8defe3657513f4b3d30df21c38b8b454bb03533e40286a3d"
+      },
+      {
+        "file": "apps/poms-api/src/migrations/Migration20260415110000_ex08a3_confirmation_record.ts",
+        "rawBytesSha256": "cd30de58727826af7b41519f8bf3402c9a9d0cdc6b8aa76c0d6d6f2316a960e8"
+      },
+      {
+        "file": "apps/poms-api/src/migrations/Migration20260415130000_ex08b3b0_contract_amendment.ts",
+        "rawBytesSha256": "db1f48224042faaf8396bffccfc6a59f3346d1009eda012bbef346d16e2230dc"
+      },
+      {
+        "file": "apps/poms-api/src/migrations/Migration20260415131000_ex08b3b0_rebaseline_amendment_fk.ts",
+        "rawBytesSha256": "93b2699ec19d70cd2adef2adaa57abc4f2e812a2bffe1079101734a82578bf42"
+      },
+      {
+        "file": "apps/poms-api/src/migrations/Migration20260415142000_ex08b3b1_rebaseline_project_chain.ts",
+        "rawBytesSha256": "614691d23dea82a19f1223f3e3e5041b6609edc27d8b1893c0e1a5f014fb7f65"
+      },
+      {
+        "file": "apps/poms-api/src/migrations/Migration20260415152000_ex08b3c_snapshot_and_receipt_freeze.ts",
+        "rawBytesSha256": "58c6c0f8369e8d8a83609cdd1e12ca2379f42bb08267a9ce6a1683f96e15cfbf"
+      },
+      {
+        "file": "apps/poms-api/src/migrations/Migration20260416110000_ex07d3_tax_treatment_active_unique.ts",
+        "rawBytesSha256": "9607762a9d7ca95a8f258dd2dbc5b00b719a47c377ec90ab547c3c5c68fe29c4"
+      },
+      {
+        "file": "apps/poms-api/src/migrations/Migration20260416111000_ex08d1_project_rebaseline_effective_unique.ts",
+        "rawBytesSha256": "d7b8c43562b9351b41681ced2287a7657ede34b186d4540ec9dbfc43a7c5be5f"
+      },
+      {
+        "file": "apps/poms-api/src/migrations/Migration20260416130000_ex09a_commission_freeze_chain.ts",
+        "rawBytesSha256": "12c0ba0ef8fc9e1c8a9a15868d832aedaa0b54756dc8252deeef44c20a157e70"
+      },
+      {
+        "file": "apps/poms-api/src/migrations/Migration20260416143000_ex09d_commission_freeze_dispute_chain.ts",
+        "rawBytesSha256": "18ff243ed7c9dcecf2c557fb76a91b66ef20253bc2ee4be995c52da0aacc0604"
+      },
+      {
+        "file": "apps/poms-api/src/migrations/Migration20260416144500_ex09d_commission_freeze_dispute_comments.ts",
+        "rawBytesSha256": "f5703ce2009833cc5beb78bf8886f5427b730b4f19c81c971437e733cb98e6ed"
+      },
+      {
+        "file": "apps/poms-api/src/migrations/Migration20260418110000_ex11d3_commission_current_unique.ts",
+        "rawBytesSha256": "ab52363c4c7f623a2f0148691899aa2889de19bc64168a474bc0e5ee8aa01aa8"
+      },
+      {
+        "file": "apps/poms-api/src/migrations/Migration20260418143000_ex12d1_commission_payout_compensating_chain.ts",
+        "rawBytesSha256": "2aa2992848ee446406cc7746aa136b941f74eb83f43040b870c37f089212e285"
+      },
+      {
+        "file": "apps/poms-api/src/migrations/Migration20260418170000_ex13a_operating_signal_model.ts",
+        "rawBytesSha256": "5ebc7607a8c80e4a5368ed8508db7403cde0bf020c4072e9da1942f8c9580f54"
+      },
+      {
+        "file": "apps/poms-api/src/migrations/Migration20260418183000_ex13b1_gate_review_summary_anchor.ts",
+        "rawBytesSha256": "1552dbdc6b31dc93dc3272417fca92f9d2b0d25e180fc76ba22c04f1f9b98b46"
+      },
+      {
+        "file": "apps/poms-api/src/migrations/Migration20260418193000_ex14a_settlement_and_rule_explanation_model.ts",
+        "rawBytesSha256": "4bc97bbcc54f66fcd9aa63eb64010b1c350f986667e9aabf3acdd89452e985b7"
+      },
+      {
+        "file": "apps/poms-api/src/migrations/Migration20260418194500_ex14a_nullable_reference_fk_rules.ts",
+        "rawBytesSha256": "a6593dabb0132c3190c72d79063b9d700d6129d3fe8085837722d32303ff4f66"
+      },
+      {
+        "file": "apps/poms-api/src/migrations/Migration20260418195000_ex14a_rule_explanation_parent_fk_delete_rule.ts",
+        "rawBytesSha256": "ea6500a871d5dbbfdc3d055ff317bf364b307f13397fe3a1858eb12d60318f02"
+      },
+      {
+        "file": "apps/poms-api/src/migrations/Migration20260419120000_ex14d_retention_due_fact_source.ts",
+        "rawBytesSha256": "19b96553deefe9199453dd3dd587846502d68483d93411802f7c88bec2d46c68"
+      },
+      {
+        "file": "apps/poms-api/src/migrations/Migration20260421110000_ex17_project_list_and_create_semantics.ts",
+        "rawBytesSha256": "189aeada4ff1e0f40e988d1eb6521edefe39da0a252762dc52ad0c54a4e36ae1"
+      },
+      {
+        "file": "apps/poms-api/src/migrations/Migration20260422031100_add_contract_term_snapshot_core_fields.ts",
+        "rawBytesSha256": "df87f2b256d32e8846414fe22baabdb680e6445878591bfdd908021856be8397"
+      },
+      {
+        "file": "apps/poms-api/src/migrations/Migration20260423130000_ex23_acceptance_record.ts",
+        "rawBytesSha256": "642d6bb2d045f3b7b9f6d4179b9f0c23dea8cc8345e283e469ff73b687efb219"
+      },
+      {
+        "file": "apps/poms-api/src/migrations/Migration20260424100000_ex24_project_completion_record.ts",
+        "rawBytesSha256": "2eca97690e6d20f1d4d9d6c9a3dda8ce06cb7a802729a1658bec8ce70d2b39fd"
+      },
+      {
+        "file": "apps/poms-api/src/migrations/Migration20260424143000_ex25_project_archive_record.ts",
+        "rawBytesSha256": "35d1e2c399a4738f447feb183c83a21d78cdbe214a12ccbbcfed55bd5d65109a"
+      },
+      {
+        "file": "apps/poms-api/src/migrations/Migration20260424170000_ex26_project_technical_cost_package.ts",
+        "rawBytesSha256": "0b44d3076ad6eca4ff61bfc77fa87d3fd8f2eb9e4b5631c4250b107b74b36be8"
+      },
+      {
+        "file": "apps/poms-api/src/migrations/Migration20260424190000_ex27_project_bid_commercial_process.ts",
+        "rawBytesSha256": "5d9986be33e056be76a1be48e5b1056514ae1e50fb4d2504a001eea07ccb6171"
+      },
+      {
+        "file": "apps/poms-api/src/migrations/Migration20260424203000_ex28_project_pricing_margin_review.ts",
+        "rawBytesSha256": "09a0e605a48bf76d08bede573cc8d7fbc530d52d76fdac89ecdec83467527ff3"
+      },
+      {
+        "file": "apps/poms-api/src/migrations/Migration20260425103000_ex31_lead_minimal_fact_source.ts",
+        "rawBytesSha256": "b66ac6d96c221773ec90918f667e2d03cbae58283dc9f3048115b220ebc505d5"
+      },
+      {
+        "file": "apps/poms-api/src/migrations/Migration20260425113000_ex32_project_source_lead.ts",
+        "rawBytesSha256": "651350388f6f4c7a6521cdb47248a8129ce6a17bdd9c8ed3393817a4b9c78d5a"
+      },
+      {
+        "file": "apps/poms-api/src/migrations/Migration20260426100000_ex34a_project_archive_record_reversal_replacement.ts",
+        "rawBytesSha256": "8ba75108bbb08b230a2da41814a8c9b27a3a6e825e24f2cd058349640e23817c"
+      },
+      {
+        "file": "apps/poms-api/src/migrations/Migration20260426113000_ex35a_business_number_generation.ts",
+        "rawBytesSha256": "ff284c4066a1c6ff5bc180b562f1dfce3f61acc3e89b975a80aef0dee9063803"
+      },
+      {
+        "file": "apps/poms-api/src/migrations/Migration20260429100000_ex41a_project_owner_reassignment_record.ts",
+        "rawBytesSha256": "147ac2d3039c48a86102c674d8c1d80cf79372c2544ffc9eab3ea4c32b93d34e"
+      },
+      {
+        "file": "apps/poms-api/src/migrations/Migration20260429140000_ex42_customer_master_data.ts",
+        "rawBytesSha256": "a5cc60cd7780371de061c1812d65cda29c7598b56bb69c5c667f07565112df84"
+      },
+      {
+        "file": "apps/poms-api/src/migrations/Migration20260430100000_ex43_lead_source_and_profile_enrichment.ts",
+        "rawBytesSha256": "4fd3c1f2efe20dafcefe898fb80f125a826cc4955a05a33047da8a57d74a5632"
+      },
+      {
+        "file": "apps/poms-api/src/migrations/Migration20260430120000_ex44_sales_follow_up_record.ts",
+        "rawBytesSha256": "9c29fe492fa1a8480f44c0bfd3ca3038e4055247eb70bad4680f6ea53669e43e"
+      },
+      {
+        "file": "apps/poms-api/src/migrations/Migration20260430140000_ex45_attachment_evidence_repository.ts",
+        "rawBytesSha256": "e057d5bffc0f6da9ed0ce290b46ef4983dfa38fa3e89f213119de6e7abc9360b"
+      },
+      {
+        "file": "apps/poms-api/src/migrations/Migration20260430160000_ex46_lead_owner_assignment_record.ts",
+        "rawBytesSha256": "4b8b40cf5bf76ff791eb8f5280f3d352199efd3d922a87c00baa8bf9a5e0bdf3"
+      },
+      {
+        "file": "apps/poms-api/src/migrations/Migration20260430180000_ex47_lead_scoring_and_gate_explanation.ts",
+        "rawBytesSha256": "f65f7088c89d82c74363ce5aa04fc06ee075ab336de2ab1ec6c3c2c1b6d9ca07"
+      },
+      {
+        "file": "apps/poms-api/src/migrations/Migration20260501100000_ex48a_sales_follow_up_change_lifecycle.ts",
+        "rawBytesSha256": "f5d49cde17b8475b39566491c3165992363ddb3774866aeac63c414ace07a6f9"
+      },
+      {
+        "file": "apps/poms-api/src/migrations/Migration20260501110000_ex56a_project_status_stage_checks.ts",
+        "rawBytesSha256": "6a575cf69150509957530c2adbd1cbbeb2dc5f99561a5c5881706d02ff046f3e"
+      },
+      {
+        "file": "apps/poms-api/src/migrations/Migration20260501120000_ex56b_todo_approval_enum_checks.ts",
+        "rawBytesSha256": "33365fac6d29c8f911a0b73fa224840ad31a8add7ad01d4d6ca0d79543a707ff"
+      },
+      {
+        "file": "apps/poms-api/src/migrations/Migration20260501160000_ex56c_crm_enum_checks.ts",
+        "rawBytesSha256": "26799693a14f61f5ea621ce4f78ac4a8f344310a4842c13b747ab908c5e17073"
+      },
+      {
+        "file": "apps/poms-api/src/migrations/Migration20260501170000_ex56c_attachment_status_defaults.ts",
+        "rawBytesSha256": "cd91781afd3f08fde9654f6fd2b94307c2bf0e8c04cbaec789a621190b937ddb"
+      },
+      {
+        "file": "apps/poms-api/src/migrations/Migration20260502100000_ex56d1_contract_finance_enum_checks.ts",
+        "rawBytesSha256": "4a55fdf4c91de107c55c8076295ac5f3f5c9295d958b4d226878b3abbc558c38"
+      },
+      {
+        "file": "apps/poms-api/src/migrations/Migration20260502120000_ex56d2_project_cost_operating_enum_checks.ts",
+        "rawBytesSha256": "51b76120a3fc144e3a24615d5d398ab6298f4c72da7877bf703bac3c91bccf2b"
+      },
+      {
+        "file": "apps/poms-api/src/migrations/Migration20260502133000_ex56d3_commission_enum_checks.ts",
+        "rawBytesSha256": "3eab6a5069cf068d97696054e86ac39d11677f5c442f79eec8a4f8379ee04673"
+      },
+      {
+        "file": "apps/poms-api/src/migrations/Migration20260503160000_ex58b_enum_code_value_direct_cutover.ts",
+        "rawBytesSha256": "9ca97804fe860e5ce149233dbba82fb7c90347b2c667b07d41b2a0d35e724e20"
+      },
+      {
+        "file": "apps/poms-api/src/migrations/Migration20260503170000_ex58c_configurable_dictionary_runtime.ts",
+        "rawBytesSha256": "56afc4bb4c90ae6d2d8564a8bb5867cbaf54e5ccae4d604c5d246038ae4ce2f5"
+      },
+      {
+        "file": "apps/poms-api/src/migrations/Migration20260504100000_ex61_sales_intelligence_discussion.ts",
+        "rawBytesSha256": "c8642a90e9ecf622f1a2c80a8c6908e36ea19774a7ea4e605acf3e930f1947f1"
+      },
+      {
+        "file": "apps/poms-api/src/migrations/Migration20260504110000_ex62_customer_contact_gender.ts",
+        "rawBytesSha256": "c3414a36232692a4ea568e53699b16c49ea69761cd1ea21c88ac799960bb4034"
+      },
+      {
+        "file": "apps/poms-api/src/migrations/Migration20260505100000_ex51_attachment_version_final_runtime.ts",
+        "rawBytesSha256": "573d95678965d4a9cf01dfc373c08846f6d1af2d8b70551fc7e71a11958bdc87"
+      },
+      {
+        "file": "apps/poms-api/src/migrations/Migration20260505113000_ex52a_attachment_handover_runtime.ts",
+        "rawBytesSha256": "d856b5ea0bbfef933c7761c7443c474a39a2cb0083d3bf45bd98a194e1854e7f"
+      },
+      {
+        "file": "apps/poms-api/src/migrations/Migration20260506100000_ex54a_lead_score_history_override.ts",
+        "rawBytesSha256": "4bf313fd80784378ecace7d0fb9902a95a1705f870f50b0b7b617ea4c922be5c"
+      },
+      {
+        "file": "apps/poms-api/src/migrations/Migration20260507130000_ex64b_identity_provider_config.ts",
+        "rawBytesSha256": "bc75f9c308a3f47924a18932126230d4a8f9a8a4e476e2a18acec861c2db99cc"
+      },
+      {
+        "file": "apps/poms-api/src/migrations/Migration20260507143000_ex64c_external_identity_binding.ts",
+        "rawBytesSha256": "47d9182f7a1fea3c9029e6acd2854187378886f115477006e8ec557a3779900e"
+      },
+      {
+        "file": "apps/poms-api/src/migrations/Migration20260507160000_ex64d_identity_provider_oauth_grant.ts",
+        "rawBytesSha256": "8e7894a9557a16d68b6c948337baba33fb99cf0f78498c99a8e5cbc6509adc14"
+      },
+      {
+        "file": "apps/poms-api/src/migrations/Migration20260507173000_ex64e_external_login_ticket.ts",
+        "rawBytesSha256": "4904b98612863f32e77559fe33b84301bf894d1fe313030daafbcf827a63285d"
+      },
+      {
+        "file": "apps/poms-api/src/migrations/Migration20260511100000_ex64f_identity_provider_search_redirect_uri.ts",
+        "rawBytesSha256": "5e2969fca80600147c45a0838b715a5ec390e772f44b611a4d6465e9c0640f5f"
+      },
+      {
+        "file": "apps/poms-api/src/migrations/Migration20260511140000_ex65b_attachment_storage_provider_config.ts",
+        "rawBytesSha256": "e3cc94bc625b1ffb1a5e263e0f0fcbce337e7c53aa4d0e5dd3fcf9e399a0b0b5"
+      },
+      {
+        "file": "apps/poms-api/src/migrations/Migration20260511160000_ex65d_attachment_upload_session.ts",
+        "rawBytesSha256": "343c1aa505878b0e7829e0946fed1205a87e0fd4f856f3b3c76a7bb7534d268b"
+      },
+      {
+        "file": "apps/poms-api/src/migrations/Migration20260513100000_ex66b_auth_session.ts",
+        "rawBytesSha256": "d468f42a3615ad2d298541f8d20c994de94d1e109d516ef0645d05aa0e5b423d"
+      },
+      {
+        "file": "apps/poms-api/src/migrations/Migration20260526100000_ex67a_system_setting.ts",
+        "rawBytesSha256": "ad24a7d07b35f82da88522356cd24a7a19bc609352fc7f2f8917bbf16b2b6b9a"
+      },
+      {
+        "file": "apps/poms-api/src/migrations/Migration20260529120000_ex70a_lead_source_dictionary_direct_cutover.ts",
+        "rawBytesSha256": "e0b5204d1901e7492b3ec49c0f979a6eeb2da8f8c89e7073b2e6063323081002"
+      },
+      {
+        "file": "apps/poms-api/src/migrations/Migration20260610120000_ex72b_external_org_sync_persistence.ts",
+        "rawBytesSha256": "923ee191cd11a0777e5205ba5a59ee0f278bf68d14796c1b53e8914da8bbe2a0"
+      },
+      {
+        "file": "apps/poms-api/src/migrations/Migration20261103060000_rust_r4abc_contract_lifecycle.ts",
+        "rawBytesSha256": "d97ea9b8f9c28d7b3c54fdd0824d69eda7fc6519ced5cf703befcb64548344e1"
+      },
+      {
+        "file": "apps/poms-api/src/migrations/Migration20261104060000_rust_r4def_execution_cost.ts",
+        "rawBytesSha256": "b72c0273ee85396aa31652507fbfa4ea085ed22a0c9a8b33f8f3d62eb90e4994"
+      },
+      {
+        "file": "apps/poms-api/src/migrations/Migration20261107060000_rust_r4ghi_operating_lifecycle.ts",
+        "rawBytesSha256": "8fa614a3eca1b01f744592e392cc37baab53ea102439840394b0abed316bc68d"
+      },
+      {
+        "file": "apps/poms-api/src/migrations/Migration20261107083000_rust_condition_upload_context.ts",
+        "rawBytesSha256": "37f5082c5c40c79c5d12fd76513b13bf66c98f7d37ae1caeb28fd2da54843cd8"
+      },
+      {
+        "file": "apps/poms-api/src/migrations/Migration20261107110000_rust_project_initial_ownership.ts",
+        "rawBytesSha256": "b20ddcabb6d82bc6c737ca1b1ef96a92e2a4c23a01fb4366b3848701a6c08f24"
+      },
+      {
+        "file": "apps/poms-api/src/migrations/Migration20261108090000_rust_frozen_assignment_parent_lock.ts",
+        "rawBytesSha256": "daf3656ec2a726c30ebaba8b0ba91945404f9b7a5848d8d293546bc3c7fa4916"
+      }
+    ]
+  },
+  "businessDecisions": {
+    "necessaryDomainSnapshotsAndAuditAtomic": true,
+    "preserveRealSourcesAcrossNaturalPeriod": true,
+    "earliestCurrentPeriodCloseHongKong": "2026-11-09T00:00:00+08:00",
+    "historicalAutomaticSelectionApproved": false,
+    "historicalUnknownOrAmbiguousSourcesRequireReconciliation": true
+  },
+  "orderedExecution": [
+    "actual Root inventory/copy and mirror fmt/clippy/test/build",
+    "normal M98 native then rust with actual command captures",
+    "immutable command bundle",
+    "state-free full M98 after observation",
+    "normal API136 actual ready",
+    "B0",
+    "final108 plan and first state mint/fresh/schema3 R3",
+    "B1",
+    "external private bindings and serial business acceptance",
+    "natural-period acceptance and independent G3/G4"
+  ],
+  "noSourceDigestOrFutureCandidateRegistryInThisApproval": true,
+  "newCertificationGranted": false,
+  "formalRustDelivered": 240,
+  "newCertified": 0,
+  "preMintBuildRevision189": {
+    "reason": "Preserved older mirror metadata/contract inputs; first180 stopped before any copy or Cargo",
+    "supersedesUnexecutedApproval": {
+      "file": "/home/wangzishi/.local/share/poms-r4ghi/private/source13-preparation189/preserved/source13-g2-freeze136-first.json",
+      "rawBytesSha256": "f0a8cf9ce22bb032bc28ac599d6ff00946d6013e29084975a265048faa849115"
+    },
+    "originalApprovalLocation": {
+      "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/docs/design/rust-r4ghi/source13-g2-freeze136.json",
+      "rawBytesSha256": "f0a8cf9ce22bb032bc28ac599d6ff00946d6013e29084975a265048faa849115"
+    },
+    "originalSources": {
+      "file": "/home/wangzishi/.local/share/poms-r4ghi/private/source13-preparation189/preserved/sourcePins183.json",
+      "rawBytesSha256": "d4ff63a2010b445a2a4f318c5c8fecc2685c15718b55a310c0a11205921fe76b"
+    },
+    "originalFreezeReceipt": {
+      "file": "/home/wangzishi/.local/share/poms-r4ghi/private/source13-preparation189/preserved/freeze183-receipt.json",
+      "rawBytesSha256": "fc4c5111193edcad5daab7319b7153affb324916231f6efed4518ef8bcbecc7e"
+    },
+    "firstBuildPartial": {
+      "file": "/home/wangzishi/.local/share/poms-r4ghi/private/source13-build180/partial180.json",
+      "rawBytesSha256": "e65f83ef5c7a3c57af0fbece93abffc53188034b061ef4e0f40f185fbaa0f0de"
+    },
+    "independentDrift": {
+      "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/independent/review05/build-input-corrective-review113/drift113.json",
+      "rawBytesSha256": "7b1d28630a21c34f39e35fe3ea38694ff8b226b3b82f531f0c4f0b494ec0daf0"
+    },
+    "independentApproval": {
+      "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/independent/review05/refreeze189-review114/review114-02.json",
+      "rawBytesSha256": "bcfa3be54beacaaa24a5bc4caf1854d71f3f252474548d7b2d2485f92e89299f"
+    },
+    "mirrors": [
+      {
+        "file": "docs/design/rust-r4ghi/g2-corrective01.md",
+        "originalMirrorSHA256": "7764b4379e9be682b3561bb378b8702add25dddbae0c810997c76343fb99c212",
+        "preservedBefore": {
+          "file": "/home/wangzishi/.local/share/poms-r4ghi/private/source13-preparation189/mirror-before/docs/design/rust-r4ghi/g2-corrective01.md",
+          "rawBytesSha256": "7764b4379e9be682b3561bb378b8702add25dddbae0c810997c76343fb99c212"
+        },
+        "synchronizedToRootSHA256": "da926a7ce026ad913ef23486689ff59dffaf60984e585321bb63d10cd2acec3f"
+      },
+      {
+        "file": "libs/shared/contracts/src/lib/rust-r4ghi-contracts.generated.ts",
+        "originalMirrorSHA256": "c4b156574f4486b2f02eccc8b75f4cac7ef1ff1d6a85eb0de665ab9de797e7d9",
+        "preservedBefore": {
+          "file": "/home/wangzishi/.local/share/poms-r4ghi/private/source13-preparation189/mirror-before/libs/shared/contracts/src/lib/rust-r4ghi-contracts.generated.ts",
+          "rawBytesSha256": "c4b156574f4486b2f02eccc8b75f4cac7ef1ff1d6a85eb0de665ab9de797e7d9"
+        },
+        "synchronizedToRootSHA256": "e2bbed77a8a1001969cb1eac30ce60f869e7e4614d69e44d227856c3b8fabe36"
+      },
+      {
+        "file": "libs/shared/contracts/src/lib/shared-contracts.ts",
+        "originalMirrorSHA256": "e835ce085e0cfd19fa2d49030f1b286ed8f774164fbbddbafc98e04e2d13fdab",
+        "preservedBefore": {
+          "file": "/home/wangzishi/.local/share/poms-r4ghi/private/source13-preparation189/mirror-before/libs/shared/contracts/src/lib/shared-contracts.ts",
+          "rawBytesSha256": "e835ce085e0cfd19fa2d49030f1b286ed8f774164fbbddbafc98e04e2d13fdab"
+        },
+        "synchronizedToRootSHA256": "24275b4b82bc19023d2e586a141db8836f13a8142219e4d5afa8156a08f74077"
+      }
+    ],
+    "newDriver": {
+      "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/build-source13-180-02.mjs",
+      "rawBytesSha256": "68a1aca0d656bb1daf827ee139d6f9e31e9c1692008f70b5c03efe2e06fb6bf8"
+    },
+    "corrector": {
+      "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/refreeze-unexecuted189.mjs",
+      "rawBytesSha256": "60707402480b2f23e956b5785962e835acb1647fb901f392665d44e54c2968f7"
+    },
+    "M98Executed": false,
+    "Source13StateMinted": false,
+    "oldPartialOrOldFreezeRewritten": false
+  },
+  "productionClippyRevision193": {
+    "reason": "Restore G1 production-library strict Clippy; full all-target tests and API/Common build remain required",
+    "preserved": {
+      "approval": {
+        "file": "/home/wangzishi/.local/share/poms-r4ghi/private/source13-preparation193/preserved/approval189.json",
+        "rawBytesSha256": "eb8db18312975c99c55fe7e2bd18d1fb1108d866d298c26694653fb839836d0a"
+      },
+      "sources": {
+        "file": "/home/wangzishi/.local/share/poms-r4ghi/private/source13-preparation193/preserved/sourcePins189.json",
+        "rawBytesSha256": "28e8a04e3fd5736a3d8cdc61bfa454c1f7cd57828c997332ebd9afffe290f046"
+      },
+      "constructor03": {
+        "file": "/home/wangzishi/.local/share/poms-r4ghi/private/source13-preparation193/preserved/constructor03.mjs",
+        "rawBytesSha256": "0b89c24251ab561a08e15983e9931bc9b2a3b433d1aa66866621d3c607471c4e"
+      },
+      "driver02": {
+        "file": "/home/wangzishi/.local/share/poms-r4ghi/private/source13-preparation193/preserved/build180-02.mjs",
+        "rawBytesSha256": "68a1aca0d656bb1daf827ee139d6f9e31e9c1692008f70b5c03efe2e06fb6bf8"
+      },
+      "mirrorApproval": {
+        "file": "/home/wangzishi/.local/share/poms-r4ghi/private/source13-preparation193/preserved/mirror-approval189.json",
+        "rawBytesSha256": "eb8db18312975c99c55fe7e2bd18d1fb1108d866d298c26694653fb839836d0a"
+      }
+    },
+    "priorRevision": {
+      "file": "/home/wangzishi/.local/share/poms-r4ghi/private/source13-preparation189/receipt189.json",
+      "rawBytesSha256": "44f731f79bbfdcc0713f95c5af4393ecb7cb6cb636fada10c28b794dc8ca3992"
+    },
+    "failedActualBuild": {
+      "file": "/home/wangzishi/.local/share/poms-r4ghi/private/source13-build180-02/partial180.json",
+      "rawBytesSha256": "3e90fc4f457bb363d0d5485866c20d21ab39cd43599861c88ecc7dbcf3dc2e30"
+    },
+    "fmtActualExitCode": 0,
+    "allTargetsClippyActualExitCode": 101,
+    "testTargetClippyClaimedPassed": false,
+    "independentApproval": {
+      "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/independent/review05/protocol193-review117/review117.json",
+      "rawBytesSha256": "4bd5bdb6cbb005fd68316e50d29db23909f5327ae27f787a1f8ac589cc3b6b0a"
+    },
+    "corrector": {
+      "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/refreeze-protocol193.mjs",
+      "rawBytesSha256": "ba1be48c8d154d9a072f812fca3154deacfba7bf59bef2432fadb505d7c40d14"
+    },
+    "M98Executed": false,
+    "Source13StateMinted": false
+  }
+}

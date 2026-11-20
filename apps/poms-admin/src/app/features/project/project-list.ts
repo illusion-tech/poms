@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component, computed, inject, OnInit, signal, ChangeDetectionStrategy } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
-import { AuthStore, CustomerStatus, CustomerStore, ProjectStage, ProjectStatus, ProjectStore, type CustomerListView, type ProjectListView } from '@poms/admin-data-access';
+import { AuthStore, CustomerStatus, CustomerStore, ProjectInitialOwnership, ProjectStage, ProjectStatus, ProjectStore, type CustomerListView, type ProjectListView } from '@poms/admin-data-access';
 import { ButtonModule } from 'primeng/button';
 import { DialogModule } from 'primeng/dialog';
 import { IconFieldModule } from 'primeng/iconfield';
@@ -41,6 +41,7 @@ interface CreateProjectForm {
     customerId: string | null;
     customerProjectNo: string;
     projectName: string;
+    initialOwnership: ProjectInitialOwnership | null;
 }
 
 const ALL_FILTER_VALUE = 'all';
@@ -73,7 +74,8 @@ const PROJECT_STATUS_COLUMN_FILTER_OPTIONS: Array<ProjectColumnFilterOption<Proj
 const EMPTY_CREATE_FORM: CreateProjectForm = {
     customerId: null,
     customerProjectNo: '',
-    projectName: ''
+    projectName: '',
+    initialOwnership: ProjectInitialOwnership.Creator
 };
 
 @Component({
@@ -84,11 +86,20 @@ const EMPTY_CREATE_FORM: CreateProjectForm = {
     changeDetection: ChangeDetectionStrategy.Eager,
     template: `
         <div class="flex flex-col gap-5">
+            @if (createdProjectId() && createdProjectNavigationError()) {
+                <section class="rounded border p-3" aria-label="已创建项目的首次指派入口">
+                    <app-workspace-feedback severity="info" summary="项目已创建" [detail]="createdProjectNavigationError()" />
+                    <p-button label="继续首次指派" severity="secondary" (onClick)="openCreatedProject()" />
+                </section>
+            }
             <app-admin-metric-grid [items]="summaryItems()" />
 
             <section>
                 <app-admin-table-card>
                     <div adminToolbarStart class="flex items-center">
+                        @if (canCreateProject()) {
+                            <p-button label="创建评估项目" icon="pi pi-plus" class="mr-2" ariaLabel="创建评估项目" (onClick)="showCreateDialog()" />
+                        }
                         @if (canCreateLead()) {
                             <p-button icon="pi pi-compass" class="mr-2" severity="secondary" text ariaLabel="选择线索转项目" pTooltip="选择线索转项目" tooltipPosition="top" (onClick)="navigateToLeadEntry()" />
                         } @else if (!canCreateProject()) {
@@ -111,7 +122,7 @@ const EMPTY_CREATE_FORM: CreateProjectForm = {
                         <span>当前筛出 {{ visibleProjects().length }} 个项目</span>
 
                         @if (!canCreateLead() && canCreateProject()) {
-                            <span class="rounded-[8px] border border-surface-200 px-3 py-2 dark:border-surface-700">正式项目入口需要从已确认有效线索转入。</span>
+                            <span class="rounded-[8px] border border-surface-200 px-3 py-2 dark:border-surface-700">可创建评估项目；线索转入仍需负责人完成资格确认。</span>
                         }
                     </div>
 
@@ -212,9 +223,16 @@ const EMPTY_CREATE_FORM: CreateProjectForm = {
                 </app-admin-table-card>
             </section>
 
-            <p-dialog [(visible)]="createDialogVisible" [modal]="true" header="新建项目" [style]="{ width: 'min(32rem, 92vw)' }" styleClass="p-fluid">
+            <p-dialog [(visible)]="createDialogVisible" [modal]="true" header="创建评估项目" [style]="{ width: 'min(32rem, 92vw)' }" styleClass="p-fluid">
                 <div class="flex flex-col gap-4 py-2">
-                    <p class="text-sm leading-6 text-surface-600 dark:text-surface-300">项目会从立项评估开始。后续阶段由项目进展自然推进。</p>
+                    <p class="text-sm leading-6 text-surface-600 dark:text-surface-300">项目从立项评估开始。线索转入与后续阶段仍按现有准入规则办理。</p>
+                    <div class="flex flex-col gap-2">
+                        <label for="projectInitialOwnership" class="text-sm font-medium text-surface-900 dark:text-surface-0">初始承接方式</label>
+                        <p-select inputId="projectInitialOwnership" [ngModel]="createForm().initialOwnership" (ngModelChange)="updateInitialOwnership($event)" [options]="initialOwnershipOptions" optionLabel="label" optionValue="value" appendTo="body" class="w-full rounded-md!" />
+                        @if (createForm().initialOwnership === organizationOwnership) {
+                            <p class="text-sm text-surface-600 dark:text-surface-300">创建后由你先指派项目主责人，再继续项目办理。</p>
+                        }
+                    </div>
 
                     @if (createError()) {
                         <app-workspace-feedback severity="error" summary="新建项目失败" [detail]="createError()" />
@@ -285,6 +303,13 @@ export class ProjectList implements OnInit {
     readonly createForm = signal<CreateProjectForm>(EMPTY_CREATE_FORM);
     readonly createAttempted = signal(false);
     readonly createError = signal<string | null>(null);
+    readonly createdProjectId = signal<string | null>(null);
+    readonly createdProjectNavigationError = signal('');
+    readonly organizationOwnership = ProjectInitialOwnership.Organization;
+    readonly initialOwnershipOptions: Array<ProjectFilterOption<ProjectInitialOwnership>> = [
+        { label: '创建人主责', value: ProjectInitialOwnership.Creator },
+        { label: '组织承接，待创建人首次指派', value: ProjectInitialOwnership.Organization }
+    ];
 
     readonly rows = 10;
     first = 0;
@@ -346,7 +371,7 @@ export class ProjectList implements OnInit {
 
     readonly isCreateFormValid = computed(() => {
         const form = this.createForm();
-        return Boolean(form.projectName.trim() && form.customerId);
+        return Boolean(form.projectName.trim() && form.customerId && (form.initialOwnership === ProjectInitialOwnership.Creator || form.initialOwnership === ProjectInitialOwnership.Organization));
     });
 
     ngOnInit() {
@@ -402,12 +427,31 @@ export class ProjectList implements OnInit {
         this.createError.set(null);
     }
 
-    updateCreateField(field: keyof CreateProjectForm, value: string) {
+    updateCreateField(field: 'customerProjectNo' | 'projectName', value: string) {
         this.createForm.update((form) => ({
             ...form,
             [field]: value
         }));
         this.createError.set(null);
+    }
+
+    updateInitialOwnership(value: unknown) {
+        if (value !== ProjectInitialOwnership.Creator && value !== ProjectInitialOwnership.Organization) {
+            this.createForm.update((form) => ({ ...form, initialOwnership: null }));
+            this.createError.set('请选择实际初始承接方式。');
+            return;
+        }
+        this.createForm.update((form) => ({ ...form, initialOwnership: value }));
+        this.createError.set(null);
+    }
+
+    async openCreatedProject() {
+        const id = this.createdProjectId();
+        if (!id) return;
+        try {
+            if (await this.#router.navigate(['/projects', id])) this.createdProjectNavigationError.set('');
+            else this.createdProjectNavigationError.set('请打开首次指派继续办理，无需再次创建项目。');
+        } catch { this.createdProjectNavigationError.set('请打开首次指派继续办理，无需再次创建项目。'); }
     }
 
     updateCreateCustomer(value: string | null | undefined) {
@@ -433,12 +477,17 @@ export class ProjectList implements OnInit {
         }
 
         try {
-            await this.#projectStore.createProject({
+            const project = await this.#projectStore.createProject({
                 projectName: form.projectName.trim(),
                 customerId,
-                customerProjectNo: this.optionalText(form.customerProjectNo)
+                customerProjectNo: this.optionalText(form.customerProjectNo),
+                ...(form.initialOwnership === ProjectInitialOwnership.Organization ? { initialOwnership: ProjectInitialOwnership.Organization } : {})
             });
             this.closeCreateDialog();
+            if (form.initialOwnership === ProjectInitialOwnership.Organization) {
+                this.createdProjectId.set(project.id);
+                await this.openCreatedProject();
+            }
         } catch {
             this.createError.set('项目没有创建成功，请稍后重试。');
         }

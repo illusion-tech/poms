@@ -406,3 +406,6 @@ export * from './lib/project/project-workspace.store';
 export * from './lib/sales-follow-up/sales-follow-up.store';
 export * from './lib/sales-intelligence/sales-intelligence.store';
 export * from './lib/system-setting/system-setting.store';
+export { ProjectInitialOwnership, ContractFinanceApi, CreateProjectArchiveRecordRequestInputVersionEnum, ReplaceProjectArchiveRecordRequestInputVersionEnum, VoidProjectArchiveRecordRequestInputVersionEnum, type FullProjectDetailView } from '@poms/shared-api-client';
+export * as ProjectGovernanceClient from './lib/project/project-governance-client';
+export { ProjectExpenseCostApi, type ProjectExpenseCostWorkspace } from './lib/project/project-expense-cost.api';

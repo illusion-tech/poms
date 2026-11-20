@@ -103,27 +103,15 @@ export interface ProjectActualCostRecordDetailView {
     financialProjection: OperatingCostSensitiveProjection | null;
     laborSensitiveProjection: LaborCostSensitiveProjection | null;
 }
-export enum ProjectActualCostRecordDetailViewAmountExcludingTaxEnum {
-};
-export enum ProjectActualCostRecordDetailViewTaxCostAmountEnum {
-};
-export enum ProjectActualCostRecordDetailViewAmountIncludingTaxEnum {
-};
-export enum ProjectActualCostRecordDetailViewSourceIdEnum {
-};
-export enum ProjectActualCostRecordDetailViewSourceRefNoEnum {
-};
-export enum ProjectActualCostRecordDetailViewEvidenceSummaryEnum {
-};
-export enum ProjectActualCostRecordDetailViewCostDescriptionEnum {
-};
-export enum ProjectActualCostRecordDetailViewTaxImpactSummaryEnum {
-};
-export enum ProjectActualCostRecordDetailViewRiskNoteEnum {
-};
-export enum ProjectActualCostRecordDetailViewVoidReasonEnum {
-};
-export enum ProjectActualCostRecordDetailViewSourceStatusSummaryEnum {
-};
-export enum ProjectActualCostRecordDetailViewMeasurementBasisSummaryEnum {
-};
+export type ProjectActualCostRecordDetailViewAmountExcludingTaxEnum = null;;
+export type ProjectActualCostRecordDetailViewTaxCostAmountEnum = null;;
+export type ProjectActualCostRecordDetailViewAmountIncludingTaxEnum = null;;
+export type ProjectActualCostRecordDetailViewSourceIdEnum = null;;
+export type ProjectActualCostRecordDetailViewSourceRefNoEnum = null;;
+export type ProjectActualCostRecordDetailViewEvidenceSummaryEnum = null;;
+export type ProjectActualCostRecordDetailViewCostDescriptionEnum = null;;
+export type ProjectActualCostRecordDetailViewTaxImpactSummaryEnum = null;;
+export type ProjectActualCostRecordDetailViewRiskNoteEnum = null;;
+export type ProjectActualCostRecordDetailViewVoidReasonEnum = null;;
+export type ProjectActualCostRecordDetailViewSourceStatusSummaryEnum = null;;
+export type ProjectActualCostRecordDetailViewMeasurementBasisSummaryEnum = null;;

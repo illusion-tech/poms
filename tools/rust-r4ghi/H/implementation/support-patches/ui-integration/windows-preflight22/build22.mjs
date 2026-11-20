@@ -1,0 +1,14 @@
+import fs from 'node:fs'; import path from 'node:path'; import assert from 'node:assert/strict'; import { createHash } from 'node:crypto'; import { fileURLToPath } from 'node:url';
+const out=path.dirname(fileURLToPath(import.meta.url)), root='E:/projects/worktrees/poms-r3hijk-next28/poms', file='tools/rust-r4ghi/H/implementation/support-patches/ui-integration/runtime14/windows14.mjs';
+const beforeBytes=fs.readFileSync(`${root}/${file}`),sha=b=>createHash('sha256').update(b).digest('hex'); assert.equal(sha(beforeBytes),'6e9f4ef234058f35e40bcd533786f12c74e4001d91980af70517ed02fe8fd7e6');
+const before=beforeBytes.toString('utf8'), start=before.indexOf('function fileVersion('),end=before.indexOf('function bindPlaywright(');assert(start>=0&&end>start);
+let after=before.slice(0,start)+before.slice(end);
+after=after.replace("import { execFileSync, spawn } from 'node:child_process';","import { spawn } from 'node:child_process';\nimport { bindPowerShell22, createPrivateDirectory22, fileVersion22, emitFailure22 } from '../../../../../business/ui-windows-preflight22.mjs';");
+after=after.replace('readPinned(executable, plan.windows.browser.rawBytesSha256); const version = fileVersion(executable);','readPinned(executable, plan.windows.browser.rawBytesSha256); const powershell22 = bindPowerShell22(plan.windows.powershell); createPrivateDirectory22(locations.windowsPrivate, powershell22); const version = fileVersion22(executable, powershell22, locations.windowsPrivate);');
+after=after.replace('const { chromium, expect } = bindPlaywright(plan.windows.playwright); createPrivateDirectory(locations.windowsPrivate);','const { chromium, expect } = bindPlaywright(plan.windows.playwright);');
+after=after.replace('assert.deepEqual(fileVersion(executable), version);','assert.deepEqual(fileVersion22(executable, powershell22, locations.windowsPrivate), version);');
+const oldCatch="main().catch(() => { console.error('Windows runtime14 preflight/owned-worker failed; inspect task-private originals. No DOM success is claimed.'); process.exitCode = 1; });";
+assert(after.includes(oldCatch));after=after.replace(oldCatch,"main().catch(error => { emitFailure22(error); process.exitCode = 1; });");
+assert(!after.includes("execFileSync('powershell.exe'")&&!after.includes('function createPrivateDirectory(')&&after.includes('plan.windows.powershell'));
+const target=`${out}/proposed/${file}`;fs.mkdirSync(path.dirname(target),{recursive:true});fs.writeFileSync(target,after,{flag:'wx'});
+const result={file,beforeSHA256:sha(beforeBytes),afterSHA256:sha(Buffer.from(after)),candidate:`proposed/${file}`};fs.writeFileSync(`${out}/candidate22.json`,JSON.stringify(result,null,2)+'\n',{flag:'wx'});console.log(JSON.stringify(result));

@@ -1,0 +1,59 @@
+{
+  "kind": "actual-source11-explicit-retained-data-admission-completed",
+  "producerEpoch": "g2-business10",
+  "consumerEpoch": "g2-business11",
+  "run": "main01",
+  "api": 134,
+  "registry": {
+    "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business11/main01/000002-consumer-admission54-registry.json",
+    "rawBytesSha256": "2379aadd92d85dbf219a56b1624a5ccc61f117683cfefe45fc76eb6dbba91550"
+  },
+  "planSHA256": "2c9777d33dd773cf1a1a2bdb2b5a8e90a5834211a5a922262b48bfd146c3beeb",
+  "sourcePinsSHA256": "06d80fa6e766c2704664dc1828ccbedadd6bb5fba2798e3e5b42cc02a759274e",
+  "sourceCount": 405,
+  "binarySHA256": "c73fcaa6cc9063e9a6b7dc481a51f9f52d4ed3f9855c55201d1ab46f0695bee4",
+  "candidate": {
+    "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business11/main01/002348-candidate-source-binding11.json",
+    "rawSHA256": "910ffeefb2d9b0322b53476034104fbc58aeb520e8de159790458eebbbc440fc"
+  },
+  "retainedSnapshot": {
+    "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business10/main01/snapshot-002346-retained53-after.json",
+    "rawBytesSha256": "097e558071f3042dc9c5014f4e8efa4594d34f73f9828c1e1666f10174958201"
+  },
+  "freshEquivalentSnapshot": {
+    "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business11/main01/snapshot-000001-admission54-current.json",
+    "bytes": 3118432,
+    "rawBytesSha256": "14f8d545a7e6cbecdc7694e0d7f2c5f282900694d9f51271a8663a34a8e4b774"
+  },
+  "databases": [
+    {
+      "database": "poms_r4ghi_native",
+      "tables": 139,
+      "rows": 541,
+      "allRowKeySHAAndXminEqual": true,
+      "metadataAndSequencesEqual": true,
+      "frozenObjectInventoryEqual": true
+    },
+    {
+      "database": "poms_r4ghi_rust",
+      "tables": 139,
+      "rows": 1880,
+      "allRowKeySHAAndXminEqual": true,
+      "metadataAndSequencesEqual": true,
+      "frozenObjectInventoryEqual": true
+    }
+  ],
+  "registeredResources": 5,
+  "independentReadback": {
+    "file": "tools/rust-r4ghi/independent/review05/retained-admission-boundary-review56/actual-admission-readback56c.json",
+    "rawBytesSha256": "eab9807ddd3baa8fe90db4b027fea81d318d4c5e643639e1c652bdd95b92d7ee"
+  },
+  "businessDatabaseWritesByAdmission": 0,
+  "HTTPRequestsByAdmission": 0,
+  "restoreExecuted": false,
+  "originalProducerStateAndEvidencePreserved": true,
+  "oldProducerAcceptanceCountedAsCurrent": false,
+  "subsequentConsumerAcceptance": "separate-actual-series-required",
+  "G3Certified": false,
+  "G4Certified": false
+}

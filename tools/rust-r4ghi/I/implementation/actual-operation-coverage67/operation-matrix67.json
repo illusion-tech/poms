@@ -1,0 +1,3019 @@
+{
+  "kind": "I-FS-only-32-operation-actual-HTTP-and-source-version-inventory67",
+  "capturedAt": "2026-11-07T21:37:48.036Z",
+  "inputs": [
+    {
+      "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/docs/design/rust-r4ghi/operation-map01.json",
+      "rawBytesSha256": "73b82726b2c87053e019d35191803a608c56054a49ce5408567709d097a90769"
+    },
+    {
+      "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/docs/design/rust-r4ghi/acceptance-plan01.json",
+      "rawBytesSha256": "57881bb732c0fc816d99227a9f55cfc1451c29c0b879181d65575970c39462a2"
+    },
+    {
+      "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/libs/shared/api-spec/openapi.json",
+      "rawBytesSha256": "942661f06947136bbdaf5621bdef9e531a7ab3fe350271f6ca054e01b495a19c"
+    }
+  ],
+  "currentState": {
+    "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business12/main01/state.json",
+    "rawBytesSha256": "3f8bd3adb426300196fe3f3b5f6175ca89ec5f7f249e52ee437116e7411f0b85",
+    "sequence": 5501
+  },
+  "versions": {
+    "g2-business10": {
+      "epoch": "g2-business10",
+      "sourcePinsSHA256": "a379d62b5b583446b01f4a6bb3891b4bf9bdaf0e5966fb7a39dd7b07b643c589",
+      "sourceCount": 404,
+      "binarySHA256": "06849f6a47997e1b0dcef2b87c3a61baccb051ee9162933149921096ec04b3d2",
+      "API": "API133",
+      "sourceState": {
+        "file": "/home/wangzishi/.local/share/poms-r4ghi/private/retention/epoch10-before-correction53/state-at-retention53.json",
+        "rawBytesSha256": "5c3e2303cfcab63b2f41af413094c4de4074ca52fa76cc7afa5bd07e36ab8495"
+      }
+    },
+    "g2-business11": {
+      "epoch": "g2-business11",
+      "sourcePinsSHA256": "06d80fa6e766c2704664dc1828ccbedadd6bb5fba2798e3e5b42cc02a759274e",
+      "sourceCount": 405,
+      "binarySHA256": "c73fcaa6cc9063e9a6b7dc481a51f9f52d4ed3f9855c55201d1ab46f0695bee4",
+      "API": "API134",
+      "sourceState": {
+        "file": "/home/wangzishi/.local/share/poms-r4ghi/private/retention/epoch11-before-noop70/state-at-retention70.json",
+        "rawBytesSha256": "26b2409cc6f73f8950b9fb787711670ece9358c6c66cee0de1636c6ec273e20b"
+      }
+    },
+    "g2-business12": {
+      "epoch": "g2-business12",
+      "sourcePinsSHA256": "5263ad894591ac682fe7ebf9ca5cfa2aaac3334d4481ae5de4dd63d83b4681fa",
+      "sourceCount": 406,
+      "binarySHA256": "de8eaaf6ce15a2054380e25f3151c21611cf0bf760230c7336745d80850d9cff",
+      "API": "API135",
+      "sourceState": {
+        "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business12/main01/state.json",
+        "rawBytesSha256": "3f8bd3adb426300196fe3f3b5f6175ca89ec5f7f249e52ee437116e7411f0b85"
+      }
+    }
+  },
+  "rows": [
+    {
+      "operationId": "ProjectCostController_activateOperatingBaselinePackage",
+      "group": "G",
+      "method": "POST",
+      "canonicalTemplate": "/api/operating-baseline-packages",
+      "frozenMapSuccess": 201,
+      "currentCanonicalSuccess": 201,
+      "versions": {
+        "g2-business10": {
+          "API": "API133",
+          "attempts": 8,
+          "statuses": {
+            "201": 2,
+            "500": 6
+          },
+          "exactSuccessAndLedger": 2,
+          "domainProducerHTTP": 2,
+          "preparationOnlySuccess": 0,
+          "sourceBoundContextSuccess": 2,
+          "exemplars": [
+            {
+              "receipt": {
+                "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tmp/rust-r4ghi/business/g2-business10/main01/000716-http-http.json",
+                "rawBytesSha256": "c740ea9502be5ef984a3e4399459e1e229fc84e9844e556a91362c102249a555"
+              },
+              "ledger": {
+                "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business10/main01/000717-ledger.json",
+                "rawBytesSha256": "9cf548fb033b70d11acaccc76e2d0d665a896d9b4a1e644ea0d7833281bcdbe4"
+              },
+              "requestId": "bg383435b83c-000716-http-daf4b135",
+              "realDomainBirths": 1,
+              "realDomainUpdate": false,
+              "preparationOnly": false,
+              "sourceHashPaths": [
+                "/sourceHash"
+              ]
+            },
+            {
+              "receipt": {
+                "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tmp/rust-r4ghi/business/g2-business10/main01/001385-http-http.json",
+                "rawBytesSha256": "c124733272cc82abe539bbe6c24d0780a85fae3ec6c23ed3091d05a0a294a81a"
+              },
+              "ledger": {
+                "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business10/main01/001386-ledger.json",
+                "rawBytesSha256": "1bf4a6de3f2ce72938dfccbf4c2283c8bc042ff7e82e0cc2161a52bd5f309c3a"
+              },
+              "requestId": "bg383435b83c-001385-http-258f8502",
+              "realDomainBirths": 1,
+              "realDomainUpdate": false,
+              "preparationOnly": false,
+              "sourceHashPaths": [
+                "/sourceHash"
+              ]
+            }
+          ]
+        },
+        "g2-business11": {
+          "API": "API134",
+          "attempts": 5,
+          "statuses": {
+            "201": 3,
+            "400": 1,
+            "422": 1
+          },
+          "exactSuccessAndLedger": 3,
+          "domainProducerHTTP": 3,
+          "preparationOnlySuccess": 0,
+          "sourceBoundContextSuccess": 3,
+          "exemplars": [
+            {
+              "receipt": {
+                "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tmp/rust-r4ghi/business/g2-business11/main01/004159-http-http.json",
+                "rawBytesSha256": "41825bd249f816c872896d1957f35ecd15e8eadfcb6f72ee5395e20ec1f33625"
+              },
+              "ledger": {
+                "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business11/main01/004160-ledger.json",
+                "rawBytesSha256": "7ad978bbf9a502555b02ea97ae277625ad4c2c502e184df929c00c131be3ce4f"
+              },
+              "requestId": "bg383435b83c-004159-http-07b0cf93",
+              "realDomainBirths": 1,
+              "realDomainUpdate": false,
+              "preparationOnly": false,
+              "sourceHashPaths": [
+                "/sourceHash"
+              ]
+            },
+            {
+              "receipt": {
+                "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tmp/rust-r4ghi/business/g2-business11/main01/004402-http-http.json",
+                "rawBytesSha256": "eca3168d5c6d42bed37a1a467617d633765a2b5ad5bed0e8eaf90784a692d00a"
+              },
+              "ledger": {
+                "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business11/main01/004403-ledger.json",
+                "rawBytesSha256": "e37ad93c61a283b7fecf779ad4684629eddc5c67eb25fdcfda82f36bec0ef990"
+              },
+              "requestId": "bg383435b83c-004402-http-b9b48ea0",
+              "realDomainBirths": 1,
+              "realDomainUpdate": false,
+              "preparationOnly": false,
+              "sourceHashPaths": [
+                "/sourceHash"
+              ]
+            }
+          ]
+        },
+        "g2-business12": {
+          "API": "API135",
+          "attempts": 0,
+          "statuses": {},
+          "exactSuccessAndLedger": 0,
+          "domainProducerHTTP": 0,
+          "preparationOnlySuccess": 0,
+          "sourceBoundContextSuccess": 0,
+          "exemplars": []
+        }
+      }
+    },
+    {
+      "operationId": "ProjectCostController_getCurrentOperatingBaselinePackage",
+      "group": "G",
+      "method": "GET",
+      "canonicalTemplate": "/api/projects/{projectId}/operating-baseline-package",
+      "frozenMapSuccess": 200,
+      "currentCanonicalSuccess": 200,
+      "versions": {
+        "g2-business10": {
+          "API": "API133",
+          "attempts": 7,
+          "statuses": {
+            "200": 6,
+            "403": 1
+          },
+          "exactSuccessAndLedger": 6,
+          "domainProducerHTTP": 0,
+          "preparationOnlySuccess": 0,
+          "sourceBoundContextSuccess": 6,
+          "exemplars": [
+            {
+              "receipt": {
+                "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tmp/rust-r4ghi/business/g2-business10/main01/001707-http-http.json",
+                "rawBytesSha256": "5c9592e8b6e6a8fe6c6bc56bc440d090f864e6ce9785b773b1f35633d4a6fc14"
+              },
+              "ledger": {
+                "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business10/main01/001708-ledger.json",
+                "rawBytesSha256": "aae1d8b57c230b7417a3fb536acddecb287b95a472d416e6b93a306f9f6b5773"
+              },
+              "requestId": "bg383435b83c-001707-http-20b1be4f",
+              "realDomainBirths": 0,
+              "realDomainUpdate": false,
+              "preparationOnly": false,
+              "sourceHashPaths": [
+                "/sourceHash"
+              ]
+            },
+            {
+              "receipt": {
+                "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tmp/rust-r4ghi/business/g2-business10/main01/001709-http-http.json",
+                "rawBytesSha256": "ae7aefd6b7a4df5c4aa2506564f3cc46521622d3c38ece9e78b7704b5bc4d390"
+              },
+              "ledger": {
+                "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business10/main01/001710-ledger.json",
+                "rawBytesSha256": "21df684a52de07c166f5174b39c2320a11b352765135dcbe784a4c64a3832125"
+              },
+              "requestId": "bg383435b83c-001709-http-8d54829f",
+              "realDomainBirths": 0,
+              "realDomainUpdate": false,
+              "preparationOnly": false,
+              "sourceHashPaths": [
+                "/sourceHash"
+              ]
+            }
+          ]
+        },
+        "g2-business11": {
+          "API": "API134",
+          "attempts": 0,
+          "statuses": {},
+          "exactSuccessAndLedger": 0,
+          "domainProducerHTTP": 0,
+          "preparationOnlySuccess": 0,
+          "sourceBoundContextSuccess": 0,
+          "exemplars": []
+        },
+        "g2-business12": {
+          "API": "API135",
+          "attempts": 0,
+          "statuses": {},
+          "exactSuccessAndLedger": 0,
+          "domainProducerHTTP": 0,
+          "preparationOnlySuccess": 0,
+          "sourceBoundContextSuccess": 0,
+          "exemplars": []
+        }
+      }
+    },
+    {
+      "operationId": "ProjectCostController_createProjectOperatingSnapshot",
+      "group": "G",
+      "method": "POST",
+      "canonicalTemplate": "/api/project-operating-snapshots",
+      "frozenMapSuccess": 201,
+      "currentCanonicalSuccess": 201,
+      "versions": {
+        "g2-business10": {
+          "API": "API133",
+          "attempts": 24,
+          "statuses": {
+            "201": 3,
+            "400": 1,
+            "500": 20
+          },
+          "exactSuccessAndLedger": 3,
+          "domainProducerHTTP": 3,
+          "preparationOnlySuccess": 0,
+          "sourceBoundContextSuccess": 3,
+          "exemplars": [
+            {
+              "receipt": {
+                "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tmp/rust-r4ghi/business/g2-business10/main01/001721-http-http.json",
+                "rawBytesSha256": "70f7985b2c076820789b6144e168cf2be608635c9fe092e9fc52b2bbf4820f80"
+              },
+              "ledger": {
+                "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business10/main01/001722-ledger.json",
+                "rawBytesSha256": "672116acd677a14828040ea3e23f1c14a076dbf2a47449663f5d055300ed9c0a"
+              },
+              "requestId": "bg383435b83c-001721-http-dad2a021",
+              "realDomainBirths": 1,
+              "realDomainUpdate": false,
+              "preparationOnly": false,
+              "sourceHashPaths": [
+                "/sourceHash"
+              ]
+            },
+            {
+              "receipt": {
+                "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tmp/rust-r4ghi/business/g2-business10/main01/001726-http-http.json",
+                "rawBytesSha256": "3365abb22074a428bc6ac4570756a9d6e7172b9c45d0078d92648da70111d38f"
+              },
+              "ledger": {
+                "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business10/main01/001727-ledger.json",
+                "rawBytesSha256": "5874f4a7d423a5ad07826e903647a85f3f25e82647b21ac7686081adc6ec00a8"
+              },
+              "requestId": "bg383435b83c-001726-http-9b9af423",
+              "realDomainBirths": 1,
+              "realDomainUpdate": false,
+              "preparationOnly": false,
+              "sourceHashPaths": [
+                "/sourceHash"
+              ]
+            }
+          ]
+        },
+        "g2-business11": {
+          "API": "API134",
+          "attempts": 6,
+          "statuses": {
+            "201": 3,
+            "400": 1,
+            "409": 1,
+            "422": 1
+          },
+          "exactSuccessAndLedger": 3,
+          "domainProducerHTTP": 3,
+          "preparationOnlySuccess": 0,
+          "sourceBoundContextSuccess": 3,
+          "exemplars": [
+            {
+              "receipt": {
+                "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tmp/rust-r4ghi/business/g2-business11/main01/004163-http-http.json",
+                "rawBytesSha256": "f348922e0c72c1b7e5b6c1d74a0d8ef96f6aa466dcf1b987b6100aec97d75aec"
+              },
+              "ledger": {
+                "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business11/main01/004164-ledger.json",
+                "rawBytesSha256": "b14d54d6500bf41b6549d707b2f7a27161ee6ca7c495194070a9326d8b8ebda8"
+              },
+              "requestId": "bg383435b83c-004163-http-421de57d",
+              "realDomainBirths": 1,
+              "realDomainUpdate": false,
+              "preparationOnly": false,
+              "sourceHashPaths": [
+                "/sourceHash"
+              ]
+            },
+            {
+              "receipt": {
+                "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tmp/rust-r4ghi/business/g2-business11/main01/004406-http-http.json",
+                "rawBytesSha256": "aa7877d075e064be99ec919241eeced99fa3d46cb873f49998abb2cfb4b8d3dc"
+              },
+              "ledger": {
+                "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business11/main01/004407-ledger.json",
+                "rawBytesSha256": "91592b2233bfdf32c7aaae50ca1c106294a397149bef48b82c6a57086ff4245a"
+              },
+              "requestId": "bg383435b83c-004406-http-5d258913",
+              "realDomainBirths": 1,
+              "realDomainUpdate": false,
+              "preparationOnly": false,
+              "sourceHashPaths": [
+                "/sourceHash"
+              ]
+            }
+          ]
+        },
+        "g2-business12": {
+          "API": "API135",
+          "attempts": 0,
+          "statuses": {},
+          "exactSuccessAndLedger": 0,
+          "domainProducerHTTP": 0,
+          "preparationOnlySuccess": 0,
+          "sourceBoundContextSuccess": 0,
+          "exemplars": []
+        }
+      }
+    },
+    {
+      "operationId": "ProjectCostController_getProjectOperatingSnapshot",
+      "group": "G",
+      "method": "GET",
+      "canonicalTemplate": "/api/project-operating-snapshots/{id}",
+      "frozenMapSuccess": 200,
+      "currentCanonicalSuccess": 200,
+      "versions": {
+        "g2-business10": {
+          "API": "API133",
+          "attempts": 2,
+          "statuses": {
+            "200": 2
+          },
+          "exactSuccessAndLedger": 2,
+          "domainProducerHTTP": 0,
+          "preparationOnlySuccess": 0,
+          "sourceBoundContextSuccess": 2,
+          "exemplars": [
+            {
+              "receipt": {
+                "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tmp/rust-r4ghi/business/g2-business10/main01/000870-http-http.json",
+                "rawBytesSha256": "10f2a1591e2434cb1147230f80fa224ebd56eb4d0c49743fca9ef9995f544732"
+              },
+              "ledger": {
+                "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business10/main01/000871-ledger.json",
+                "rawBytesSha256": "9a42d66a8ae18aa025d16f502aa38fc4e9574154e69cd192c3a8302913541615"
+              },
+              "requestId": "bg383435b83c-000870-http-76e6bf76",
+              "realDomainBirths": 0,
+              "realDomainUpdate": false,
+              "preparationOnly": false,
+              "sourceHashPaths": [
+                "/sourceHash"
+              ]
+            },
+            {
+              "receipt": {
+                "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tmp/rust-r4ghi/business/g2-business10/main01/001063-http-http.json",
+                "rawBytesSha256": "837573dbdfdaa988614060e654797980075fa1557d55692daeb891f3b59e524d"
+              },
+              "ledger": {
+                "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business10/main01/001064-ledger.json",
+                "rawBytesSha256": "bbe6659c32980c90d2ea025cb76f2b36be4bceec6f5c1a61d8f74189590cbe54"
+              },
+              "requestId": "bg383435b83c-001063-http-e3aa9c08",
+              "realDomainBirths": 0,
+              "realDomainUpdate": false,
+              "preparationOnly": false,
+              "sourceHashPaths": [
+                "/sourceHash"
+              ]
+            }
+          ]
+        },
+        "g2-business11": {
+          "API": "API134",
+          "attempts": 3,
+          "statuses": {
+            "200": 3
+          },
+          "exactSuccessAndLedger": 3,
+          "domainProducerHTTP": 0,
+          "preparationOnlySuccess": 0,
+          "sourceBoundContextSuccess": 3,
+          "exemplars": [
+            {
+              "receipt": {
+                "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tmp/rust-r4ghi/business/g2-business11/main01/004165-http-http.json",
+                "rawBytesSha256": "bf70fb948015722141e46101a12a698de17467a88b70fd768620f62c83f53bbf"
+              },
+              "ledger": {
+                "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business11/main01/004166-ledger.json",
+                "rawBytesSha256": "c5d25085ed01b7f5c71c6bd473d183eaf601b3cae8ed2944068344a5bc9dfd58"
+              },
+              "requestId": "bg383435b83c-004165-http-ead2d2a7",
+              "realDomainBirths": 0,
+              "realDomainUpdate": false,
+              "preparationOnly": false,
+              "sourceHashPaths": [
+                "/sourceHash"
+              ]
+            },
+            {
+              "receipt": {
+                "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tmp/rust-r4ghi/business/g2-business11/main01/004408-http-http.json",
+                "rawBytesSha256": "82a7f34f343e62f344538ecbae7ec8f0b9e8ca7b6e40e145f0b0c1f7d4463088"
+              },
+              "ledger": {
+                "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business11/main01/004409-ledger.json",
+                "rawBytesSha256": "d590b31bc69b03004621376dad45c443db07a45a6e6b338ce7052f476b821e72"
+              },
+              "requestId": "bg383435b83c-004408-http-d83a381a",
+              "realDomainBirths": 0,
+              "realDomainUpdate": false,
+              "preparationOnly": false,
+              "sourceHashPaths": [
+                "/sourceHash"
+              ]
+            }
+          ]
+        },
+        "g2-business12": {
+          "API": "API135",
+          "attempts": 0,
+          "statuses": {},
+          "exactSuccessAndLedger": 0,
+          "domainProducerHTTP": 0,
+          "preparationOnlySuccess": 0,
+          "sourceBoundContextSuccess": 0,
+          "exemplars": []
+        }
+      }
+    },
+    {
+      "operationId": "ProjectCostController_createPeriodClosingSnapshot",
+      "group": "G",
+      "method": "POST",
+      "canonicalTemplate": "/api/period-closing-snapshots",
+      "frozenMapSuccess": 201,
+      "currentCanonicalSuccess": 201,
+      "versions": {
+        "g2-business10": {
+          "API": "API133",
+          "attempts": 0,
+          "statuses": {},
+          "exactSuccessAndLedger": 0,
+          "domainProducerHTTP": 0,
+          "preparationOnlySuccess": 0,
+          "sourceBoundContextSuccess": 0,
+          "exemplars": []
+        },
+        "g2-business11": {
+          "API": "API134",
+          "attempts": 2,
+          "statuses": {
+            "400": 1,
+            "422": 1
+          },
+          "exactSuccessAndLedger": 0,
+          "domainProducerHTTP": 0,
+          "preparationOnlySuccess": 0,
+          "sourceBoundContextSuccess": 0,
+          "exemplars": []
+        },
+        "g2-business12": {
+          "API": "API135",
+          "attempts": 0,
+          "statuses": {},
+          "exactSuccessAndLedger": 0,
+          "domainProducerHTTP": 0,
+          "preparationOnlySuccess": 0,
+          "sourceBoundContextSuccess": 0,
+          "exemplars": []
+        }
+      }
+    },
+    {
+      "operationId": "ProjectCostController_getPeriodClosingSnapshot",
+      "group": "G",
+      "method": "GET",
+      "canonicalTemplate": "/api/period-closing-snapshots/{id}",
+      "frozenMapSuccess": 200,
+      "currentCanonicalSuccess": 200,
+      "versions": {
+        "g2-business10": {
+          "API": "API133",
+          "attempts": 0,
+          "statuses": {},
+          "exactSuccessAndLedger": 0,
+          "domainProducerHTTP": 0,
+          "preparationOnlySuccess": 0,
+          "sourceBoundContextSuccess": 0,
+          "exemplars": []
+        },
+        "g2-business11": {
+          "API": "API134",
+          "attempts": 0,
+          "statuses": {},
+          "exactSuccessAndLedger": 0,
+          "domainProducerHTTP": 0,
+          "preparationOnlySuccess": 0,
+          "sourceBoundContextSuccess": 0,
+          "exemplars": []
+        },
+        "g2-business12": {
+          "API": "API135",
+          "attempts": 0,
+          "statuses": {},
+          "exactSuccessAndLedger": 0,
+          "domainProducerHTTP": 0,
+          "preparationOnlySuccess": 0,
+          "sourceBoundContextSuccess": 0,
+          "exemplars": []
+        }
+      }
+    },
+    {
+      "operationId": "ProjectCostController_createOperatingRestatement",
+      "group": "G",
+      "method": "POST",
+      "canonicalTemplate": "/api/operating-restatements",
+      "frozenMapSuccess": 201,
+      "currentCanonicalSuccess": 201,
+      "versions": {
+        "g2-business10": {
+          "API": "API133",
+          "attempts": 22,
+          "statuses": {
+            "409": 1,
+            "500": 21
+          },
+          "exactSuccessAndLedger": 0,
+          "domainProducerHTTP": 0,
+          "preparationOnlySuccess": 0,
+          "sourceBoundContextSuccess": 0,
+          "exemplars": []
+        },
+        "g2-business11": {
+          "API": "API134",
+          "attempts": 105,
+          "statuses": {
+            "201": 1,
+            "400": 1,
+            "422": 1,
+            "500": 102
+          },
+          "exactSuccessAndLedger": 1,
+          "domainProducerHTTP": 1,
+          "preparationOnlySuccess": 0,
+          "sourceBoundContextSuccess": 1,
+          "exemplars": [
+            {
+              "receipt": {
+                "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tmp/rust-r4ghi/business/g2-business11/main01/003077-http-http.json",
+                "rawBytesSha256": "2135b233aced61d89101d42cd833d46894ebfae3656d726559d6dc381d1da712"
+              },
+              "ledger": {
+                "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business11/main01/003078-ledger.json",
+                "rawBytesSha256": "178aae33b165855025d10600519a1f3ea052d99671856c0e6a12ae1f8111c447"
+              },
+              "requestId": "bg383435b83c-003077-http-bfd5ac61",
+              "realDomainBirths": 3,
+              "realDomainUpdate": false,
+              "preparationOnly": false,
+              "sourceHashPaths": [
+                "/sourceHash"
+              ]
+            }
+          ]
+        },
+        "g2-business12": {
+          "API": "API135",
+          "attempts": 0,
+          "statuses": {},
+          "exactSuccessAndLedger": 0,
+          "domainProducerHTTP": 0,
+          "preparationOnlySuccess": 0,
+          "sourceBoundContextSuccess": 0,
+          "exemplars": []
+        }
+      }
+    },
+    {
+      "operationId": "ProjectCostController_listOperatingRestatements",
+      "group": "G",
+      "method": "GET",
+      "canonicalTemplate": "/api/projects/{projectId}/operating-restatements",
+      "frozenMapSuccess": 200,
+      "currentCanonicalSuccess": 200,
+      "versions": {
+        "g2-business10": {
+          "API": "API133",
+          "attempts": 0,
+          "statuses": {},
+          "exactSuccessAndLedger": 0,
+          "domainProducerHTTP": 0,
+          "preparationOnlySuccess": 0,
+          "sourceBoundContextSuccess": 0,
+          "exemplars": []
+        },
+        "g2-business11": {
+          "API": "API134",
+          "attempts": 0,
+          "statuses": {},
+          "exactSuccessAndLedger": 0,
+          "domainProducerHTTP": 0,
+          "preparationOnlySuccess": 0,
+          "sourceBoundContextSuccess": 0,
+          "exemplars": []
+        },
+        "g2-business12": {
+          "API": "API135",
+          "attempts": 2,
+          "statuses": {
+            "200": 2
+          },
+          "exactSuccessAndLedger": 2,
+          "domainProducerHTTP": 0,
+          "preparationOnlySuccess": 0,
+          "sourceBoundContextSuccess": 2,
+          "exemplars": [
+            {
+              "receipt": {
+                "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tmp/rust-r4ghi/business/g2-business12/main01/005185-http-http.json",
+                "rawBytesSha256": "2507846c1cd1d7d1990d2f0691cfd910f4ee6b5f1c793ae38555bd5fc86034af"
+              },
+              "ledger": {
+                "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business12/main01/005186-ledger.json",
+                "rawBytesSha256": "7c7b9d4a5f59fadd711b9a3ed881fecf040ec4c957bf7d14f20841a328c5c6d5"
+              },
+              "requestId": "bg383435b83c-005185-http-83052c71",
+              "realDomainBirths": 0,
+              "realDomainUpdate": false,
+              "preparationOnly": false,
+              "sourceHashPaths": [
+                "/0/sourceHash",
+                "/1/sourceHash"
+              ]
+            },
+            {
+              "receipt": {
+                "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tmp/rust-r4ghi/business/g2-business12/main01/005187-http-http.json",
+                "rawBytesSha256": "c4de96008404eeb0abcabf72c9f9951bea59f8afcd3d4754c2df151c4046a890"
+              },
+              "ledger": {
+                "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business12/main01/005188-ledger.json",
+                "rawBytesSha256": "0ba202f92eb56c12be3f0026c56662aa04dbdc629d3aa78ff2d4abe7cad8943c"
+              },
+              "requestId": "bg383435b83c-005187-http-b75b0c64",
+              "realDomainBirths": 0,
+              "realDomainUpdate": false,
+              "preparationOnly": false,
+              "sourceHashPaths": [
+                "/0/sourceHash"
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "operationId": "ProjectCostController_getOperatingRestatement",
+      "group": "G",
+      "method": "GET",
+      "canonicalTemplate": "/api/operating-restatements/{id}",
+      "frozenMapSuccess": 200,
+      "currentCanonicalSuccess": 200,
+      "versions": {
+        "g2-business10": {
+          "API": "API133",
+          "attempts": 0,
+          "statuses": {},
+          "exactSuccessAndLedger": 0,
+          "domainProducerHTTP": 0,
+          "preparationOnlySuccess": 0,
+          "sourceBoundContextSuccess": 0,
+          "exemplars": []
+        },
+        "g2-business11": {
+          "API": "API134",
+          "attempts": 0,
+          "statuses": {},
+          "exactSuccessAndLedger": 0,
+          "domainProducerHTTP": 0,
+          "preparationOnlySuccess": 0,
+          "sourceBoundContextSuccess": 0,
+          "exemplars": []
+        },
+        "g2-business12": {
+          "API": "API135",
+          "attempts": 3,
+          "statuses": {
+            "200": 3
+          },
+          "exactSuccessAndLedger": 3,
+          "domainProducerHTTP": 0,
+          "preparationOnlySuccess": 0,
+          "sourceBoundContextSuccess": 3,
+          "exemplars": [
+            {
+              "receipt": {
+                "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tmp/rust-r4ghi/business/g2-business12/main01/005233-http-http.json",
+                "rawBytesSha256": "95bb829ac8c1f4b243de745a4ea328accda667bd556b9c221fd8fc064c7d76e7"
+              },
+              "ledger": {
+                "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business12/main01/005234-ledger.json",
+                "rawBytesSha256": "c55c4c55d1b551e1051aa4dc0e6b126cb9ef9c013de778227afc4b4c6e8c35da"
+              },
+              "requestId": "bg383435b83c-005233-http-086ee883",
+              "realDomainBirths": 0,
+              "realDomainUpdate": false,
+              "preparationOnly": false,
+              "sourceHashPaths": [
+                "/sourceHash"
+              ]
+            },
+            {
+              "receipt": {
+                "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tmp/rust-r4ghi/business/g2-business12/main01/005235-http-http.json",
+                "rawBytesSha256": "24673e22df4964f3425d7c1281fefd9e384ac1bf49cba3a419f685217e706cf1"
+              },
+              "ledger": {
+                "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business12/main01/005236-ledger.json",
+                "rawBytesSha256": "62dc0b2f33bf3fae3da754b36ded32316069bd77f39c576d8e3361b47561f45e"
+              },
+              "requestId": "bg383435b83c-005235-http-59071585",
+              "realDomainBirths": 0,
+              "realDomainUpdate": false,
+              "preparationOnly": false,
+              "sourceHashPaths": [
+                "/sourceHash"
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "operationId": "ProjectCostController_reviewOperatingSignalEvaluation",
+      "group": "H",
+      "method": "POST",
+      "canonicalTemplate": "/api/operating-signal-evaluations/{id}:review",
+      "frozenMapSuccess": 200,
+      "currentCanonicalSuccess": 200,
+      "versions": {
+        "g2-business10": {
+          "API": "API133",
+          "attempts": 14,
+          "statuses": {
+            "200": 1,
+            "500": 13
+          },
+          "exactSuccessAndLedger": 1,
+          "domainProducerHTTP": 1,
+          "preparationOnlySuccess": 0,
+          "sourceBoundContextSuccess": 1,
+          "exemplars": [
+            {
+              "receipt": {
+                "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tmp/rust-r4ghi/business/g2-business10/main01/000968-http-http.json",
+                "rawBytesSha256": "8b6bb83f4ffc4c598b896d8cc05638a5e4117484b2d278dc80c0ecb17658d2c2"
+              },
+              "ledger": {
+                "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business10/main01/000969-ledger.json",
+                "rawBytesSha256": "bfaab226f461dbb6eda951d1909077c6061d4ff902ebb266aa880b9681cb8875"
+              },
+              "requestId": "bg383435b83c-000968-http-f92c4d23",
+              "realDomainBirths": 1,
+              "realDomainUpdate": false,
+              "preparationOnly": false,
+              "sourceHashPaths": [
+                "/evaluationContext/sourceHash"
+              ]
+            }
+          ]
+        },
+        "g2-business11": {
+          "API": "API134",
+          "attempts": 2,
+          "statuses": {
+            "400": 1,
+            "422": 1
+          },
+          "exactSuccessAndLedger": 0,
+          "domainProducerHTTP": 0,
+          "preparationOnlySuccess": 0,
+          "sourceBoundContextSuccess": 0,
+          "exemplars": []
+        },
+        "g2-business12": {
+          "API": "API135",
+          "attempts": 0,
+          "statuses": {},
+          "exactSuccessAndLedger": 0,
+          "domainProducerHTTP": 0,
+          "preparationOnlySuccess": 0,
+          "sourceBoundContextSuccess": 0,
+          "exemplars": []
+        }
+      }
+    },
+    {
+      "operationId": "ProjectCostController_getOperatingSignalEvaluation",
+      "group": "H",
+      "method": "GET",
+      "canonicalTemplate": "/api/operating-signal-evaluations/{id}",
+      "frozenMapSuccess": 200,
+      "currentCanonicalSuccess": 200,
+      "versions": {
+        "g2-business10": {
+          "API": "API133",
+          "attempts": 4,
+          "statuses": {
+            "200": 4
+          },
+          "exactSuccessAndLedger": 4,
+          "domainProducerHTTP": 0,
+          "preparationOnlySuccess": 0,
+          "sourceBoundContextSuccess": 4,
+          "exemplars": [
+            {
+              "receipt": {
+                "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tmp/rust-r4ghi/business/g2-business10/main01/001065-http-http.json",
+                "rawBytesSha256": "bec96288a79a486abd8fac242cee5c2d5404b8ce9c6942d4001f05af84492014"
+              },
+              "ledger": {
+                "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business10/main01/001066-ledger.json",
+                "rawBytesSha256": "591270404fa9d1d121b8c925f62d49ac15c821274ea1bfc8d85649f2e745e4e8"
+              },
+              "requestId": "bg383435b83c-001065-http-b6397ebd",
+              "realDomainBirths": 0,
+              "realDomainUpdate": false,
+              "preparationOnly": false,
+              "sourceHashPaths": [
+                "/evaluationContext/sourceHash"
+              ]
+            },
+            {
+              "receipt": {
+                "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tmp/rust-r4ghi/business/g2-business10/main01/001067-http-http.json",
+                "rawBytesSha256": "9d3f2d7ca94a7c365a19a285441c228c7937be1b641d5369e034ee5601e9e5e4"
+              },
+              "ledger": {
+                "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business10/main01/001068-ledger.json",
+                "rawBytesSha256": "3f49d8092d6fdc0f3cf30a0337b2ad9b61c89a599569b96968d6695bac5462d3"
+              },
+              "requestId": "bg383435b83c-001067-http-7fa4ca5e",
+              "realDomainBirths": 0,
+              "realDomainUpdate": false,
+              "preparationOnly": false,
+              "sourceHashPaths": [
+                "/evaluationContext/sourceHash"
+              ]
+            }
+          ]
+        },
+        "g2-business11": {
+          "API": "API134",
+          "attempts": 3,
+          "statuses": {
+            "200": 3
+          },
+          "exactSuccessAndLedger": 3,
+          "domainProducerHTTP": 0,
+          "preparationOnlySuccess": 0,
+          "sourceBoundContextSuccess": 3,
+          "exemplars": [
+            {
+              "receipt": {
+                "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tmp/rust-r4ghi/business/g2-business11/main01/004167-http-http.json",
+                "rawBytesSha256": "7f8308b87ea714ea5e9dce7f01f7c3e00b0b1c804377f4d31fe1fc3ec95091e2"
+              },
+              "ledger": {
+                "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business11/main01/004168-ledger.json",
+                "rawBytesSha256": "0aaa29223aaf747c048a15d7866ae5ef2ca3dc28f8434d51707eaa5976e9c1cd"
+              },
+              "requestId": "bg383435b83c-004167-http-f790e31c",
+              "realDomainBirths": 0,
+              "realDomainUpdate": false,
+              "preparationOnly": false,
+              "sourceHashPaths": [
+                "/evaluationContext/sourceHash"
+              ]
+            },
+            {
+              "receipt": {
+                "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tmp/rust-r4ghi/business/g2-business11/main01/004410-http-http.json",
+                "rawBytesSha256": "d25a572bc4b7f04b00605f7ec4962b9f0103e3ea04fcab5c3ea9b610fd4cf06e"
+              },
+              "ledger": {
+                "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business11/main01/004411-ledger.json",
+                "rawBytesSha256": "1a857954d8b047731dcfae8144912077bced4f55053736dc4e958252c1dff49f"
+              },
+              "requestId": "bg383435b83c-004410-http-ca762247",
+              "realDomainBirths": 0,
+              "realDomainUpdate": false,
+              "preparationOnly": false,
+              "sourceHashPaths": [
+                "/evaluationContext/sourceHash"
+              ]
+            }
+          ]
+        },
+        "g2-business12": {
+          "API": "API135",
+          "attempts": 0,
+          "statuses": {},
+          "exactSuccessAndLedger": 0,
+          "domainProducerHTTP": 0,
+          "preparationOnlySuccess": 0,
+          "sourceBoundContextSuccess": 0,
+          "exemplars": []
+        }
+      }
+    },
+    {
+      "operationId": "ProjectCostController_reviewCommissionGateBinding",
+      "group": "H",
+      "method": "POST",
+      "canonicalTemplate": "/api/commission-gate-bindings/{id}:review",
+      "frozenMapSuccess": 200,
+      "currentCanonicalSuccess": 200,
+      "versions": {
+        "g2-business10": {
+          "API": "API133",
+          "attempts": 10,
+          "statuses": {
+            "200": 1,
+            "500": 9
+          },
+          "exactSuccessAndLedger": 1,
+          "domainProducerHTTP": 1,
+          "preparationOnlySuccess": 0,
+          "sourceBoundContextSuccess": 1,
+          "exemplars": [
+            {
+              "receipt": {
+                "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tmp/rust-r4ghi/business/g2-business10/main01/001047-http-http.json",
+                "rawBytesSha256": "e6e599cc0933e12f35a0305d030f6ee064348e1bdea058afe909a62b180c3092"
+              },
+              "ledger": {
+                "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business10/main01/001048-ledger.json",
+                "bytes": 3187,
+                "rawBytesSha256": "92979378ff376c7d78e3d8d688f1d037e98f18f1b50fc4e91b152ce342dcc62a"
+              },
+              "requestId": "bg383435b83c-001047-http-507e4984",
+              "realDomainBirths": 1,
+              "realDomainUpdate": false,
+              "preparationOnly": false,
+              "sourceHashPaths": [
+                "/evaluationContext/sourceHash"
+              ]
+            }
+          ]
+        },
+        "g2-business11": {
+          "API": "API134",
+          "attempts": 2,
+          "statuses": {
+            "400": 1,
+            "422": 1
+          },
+          "exactSuccessAndLedger": 0,
+          "domainProducerHTTP": 0,
+          "preparationOnlySuccess": 0,
+          "sourceBoundContextSuccess": 0,
+          "exemplars": []
+        },
+        "g2-business12": {
+          "API": "API135",
+          "attempts": 0,
+          "statuses": {},
+          "exactSuccessAndLedger": 0,
+          "domainProducerHTTP": 0,
+          "preparationOnlySuccess": 0,
+          "sourceBoundContextSuccess": 0,
+          "exemplars": []
+        }
+      }
+    },
+    {
+      "operationId": "ProjectCostController_getCommissionGateBinding",
+      "group": "H",
+      "method": "GET",
+      "canonicalTemplate": "/api/commission-gate-bindings/{id}",
+      "frozenMapSuccess": 200,
+      "currentCanonicalSuccess": 200,
+      "versions": {
+        "g2-business10": {
+          "API": "API133",
+          "attempts": 8,
+          "statuses": {
+            "200": 8
+          },
+          "exactSuccessAndLedger": 8,
+          "domainProducerHTTP": 0,
+          "preparationOnlySuccess": 0,
+          "sourceBoundContextSuccess": 8,
+          "exemplars": [
+            {
+              "receipt": {
+                "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tmp/rust-r4ghi/business/g2-business10/main01/001073-http-http.json",
+                "rawBytesSha256": "b79a478446f65aa7e3d606ca5fa29f4d1064985f55b06238bb786d3b73aeab8e"
+              },
+              "ledger": {
+                "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business10/main01/001074-ledger.json",
+                "rawBytesSha256": "6f1dd0c9c50907f3f9bb2ca62c1485810abb152f9ed0f3fa153ce474ea726213"
+              },
+              "requestId": "bg383435b83c-001073-http-8bf0b35b",
+              "realDomainBirths": 0,
+              "realDomainUpdate": false,
+              "preparationOnly": false,
+              "sourceHashPaths": [
+                "/evaluationContext/sourceHash"
+              ]
+            },
+            {
+              "receipt": {
+                "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tmp/rust-r4ghi/business/g2-business10/main01/001075-http-http.json",
+                "rawBytesSha256": "bfdfca2377736e8249c40af5eaf20261462824027d48c828c97a787cb38a6427"
+              },
+              "ledger": {
+                "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business10/main01/001076-ledger.json",
+                "rawBytesSha256": "7c788768b3b4b0279fcf6ef0588584da74aa81f153686c4f203cf0d36b805135"
+              },
+              "requestId": "bg383435b83c-001075-http-7cd1b81b",
+              "realDomainBirths": 0,
+              "realDomainUpdate": false,
+              "preparationOnly": false,
+              "sourceHashPaths": [
+                "/evaluationContext/sourceHash"
+              ]
+            }
+          ]
+        },
+        "g2-business11": {
+          "API": "API134",
+          "attempts": 12,
+          "statuses": {
+            "200": 12
+          },
+          "exactSuccessAndLedger": 12,
+          "domainProducerHTTP": 0,
+          "preparationOnlySuccess": 0,
+          "sourceBoundContextSuccess": 12,
+          "exemplars": [
+            {
+              "receipt": {
+                "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tmp/rust-r4ghi/business/g2-business11/main01/004416-http-http.json",
+                "rawBytesSha256": "ef4e3e8738a69e869a8e7ca7d74254f50fe74c9d7fe38405646a642bf1bb032e"
+              },
+              "ledger": {
+                "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business11/main01/004417-ledger.json",
+                "rawBytesSha256": "703fb64b9bcb4917998c49ea39d8c4240ba25df5dc57e2f1d0954def6c24aab3"
+              },
+              "requestId": "bg383435b83c-004416-http-b734a2e0",
+              "realDomainBirths": 0,
+              "realDomainUpdate": false,
+              "preparationOnly": false,
+              "sourceHashPaths": [
+                "/evaluationContext/sourceHash"
+              ]
+            },
+            {
+              "receipt": {
+                "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tmp/rust-r4ghi/business/g2-business11/main01/004418-http-http.json",
+                "rawBytesSha256": "15615c8bed636ab57237e55f54382fb9012926fc5312ef26da43d57a750c56a4"
+              },
+              "ledger": {
+                "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business11/main01/004419-ledger.json",
+                "rawBytesSha256": "3265e6a4ae924a8de3d6339d56d8be828bdc210818f23bdd1b95f0fca5a59be9"
+              },
+              "requestId": "bg383435b83c-004418-http-1c46d3c9",
+              "realDomainBirths": 0,
+              "realDomainUpdate": false,
+              "preparationOnly": false,
+              "sourceHashPaths": [
+                "/evaluationContext/sourceHash"
+              ]
+            }
+          ]
+        },
+        "g2-business12": {
+          "API": "API135",
+          "attempts": 0,
+          "statuses": {},
+          "exactSuccessAndLedger": 0,
+          "domainProducerHTTP": 0,
+          "preparationOnlySuccess": 0,
+          "sourceBoundContextSuccess": 0,
+          "exemplars": []
+        }
+      }
+    },
+    {
+      "operationId": "ProjectCostController_getProjectBusinessOutcomeOverview",
+      "group": "H",
+      "method": "GET",
+      "canonicalTemplate": "/api/projects/{projectId}/business-outcome-overview",
+      "frozenMapSuccess": 200,
+      "currentCanonicalSuccess": 200,
+      "versions": {
+        "g2-business10": {
+          "API": "API133",
+          "attempts": 2,
+          "statuses": {
+            "200": 1,
+            "403": 1
+          },
+          "exactSuccessAndLedger": 1,
+          "domainProducerHTTP": 0,
+          "preparationOnlySuccess": 0,
+          "sourceBoundContextSuccess": 1,
+          "exemplars": [
+            {
+              "receipt": {
+                "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tmp/rust-r4ghi/business/g2-business10/main01/001077-http-http.json",
+                "rawBytesSha256": "3aaab7c2b673abb3923f86662cac811985d7ddb7f76eac6b08368f5cddc18aa9"
+              },
+              "ledger": {
+                "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business10/main01/001078-ledger.json",
+                "rawBytesSha256": "e82481c997a7c0e48e5f8a173afaa734aea70d093a393ce90d8d4624a3e30a63"
+              },
+              "requestId": "bg383435b83c-001077-http-d2ab83c8",
+              "realDomainBirths": 0,
+              "realDomainUpdate": false,
+              "preparationOnly": false,
+              "sourceHashPaths": [
+                "/evaluationContext/sourceHash"
+              ]
+            }
+          ]
+        },
+        "g2-business11": {
+          "API": "API134",
+          "attempts": 0,
+          "statuses": {},
+          "exactSuccessAndLedger": 0,
+          "domainProducerHTTP": 0,
+          "preparationOnlySuccess": 0,
+          "sourceBoundContextSuccess": 0,
+          "exemplars": []
+        },
+        "g2-business12": {
+          "API": "API135",
+          "attempts": 0,
+          "statuses": {},
+          "exactSuccessAndLedger": 0,
+          "domainProducerHTTP": 0,
+          "preparationOnlySuccess": 0,
+          "sourceBoundContextSuccess": 0,
+          "exemplars": []
+        }
+      }
+    },
+    {
+      "operationId": "ProjectCostController_getProjectUnifiedAccounting",
+      "group": "H",
+      "method": "GET",
+      "canonicalTemplate": "/api/projects/{projectId}/unified-accounting",
+      "frozenMapSuccess": 200,
+      "currentCanonicalSuccess": 200,
+      "versions": {
+        "g2-business10": {
+          "API": "API133",
+          "attempts": 23,
+          "statuses": {
+            "200": 20,
+            "403": 1,
+            "404": 2
+          },
+          "exactSuccessAndLedger": 20,
+          "domainProducerHTTP": 0,
+          "preparationOnlySuccess": 19,
+          "sourceBoundContextSuccess": 1,
+          "exemplars": [
+            {
+              "receipt": {
+                "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tmp/rust-r4ghi/business/g2-business10/main01/001880-http-http.json",
+                "rawBytesSha256": "180deaa3a111d68e1a49f3ee1c37131b46269aab2ad50894ef998bc2e604232e"
+              },
+              "ledger": {
+                "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business10/main01/001881-ledger.json",
+                "rawBytesSha256": "af64eeccc95d9213876c6521ad27de0647af9d9f025b3d28cc8028fc35f3bd86"
+              },
+              "requestId": "bg383435b83c-001880-http-988aca3f",
+              "realDomainBirths": 0,
+              "realDomainUpdate": false,
+              "preparationOnly": true,
+              "sourceHashPaths": []
+            },
+            {
+              "receipt": {
+                "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tmp/rust-r4ghi/business/g2-business10/main01/001889-http-http.json",
+                "rawBytesSha256": "40e6b1c45ed74c31bc36c43ed46c1bfec34c4ced97dceaf5ab2416100433f39e"
+              },
+              "ledger": {
+                "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business10/main01/001890-ledger.json",
+                "rawBytesSha256": "4c57d40a9480ccaf6c43e9c267011eb4207c15fa087b452b287fc857f6f36ec7"
+              },
+              "requestId": "bg383435b83c-001889-http-20a6b2a0",
+              "realDomainBirths": 0,
+              "realDomainUpdate": false,
+              "preparationOnly": true,
+              "sourceHashPaths": []
+            }
+          ]
+        },
+        "g2-business11": {
+          "API": "API134",
+          "attempts": 12,
+          "statuses": {
+            "200": 11,
+            "422": 1
+          },
+          "exactSuccessAndLedger": 11,
+          "domainProducerHTTP": 0,
+          "preparationOnlySuccess": 11,
+          "sourceBoundContextSuccess": 0,
+          "exemplars": [
+            {
+              "receipt": {
+                "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tmp/rust-r4ghi/business/g2-business11/main01/004400-http-http.json",
+                "rawBytesSha256": "5c66578515715d529c01c95966f26657275c783123ba6264cc5c72791a60acee"
+              },
+              "ledger": {
+                "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business11/main01/004401-ledger.json",
+                "rawBytesSha256": "fe1e6548165cbd475c3f5d52a982e3c7d0997d17f360347faa731c01180f77ae"
+              },
+              "requestId": "bg383435b83c-004400-http-d929178a",
+              "realDomainBirths": 0,
+              "realDomainUpdate": false,
+              "preparationOnly": true,
+              "sourceHashPaths": []
+            },
+            {
+              "receipt": {
+                "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tmp/rust-r4ghi/business/g2-business11/main01/004404-http-http.json",
+                "rawBytesSha256": "85c91ab656d0b0e7213d37882a6c38db5934536dc60fdc889212c3a96b6cec08"
+              },
+              "ledger": {
+                "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business11/main01/004405-ledger.json",
+                "rawBytesSha256": "21b712018cb1003444d8caf8708d2da6c5d0165386fcc733657dfbe338400e74"
+              },
+              "requestId": "bg383435b83c-004404-http-36dd82f6",
+              "realDomainBirths": 0,
+              "realDomainUpdate": false,
+              "preparationOnly": true,
+              "sourceHashPaths": []
+            }
+          ]
+        },
+        "g2-business12": {
+          "API": "API135",
+          "attempts": 12,
+          "statuses": {
+            "200": 10,
+            "404": 1,
+            "500": 1
+          },
+          "exactSuccessAndLedger": 10,
+          "domainProducerHTTP": 0,
+          "preparationOnlySuccess": 10,
+          "sourceBoundContextSuccess": 0,
+          "exemplars": [
+            {
+              "receipt": {
+                "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tmp/rust-r4ghi/business/g2-business12/main01/005295-http-http.json",
+                "rawBytesSha256": "f5a69c4789b7617f86647db528affe2b82c9de60c0b018f6a5b1ebbff005d86a"
+              },
+              "ledger": {
+                "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business12/main01/005296-ledger.json",
+                "rawBytesSha256": "1693b1050be6fa27527b0239eede858d8bd4c5afcfbc314f2946056d0875ed02"
+              },
+              "requestId": "bg383435b83c-005295-http-4f03cb7e",
+              "realDomainBirths": 0,
+              "realDomainUpdate": false,
+              "preparationOnly": true,
+              "sourceHashPaths": []
+            },
+            {
+              "receipt": {
+                "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tmp/rust-r4ghi/business/g2-business12/main01/005492-http-http.json",
+                "rawBytesSha256": "69ec2fc8150101c6a9c56111bbc0a372243eafaee1ea39d4ca0f8181d35b1d0c"
+              },
+              "ledger": {
+                "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business12/main01/005493-ledger.json",
+                "rawBytesSha256": "cfda3acf7c0cc9c012b5c3bb678210c9c37c9ba9010f34ee7b365eadbce932e2"
+              },
+              "requestId": "bg383435b83c-005492-http-7d93c117",
+              "realDomainBirths": 0,
+              "realDomainUpdate": false,
+              "preparationOnly": true,
+              "sourceHashPaths": [
+                "/officialCurrent/evaluationContext/sourceHash"
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "operationId": "ProjectCostController_getProjectVarianceRiskExplanation",
+      "group": "H",
+      "method": "GET",
+      "canonicalTemplate": "/api/projects/{projectId}/variance-risk-explanation",
+      "frozenMapSuccess": 200,
+      "currentCanonicalSuccess": 200,
+      "versions": {
+        "g2-business10": {
+          "API": "API133",
+          "attempts": 2,
+          "statuses": {
+            "200": 1,
+            "403": 1
+          },
+          "exactSuccessAndLedger": 1,
+          "domainProducerHTTP": 0,
+          "preparationOnlySuccess": 0,
+          "sourceBoundContextSuccess": 1,
+          "exemplars": [
+            {
+              "receipt": {
+                "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tmp/rust-r4ghi/business/g2-business10/main01/001081-http-http.json",
+                "rawBytesSha256": "0083ca44ad6125b48cf6ff5628047af8dcd9116160a917806619c3cb6f7ee3be"
+              },
+              "ledger": {
+                "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business10/main01/001082-ledger.json",
+                "rawBytesSha256": "2557c14d23265e8f060e8f42ebe4f1d7bdbb8a6428de4e045a85e0dd49656d04"
+              },
+              "requestId": "bg383435b83c-001081-http-36f618da",
+              "realDomainBirths": 0,
+              "realDomainUpdate": false,
+              "preparationOnly": false,
+              "sourceHashPaths": [
+                "/evaluationContext/sourceHash"
+              ]
+            }
+          ]
+        },
+        "g2-business11": {
+          "API": "API134",
+          "attempts": 0,
+          "statuses": {},
+          "exactSuccessAndLedger": 0,
+          "domainProducerHTTP": 0,
+          "preparationOnlySuccess": 0,
+          "sourceBoundContextSuccess": 0,
+          "exemplars": []
+        },
+        "g2-business12": {
+          "API": "API135",
+          "attempts": 0,
+          "statuses": {},
+          "exactSuccessAndLedger": 0,
+          "domainProducerHTTP": 0,
+          "preparationOnlySuccess": 0,
+          "sourceBoundContextSuccess": 0,
+          "exemplars": []
+        }
+      }
+    },
+    {
+      "operationId": "ProjectCostController_getBusinessAccountingFeedback",
+      "group": "H",
+      "method": "GET",
+      "canonicalTemplate": "/api/projects/{projectId}/business-accounting-feedback",
+      "frozenMapSuccess": 200,
+      "currentCanonicalSuccess": 200,
+      "versions": {
+        "g2-business10": {
+          "API": "API133",
+          "attempts": 2,
+          "statuses": {
+            "200": 1,
+            "403": 1
+          },
+          "exactSuccessAndLedger": 1,
+          "domainProducerHTTP": 0,
+          "preparationOnlySuccess": 0,
+          "sourceBoundContextSuccess": 1,
+          "exemplars": [
+            {
+              "receipt": {
+                "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tmp/rust-r4ghi/business/g2-business10/main01/001083-http-http.json",
+                "rawBytesSha256": "f913af8ee83a00fc7011319459c19204c04908e50b8db4b920915b18ca8a17a0"
+              },
+              "ledger": {
+                "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business10/main01/001084-ledger.json",
+                "rawBytesSha256": "69f71533e662e1e105b20eeee3e4865caed11d81ae15fa632d5a4daed1fbf5f0"
+              },
+              "requestId": "bg383435b83c-001083-http-df08699d",
+              "realDomainBirths": 0,
+              "realDomainUpdate": false,
+              "preparationOnly": false,
+              "sourceHashPaths": [
+                "/evaluationContext/sourceHash"
+              ]
+            }
+          ]
+        },
+        "g2-business11": {
+          "API": "API134",
+          "attempts": 0,
+          "statuses": {},
+          "exactSuccessAndLedger": 0,
+          "domainProducerHTTP": 0,
+          "preparationOnlySuccess": 0,
+          "sourceBoundContextSuccess": 0,
+          "exemplars": []
+        },
+        "g2-business12": {
+          "API": "API135",
+          "attempts": 0,
+          "statuses": {},
+          "exactSuccessAndLedger": 0,
+          "domainProducerHTTP": 0,
+          "preparationOnlySuccess": 0,
+          "sourceBoundContextSuccess": 0,
+          "exemplars": []
+        }
+      }
+    },
+    {
+      "operationId": "CommissionController_getCurrentRoleAssignment",
+      "group": "R5-min",
+      "method": "GET",
+      "canonicalTemplate": "/api/projects/{projectId}/commission-role-assignment",
+      "frozenMapSuccess": 200,
+      "currentCanonicalSuccess": 200,
+      "versions": {
+        "g2-business10": {
+          "API": "API133",
+          "attempts": 19,
+          "statuses": {
+            "200": 12,
+            "403": 5,
+            "404": 2
+          },
+          "exactSuccessAndLedger": 12,
+          "domainProducerHTTP": 0,
+          "preparationOnlySuccess": 0,
+          "sourceBoundContextSuccess": 0,
+          "exemplars": [
+            {
+              "receipt": {
+                "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tmp/rust-r4ghi/business/g2-business10/main01/001968-http-http.json",
+                "rawBytesSha256": "68b01c67cbc0ea4052008248fdc4067863afddf7ce1a1b702c10543c0295072e"
+              },
+              "ledger": {
+                "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business10/main01/001969-ledger.json",
+                "rawBytesSha256": "f294e34e7738f4b33f45c09c813fc9d82bd339d08d51867d9d634f68f4f69a47"
+              },
+              "requestId": "bg383435b83c-001968-http-717fb7aa",
+              "realDomainBirths": 0,
+              "realDomainUpdate": false,
+              "preparationOnly": false,
+              "sourceHashPaths": []
+            },
+            {
+              "receipt": {
+                "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tmp/rust-r4ghi/business/g2-business10/main01/001972-http-http.json",
+                "rawBytesSha256": "a26e1f91454219df45013e9091a5fdf2112b5635da203f781d241031bd08b896"
+              },
+              "ledger": {
+                "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business10/main01/001973-ledger.json",
+                "rawBytesSha256": "bf7bb90435bef5aaf8762c62da33932064522f4506d561b1c7523db3de572bb2"
+              },
+              "requestId": "bg383435b83c-001972-http-f41afd7f",
+              "realDomainBirths": 0,
+              "realDomainUpdate": false,
+              "preparationOnly": false,
+              "sourceHashPaths": []
+            }
+          ]
+        },
+        "g2-business11": {
+          "API": "API134",
+          "attempts": 12,
+          "statuses": {
+            "200": 9,
+            "403": 3
+          },
+          "exactSuccessAndLedger": 9,
+          "domainProducerHTTP": 0,
+          "preparationOnlySuccess": 0,
+          "sourceBoundContextSuccess": 0,
+          "exemplars": [
+            {
+              "receipt": {
+                "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tmp/rust-r4ghi/business/g2-business11/main01/004356-http-http.json",
+                "rawBytesSha256": "293c34582f490dba5b636f4c9512d084c0f0b16afea104dccf122a4ed3bd3b46"
+              },
+              "ledger": {
+                "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business11/main01/004357-ledger.json",
+                "rawBytesSha256": "0361362f10e48d898ac0098cb90834c7d5cb1e5b77822b4ab4d214125bbffa01"
+              },
+              "requestId": "bg383435b83c-004356-http-ed78611f",
+              "realDomainBirths": 0,
+              "realDomainUpdate": false,
+              "preparationOnly": false,
+              "sourceHashPaths": []
+            },
+            {
+              "receipt": {
+                "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tmp/rust-r4ghi/business/g2-business11/main01/004360-http-http.json",
+                "rawBytesSha256": "188374284efb2dd1b8cad3c308cb2f69ffb26d926d72c9ec6d2b17d167b15a53"
+              },
+              "ledger": {
+                "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business11/main01/004361-ledger.json",
+                "rawBytesSha256": "a20f6184e8f97b9a35d61613409ad7d1c0c495283f838494677e89618639aa32"
+              },
+              "requestId": "bg383435b83c-004360-http-340309c8",
+              "realDomainBirths": 0,
+              "realDomainUpdate": false,
+              "preparationOnly": false,
+              "sourceHashPaths": []
+            }
+          ]
+        },
+        "g2-business12": {
+          "API": "API135",
+          "attempts": 5,
+          "statuses": {
+            "200": 4,
+            "403": 1
+          },
+          "exactSuccessAndLedger": 4,
+          "domainProducerHTTP": 0,
+          "preparationOnlySuccess": 0,
+          "sourceBoundContextSuccess": 0,
+          "exemplars": [
+            {
+              "receipt": {
+                "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tmp/rust-r4ghi/business/g2-business12/main01/005053-http-http.json",
+                "rawBytesSha256": "e0010320a54f443f72ffd2a0877dfe50e74a4fa1fd94955ea352bd37f7df97d0"
+              },
+              "ledger": {
+                "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business12/main01/005054-ledger.json",
+                "rawBytesSha256": "dc186a66e778ab9586307222d9fa34add504ff4ab7eb4f599ce2679e51b90c6c"
+              },
+              "requestId": "bg383435b83c-005053-http-e63c29b3",
+              "realDomainBirths": 0,
+              "realDomainUpdate": false,
+              "preparationOnly": false,
+              "sourceHashPaths": []
+            },
+            {
+              "receipt": {
+                "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tmp/rust-r4ghi/business/g2-business12/main01/005057-http-http.json",
+                "rawBytesSha256": "e817bb7e10891831d63fe296a01351cd2693521a74e0912f944d1afd27253fca"
+              },
+              "ledger": {
+                "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business12/main01/005058-ledger.json",
+                "rawBytesSha256": "4a0b139d7c3a6ce445ebe8d333ca551349619d17dc86c8ac2e66cadbcc11fbdd"
+              },
+              "requestId": "bg383435b83c-005057-http-de8e2cb0",
+              "realDomainBirths": 0,
+              "realDomainUpdate": false,
+              "preparationOnly": false,
+              "sourceHashPaths": []
+            }
+          ]
+        }
+      }
+    },
+    {
+      "operationId": "CommissionController_createRoleAssignment",
+      "group": "R5-min",
+      "method": "POST",
+      "canonicalTemplate": "/api/projects/{projectId}/commission-role-assignments",
+      "frozenMapSuccess": 200,
+      "currentCanonicalSuccess": 200,
+      "versions": {
+        "g2-business10": {
+          "API": "API133",
+          "attempts": 16,
+          "statuses": {
+            "200": 4,
+            "400": 8,
+            "500": 4
+          },
+          "exactSuccessAndLedger": 4,
+          "domainProducerHTTP": 4,
+          "preparationOnlySuccess": 0,
+          "sourceBoundContextSuccess": 0,
+          "exemplars": [
+            {
+              "receipt": {
+                "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tmp/rust-r4ghi/business/g2-business10/main01/001680-http-http.json",
+                "rawBytesSha256": "1f5224b7c41ddc3478f8f174a747c832c68e8319a011637ae3ada6aeffc7eb48"
+              },
+              "ledger": {
+                "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business10/main01/001681-ledger.json",
+                "rawBytesSha256": "e0c4ba84719145d7af795206ecef1fe23bd45e0e252958e42f7ac92db46c00ef"
+              },
+              "requestId": "bg383435b83c-001680-http-65de2f18",
+              "realDomainBirths": 1,
+              "realDomainUpdate": false,
+              "preparationOnly": false,
+              "sourceHashPaths": []
+            },
+            {
+              "receipt": {
+                "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tmp/rust-r4ghi/business/g2-business10/main01/001974-http-http.json",
+                "rawBytesSha256": "32ce82df7164469ebeb869557315734c79e59db92fa1d90e826763a632df3fd6"
+              },
+              "ledger": {
+                "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business10/main01/001975-ledger.json",
+                "rawBytesSha256": "9c5c844c2629cbd2bd961119af1667a9a3ce886f18d575dd58404085d34e77a0"
+              },
+              "requestId": "bg383435b83c-001974-http-50e22841",
+              "realDomainBirths": 1,
+              "realDomainUpdate": false,
+              "preparationOnly": false,
+              "sourceHashPaths": []
+            }
+          ]
+        },
+        "g2-business11": {
+          "API": "API134",
+          "attempts": 11,
+          "statuses": {
+            "200": 3,
+            "400": 7,
+            "422": 1
+          },
+          "exactSuccessAndLedger": 3,
+          "domainProducerHTTP": 3,
+          "preparationOnlySuccess": 0,
+          "sourceBoundContextSuccess": 0,
+          "exemplars": [
+            {
+              "receipt": {
+                "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tmp/rust-r4ghi/business/g2-business11/main01/004119-http-http.json",
+                "rawBytesSha256": "7cc00e728315335e1276763e4344e85026ae9e7768b8d692d07c55062476f134"
+              },
+              "ledger": {
+                "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business11/main01/004120-ledger.json",
+                "rawBytesSha256": "d8fb1dd7840c4178fef5efb106e338d44732730dc2bdf1320973cc4962de51e9"
+              },
+              "requestId": "bg383435b83c-004119-http-4fc3ea58",
+              "realDomainBirths": 1,
+              "realDomainUpdate": false,
+              "preparationOnly": false,
+              "sourceHashPaths": []
+            },
+            {
+              "receipt": {
+                "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tmp/rust-r4ghi/business/g2-business11/main01/004362-http-http.json",
+                "rawBytesSha256": "fb03192285d36c400d0ecf0e202b18a44baf9f947e45d3f1a4e4687c47a01947"
+              },
+              "ledger": {
+                "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business11/main01/004363-ledger.json",
+                "rawBytesSha256": "70d01cdc70899033f5a0dfc526a86213f7d9ea4fe39b00754222ce989d81ef33"
+              },
+              "requestId": "bg383435b83c-004362-http-9d479c09",
+              "realDomainBirths": 1,
+              "realDomainUpdate": false,
+              "preparationOnly": false,
+              "sourceHashPaths": []
+            }
+          ]
+        },
+        "g2-business12": {
+          "API": "API135",
+          "attempts": 3,
+          "statuses": {
+            "200": 1,
+            "400": 2
+          },
+          "exactSuccessAndLedger": 1,
+          "domainProducerHTTP": 1,
+          "preparationOnlySuccess": 0,
+          "sourceBoundContextSuccess": 0,
+          "exemplars": [
+            {
+              "receipt": {
+                "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tmp/rust-r4ghi/business/g2-business12/main01/005059-http-http.json",
+                "rawBytesSha256": "f0fc2c26624d44fed141d573ebbf496b855aa1b1de0ad28e3f296be56792bfa8"
+              },
+              "ledger": {
+                "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business12/main01/005060-ledger.json",
+                "rawBytesSha256": "133e126cf876b34fc9e0dbb12893027764a3024c1c06e3b5bafaabcc06c5164b"
+              },
+              "requestId": "bg383435b83c-005059-http-c71750c5",
+              "realDomainBirths": 1,
+              "realDomainUpdate": false,
+              "preparationOnly": false,
+              "sourceHashPaths": []
+            }
+          ]
+        }
+      }
+    },
+    {
+      "operationId": "CommissionRoleAssignmentController_getRoleAssignmentDetail",
+      "group": "R5-min",
+      "method": "GET",
+      "canonicalTemplate": "/api/commission-role-assignments/{id}",
+      "frozenMapSuccess": 200,
+      "currentCanonicalSuccess": 200,
+      "versions": {
+        "g2-business10": {
+          "API": "API133",
+          "attempts": 12,
+          "statuses": {
+            "200": 8,
+            "403": 4
+          },
+          "exactSuccessAndLedger": 8,
+          "domainProducerHTTP": 0,
+          "preparationOnlySuccess": 0,
+          "sourceBoundContextSuccess": 0,
+          "exemplars": [
+            {
+              "receipt": {
+                "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tmp/rust-r4ghi/business/g2-business10/main01/001976-http-http.json",
+                "rawBytesSha256": "bdebbf70b708968a4b6664d9c8a268c87c2eaa8ab3ed4a318b44cc239ada9c30"
+              },
+              "ledger": {
+                "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business10/main01/001977-ledger.json",
+                "rawBytesSha256": "06c68f94778c03970fb9ec0cc6e65461c116021f452135e85fa2de8b663acd03"
+              },
+              "requestId": "bg383435b83c-001976-http-68726d9d",
+              "realDomainBirths": 0,
+              "realDomainUpdate": false,
+              "preparationOnly": false,
+              "sourceHashPaths": []
+            },
+            {
+              "receipt": {
+                "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tmp/rust-r4ghi/business/g2-business10/main01/001982-http-http.json",
+                "rawBytesSha256": "433ec4f3839d7773f961688f95cf54790d1a0eff724478e6627a7a79aa7cdaf3"
+              },
+              "ledger": {
+                "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business10/main01/001983-ledger.json",
+                "rawBytesSha256": "5ae427962e9b2f9a026d0db2a839feb1f092daf5b6cbfd195f7753f84dac4986"
+              },
+              "requestId": "bg383435b83c-001982-http-5eeb9a0d",
+              "realDomainBirths": 0,
+              "realDomainUpdate": false,
+              "preparationOnly": false,
+              "sourceHashPaths": []
+            }
+          ]
+        },
+        "g2-business11": {
+          "API": "API134",
+          "attempts": 9,
+          "statuses": {
+            "200": 6,
+            "403": 3
+          },
+          "exactSuccessAndLedger": 6,
+          "domainProducerHTTP": 0,
+          "preparationOnlySuccess": 0,
+          "sourceBoundContextSuccess": 0,
+          "exemplars": [
+            {
+              "receipt": {
+                "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tmp/rust-r4ghi/business/g2-business11/main01/004364-http-http.json",
+                "rawBytesSha256": "54944bf796b447242b3bda6b2c5d66cb09044380cc75d8b655eb4df785ebe830"
+              },
+              "ledger": {
+                "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business11/main01/004365-ledger.json",
+                "rawBytesSha256": "76cfb476872dddfaa2e64c3fbe0af5031b96a0f016d3be9b91bd056c6b96ba2c"
+              },
+              "requestId": "bg383435b83c-004364-http-74f05ecf",
+              "realDomainBirths": 0,
+              "realDomainUpdate": false,
+              "preparationOnly": false,
+              "sourceHashPaths": []
+            },
+            {
+              "receipt": {
+                "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tmp/rust-r4ghi/business/g2-business11/main01/004370-http-http.json",
+                "rawBytesSha256": "7e00d28b222abaa5438aa42952d5a08954acc2c9f1c18eba69b3a4525e2d9504"
+              },
+              "ledger": {
+                "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business11/main01/004371-ledger.json",
+                "rawBytesSha256": "5f3a145f484c20773932bebcb6500075a85d7e1bf0747de5e9a424a39234bfad"
+              },
+              "requestId": "bg383435b83c-004370-http-c9acc23b",
+              "realDomainBirths": 0,
+              "realDomainUpdate": false,
+              "preparationOnly": false,
+              "sourceHashPaths": []
+            }
+          ]
+        },
+        "g2-business12": {
+          "API": "API135",
+          "attempts": 3,
+          "statuses": {
+            "200": 2,
+            "403": 1
+          },
+          "exactSuccessAndLedger": 2,
+          "domainProducerHTTP": 0,
+          "preparationOnlySuccess": 0,
+          "sourceBoundContextSuccess": 0,
+          "exemplars": [
+            {
+              "receipt": {
+                "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tmp/rust-r4ghi/business/g2-business12/main01/005061-http-http.json",
+                "rawBytesSha256": "94f194b4ff19aab58e802476760746ff07818ffe97c548f1469c50ba63f85192"
+              },
+              "ledger": {
+                "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business12/main01/005062-ledger.json",
+                "rawBytesSha256": "58552cca96ff930da6f06f2d5d6f79955ab65e1712292eea7d7868dbfad41445"
+              },
+              "requestId": "bg383435b83c-005061-http-54110e99",
+              "realDomainBirths": 0,
+              "realDomainUpdate": false,
+              "preparationOnly": false,
+              "sourceHashPaths": []
+            },
+            {
+              "receipt": {
+                "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tmp/rust-r4ghi/business/g2-business12/main01/005067-http-http.json",
+                "rawBytesSha256": "2770e10a152f5ccfd53bb8eff3490c85d12a9d61e52b7ded19c2fdeee5d7357d"
+              },
+              "ledger": {
+                "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business12/main01/005068-ledger.json",
+                "rawBytesSha256": "7eb9e68913c872d521ee2839031b054f3882ec9cc40b600c83427ca827c3a2c9"
+              },
+              "requestId": "bg383435b83c-005067-http-6c2fe58f",
+              "realDomainBirths": 0,
+              "realDomainUpdate": false,
+              "preparationOnly": false,
+              "sourceHashPaths": []
+            }
+          ]
+        }
+      }
+    },
+    {
+      "operationId": "CommissionRoleAssignmentController_freezeRoleAssignment",
+      "group": "R5-min",
+      "method": "POST",
+      "canonicalTemplate": "/api/commission-role-assignments/{id}:freeze",
+      "frozenMapSuccess": 200,
+      "currentCanonicalSuccess": 200,
+      "versions": {
+        "g2-business10": {
+          "API": "API133",
+          "attempts": 10,
+          "statuses": {
+            "200": 4,
+            "500": 6
+          },
+          "exactSuccessAndLedger": 4,
+          "domainProducerHTTP": 4,
+          "preparationOnlySuccess": 0,
+          "sourceBoundContextSuccess": 0,
+          "exemplars": [
+            {
+              "receipt": {
+                "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tmp/rust-r4ghi/business/g2-business10/main01/001686-http-http.json",
+                "rawBytesSha256": "700607e357d4dd94c56db872902dcb5fbc43831f70d8ad0127e86e270a6091f5"
+              },
+              "ledger": {
+                "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business10/main01/001687-ledger.json",
+                "rawBytesSha256": "add61001f51a52f0ac6118432e639019af8ce813d8944b5d100f3b58c394aab6"
+              },
+              "requestId": "bg383435b83c-001686-http-8d028e72",
+              "realDomainBirths": 1,
+              "realDomainUpdate": false,
+              "preparationOnly": false,
+              "sourceHashPaths": []
+            },
+            {
+              "receipt": {
+                "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tmp/rust-r4ghi/business/g2-business10/main01/001980-http-http.json",
+                "rawBytesSha256": "8985a162589103bb5a5c43e551d8df3a88c0b4adfe46dcc383da7bef3562aaaf"
+              },
+              "ledger": {
+                "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business10/main01/001981-ledger.json",
+                "rawBytesSha256": "f97b3733b9ae3b13650fddb1865d6ec5a02dcd11f6feaf999f94a03a52c4ed99"
+              },
+              "requestId": "bg383435b83c-001980-http-b8c06a5b",
+              "realDomainBirths": 1,
+              "realDomainUpdate": false,
+              "preparationOnly": false,
+              "sourceHashPaths": []
+            }
+          ]
+        },
+        "g2-business11": {
+          "API": "API134",
+          "attempts": 5,
+          "statuses": {
+            "200": 3,
+            "400": 1,
+            "422": 1
+          },
+          "exactSuccessAndLedger": 3,
+          "domainProducerHTTP": 3,
+          "preparationOnlySuccess": 0,
+          "sourceBoundContextSuccess": 0,
+          "exemplars": [
+            {
+              "receipt": {
+                "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tmp/rust-r4ghi/business/g2-business11/main01/004125-http-http.json",
+                "rawBytesSha256": "e761927627d34d2227ff9c2e2080d7b5bf6098dd577f92a88e58e33f477e4f5b"
+              },
+              "ledger": {
+                "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business11/main01/004126-ledger.json",
+                "rawBytesSha256": "412b8467765aaa5c58dd25c4c8ec476b5f0b2b273122a8821dd264520ab86c0c"
+              },
+              "requestId": "bg383435b83c-004125-http-45f580c6",
+              "realDomainBirths": 1,
+              "realDomainUpdate": false,
+              "preparationOnly": false,
+              "sourceHashPaths": []
+            },
+            {
+              "receipt": {
+                "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tmp/rust-r4ghi/business/g2-business11/main01/004368-http-http.json",
+                "rawBytesSha256": "7ac230d68b8e5fcc57d7af301e5bb69dd2fe248c2fe2b1f6a550893bd6eeee02"
+              },
+              "ledger": {
+                "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business11/main01/004369-ledger.json",
+                "rawBytesSha256": "e9f45cf1cca6153254a47f2529aafa686466fd6873a80ecfab765534a51f15fc"
+              },
+              "requestId": "bg383435b83c-004368-http-30a32a5d",
+              "realDomainBirths": 1,
+              "realDomainUpdate": false,
+              "preparationOnly": false,
+              "sourceHashPaths": []
+            }
+          ]
+        },
+        "g2-business12": {
+          "API": "API135",
+          "attempts": 1,
+          "statuses": {
+            "200": 1
+          },
+          "exactSuccessAndLedger": 1,
+          "domainProducerHTTP": 1,
+          "preparationOnlySuccess": 0,
+          "sourceBoundContextSuccess": 0,
+          "exemplars": [
+            {
+              "receipt": {
+                "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tmp/rust-r4ghi/business/g2-business12/main01/005065-http-http.json",
+                "rawBytesSha256": "b87413dce28948d502f32eb4665886bad7454d5ba6e1e1f17f9596c5a2634d5a"
+              },
+              "ledger": {
+                "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business12/main01/005066-ledger.json",
+                "rawBytesSha256": "cf0e4d5852f18fb4d01f50e5e0e4ec1cac0da9c7785c066329aa51a9b5d75cba"
+              },
+              "requestId": "bg383435b83c-005065-http-de6b921a",
+              "realDomainBirths": 1,
+              "realDomainUpdate": false,
+              "preparationOnly": false,
+              "sourceHashPaths": []
+            }
+          ]
+        }
+      }
+    },
+    {
+      "operationId": "ProjectController_listAcceptanceRecords",
+      "group": "I",
+      "method": "GET",
+      "canonicalTemplate": "/api/projects/{projectId}/acceptance-records",
+      "frozenMapSuccess": 200,
+      "currentCanonicalSuccess": 200,
+      "versions": {
+        "g2-business10": {
+          "API": "API133",
+          "attempts": 4,
+          "statuses": {
+            "200": 1,
+            "403": 1,
+            "404": 2
+          },
+          "exactSuccessAndLedger": 1,
+          "domainProducerHTTP": 0,
+          "preparationOnlySuccess": 0,
+          "sourceBoundContextSuccess": 0,
+          "exemplars": [
+            {
+              "receipt": {
+                "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tmp/rust-r4ghi/business/g2-business10/main01/002100-http-http.json",
+                "rawBytesSha256": "1e547274564c95be1cfd6e6da010fb78b6d5f4b7f58f03d6e84d81e51da053db"
+              },
+              "ledger": {
+                "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business10/main01/002101-ledger.json",
+                "rawBytesSha256": "b0698c921f7934eca66d4675d6618fe94b42f9725ee023c50882d644be093893"
+              },
+              "requestId": "bg383435b83c-002100-http-32e56d11",
+              "realDomainBirths": 0,
+              "realDomainUpdate": false,
+              "preparationOnly": false,
+              "sourceHashPaths": []
+            }
+          ]
+        },
+        "g2-business11": {
+          "API": "API134",
+          "attempts": 1,
+          "statuses": {
+            "200": 1
+          },
+          "exactSuccessAndLedger": 1,
+          "domainProducerHTTP": 0,
+          "preparationOnlySuccess": 0,
+          "sourceBoundContextSuccess": 0,
+          "exemplars": [
+            {
+              "receipt": {
+                "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tmp/rust-r4ghi/business/g2-business11/main01/003212-http-http.json",
+                "rawBytesSha256": "67626052ac77349031251ad8b6deb309121552f54c1756f85daced8d677fe99e"
+              },
+              "ledger": {
+                "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business11/main01/003213-ledger.json",
+                "rawBytesSha256": "16af18c00231d454ea6bad80735ef913091de4f492955b217fad0bae8844e17c"
+              },
+              "requestId": "bg383435b83c-003212-http-b89518ec",
+              "realDomainBirths": 0,
+              "realDomainUpdate": false,
+              "preparationOnly": false,
+              "sourceHashPaths": []
+            }
+          ]
+        },
+        "g2-business12": {
+          "API": "API135",
+          "attempts": 1,
+          "statuses": {
+            "200": 1
+          },
+          "exactSuccessAndLedger": 1,
+          "domainProducerHTTP": 0,
+          "preparationOnlySuccess": 0,
+          "sourceBoundContextSuccess": 0,
+          "exemplars": [
+            {
+              "receipt": {
+                "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tmp/rust-r4ghi/business/g2-business12/main01/005343-http-http.json",
+                "rawBytesSha256": "24a8e2238f973535eca48170232609b5cb788c74059f7d51483bf4538d362846"
+              },
+              "ledger": {
+                "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business12/main01/005344-ledger.json",
+                "rawBytesSha256": "65c662f35384f363e8ae9d8f0a80a1b213d97f9491c60d29613b2d8d75cdfa9e"
+              },
+              "requestId": "bg383435b83c-005343-http-cb3b49a2",
+              "realDomainBirths": 0,
+              "realDomainUpdate": false,
+              "preparationOnly": false,
+              "sourceHashPaths": []
+            }
+          ]
+        }
+      }
+    },
+    {
+      "operationId": "ProjectController_createAcceptanceRecord",
+      "group": "I",
+      "method": "POST",
+      "canonicalTemplate": "/api/projects/{projectId}/acceptance-records",
+      "frozenMapSuccess": 201,
+      "currentCanonicalSuccess": 201,
+      "versions": {
+        "g2-business10": {
+          "API": "API133",
+          "attempts": 1,
+          "statuses": {
+            "201": 1
+          },
+          "exactSuccessAndLedger": 1,
+          "domainProducerHTTP": 1,
+          "preparationOnlySuccess": 0,
+          "sourceBoundContextSuccess": 0,
+          "exemplars": [
+            {
+              "receipt": {
+                "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tmp/rust-r4ghi/business/g2-business10/main01/002032-http-http.json",
+                "rawBytesSha256": "90936d542096d946c49ffa3a09731d4b8c058a2438bf0f9abbd16b7ac67d9970"
+              },
+              "ledger": {
+                "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business10/main01/002036-ledger.json",
+                "rawBytesSha256": "90e9e2df493764dd0b54c7a13ccd8e36cce5a8994090730dc6384f890eec8fa0"
+              },
+              "requestId": "bg383435b83c-002032-http-7eda04de",
+              "realDomainBirths": 1,
+              "realDomainUpdate": false,
+              "preparationOnly": false,
+              "sourceHashPaths": []
+            }
+          ]
+        },
+        "g2-business11": {
+          "API": "API134",
+          "attempts": 8,
+          "statuses": {
+            "201": 1,
+            "400": 1,
+            "422": 1,
+            "500": 5
+          },
+          "exactSuccessAndLedger": 1,
+          "domainProducerHTTP": 1,
+          "preparationOnlySuccess": 0,
+          "sourceBoundContextSuccess": 0,
+          "exemplars": [
+            {
+              "receipt": {
+                "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tmp/rust-r4ghi/business/g2-business11/main01/003209-http-http.json",
+                "rawBytesSha256": "b9308672fc6a6cfd71044c76a0dc4bf6b13581806c961aeec057839cfe18b773"
+              },
+              "ledger": {
+                "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business11/main01/003210-ledger.json",
+                "rawBytesSha256": "bbdf3db35c3c7825bf57afa346308582eb723e35c175f45e2bbe0385b73b06c2"
+              },
+              "requestId": "bg383435b83c-003209-http-7737c03d",
+              "realDomainBirths": 1,
+              "realDomainUpdate": false,
+              "preparationOnly": false,
+              "sourceHashPaths": []
+            }
+          ]
+        },
+        "g2-business12": {
+          "API": "API135",
+          "attempts": 1,
+          "statuses": {
+            "201": 1
+          },
+          "exactSuccessAndLedger": 1,
+          "domainProducerHTTP": 1,
+          "preparationOnlySuccess": 0,
+          "sourceBoundContextSuccess": 0,
+          "exemplars": [
+            {
+              "receipt": {
+                "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tmp/rust-r4ghi/business/g2-business12/main01/005341-http-http.json",
+                "rawBytesSha256": "b181831c785140c84eb2bc556abf74b1187108da0584bab055afef0a5362a157"
+              },
+              "ledger": {
+                "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business12/main01/005342-ledger.json",
+                "rawBytesSha256": "ca425d7b2d73bff19f9e298a1d8fcdbd789555286da5ffa6646c0dafbb240cb5"
+              },
+              "requestId": "bg383435b83c-005341-http-b19299b1",
+              "realDomainBirths": 1,
+              "realDomainUpdate": false,
+              "preparationOnly": false,
+              "sourceHashPaths": []
+            }
+          ]
+        }
+      }
+    },
+    {
+      "operationId": "ProjectController_listProjectCompletionRecords",
+      "group": "I",
+      "method": "GET",
+      "canonicalTemplate": "/api/projects/{projectId}/completion-records",
+      "frozenMapSuccess": 200,
+      "currentCanonicalSuccess": 200,
+      "versions": {
+        "g2-business10": {
+          "API": "API133",
+          "attempts": 3,
+          "statuses": {
+            "403": 1,
+            "404": 2
+          },
+          "exactSuccessAndLedger": 0,
+          "domainProducerHTTP": 0,
+          "preparationOnlySuccess": 0,
+          "sourceBoundContextSuccess": 0,
+          "exemplars": []
+        },
+        "g2-business11": {
+          "API": "API134",
+          "attempts": 7,
+          "statuses": {
+            "200": 7
+          },
+          "exactSuccessAndLedger": 7,
+          "domainProducerHTTP": 0,
+          "preparationOnlySuccess": 0,
+          "sourceBoundContextSuccess": 0,
+          "exemplars": [
+            {
+              "receipt": {
+                "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tmp/rust-r4ghi/business/g2-business11/main01/003461-http-http.json",
+                "rawBytesSha256": "62214607f28ae78ec5da64d51fad5c8e2ea1a275c3fa28459ed4d624d3768932"
+              },
+              "ledger": {
+                "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business11/main01/003462-ledger.json",
+                "rawBytesSha256": "da8ff3d254b253e28552a4ec8c85013f8e8060742218488d66cb9c1c27430f01"
+              },
+              "requestId": "bg383435b83c-003461-http-f43fafa3",
+              "realDomainBirths": 0,
+              "realDomainUpdate": false,
+              "preparationOnly": false,
+              "sourceHashPaths": []
+            },
+            {
+              "receipt": {
+                "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tmp/rust-r4ghi/business/g2-business11/main01/003463-http-http.json",
+                "rawBytesSha256": "c8c309c2d4fd43324982e09bc8f9c6e853eb9fb6343fc802bd66611465c80a02"
+              },
+              "ledger": {
+                "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business11/main01/003464-ledger.json",
+                "rawBytesSha256": "6cf2ef59cc8ab9ef6e23acaad86127fd4b9db1d2793cdbcf3d9418a900cc4147"
+              },
+              "requestId": "bg383435b83c-003463-http-a714058c",
+              "realDomainBirths": 0,
+              "realDomainUpdate": false,
+              "preparationOnly": false,
+              "sourceHashPaths": []
+            }
+          ]
+        },
+        "g2-business12": {
+          "API": "API135",
+          "attempts": 7,
+          "statuses": {
+            "200": 7
+          },
+          "exactSuccessAndLedger": 7,
+          "domainProducerHTTP": 0,
+          "preparationOnlySuccess": 0,
+          "sourceBoundContextSuccess": 0,
+          "exemplars": [
+            {
+              "receipt": {
+                "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tmp/rust-r4ghi/business/g2-business12/main01/005430-http-http.json",
+                "rawBytesSha256": "4bcae0a7002d7e1cf94d5a1fd72127d5b8da0c38f00a05411622706c93c0d96c"
+              },
+              "ledger": {
+                "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business12/main01/005431-ledger.json",
+                "rawBytesSha256": "0c06d7972ddcb11449d071b35881c005b6df63639381814f18f2aa8352c92190"
+              },
+              "requestId": "bg383435b83c-005430-http-30ed82a0",
+              "realDomainBirths": 0,
+              "realDomainUpdate": false,
+              "preparationOnly": false,
+              "sourceHashPaths": []
+            },
+            {
+              "receipt": {
+                "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tmp/rust-r4ghi/business/g2-business12/main01/005439-http-http.json",
+                "rawBytesSha256": "9bbc15af7e8a54fc0000b094a14f9895fad1f6efd744bd0a672b2dc85a5ce174"
+              },
+              "ledger": {
+                "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business12/main01/005440-ledger.json",
+                "rawBytesSha256": "5e09e8d0a9d1ebfb4db94107bdecb8ca89eb23cf040d077b49675b87536b9460"
+              },
+              "requestId": "bg383435b83c-005439-http-98c84044",
+              "realDomainBirths": 0,
+              "realDomainUpdate": false,
+              "preparationOnly": false,
+              "sourceHashPaths": []
+            }
+          ]
+        }
+      }
+    },
+    {
+      "operationId": "ProjectController_createProjectCompletionRecord",
+      "group": "I",
+      "method": "POST",
+      "canonicalTemplate": "/api/projects/{projectId}/completion-records",
+      "frozenMapSuccess": 201,
+      "currentCanonicalSuccess": 201,
+      "versions": {
+        "g2-business10": {
+          "API": "API133",
+          "attempts": 1,
+          "statuses": {
+            "201": 1
+          },
+          "exactSuccessAndLedger": 1,
+          "domainProducerHTTP": 1,
+          "preparationOnlySuccess": 0,
+          "sourceBoundContextSuccess": 0,
+          "exemplars": [
+            {
+              "receipt": {
+                "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tmp/rust-r4ghi/business/g2-business10/main01/002130-http-http.json",
+                "rawBytesSha256": "85615aae50676ea3e0bfa47c044cd7b6d24c6ecdc0a5e71b78b61403e9dba0ea"
+              },
+              "ledger": {
+                "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business10/main01/002131-ledger.json",
+                "rawBytesSha256": "af6ba3a6591895f7ee24fe383609325a2559a5eeb24af4715f2c96f41b6065c6"
+              },
+              "requestId": "bg383435b83c-002130-http-4f861d1e",
+              "realDomainBirths": 1,
+              "realDomainUpdate": false,
+              "preparationOnly": false,
+              "sourceHashPaths": []
+            }
+          ]
+        },
+        "g2-business11": {
+          "API": "API134",
+          "attempts": 13,
+          "statuses": {
+            "201": 1,
+            "400": 1,
+            "422": 1,
+            "500": 10
+          },
+          "exactSuccessAndLedger": 1,
+          "domainProducerHTTP": 1,
+          "preparationOnlySuccess": 0,
+          "sourceBoundContextSuccess": 0,
+          "exemplars": [
+            {
+              "receipt": {
+                "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tmp/rust-r4ghi/business/g2-business11/main01/003314-http-http.json",
+                "rawBytesSha256": "80cc6b7ab89ad57672be73fc30f5d092f611cc17a6d21f82bbf8ed01bdb5dba8"
+              },
+              "ledger": {
+                "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business11/main01/003315-ledger.json",
+                "rawBytesSha256": "5497422704bf4242cb40b0d51c05cd2bd48e73429731f8e78013ac126a9ff4fc"
+              },
+              "requestId": "bg383435b83c-003314-http-99c97d2c",
+              "realDomainBirths": 1,
+              "realDomainUpdate": false,
+              "preparationOnly": false,
+              "sourceHashPaths": []
+            }
+          ]
+        },
+        "g2-business12": {
+          "API": "API135",
+          "attempts": 1,
+          "statuses": {
+            "201": 1
+          },
+          "exactSuccessAndLedger": 1,
+          "domainProducerHTTP": 1,
+          "preparationOnlySuccess": 0,
+          "sourceBoundContextSuccess": 0,
+          "exemplars": [
+            {
+              "receipt": {
+                "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tmp/rust-r4ghi/business/g2-business12/main01/005373-http-http.json",
+                "rawBytesSha256": "d375e0542be310122b3331e242a8d35db94200b026d9715573e6f74c955c4fe4"
+              },
+              "ledger": {
+                "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business12/main01/005374-ledger.json",
+                "rawBytesSha256": "8594d1f0d97485b8ca9a624118a873373f11ed9f458984790c04314468259507"
+              },
+              "requestId": "bg383435b83c-005373-http-aca477e8",
+              "realDomainBirths": 1,
+              "realDomainUpdate": false,
+              "preparationOnly": false,
+              "sourceHashPaths": []
+            }
+          ]
+        }
+      }
+    },
+    {
+      "operationId": "ProjectController_listProjectArchiveRecords",
+      "group": "I",
+      "method": "GET",
+      "canonicalTemplate": "/api/projects/{projectId}/archive-records",
+      "frozenMapSuccess": 200,
+      "currentCanonicalSuccess": 200,
+      "versions": {
+        "g2-business10": {
+          "API": "API133",
+          "attempts": 3,
+          "statuses": {
+            "403": 1,
+            "404": 2
+          },
+          "exactSuccessAndLedger": 0,
+          "domainProducerHTTP": 0,
+          "preparationOnlySuccess": 0,
+          "sourceBoundContextSuccess": 0,
+          "exemplars": []
+        },
+        "g2-business11": {
+          "API": "API134",
+          "attempts": 1,
+          "statuses": {
+            "200": 1
+          },
+          "exactSuccessAndLedger": 1,
+          "domainProducerHTTP": 0,
+          "preparationOnlySuccess": 0,
+          "sourceBoundContextSuccess": 0,
+          "exemplars": [
+            {
+              "receipt": {
+                "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tmp/rust-r4ghi/business/g2-business11/main01/003559-http-http.json",
+                "rawBytesSha256": "33e6ceb986a1a7dec72f8da4b733562eb088790f49f3e2815cfd9150cf44d985"
+              },
+              "ledger": {
+                "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business11/main01/003560-ledger.json",
+                "rawBytesSha256": "a3a3a106c071ee93c1041fc3b3e5d1a8733027fda5c8f9b33f8464e1720cba36"
+              },
+              "requestId": "bg383435b83c-003559-http-076ca5e0",
+              "realDomainBirths": 0,
+              "realDomainUpdate": false,
+              "preparationOnly": false,
+              "sourceHashPaths": []
+            }
+          ]
+        },
+        "g2-business12": {
+          "API": "API135",
+          "attempts": 0,
+          "statuses": {},
+          "exactSuccessAndLedger": 0,
+          "domainProducerHTTP": 0,
+          "preparationOnlySuccess": 0,
+          "sourceBoundContextSuccess": 0,
+          "exemplars": []
+        }
+      }
+    },
+    {
+      "operationId": "ProjectController_createProjectArchiveRecord",
+      "group": "I",
+      "method": "POST",
+      "canonicalTemplate": "/api/projects/{projectId}/archive-records",
+      "frozenMapSuccess": 201,
+      "currentCanonicalSuccess": 201,
+      "versions": {
+        "g2-business10": {
+          "API": "API133",
+          "attempts": 1,
+          "statuses": {
+            "409": 1
+          },
+          "exactSuccessAndLedger": 0,
+          "domainProducerHTTP": 0,
+          "preparationOnlySuccess": 0,
+          "sourceBoundContextSuccess": 0,
+          "exemplars": []
+        },
+        "g2-business11": {
+          "API": "API134",
+          "attempts": 8,
+          "statuses": {
+            "201": 1,
+            "400": 1,
+            "409": 1,
+            "422": 1,
+            "500": 4
+          },
+          "exactSuccessAndLedger": 1,
+          "domainProducerHTTP": 1,
+          "preparationOnlySuccess": 0,
+          "sourceBoundContextSuccess": 0,
+          "exemplars": [
+            {
+              "receipt": {
+                "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tmp/rust-r4ghi/business/g2-business11/main01/003497-http-http.json",
+                "rawBytesSha256": "427e3499630d717f3e7f7e56df98dd1c1d0e411a09233cdf72592f8cb735d826"
+              },
+              "ledger": {
+                "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business11/main01/003498-ledger.json",
+                "rawBytesSha256": "c44a41c7f2e8186b1f275638c4366367d5bdfcd7e1952e2ad53446bd4c261a14"
+              },
+              "requestId": "bg383435b83c-003497-http-b17e97c2",
+              "realDomainBirths": 1,
+              "realDomainUpdate": false,
+              "preparationOnly": false,
+              "sourceHashPaths": []
+            }
+          ]
+        },
+        "g2-business12": {
+          "API": "API135",
+          "attempts": 1,
+          "statuses": {
+            "409": 1
+          },
+          "exactSuccessAndLedger": 0,
+          "domainProducerHTTP": 0,
+          "preparationOnlySuccess": 0,
+          "sourceBoundContextSuccess": 0,
+          "exemplars": []
+        }
+      }
+    },
+    {
+      "operationId": "ProjectArchiveRecordController_replaceProjectArchiveRecord",
+      "group": "I",
+      "method": "POST",
+      "canonicalTemplate": "/api/project-archive-records/{id}:replace",
+      "frozenMapSuccess": 200,
+      "currentCanonicalSuccess": 200,
+      "versions": {
+        "g2-business10": {
+          "API": "API133",
+          "attempts": 0,
+          "statuses": {},
+          "exactSuccessAndLedger": 0,
+          "domainProducerHTTP": 0,
+          "preparationOnlySuccess": 0,
+          "sourceBoundContextSuccess": 0,
+          "exemplars": []
+        },
+        "g2-business11": {
+          "API": "API134",
+          "attempts": 7,
+          "statuses": {
+            "200": 1,
+            "400": 1,
+            "422": 1,
+            "500": 4
+          },
+          "exactSuccessAndLedger": 1,
+          "domainProducerHTTP": 1,
+          "preparationOnlySuccess": 0,
+          "sourceBoundContextSuccess": 0,
+          "exemplars": [
+            {
+              "receipt": {
+                "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tmp/rust-r4ghi/business/g2-business11/main01/003530-http-http.json",
+                "rawBytesSha256": "acff5e7e7981107b030fa186d224a7e699c4f4849f5299083e154c9526c5c901"
+              },
+              "ledger": {
+                "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business11/main01/003531-ledger.json",
+                "rawBytesSha256": "e6c779ddeea9694b9ff08b3e9cdfd5cc5b62cf52375455d31535418ba2b2ef23"
+              },
+              "requestId": "bg383435b83c-003530-http-4e407a04",
+              "realDomainBirths": 1,
+              "realDomainUpdate": false,
+              "preparationOnly": false,
+              "sourceHashPaths": []
+            }
+          ]
+        },
+        "g2-business12": {
+          "API": "API135",
+          "attempts": 0,
+          "statuses": {},
+          "exactSuccessAndLedger": 0,
+          "domainProducerHTTP": 0,
+          "preparationOnlySuccess": 0,
+          "sourceBoundContextSuccess": 0,
+          "exemplars": []
+        }
+      }
+    },
+    {
+      "operationId": "ProjectArchiveRecordController_voidProjectArchiveRecord",
+      "group": "I",
+      "method": "POST",
+      "canonicalTemplate": "/api/project-archive-records/{id}:void",
+      "frozenMapSuccess": 200,
+      "currentCanonicalSuccess": 200,
+      "versions": {
+        "g2-business10": {
+          "API": "API133",
+          "attempts": 0,
+          "statuses": {},
+          "exactSuccessAndLedger": 0,
+          "domainProducerHTTP": 0,
+          "preparationOnlySuccess": 0,
+          "sourceBoundContextSuccess": 0,
+          "exemplars": []
+        },
+        "g2-business11": {
+          "API": "API134",
+          "attempts": 6,
+          "statuses": {
+            "200": 1,
+            "400": 1,
+            "422": 1,
+            "500": 3
+          },
+          "exactSuccessAndLedger": 1,
+          "domainProducerHTTP": 1,
+          "preparationOnlySuccess": 0,
+          "sourceBoundContextSuccess": 0,
+          "exemplars": [
+            {
+              "receipt": {
+                "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tmp/rust-r4ghi/business/g2-business11/main01/003556-http-http.json",
+                "rawBytesSha256": "3880bc84df1207490ae53d88506fbcb92f52f40650b1266ce27371f325c4f334"
+              },
+              "ledger": {
+                "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business11/main01/003557-ledger.json",
+                "rawBytesSha256": "81caab61751a4aeccc3dea65fecb244ab8357d78c6bebb1cb65f3bd8fcfbf86b"
+              },
+              "requestId": "bg383435b83c-003556-http-e3983da6",
+              "realDomainBirths": 0,
+              "realDomainUpdate": true,
+              "preparationOnly": false,
+              "sourceHashPaths": []
+            }
+          ]
+        },
+        "g2-business12": {
+          "API": "API135",
+          "attempts": 0,
+          "statuses": {},
+          "exactSuccessAndLedger": 0,
+          "domainProducerHTTP": 0,
+          "preparationOnlySuccess": 0,
+          "sourceBoundContextSuccess": 0,
+          "exemplars": []
+        }
+      }
+    },
+    {
+      "operationId": "ProjectController_startExecution",
+      "group": "I",
+      "method": "POST",
+      "canonicalTemplate": "/api/projects/{id}:startExecution",
+      "frozenMapSuccess": 200,
+      "currentCanonicalSuccess": 200,
+      "versions": {
+        "g2-business10": {
+          "API": "API133",
+          "attempts": 9,
+          "statuses": {
+            "200": 3,
+            "500": 6
+          },
+          "exactSuccessAndLedger": 3,
+          "domainProducerHTTP": 3,
+          "preparationOnlySuccess": 0,
+          "sourceBoundContextSuccess": 0,
+          "exemplars": [
+            {
+              "receipt": {
+                "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tmp/rust-r4ghi/business/g2-business10/main01/001374-http-http.json",
+                "rawBytesSha256": "dab07281bf6592ca98d9266901ee548a8f2b675fe8b03b478be2ab7a583c4e02"
+              },
+              "ledger": {
+                "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business10/main01/001375-ledger.json",
+                "rawBytesSha256": "b08470d7650ea9de09083d4aef144f2a970f441a10a15ad82731a71597cef387"
+              },
+              "requestId": "bg383435b83c-001374-http-47420a2a",
+              "realDomainBirths": 1,
+              "realDomainUpdate": false,
+              "preparationOnly": false,
+              "sourceHashPaths": []
+            },
+            {
+              "receipt": {
+                "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tmp/rust-r4ghi/business/g2-business10/main01/001990-http-http.json",
+                "rawBytesSha256": "bd65ac96224add7725ec9598e97f6dbb1c54c4948ca754330d0277dc50334c87"
+              },
+              "ledger": {
+                "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business10/main01/001991-ledger.json",
+                "rawBytesSha256": "a88494c993c78b71960d15664981782e5bc6f437dec30bb1cfeb9850669833be"
+              },
+              "requestId": "bg383435b83c-001990-http-65d143d3",
+              "realDomainBirths": 1,
+              "realDomainUpdate": false,
+              "preparationOnly": false,
+              "sourceHashPaths": []
+            }
+          ]
+        },
+        "g2-business11": {
+          "API": "API134",
+          "attempts": 5,
+          "statuses": {
+            "200": 3,
+            "400": 1,
+            "422": 1
+          },
+          "exactSuccessAndLedger": 3,
+          "domainProducerHTTP": 3,
+          "preparationOnlySuccess": 0,
+          "sourceBoundContextSuccess": 0,
+          "exemplars": [
+            {
+              "receipt": {
+                "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tmp/rust-r4ghi/business/g2-business11/main01/004135-http-http.json",
+                "rawBytesSha256": "b762e3b3039fc2399258975c3107f1257b0c38984e2928929dd21f251047cac7"
+              },
+              "ledger": {
+                "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business11/main01/004136-ledger.json",
+                "rawBytesSha256": "af2d787d21986afec48242a77ba30c88df1c66bc17ed2e181df6c027a5f57f44"
+              },
+              "requestId": "bg383435b83c-004135-http-89f9794b",
+              "realDomainBirths": 1,
+              "realDomainUpdate": false,
+              "preparationOnly": false,
+              "sourceHashPaths": []
+            },
+            {
+              "receipt": {
+                "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tmp/rust-r4ghi/business/g2-business11/main01/004378-http-http.json",
+                "rawBytesSha256": "e21894d3cae353d9d512c019cd4c6b376885bbc952efee955f6fa911a04ae042"
+              },
+              "ledger": {
+                "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business11/main01/004379-ledger.json",
+                "rawBytesSha256": "107e78d9f0b473b96c9d4951b7b5de06ae09c07712902079bf32a561fffef630"
+              },
+              "requestId": "bg383435b83c-004378-http-b80f2ed4",
+              "realDomainBirths": 1,
+              "realDomainUpdate": false,
+              "preparationOnly": false,
+              "sourceHashPaths": []
+            }
+          ]
+        },
+        "g2-business12": {
+          "API": "API135",
+          "attempts": 1,
+          "statuses": {
+            "200": 1
+          },
+          "exactSuccessAndLedger": 1,
+          "domainProducerHTTP": 1,
+          "preparationOnlySuccess": 0,
+          "sourceBoundContextSuccess": 0,
+          "exemplars": [
+            {
+              "receipt": {
+                "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tmp/rust-r4ghi/business/g2-business12/main01/005075-http-http.json",
+                "rawBytesSha256": "9a82212d9320788626f8d07db143f31e4322f2deaea8afabaaf3999d3d2e6b88"
+              },
+              "ledger": {
+                "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business12/main01/005076-ledger.json",
+                "rawBytesSha256": "1ec2d9eb8a91d7a5cba1afdab8e4367bf34658ef233160ab5fd5232b8164c656"
+              },
+              "requestId": "bg383435b83c-005075-http-197cc863",
+              "realDomainBirths": 1,
+              "realDomainUpdate": false,
+              "preparationOnly": false,
+              "sourceHashPaths": []
+            }
+          ]
+        }
+      }
+    },
+    {
+      "operationId": "ProjectController_startAcceptance",
+      "group": "I",
+      "method": "POST",
+      "canonicalTemplate": "/api/projects/{id}:startAcceptance",
+      "frozenMapSuccess": 200,
+      "currentCanonicalSuccess": 200,
+      "versions": {
+        "g2-business10": {
+          "API": "API133",
+          "attempts": 1,
+          "statuses": {
+            "200": 1
+          },
+          "exactSuccessAndLedger": 1,
+          "domainProducerHTTP": 1,
+          "preparationOnlySuccess": 0,
+          "sourceBoundContextSuccess": 0,
+          "exemplars": [
+            {
+              "receipt": {
+                "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tmp/rust-r4ghi/business/g2-business10/main01/002028-http-http.json",
+                "rawBytesSha256": "c6940bbfa7f419847b6a1ebda65f0af9dda11f4d2ec9a3e6e5103334a5ab4b4a"
+              },
+              "ledger": {
+                "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business10/main01/002029-ledger.json",
+                "rawBytesSha256": "ad08435f4091f994b5f5f574c3cbd4be5d3f9055960632f54003e46539256b04"
+              },
+              "requestId": "bg383435b83c-002028-http-d9d369a1",
+              "realDomainBirths": 1,
+              "realDomainUpdate": false,
+              "preparationOnly": false,
+              "sourceHashPaths": []
+            }
+          ]
+        },
+        "g2-business11": {
+          "API": "API134",
+          "attempts": 10,
+          "statuses": {
+            "200": 1,
+            "400": 1,
+            "422": 1,
+            "500": 7
+          },
+          "exactSuccessAndLedger": 1,
+          "domainProducerHTTP": 1,
+          "preparationOnlySuccess": 0,
+          "sourceBoundContextSuccess": 0,
+          "exemplars": [
+            {
+              "receipt": {
+                "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tmp/rust-r4ghi/business/g2-business11/main01/003167-http-http.json",
+                "rawBytesSha256": "d7788cee9008efa5c93b84b538065c7bdd206c510211052689f1cb95dd39f2b4"
+              },
+              "ledger": {
+                "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business11/main01/003168-ledger.json",
+                "rawBytesSha256": "3247888c271ceb0623e87e84c01b8c84c89dd9a944d8094330bf46f8b3c7a449"
+              },
+              "requestId": "bg383435b83c-003167-http-f0443949",
+              "realDomainBirths": 1,
+              "realDomainUpdate": false,
+              "preparationOnly": false,
+              "sourceHashPaths": []
+            }
+          ]
+        },
+        "g2-business12": {
+          "API": "API135",
+          "attempts": 1,
+          "statuses": {
+            "200": 1
+          },
+          "exactSuccessAndLedger": 1,
+          "domainProducerHTTP": 1,
+          "preparationOnlySuccess": 0,
+          "sourceBoundContextSuccess": 0,
+          "exemplars": [
+            {
+              "receipt": {
+                "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tmp/rust-r4ghi/business/g2-business12/main01/005337-http-http.json",
+                "rawBytesSha256": "70264ff4ea1618b00b7b00a045e2355532f294414d63ab0f315a4378f528c5ac"
+              },
+              "ledger": {
+                "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business12/main01/005338-ledger.json",
+                "rawBytesSha256": "bf42953feb31ce74af0d3246896e5505f665b7d97061be6dbba981b53dc0849e"
+              },
+              "requestId": "bg383435b83c-005337-http-eb907d13",
+              "realDomainBirths": 1,
+              "realDomainUpdate": false,
+              "preparationOnly": false,
+              "sourceHashPaths": []
+            }
+          ]
+        }
+      }
+    },
+    {
+      "operationId": "ProjectCompletionRecordController_closeCompletionCondition",
+      "group": "I",
+      "method": "POST",
+      "canonicalTemplate": "/api/project-completion-records/{completionRecordId}/conditions/{id}:close",
+      "frozenMapSuccess": 200,
+      "currentCanonicalSuccess": 200,
+      "versions": {
+        "g2-business10": {
+          "API": "API133",
+          "attempts": 0,
+          "statuses": {},
+          "exactSuccessAndLedger": 0,
+          "domainProducerHTTP": 0,
+          "preparationOnlySuccess": 0,
+          "sourceBoundContextSuccess": 0,
+          "exemplars": []
+        },
+        "g2-business11": {
+          "API": "API134",
+          "attempts": 18,
+          "statuses": {
+            "200": 2,
+            "400": 1,
+            "403": 2,
+            "422": 1,
+            "500": 12
+          },
+          "exactSuccessAndLedger": 2,
+          "domainProducerHTTP": 2,
+          "preparationOnlySuccess": 0,
+          "sourceBoundContextSuccess": 0,
+          "exemplars": [
+            {
+              "receipt": {
+                "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tmp/rust-r4ghi/business/g2-business11/main01/003387-http-http.json",
+                "rawBytesSha256": "a11512b4a8290aaa5f2c341d387641400b7e2edceef505f62cd777e211fe8be2"
+              },
+              "ledger": {
+                "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business11/main01/003388-ledger.json",
+                "rawBytesSha256": "e3f4db2db5639cb62ab16d257acfcc66322ca07c8970e9cfb3920455d2323965"
+              },
+              "requestId": "bg383435b83c-003387-http-2f73788f",
+              "realDomainBirths": 1,
+              "realDomainUpdate": false,
+              "preparationOnly": false,
+              "sourceHashPaths": []
+            },
+            {
+              "receipt": {
+                "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tmp/rust-r4ghi/business/g2-business11/main01/003458-http-http.json",
+                "rawBytesSha256": "b821450eee59eafd7682033ac33dbdc488278c8291c8edce9c9f48056f477b11"
+              },
+              "ledger": {
+                "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business11/main01/003459-ledger.json",
+                "rawBytesSha256": "1c5f691755e10b612549291a8622512021911176f31ba9730ddbbacc73d936b2"
+              },
+              "requestId": "bg383435b83c-003458-http-622c719f",
+              "realDomainBirths": 1,
+              "realDomainUpdate": false,
+              "preparationOnly": false,
+              "sourceHashPaths": []
+            }
+          ]
+        },
+        "g2-business12": {
+          "API": "API135",
+          "attempts": 6,
+          "statuses": {
+            "200": 2,
+            "403": 1,
+            "404": 1,
+            "409": 2
+          },
+          "exactSuccessAndLedger": 2,
+          "domainProducerHTTP": 2,
+          "preparationOnlySuccess": 0,
+          "sourceBoundContextSuccess": 0,
+          "exemplars": [
+            {
+              "receipt": {
+                "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tmp/rust-r4ghi/business/g2-business12/main01/005433-a07-race-http-http.json",
+                "rawBytesSha256": "6daefec4c04637bc29f458e61dbf362298b24c4ffc3beeca87d4e3be66b3ac83"
+              },
+              "ledger": {
+                "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business12/main01/005437-ledger.json",
+                "rawBytesSha256": "77c332b256b24ada8dd29fa76de9f0d47eeb8e172695f33dc3a8635b7504dd75"
+              },
+              "requestId": "bg383435b83c-005433-a07-race-http-0124ab11",
+              "realDomainBirths": 1,
+              "realDomainUpdate": false,
+              "preparationOnly": false,
+              "sourceHashPaths": []
+            },
+            {
+              "receipt": {
+                "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tmp/rust-r4ghi/business/g2-business12/main01/005441-http-http.json",
+                "rawBytesSha256": "15a0a90460280be1200e9ab5a0effddb517b03a9277189aec107405dc4bfd301"
+              },
+              "ledger": {
+                "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business12/main01/005442-ledger.json",
+                "rawBytesSha256": "58749265f8103792bf7b9634ad16ed21dfdf6a4cbaaddc7a283dd0ba3571035d"
+              },
+              "requestId": "bg383435b83c-005441-http-86a3ea03",
+              "realDomainBirths": 1,
+              "realDomainUpdate": false,
+              "preparationOnly": false,
+              "sourceHashPaths": []
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "inconsistencies": [],
+  "evidenceBoundaries": [
+    "Counts are observed actual HTTP + complete ledger only; not full scenario/Gate certification",
+    "Preparation GET is separately labelled and never producer",
+    "API133/134 remain historical; API135 reads can consume retained resources without becoming new producers",
+    "No pure/fixture/Native/mock/ignoredSQL evidence is counted as Rust HTTP producer"
+  ],
+  "authorExecution": {
+    "FSOnly": true,
+    "SQL": false,
+    "HTTP": false,
+    "RootWritten": false
+  },
+  "G3Certified": false,
+  "G4Certified": false
+}

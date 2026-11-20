@@ -1,0 +1,246 @@
+{
+  "kind": "joint-G1-read-only-structural-verification",
+  "status": "PASS",
+  "G1Certified": false,
+  "G2Authorized": false,
+  "checks": [
+    {
+      "check": "draft-is-not-gate-pass",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "exact32-count",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "disjoint-route-count",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "group-counts",
+      "passed": true,
+      "detail": {
+        "G": 9,
+        "H": 8,
+        "R5-min": 4,
+        "I": 11
+      }
+    },
+    {
+      "check": "exact3-new-canonical",
+      "passed": true,
+      "detail": [
+        "POST /project-completion-records/{completionRecordId}/conditions/{id}:close",
+        "POST /projects/{id}:startAcceptance",
+        "POST /projects/{id}:startExecution"
+      ]
+    },
+    {
+      "check": "condition-keeps-two-named-UUIDs",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "no-supporting-double-count",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "final-inputs-present",
+      "passed": true,
+      "detail": []
+    },
+    {
+      "check": "ownership-origin-real-delta",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "scope-user-decision-six",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "every-modern-write-and-C-confirm-explicit-tag",
+      "passed": true,
+      "detail": []
+    },
+    {
+      "check": "all-write-CSRF",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "sources.json-raw-byte-pins",
+      "passed": true,
+      "detail": []
+    },
+    {
+      "check": "artifacts.json-raw-byte-pins",
+      "passed": true,
+      "detail": []
+    },
+    {
+      "check": "native-reference-exact-components",
+      "passed": true,
+      "detail": 95
+    },
+    {
+      "check": "native-reference-pinned-source",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "H-sole-shape-authority",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "source-hash-excludes-new-self-output-refs",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "exact-active-policy-canonical-hash",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "policy-all11-and-four-independent-stage-candidates",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "effective-schema-draft2020-12-valid",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "schema-and-native-reference-closure",
+      "passed": true,
+      "detail": []
+    },
+    {
+      "check": "SQL-lexical-structure",
+      "passed": true,
+      "detail": {
+        "statements": 141,
+        "scope": "quotes/dollar bodies/parentheses/terminators only; no SQL execution or PostgreSQL semantic parser"
+      }
+    },
+    {
+      "check": "new-table-names-unique",
+      "passed": true,
+      "detail": [
+        "receipt_accounting_basis",
+        "operating_baseline_source",
+        "project_cost_inclusion_decision",
+        "project_cost_inclusion_head",
+        "operating_source_context",
+        "operating_snapshot_cost_member",
+        "operating_source_member",
+        "project_operating_head",
+        "project_stage_record",
+        "commission_role_assignment_participant",
+        "commission_role_assignment_freeze_payload",
+        "project_completion_condition",
+        "project_completion_condition_closure",
+        "project_lifecycle_evidence_ref",
+        "operating_evaluation_evidence",
+        "operating_evaluation_reason",
+        "operating_gate_summary_payload",
+        "operating_command_receipt",
+        "project_ownership_origin"
+      ]
+    },
+    {
+      "check": "new-tables-not-existing",
+      "passed": true,
+      "detail": []
+    },
+    {
+      "check": "source-migration-count",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "static120-source-table-model",
+      "passed": true,
+      "detail": 120
+    },
+    {
+      "check": "referenced-tables-and-columns-exist-statically",
+      "passed": true,
+      "detail": []
+    },
+    {
+      "check": "no-readded-columns",
+      "passed": true,
+      "detail": []
+    },
+    {
+      "check": "no-duplicate-existing-composite-unique",
+      "passed": true,
+      "detail": []
+    },
+    {
+      "check": "no-history-fact-seeding",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "no-placeholder-migration-instructions",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "money-precision-not-widened",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "legacy-producer-default0",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "origin-one-way-DB-guard",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "unknown-pending-tax-is-null-with-knowledge",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "all-adopted-summary-definitions-registered",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "check": "deferred-context-binding-and-completion-checks",
+      "passed": true,
+      "detail": null
+    }
+  ],
+  "errors": [],
+  "limitations": [
+    "SQL has not been executed, parsed by PostgreSQL, or checked against a live DB. Runtime/service semantic predicates remain G2 implementation and acceptance obligations."
+  ],
+  "observed": {
+    "operations": 32,
+    "groups": {
+      "G": 9,
+      "H": 8,
+      "R5-min": 4,
+      "I": 11
+    },
+    "newTables": 19,
+    "sourceMigrationFiles": 94,
+    "staticSourceTables": 120
+  }
+}

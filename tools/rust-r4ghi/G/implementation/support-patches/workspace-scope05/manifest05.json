@@ -1,0 +1,45 @@
+{
+  "kind": "Root-application-proposal-workspace-scope05",
+  "files": [
+    {
+      "path": "apps/poms-api-rust/src/project_workspace/service.rs",
+      "baseSha256": "63a95b4ae77dcea3b42cbf2082591eaacdcc40831acb1e091b5f6301b8a6a0ee",
+      "candidate": "service.rs.candidate.rs",
+      "candidateSha256": "c1e260366fa4d1e163c18b0b3bc88b13121d677c098cd6bdccd4f0b1c552cfbc",
+      "patch": "service.rs.patch",
+      "patchSha256": "33f77b407c80fd7aeeeb246c992784523490648ca55b0c8f51e319910e06cb49"
+    },
+    {
+      "path": "apps/poms-api-rust/src/project_workspace/http.rs",
+      "baseSha256": "bec86b82e612493fe24575cab11d4c83e5475809478d1a4e111d23b5dbd426cd",
+      "candidate": "http.rs.candidate.rs",
+      "candidateSha256": "4f1a8fd632c070fe3b9d0931559b79a02bd3ec1e7f15132c160fff30634acde8",
+      "patch": "http.rs.patch",
+      "patchSha256": "ba7ffc07b8d7be05c7908b8b73e2878bda495cf0df9739770bde9a4670093f42"
+    }
+  ],
+  "author": "G; Root alone applies; I/H must independently review this workspace proposal",
+  "rootProductModified": false,
+  "implemented": [
+    "Authenticated Actor created from the existing resolved HTTP guard/session and request metadata",
+    "Both old read entrypoints use one service-owned outer transaction and CommonSession",
+    "Real ReadProjectAnchorOrIList proof is strictly FullProject before source reads",
+    "Every workspace query borrows the same connection",
+    "Pending authentication coflush and outcome commit/rollback remain in the same TX; unknown commit is not reported as success",
+    "Original guidance/timeline wire shape, event source selection, enum spelling, sorting and pure projection tests preserved"
+  ],
+  "actualValidation": {
+    "rustfmt": "passed on both exact candidates",
+    "wireTail": "unchanged normalized text from original iso/rendering/tests onward",
+    "wholeCargo": "not run; Root integrated compile required",
+    "databaseHttp": "not run; Root owns isolated acceptance"
+  },
+  "requiredAcceptance": [
+    "FullProject owner and true participant retain existing successful GET/HEAD wire output",
+    "Unrelated, own-condition-only, creator-only and legacy-anchor-only actors cannot read timeline/guidance",
+    "No unauthorized source reads before Scope succeeds",
+    "Pending authentication flush failure rolls back and emits no successful response",
+    "Query/projection failure and uncertain commit do not report success"
+  ],
+  "gate": "G2 support candidate only; original non-author P1 report remains unchanged; not self-approved G3"
+}

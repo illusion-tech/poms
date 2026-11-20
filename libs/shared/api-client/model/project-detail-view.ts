@@ -7,47 +7,22 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
+import { LegacyOwnerAnchorView } from './legacy-owner-anchor-view';
 import { ProjectStatus } from './project-status';
 import { ProjectDetailBidSummary } from './project-detail-bid-summary';
 import { ProjectDetailConfirmationSummary } from './project-detail-confirmation-summary';
+import { CreatorFirstAssignmentAnchorView } from './creator-first-assignment-anchor-view';
 import { ProjectStage } from './project-stage';
 import { ProjectDetailContractSummary } from './project-detail-contract-summary';
 import { ProjectDetailStageSummary } from './project-detail-stage-summary';
 import { ProjectDetailApprovalSummary } from './project-detail-approval-summary';
 import { ProjectSourceLeadSummary } from './project-source-lead-summary';
+import { FullProjectDetailView } from './full-project-detail-view';
+import { ExecutionAdmissionContextView } from './execution-admission-context-view';
 
 
-export interface ProjectDetailView {
-    id: string;
-    projectNo: string;
-    projectName: string;
-    sourceLeadId: string | null;
-    customerId: string | null;
-    customerName: string | null;
-    customerProjectNo: string | null;
-    status: ProjectStatus;
-    currentStage: ProjectStage;
-    ownerOrgId: string | null;
-    ownerUserId: string | null;
-    plannedSignAt: string | null;
-    closedAt: string | null;
-    closedReason: string | null;
-    rowVersion: number;
-    createdAt: string;
-    createdBy: string | null;
-    updatedAt: string;
-    updatedBy: string | null;
-    ownerName: string | null;
-    ownerOrgName: string | null;
-    sourceLeadSummary: ProjectSourceLeadSummary | null;
-    stageSummary: ProjectDetailStageSummary;
-    currentBidSummary: ProjectDetailBidSummary;
-    currentContractSummary: ProjectDetailContractSummary;
-    currentApprovalSummary: ProjectDetailApprovalSummary;
-    currentConfirmationSummary: ProjectDetailConfirmationSummary;
-    summarySnapshotId: string | null;
-    projectionLevel: string | null;
-    exportPolicy: string | null;
-    allowedActions: Array<string>;
-    generatedAt: string;
-}
+/**
+ * @type ProjectDetailView
+ * @export
+ */
+export type ProjectDetailView = CreatorFirstAssignmentAnchorView | FullProjectDetailView | LegacyOwnerAnchorView;

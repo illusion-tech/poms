@@ -1,0 +1,135 @@
+{
+  "kind": "non-author-runtime118-exact-holder-G2-review-blocked-host-role",
+  "schemaVersion": 1,
+  "recordedAt": "2026-11-14T14:35:37.063Z",
+  "input": {
+    "file": "/mnt/e/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/runtime118-holder-start-prep01/input-holder-start118.json",
+    "bytes": 2139,
+    "rawBytesSha256": "323d42c0a93bcec399ede036605d5bc6d4021cf62921e026cd851c1d9f297d0b"
+  },
+  "RootApproval": {
+    "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/runtime118-holder-G2-01/Root-approved-holder-start.json",
+    "bytes": 1603,
+    "rawBytesSha256": "969c9cf7f18bba97d3362d21542ece637a2c7dd8d3911134efc91cdff934ae69"
+  },
+  "G1": {
+    "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/budget-probe118-g1-v3/Root-G1-budget-probe118-v3.json",
+    "bytes": 32283,
+    "rawBytesSha256": "80ea3db59386f935b733e5e29b7b8a4db860c408ccb84f9204b9b5adebac00a1"
+  },
+  "codeQualification": {
+    "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/runtime118-installed-code-carriers01/runtime-Q11.json",
+    "bytes": 2988,
+    "rawBytesSha256": "3183f11973c362408579b0dc8ad19d478dec8fd6d76d191b861572bdcc783807"
+  },
+  "operator": {
+    "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/runtime-recovery121/budget118/reenter-budget118-runtime.mjs",
+    "bytes": 133531,
+    "rawBytesSha256": "681b33644c551c067fd9c06c5726eb596033417ab4dc26c505728a6ae45a7966"
+  },
+  "launcher": {
+    "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/runtime-recovery121/budget118/start-budget118-holder.ps1",
+    "bytes": 25217,
+    "rawBytesSha256": "9a9fd33f8606fe28489f0673ef5ff57a6fc293ce13477b2b84030a73b4fee88a"
+  },
+  "author": "/root/budget118_tax",
+  "reviewer": "/root/holder118_peer",
+  "reviewerIsAuthor": false,
+  "reviewerIsExecutor": false,
+  "phase": "holder-start",
+  "nonce": "298b7886-c2eb-4e34-b425-0e4f9b5d5870",
+  "verdict": "NOTREADY",
+  "blockingFindings": [
+    {
+      "id": "holder-system-wsl-role-pin-mismatch",
+      "source": {
+        "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/runtime-recovery121/budget118/start-budget118-holder.ps1",
+        "bytes": 25217,
+        "rawBytesSha256": "9a9fd33f8606fe28489f0673ef5ff57a6fc293ce13477b2b84030a73b4fee88a"
+      },
+      "literalLine": 24,
+      "enforcementLine": 144,
+      "expected": {
+        "file": "/mnt/c/Windows/System32/wsl.exe",
+        "bytes": 212992,
+        "rawBytesSha256": "97b8172d68ef95e47fe07ab6de231f9b00a73cc5b37f9ffa3d9b5ca13cf8d950",
+        "nlink": 2
+      },
+      "actual": {
+        "file": "/mnt/c/Windows/System32/wsl.exe",
+        "bytes": 212992,
+        "rawBytesSha256": "7492f024a0ef1f77d77a930e1681692501422e96a6df99f503b8a71881c8309c"
+      },
+      "stableFDIdentity": {
+        "canonicalPath": "C:/Windows/System32/wsl.exe",
+        "dev": "3800612498",
+        "ino": "12384898977976090",
+        "nlink": 2,
+        "regular": true,
+        "symlink": false,
+        "fdAndPathStableBeforeAfter": true,
+        "mtimeNs": "1793482800778762700",
+        "ctimeNs": "1794667069247918700"
+      },
+      "independentGetFileHash": {
+        "file": "/mnt/c/Windows/System32/wsl.exe",
+        "bytes": 212992,
+        "rawBytesSha256": "7492f024a0ef1f77d77a930e1681692501422e96a6df99f503b8a71881c8309c",
+        "fileVersion": "10.0.28000.2113 (WinBuild.160101.0800)",
+        "productVersion": "10.0.28000.2113",
+        "lastWriteTimeUtc": "2026-10-31T21:40:00.7787627Z",
+        "readMethod": "PowerShell Get-FileHash SHA256 plus public file metadata"
+      },
+      "consequence": "The exact installed InvokeHolder118 rejects the current system executable raw bytes before its sole WSL launch. This exact phase cannot receive an approved peer."
+    }
+  ],
+  "checkedBeforeBlocking": {
+    "scope": "Actual public byte closure checked during this same independent review before the system-role mismatch; no historical rescan or model rerun.",
+    "inputClosedKeys": 13,
+    "RootApprovalClosedKeys": 10,
+    "runtimeQClosedKeys": 11,
+    "runtimeInputShapeAndApprovalsReviewed": true,
+    "WindowsInvokeHolder118Reviewed": true,
+    "actualRootApprovalIdentityAndNonceMatch": true,
+    "RootDraftNotUsedAsApproval": true,
+    "holderAndOwnControlOnlyGrantsMatch": true,
+    "publicNestedQualificationPinsMatched": true,
+    "allSevenRetainedMappingsByteEqual": true,
+    "installedThreeEqualQualifiedCandidatesAndRetained": true,
+    "publicOriginalExecutionElevenStillDeliveryBefore": true,
+    "publicOriginalExecutionGraph": {
+      "pin": {
+        "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/runtime-recovery121/corrective362-source-actual01/actual-execution-sources284.json",
+        "bytes": 60810,
+        "rawBytesSha256": "b8fd572ffa1e32ff581631410bcacc48e4350c51d4308e96d216cc985b89a25f"
+      },
+      "count": 284,
+      "allCurrentPublicRawHashesMatched": true
+    },
+    "WindowsNode24PinMatched": true,
+    "pwshSystemRolePinMatched": true,
+    "privateExpected6c1daKAreHistoricalCASOnly": true
+  },
+  "effects": {
+    "candidateModuleExecuted": false,
+    "applicationModuleImported": false,
+    "WSLLaunched": false,
+    "holderStarted": false,
+    "privatePRead": false,
+    "privateFileRead": false,
+    "procEnvRead": false,
+    "SQLHTTP": false,
+    "serviceExecuted": false,
+    "codeModified": false,
+    "WSLBinaryModified": false,
+    "sourcePromotion": false,
+    "canonicalOrOwnershipWrite": false,
+    "contextAuthCreated": false,
+    "FIOrNormalStarted": false
+  },
+  "approvedPeerCreated": false,
+  "approvalGranted": false,
+  "retryPolicy": "preserve-partial-no-blind-retry",
+  "followup": "Await an independently qualified exact system-role-pin correction candidate. Do not widen nlink/path/hash matching or alter the WSL executable.",
+  "limits": "This record establishes the concrete public system-role mismatch. Current Linux identity, private state, locks, holder readiness and runtime outcomes remain unobserved."
+}

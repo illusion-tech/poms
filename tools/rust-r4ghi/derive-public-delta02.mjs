@@ -1,0 +1,18 @@
+import fs from 'node:fs';
+import assert from 'node:assert/strict';
+import { createHash } from 'node:crypto';
+const source='tools/rust-r4ghi/I/implementation/support-patches/execution-admission11/public-schema11.json';
+const bytes=fs.readFileSync(source), proposal=JSON.parse(bytes);
+const frozen=JSON.parse(fs.readFileSync('tools/rust-r4ghi/joint-g1/effective-v2/public-contracts.schema.json'));
+const expected=structuredClone(frozen.components.schemas.StartProjectExecutionRequest);
+for(const key of ['inputVersion','expectedProjectVersion','reason'])delete expected.properties[key];
+expected.required=expected.required.filter(k=>!['inputVersion','expectedProjectVersion','reason'].includes(k)).sort();
+const actual=proposal.addSchemas.ExecutionAdmissionContextView;
+assert.deepEqual(actual.properties,expected.properties);
+assert.deepEqual([...actual.required].sort(),expected.required);
+assert.equal(actual.additionalProperties,false);
+const change=proposal.components.FullProjectDetailView;
+assert.deepEqual(change.addRequired,['executionAdmissionContext']);
+const result={kind:'G2-exact-EO-execution-admission-public-delta',base:['tools/rust-r4ghi/joint-g1/effective-v2/public-contracts.schema.json','docs/design/rust-r4ghi/g2-public-delta01.json'],sourceProposal:source,sourceProposalSHA256:createHash('sha256').update(bytes).digest('hex'),operationCountChanged:false,newHttpOperations:0,addSchemas:proposal.addSchemas,components:{FullProjectDetailView:{addProperties:change.addProperties,addRequired:change.addRequired}},G3Certified:false,actualAcceptancePassed:false};
+const target='docs/design/rust-r4ghi/g2-public-delta02.json';assert(!fs.existsSync(target));fs.writeFileSync(target,JSON.stringify(result,null,2)+'\n',{flag:'wx'});
+console.log(JSON.stringify({target,addedSchemas:1,fields:expected.required.length,oldDeltaPreserved:true}));

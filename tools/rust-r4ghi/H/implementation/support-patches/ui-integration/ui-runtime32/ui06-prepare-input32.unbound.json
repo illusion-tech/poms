@@ -1,0 +1,159 @@
+{
+  "schemaVersion": 1,
+  "kind": "prepare-real-ui16-plan",
+  "purpose": "dom",
+  "plan": {
+    "schemaVersion": 1,
+    "namespace": "poms-r4ghi",
+    "epoch": "g2-business12",
+    "run": "main01",
+    "uiRun": "dom14-source12-06",
+    "origin": "http://127.0.0.1:44551",
+    "backendPort": 31441,
+    "paths": {
+      "linuxIPC": "/home/wangzishi/.local/share/poms-r4ghi/private/ui/runtime14/dom14-source12-06",
+      "windowsIPC": "//wsl.localhost/Debian/home/wangzishi/.local/share/poms-r4ghi/private/ui/runtime14/dom14-source12-06",
+      "linuxPlan": "/home/wangzishi/.local/share/poms-r4ghi/private/ui-config/runtime14/dom14-source12-06.json",
+      "windowsPlan": "//wsl.localhost/Debian/home/wangzishi/.local/share/poms-r4ghi/private/ui-config/runtime14/dom14-source12-06.json",
+      "windowsPrivate": "E:/projects/worktrees/poms-r3hijk-next28/poms/tmp/rust-r4ghi/private/ui-runtime14/dom14-source12-06",
+      "linuxPublic": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tmp/rust-r4ghi/root/ui-runtime14/dom14-source12-06",
+      "windowsPublic": "E:/projects/worktrees/poms-r3hijk-next28/poms/tmp/rust-r4ghi/root/ui-runtime14/dom14-source12-06",
+      "linuxBinding": "/home/wangzishi/.local/share/poms-r4ghi/private/ui-config/runtime14/dom14-source12-06-binding.json",
+      "windowsBinding": "//wsl.localhost/Debian/home/wangzishi/.local/share/poms-r4ghi/private/ui-config/runtime14/dom14-source12-06-binding.json"
+    },
+    "sourceBases": [],
+    "browserCasesSourceBaseSHA256": "52addde6eab92076ea50970e597754bf426fc21a87019c91e25714b40068fe0c",
+    "linuxNodeExecutable": "/home/wangzishi/.local/share/fnm/node-versions/v24.19.0/installation/bin/node",
+    "overallTimeoutSeconds": 1800,
+    "windows": {
+      "node": {
+        "executablePath": "C:/Users/ynh2/AppData/Roaming/fnm/node-versions/v24.19.0/installation/node.exe",
+        "rawBytesSha256": "3602f2bb1a10f2cbab4c36886218a33c1ab3db87290e73b033c46c77147d0237",
+        "version": "v24.19.0"
+      },
+      "browser": {
+        "executablePath": "C:/Program Files/Google/Chrome/Application/chrome.exe",
+        "rawBytesSha256": "46461accbdc87dc88a5bdd6d611be095dd6147db009863d794f742ca90662efa",
+        "productVersion": "156.0.8078.80",
+        "fileVersion": "156.0.8078.80",
+        "browserVersion": "156.0.8078.80"
+      },
+      "playwright": {
+        "requireFromPackageJson": "E:/projects/worktrees/poms-r3hijk-next28/poms/package.json",
+        "requireFromPackageJsonRawBytesSha256": "7bb812cbdfad7356fc835e18ff250c399706eb881f9f2b491f6c1257cc3c3b75",
+        "entryFile": "E:/projects/worktrees/poms-r3hijk-next28/poms/node_modules/.pnpm/@playwright+test@1.63.0/node_modules/@playwright/test/index.js",
+        "entryRawBytesSha256": "499da5dd8585212108a1443793de31ebc061ca7db02343f107955f261180cdfc",
+        "packageFile": "E:/projects/worktrees/poms-r3hijk-next28/poms/node_modules/.pnpm/@playwright+test@1.63.0/node_modules/@playwright/test/package.json",
+        "packageRawBytesSha256": "5587f932b8979b6889654b60e3c28aeb7ca0abbac00eec8c176c939a16149536",
+        "version": "1.63.0"
+      },
+      "powershell": {
+        "executablePath": "C:/Users/ynh2/.cache/codex-runtimes/codex-primary-runtime/dependencies/native/powershell/pwsh.exe",
+        "rawBytesSha256": "2a6769a3330dc1084d0154bfde7d164ab750ca7f700f313f9d417c1be78b2233",
+        "version": "7.6.9"
+      }
+    },
+    "cases": [
+      {
+        "kind": "creator-assigned-readback",
+        "actorKey": "manager",
+        "projectIdPointer": "/fixtures/creatorOwnership23/uiSpareProjectId",
+        "forbiddenTextPointers": []
+      },
+      {
+        "kind": "own-condition",
+        "actorKey": "condition",
+        "projectIdPointer": "/fixtures/uiFixtureViews23/own/pause/result/projectId",
+        "forbiddenTextPointers": [
+          "/fixtures/uiFixtureViews23/own/fixtures/completion/completionSummary"
+        ]
+      },
+      {
+        "kind": "legacy-anchor",
+        "actorKey": "manager",
+        "projectIdPointer": "/fixtures/legacyCompatibilityFixture/projectId",
+        "forbiddenTextPointers": []
+      },
+      {
+        "kind": "money-max",
+        "actorKey": "manager",
+        "projectIdPointer": "/fixtures/maxProject/id",
+        "forbiddenTextPointers": []
+      },
+      {
+        "kind": "sensitive-mask",
+        "actorKey": "person",
+        "projectIdPointer": "/fixtures/maskProject/id",
+        "sourceRefPointer": "/fixtures/maskTruth/sourceRef",
+        "forbiddenTextPointers": [
+          "/fixtures/maskTruth/amountIncludingTax"
+        ]
+      }
+    ],
+    "RootMustBindCurrentWindowsInventoryAndLinuxNode": true,
+    "writeActions": [
+      {
+        "kind": "own-condition",
+        "actorKey": "condition",
+        "fixtureViewKey": "own",
+        "completionRecordIdPointer": "/fixtures/uiFixtureViews23/own/pause/result/parentCompletionRecordId",
+        "evidenceText": "本人为同一待闭合条件提交第二份独立补充证明，内容与前份不同，核对本次新材料后再提交闭合。",
+        "closureSummary": "本人已核对本任务的新上传证明并完成此条件。"
+      }
+    ],
+    "relay24": {
+      "schemaVersion": 1,
+      "workerKind": "runtime14",
+      "interfaceName": "eth0",
+      "wslIPv4": "172.22.207.203",
+      "linuxListen": {
+        "address": "172.22.207.203",
+        "port": 44552
+      },
+      "linuxTarget": {
+        "address": "127.0.0.1",
+        "port": 44551
+      },
+      "windowsListen": {
+        "address": "127.0.0.1",
+        "port": 44551
+      },
+      "windowsTarget": {
+        "address": "172.22.207.203",
+        "port": 44552
+      },
+      "readyTimeoutMs": 15000,
+      "stopTimeoutMs": 10000,
+      "lifetimeSeconds": 2100,
+      "wsl": {
+        "executablePath": "C:/Windows/System32/wsl.exe",
+        "rawBytesSha256": "97b8172d68ef95e47fe07ab6de231f9b00a73cc5b37f9ffa3d9b5ca13cf8d950"
+      },
+      "paths": {
+        "windows": "E:/projects/worktrees/poms-r3hijk-next28/poms/tmp/rust-r4ghi/private/ui-relay24/dom14-source12-06",
+        "linux": "/home/wangzishi/.local/share/poms-r4ghi/private/ui/relay24/dom14-source12-06",
+        "unc": "//wsl.localhost/Debian/home/wangzishi/.local/share/poms-r4ghi/private/ui/relay24/dom14-source12-06"
+      }
+    },
+    "cookieScopeProof": {
+      "file": "/home/wangzishi/.local/share/poms-r4ghi/private/ui-config/runtime14/dom14-source12-04-cookie-scope27.json",
+      "rawBytesSha256": "5adc614c63a431f6661c3fadd58dfbfc311c2bf7e974ca15522b6f1ff48a6030"
+    }
+  },
+  "sourceManifest": {
+    "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business12/main01/004534-candidate-source-binding12.json",
+    "rawBytesSha256": "b5c86c8882657aac1e1affc153510a728bc304943265e51a230b6be19a0429b7"
+  },
+  "candidateReceipt": {
+    "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business12/main01/004534-candidate-source-binding12.json",
+    "rawBytesSha256": "b5c86c8882657aac1e1affc153510a728bc304943265e51a230b6be19a0429b7"
+  },
+  "apiProcess": {
+    "file": "/home/wangzishi/.local/share/poms-r4ghi/private/rust-api135-process.json",
+    "rawBytesSha256": "a42333c74b7afd8aa7359bb3cf915444cc7cbbfebff9049a467c2cdb33ccef06"
+  },
+  "promotedToolClosure": {
+    "file": null,
+    "rawBytesSha256": null
+  }
+}

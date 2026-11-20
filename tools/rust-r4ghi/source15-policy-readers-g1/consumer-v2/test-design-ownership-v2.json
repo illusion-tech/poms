@@ -1,0 +1,23 @@
+{
+  "kind": "design-only-not-executed",
+  "cases": [
+    "Frame absent while envelope bools true rejects",
+    "F/C/S/sweep pin or bytes differ rejects",
+    "Frame created before reconcile/postconditions/exit refuses",
+    "Frame or required journal points future C/S/self rejects",
+    "C points S or state published before both files refuses",
+    "Active mutable state/log path or alias/symlink/hardlink rejects",
+    "Ownership log truncated/selected lines/reordered/prefix mutated rejects",
+    "Raw actual snapshot rowSHA/xmin versus frozen frame mismatch rejects",
+    "Before proof/request/op/body or afterSnapshot pin wrong rejects",
+    "Borrowed/deletion/object changes missing from full ledger chain reject",
+    "Invented ledger.status or borrowed.latestXmin is not required/accepted as authority",
+    "Actual complete frame remains valid after legitimate period/mixed latest changes",
+    "Fake ctx/reader injection cannot make historical validator pass",
+    "Old13 Main/final14 frame relabel15 rejects",
+    "All five consumer selectors independently require same frame",
+    "Crash after C or S without state publication preserves orphan/no201 replay"
+  ],
+  "testsExecuted": 0,
+  "actualEffects": false
+}

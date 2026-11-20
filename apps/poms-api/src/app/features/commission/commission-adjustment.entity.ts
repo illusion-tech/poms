@@ -61,6 +61,8 @@ export const CommissionAdjustmentSchema = defineEntity({
                 .updateRule('cascade')
                 .deleteRule('set null'),
         amount: p.decimal().precision(18).scale(2).nullable().fieldName('amount'),
+        sourceContractScope: p.json().$type<Record<string, unknown>>().nullable().fieldName('source_contract_scope'),
+        approvedContractAllocations: p.json().$type<Array<Record<string, unknown>>>().nullable().fieldName('approved_contract_allocations'),
         reason: p.string().length(256),
         status: p.string().$type<CommissionAdjustmentStatus>().length(32).default('draft'),
         executedAt: p.datetime().nullable().fieldName('executed_at'),

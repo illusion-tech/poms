@@ -1,0 +1,226 @@
+//! Named route identities and exact modern request variants. No client scope proof.
+use super::model::*;
+use crate::contract_support::Error;
+use serde_json::Value;
+use std::collections::BTreeMap;
+use uuid::Uuid;
+
+#[derive(Clone, Debug, Default)]
+pub struct ResourceKeys(BTreeMap<String, Uuid>);
+impl ResourceKeys {
+    pub fn from_registered_pairs(
+        pairs: impl IntoIterator<Item = (String, Uuid)>,
+    ) -> Result<Self, Error> {
+        let mut values = BTreeMap::new();
+        for (key, value) in pairs {
+            if values.insert(key, value).is_some() {
+                return Err(Error::BadRequest(
+                    "Duplicate registered resource key".into(),
+                ));
+            }
+        }
+        Ok(Self(values))
+    }
+    pub(crate) fn from_raw(values: &BTreeMap<String, String>) -> Result<Self, Error> {
+        let mut keys = Vec::new();
+        for (name, raw) in values {
+            let decoded = crate::auth::cookie::decode_uri_component(raw)
+                .map_err(|_| Error::BadRequest("Invalid encoded resource UUID".into()))?;
+            let id = Uuid::parse_str(&decoded)
+                .map_err(|_| Error::BadRequest(format!("Invalid {name} UUID")))?;
+            if decoded.len() != 36 || !id.to_string().eq_ignore_ascii_case(&decoded) {
+                return Err(Error::BadRequest(format!("Invalid {name} UUID")));
+            }
+            keys.push((name.clone(), id));
+        }
+        Self::from_registered_pairs(keys)
+    }
+    pub fn get(&self, name: &str) -> Option<Uuid> {
+        self.0.get(name).copied()
+    }
+    pub fn require(&self, name: &str) -> Result<Uuid, Error> {
+        self.get(name)
+            .ok_or_else(|| Error::BadRequest(format!("Missing registered resource key {name}")))
+    }
+    pub fn id(&self) -> Result<Uuid, Error> {
+        self.require("id")
+    }
+    pub fn project_id(&self) -> Result<Uuid, Error> {
+        self.require("projectId")
+    }
+    pub fn completion_record_id(&self) -> Result<Uuid, Error> {
+        self.require("completionRecordId")
+    }
+    #[cfg(test)]
+    fn legacy_single(&self) -> Result<Option<Uuid>, Error> {
+        match self.0.len() {
+            0 => Ok(None),
+            1 => Ok(self.0.values().next().copied()),
+            _ => Err(Error::BadRequest(
+                "This legacy operation requires one registered resource key".into(),
+            )),
+        }
+    }
+}
+
+#[derive(Clone, Debug)]
+pub enum TypedRequest {
+    None,
+    ActivateOperatingBaselinePackageRequest(ActivateOperatingBaselinePackageRequest),
+    CreateProjectOperatingSnapshotRequest(CreateProjectOperatingSnapshotRequest),
+    CreatePeriodClosingSnapshotRequest(CreatePeriodClosingSnapshotRequest),
+    CreateOperatingRestatementRequest(CreateOperatingRestatementRequest),
+    ReviewOperatingSignalEvaluationRequest(ReviewOperatingSignalEvaluationRequest),
+    ReviewCommissionGateBindingRequest(ReviewCommissionGateBindingRequest),
+    CreateCommissionRoleAssignmentRequest(CreateCommissionRoleAssignmentRequest),
+    FreezeCommissionRoleAssignmentRequest(FreezeCommissionRoleAssignmentRequest),
+    CreateAcceptanceRecordRequest(CreateAcceptanceRecordRequest),
+    CreateProjectCompletionRecordRequest(CreateProjectCompletionRecordRequest),
+    CreateProjectArchiveRecordRequest(CreateProjectArchiveRecordRequest),
+    ReplaceProjectArchiveRecordRequest(ReplaceProjectArchiveRecordRequest),
+    VoidProjectArchiveRecordRequest(VoidProjectArchiveRecordRequest),
+    StartProjectExecutionRequest(StartProjectExecutionRequest),
+    StartProjectAcceptanceRequest(StartProjectAcceptanceRequest),
+    CloseProjectCompletionConditionRequest(CloseProjectCompletionConditionRequest),
+    ConfirmReceiptRecordRequest(ConfirmReceiptRecordRequest),
+}
+impl TypedRequest {
+    pub fn parse(operation: &str, raw: Option<&str>) -> Result<Self, Error> {
+        let Some(name) = request_name(operation) else {
+            return Ok(Self::None);
+        };
+        let raw = raw.unwrap_or("{}");
+        let header: BTreeMap<String, Box<serde_json::value::RawValue>> = serde_json::from_str(raw)
+            .map_err(|_| Error::BadRequest("Expected a JSON request object".into()))?;
+        let protocol = header
+            .get("inputVersion")
+            .and_then(|value| serde_json::from_str::<String>(value.get()).ok());
+        if protocol.as_deref() != Some("server-derived-v1") {
+            return Err(Error::CodedUnprocessable {
+                code: "legacy_reference_input_unsupported",
+                message: "This command requires inputVersion=server-derived-v1".into(),
+            });
+        }
+        let normalized = super::schema::normalize_public_request(name, raw)?;
+        macro_rules! decode {
+            ($variant:ident) => {
+                Self::$variant(serde_json::from_str::<$variant>(&normalized).map_err(|_| {
+                    Error::BadRequest("Modern request does not match its frozen DTO".into())
+                })?)
+            };
+        }
+        Ok(match name {
+            "ActivateOperatingBaselinePackageRequest" => {
+                decode!(ActivateOperatingBaselinePackageRequest)
+            }
+            "CreateProjectOperatingSnapshotRequest" => {
+                decode!(CreateProjectOperatingSnapshotRequest)
+            }
+            "CreatePeriodClosingSnapshotRequest" => decode!(CreatePeriodClosingSnapshotRequest),
+            "CreateOperatingRestatementRequest" => decode!(CreateOperatingRestatementRequest),
+            "ReviewOperatingSignalEvaluationRequest" => {
+                decode!(ReviewOperatingSignalEvaluationRequest)
+            }
+            "ReviewCommissionGateBindingRequest" => decode!(ReviewCommissionGateBindingRequest),
+            "CreateCommissionRoleAssignmentRequest" => {
+                decode!(CreateCommissionRoleAssignmentRequest)
+            }
+            "FreezeCommissionRoleAssignmentRequest" => {
+                decode!(FreezeCommissionRoleAssignmentRequest)
+            }
+            "CreateAcceptanceRecordRequest" => decode!(CreateAcceptanceRecordRequest),
+            "CreateProjectCompletionRecordRequest" => decode!(CreateProjectCompletionRecordRequest),
+            "CreateProjectArchiveRecordRequest" => decode!(CreateProjectArchiveRecordRequest),
+            "ReplaceProjectArchiveRecordRequest" => decode!(ReplaceProjectArchiveRecordRequest),
+            "VoidProjectArchiveRecordRequest" => decode!(VoidProjectArchiveRecordRequest),
+            "StartProjectExecutionRequest" => decode!(StartProjectExecutionRequest),
+            "StartProjectAcceptanceRequest" => decode!(StartProjectAcceptanceRequest),
+            "CloseProjectCompletionConditionRequest" => {
+                decode!(CloseProjectCompletionConditionRequest)
+            }
+            "ConfirmReceiptRecordRequest" => decode!(ConfirmReceiptRecordRequest),
+            _ => return Err(Error::Internal),
+        })
+    }
+    pub fn value(&self) -> Result<Value, Error> {
+        macro_rules! value {
+            ($input:expr) => {
+                serde_json::to_value($input).map_err(|_| Error::Internal)
+            };
+        }
+        match self {
+            Self::None => Ok(Value::Null),
+            Self::ActivateOperatingBaselinePackageRequest(v) => value!(v),
+            Self::CreateProjectOperatingSnapshotRequest(v) => value!(v),
+            Self::CreatePeriodClosingSnapshotRequest(v) => value!(v),
+            Self::CreateOperatingRestatementRequest(v) => value!(v),
+            Self::ReviewOperatingSignalEvaluationRequest(v) => value!(v),
+            Self::ReviewCommissionGateBindingRequest(v) => value!(v),
+            Self::CreateCommissionRoleAssignmentRequest(v) => value!(v),
+            Self::FreezeCommissionRoleAssignmentRequest(v) => value!(v),
+            Self::CreateAcceptanceRecordRequest(v) => value!(v),
+            Self::CreateProjectCompletionRecordRequest(v) => value!(v),
+            Self::CreateProjectArchiveRecordRequest(v) => value!(v),
+            Self::ReplaceProjectArchiveRecordRequest(v) => value!(v),
+            Self::VoidProjectArchiveRecordRequest(v) => value!(v),
+            Self::StartProjectExecutionRequest(v) => value!(v),
+            Self::StartProjectAcceptanceRequest(v) => value!(v),
+            Self::CloseProjectCompletionConditionRequest(v) => value!(v),
+            Self::ConfirmReceiptRecordRequest(v) => value!(v),
+        }
+    }
+}
+pub fn request_name(operation: &str) -> Option<&'static str> {
+    Some(match operation {
+        "ProjectCostController_activateOperatingBaselinePackage" => {
+            "ActivateOperatingBaselinePackageRequest"
+        }
+        "ProjectCostController_createProjectOperatingSnapshot" => {
+            "CreateProjectOperatingSnapshotRequest"
+        }
+        "ProjectCostController_createPeriodClosingSnapshot" => "CreatePeriodClosingSnapshotRequest",
+        "ProjectCostController_createOperatingRestatement" => "CreateOperatingRestatementRequest",
+        "ProjectCostController_reviewOperatingSignalEvaluation" => {
+            "ReviewOperatingSignalEvaluationRequest"
+        }
+        "ProjectCostController_reviewCommissionGateBinding" => "ReviewCommissionGateBindingRequest",
+        "CommissionController_createRoleAssignment" => "CreateCommissionRoleAssignmentRequest",
+        "CommissionRoleAssignmentController_freezeRoleAssignment" => {
+            "FreezeCommissionRoleAssignmentRequest"
+        }
+        "ProjectController_createAcceptanceRecord" => "CreateAcceptanceRecordRequest",
+        "ProjectController_createProjectCompletionRecord" => "CreateProjectCompletionRecordRequest",
+        "ProjectController_createProjectArchiveRecord" => "CreateProjectArchiveRecordRequest",
+        "ProjectArchiveRecordController_replaceProjectArchiveRecord" => {
+            "ReplaceProjectArchiveRecordRequest"
+        }
+        "ProjectArchiveRecordController_voidProjectArchiveRecord" => {
+            "VoidProjectArchiveRecordRequest"
+        }
+        "ProjectController_startExecution" => "StartProjectExecutionRequest",
+        "ProjectController_startAcceptance" => "StartProjectAcceptanceRequest",
+        "ProjectCompletionRecordController_closeCompletionCondition" => {
+            "CloseProjectCompletionConditionRequest"
+        }
+        "ContractFinanceController_confirmReceipt" => "ConfirmReceiptRecordRequest",
+        _ => return None,
+    })
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    #[test]
+    fn condition_parent_and_child_are_independently_named() {
+        let parent = Uuid::from_u128(1);
+        let child = Uuid::from_u128(2);
+        let keys = ResourceKeys::from_registered_pairs([
+            ("completionRecordId".into(), parent),
+            ("id".into(), child),
+        ])
+        .unwrap_or_else(|_| panic!("keys"));
+        assert_eq!(keys.require("completionRecordId").ok(), Some(parent));
+        assert_eq!(keys.require("id").ok(), Some(child));
+        assert!(keys.legacy_single().is_err());
+    }
+}

@@ -1,0 +1,36 @@
+{
+  "kind": "independently-reviewed-tool-only-correction-after-real-observation",
+  "classification": "tool-noise",
+  "corrections": [
+    {
+      "file": "tools/rust-r4ghi/business/operating.mjs",
+      "before": "e0f4b32fb3a04e1ddaa024c70c40e892765f2ad3308cd4314fc9ccfc9a575695",
+      "from": "{ responseBirths: [{ table: 'commission_gate_review_record', pointer: '/reviewRecordId' }]",
+      "to": "{ responseBirths: [{ table: 'commission_gate_review_record', pointer: '/gateReviewRecordId' }]",
+      "after": "f4a413540cf2a48598158a8609c71263de5350afbb2b052216003c041884bd6d",
+      "original": "tools/rust-r4ghi/root-proposals/tool-correction41/operating.mjs.before.bin"
+    },
+    {
+      "file": "tools/rust-r4ghi/business/fault-sweep.mjs",
+      "before": "7bd3b8c29cf83a31a77f145a57679dca242838676f206f9a3815daf5a93df7f5",
+      "from": "assertPeriodSweepPolicy(descriptor.operationId, descriptor.scope.body);",
+      "to": "assertPeriodSweepPolicy(descriptor.operationId, descriptor.scope.body, ctx);",
+      "after": "986afb297db23a425d13384b312c8b80f26b2aaeba13ec66ac93b853bd064e36",
+      "original": "tools/rust-r4ghi/root-proposals/tool-correction41/fault-sweep.mjs.before.bin"
+    }
+  ],
+  "review": [
+    "Independent reviewer verified ReviewCommissionGateBindingResult and query.rs: targetId/bindingResultId are the binding; gateReviewRecordId is the new review record",
+    "Signal review retains its separate reviewRecordId; the generic ownership verifier is unchanged",
+    "Period installation receives the same real context already required by the approved decision/source guard; authority is not widened"
+  ],
+  "originalHTTP": "g2-business10/main01/001047-http",
+  "originalFailedLedger": "g2-business10/main01/001048-ledger.json",
+  "committedBusinessCommandMustNotBeReplayed": true,
+  "sourceEpochChanged": false,
+  "businessProductCodeChanged": false,
+  "periodPositiveExecuted": false,
+  "metadataRecoveryExecuted": false,
+  "G3Certified": false,
+  "G4Certified": false
+}

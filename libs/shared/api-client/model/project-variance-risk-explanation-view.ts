@@ -7,8 +7,11 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
+import { OperatingEvaluationContext } from './operating-evaluation-context';
 import { OperatingSnapshotActionLevel } from './operating-snapshot-action-level';
 import { OperatingRiskLevel } from './operating-risk-level';
+import { OperatingMetricKnowledge } from './operating-metric-knowledge';
+import { OperatingReasonView } from './operating-reason-view';
 import { OperatingDataMaturityLevel } from './operating-data-maturity-level';
 import { SensitiveStringFieldProjection } from './sensitive-string-field-projection';
 
@@ -19,13 +22,36 @@ export interface ProjectVarianceRiskExplanationView {
     varianceSourceSummaryProjection: SensitiveStringFieldProjection;
     riskLevel: OperatingRiskLevel;
     taxImpactSummaryProjection: SensitiveStringFieldProjection;
-    allocationStabilitySummary: string | null;
-    unmappedCostSummary: string | null;
+    allocationStabilitySummary: ProjectVarianceRiskExplanationViewAllocationStabilitySummaryEnum | null;
+    unmappedCostSummary: ProjectVarianceRiskExplanationViewUnmappedCostSummaryEnum | null;
     dataMaturityLevel: OperatingDataMaturityLevel;
     costActionRecommendation: OperatingSnapshotActionLevel;
-    currentActionLevel: OperatingSnapshotActionLevel;
+    currentActionLevel: ProjectVarianceRiskExplanationViewCurrentActionLevelEnum;
     referencedBaselineVersion: string;
     referencedSnapshotVersion: string;
-    recommendedActionSummary: string | null;
+    recommendedActionSummary: ProjectVarianceRiskExplanationViewRecommendedActionSummaryEnum | null;
     allowedActions: Array<string>;
+    evaluationContext: OperatingEvaluationContext;
+    reasonItems: Array<OperatingReasonView>;
+    reviewState: ProjectVarianceRiskExplanationViewReviewStateEnum;
+    metricKnowledge: OperatingMetricKnowledge;
+    systemRiskLevel: OperatingRiskLevel;
+    allocationStabilitySummaryProjection: SensitiveStringFieldProjection;
+    unmappedCostSummaryProjection: SensitiveStringFieldProjection;
+    recommendedActionSummaryProjection: SensitiveStringFieldProjection;
 }
+export type ProjectVarianceRiskExplanationViewAllocationStabilitySummaryEnum = null;;
+export type ProjectVarianceRiskExplanationViewUnmappedCostSummaryEnum = null;;
+export enum ProjectVarianceRiskExplanationViewCurrentActionLevelEnum {
+    Prompt = 'prompt',
+    Review = 'review',
+    Block = 'block'
+};
+export type ProjectVarianceRiskExplanationViewRecommendedActionSummaryEnum = null;;
+export enum ProjectVarianceRiskExplanationViewReviewStateEnum {
+    NotRequired = 'not-required',
+    Pending = 'pending',
+    Acknowledged = 'acknowledged',
+    ManualConfirmed = 'manual-confirmed',
+    Stale = 'stale'
+};

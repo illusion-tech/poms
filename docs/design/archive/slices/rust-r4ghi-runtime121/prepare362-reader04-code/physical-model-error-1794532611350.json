@@ -1,0 +1,25 @@
+{
+  "kind": "physical-reader-own-model-error",
+  "results": [
+    {
+      "name": "retained03 stops on real enriched18 versus runtime3, preserving exact defect",
+      "outcome": "PASS"
+    },
+    {
+      "name": "retained02 rejects the real schema2 fixture, preserving exact prior defect",
+      "outcome": "PASS"
+    }
+  ],
+  "error": {
+    "name": "AssertionError",
+    "message": "Captured physical reconstruction refused; private values suppressed",
+    "frames": [
+      "    at preparationOrigin121 (file:///E:/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/runtime121-prepare362-readback-preparation04/model-origin-1794532611158.mjs:95:12)",
+      "    at validateRetainedPreparationOrigin362 (file:///E:/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/runtime121-prepare362-readback-preparation04/model-origin-1794532611158.mjs:125:13)",
+      "    at reconstruct (file:///E:/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/runtime121-prepare362-readback-preparation04/model-entry-1794532611158.mjs:24:181)",
+      "    at Object.reconstruct (file:///E:/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/runtime121-prepare362-readback-preparation04/model-entry-1794532611158.mjs:48:53)",
+      "    at file:///E:/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/runtime121-prepare362-readback-preparation04/test-captured-physical362.mjs:61:566"
+    ]
+  },
+  "actualPRead": false
+}

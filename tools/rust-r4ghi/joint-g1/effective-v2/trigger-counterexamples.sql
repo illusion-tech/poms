@@ -1,0 +1,7 @@
+-- PLANNED ONLY. NOT RUN. Bind IDs from real HTTP-produced assignments.
+-- PREPARE move_member(uuid,uuid) AS
+-- UPDATE poms.commission_role_assignment_participant SET assignment_id=$2 WHERE id=$1;
+-- Case: $1 frozen A's zero-weight participant; $2 draft B already sum1000000.
+-- Expected23514 assignment participant cannot be reparented. After rollback,
+-- membership A/B and both totals are byte-equivalent. Also deny draft->draft.
+-- Verify frozen INSERT/UPDATE/DELETE and draft deferred exact total independently.

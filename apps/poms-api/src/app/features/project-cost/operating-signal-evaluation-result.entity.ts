@@ -1,8 +1,7 @@
+import { OperatingEvaluationEvidence } from './rust-r4ghi-entities.entity';
 import { defineEntity } from '@mikro-orm/core';
 import {
     OPERATING_LIFECYCLE_STATUSES,
-    OPERATING_RISK_LEVELS,
-    OPERATING_SIGNAL_LEVELS,
     OPERATING_SNAPSHOT_ACTION_LEVELS,
     OperatingLifecycleStatusValue,
     OperatingRiskLevelValue,
@@ -40,17 +39,10 @@ export const OperatingSignalEvaluationResultSchema = defineEntity({
             name: 'uq_oser_project_snapshot_active',
             expression: (columns, table, indexName) =>
                 `create unique index "${indexName}" on "${table.schema}"."${table.name}" ("${columns.projectId}", "${columns.referencedSnapshotId}") where "${columns.status}" = '${OperatingLifecycleStatusValue.Active}'`
-        }
+        },
+        {"name":"uq_jghi_oser_scope","properties":["id","projectId","referencedSnapshotId"]}
     ],
     checks: [
-        {
-            name: 'chk_operating_signal_evaluation_result_signal_level',
-            expression: `"signal_level" in (${toSqlStringList(OPERATING_SIGNAL_LEVELS)})`
-        },
-        {
-            name: 'chk_operating_signal_evaluation_result_risk_level',
-            expression: `"risk_level" in (${toSqlStringList(OPERATING_RISK_LEVELS)})`
-        },
         {
             name: 'chk_operating_signal_evaluation_result_formula_boundary_action',
             expression: `"formula_boundary_action" in (${toSqlStringList(OPERATING_SNAPSHOT_ACTION_LEVELS)})`
@@ -62,7 +54,10 @@ export const OperatingSignalEvaluationResultSchema = defineEntity({
         {
             name: 'chk_operating_signal_evaluation_result_status',
             expression: `"status" in (${toSqlStringList(OPERATING_LIFECYCLE_STATUSES)})`
-        }
+        },
+        {"name":"ck_jghi_oser_v1","expression":"producer_version=0 OR (producer_version=1 AND evidence_id IS NOT NULL)"},
+        {"name":"ck_jghi_signal_level","expression":"signal_level IN ('attention','alert','normal','unknown')"},
+        {"name":"ck_jghi_risk_level","expression":"risk_level IN ('attention','risk','normal','unknown')"}
     ],
     properties: {
         id: p.uuid().primary().defaultRaw('gen_random_uuid()').comment('主键'),
@@ -100,6 +95,11 @@ export const OperatingSignalEvaluationResultSchema = defineEntity({
         updatedAt: p.datetime().defaultRaw('now()').onCreate(() => new Date()).onUpdate(() => new Date()).fieldName('updated_at').comment('最后更新时间'),
         updatedBy: p.uuid().nullable().fieldName('updated_by').comment('最后更新人'),
         rowVersion: p.integer().version().default(1).fieldName('row_version').comment('乐观锁版本号')
+    ,
+        producerVersion: p.smallint().default(0).fieldName("producer_version"),
+        evidenceId: p.uuid().nullable().fieldName("evidence_id"),
+        jghiScopeConstraint1: () => p.manyToOne(OperatingEvaluationEvidence).mapToPk().joinColumns("evidence_id","project_id","referenced_snapshot_id").referencedColumnNames("id","project_id","snapshot_id").columnTypes("uuid","uuid","uuid").ownColumns().hydrate(false).hidden().foreignKeyName("fk_jghi_oser_evidence").deleteRule("no action").updateRule("no action").nullable(),
+        jghiScopeConstraint2: () => p.manyToOne(DataMaturityEvaluationResult).mapToPk().joinColumns("data_maturity_evaluation_id","project_id","referenced_snapshot_id").referencedColumnNames("id","project_id","referenced_snapshot_id").columnTypes("uuid","uuid","uuid").ownColumns().hydrate(false).hidden().foreignKeyName("fk_jghi_oser_maturity_scope").deleteRule("no action").updateRule("no action")
     }
 });
 

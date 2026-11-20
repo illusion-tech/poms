@@ -1,0 +1,15 @@
+--- a/apps/poms-api-rust/src/projects/validation.rs
++++ b/apps/poms-api-rust/src/projects/validation.rs
+@@ -105,11 +105,7 @@
+ }
+ 
+ fn stage(object: &JsObject<'_>, errors: &mut Vec<Value>) -> Option<ProjectStage> {
+-    let values = ProjectStage::ALL
+-        .iter()
+-        .map(|value| value.as_str())
+-        .collect::<Vec<_>>();
+-    enumeration(object, "currentStage", &values, errors).and_then(|value| value.parse().ok())
++    enumeration(object, "currentStage", &["assessment"], errors).and_then(|value| value.parse().ok())
+ }
+ 
+ /// Original z.iso.datetime() requires seconds and uppercase T/Z, accepts any

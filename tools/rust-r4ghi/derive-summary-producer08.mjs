@@ -1,0 +1,16 @@
+import fs from 'node:fs';
+import assert from 'node:assert/strict';
+import { createHash } from 'node:crypto';
+const input='apps/poms-api-rust/examples/r4def_summary_producer32.rs';
+const target='apps/poms-api-rust/examples/r4ghi_summary_producer08.rs';
+const original=fs.readFileSync(input);let source=original.toString('utf8');
+assert(source.includes('756d813c9578090fcf8e56821acce01b46b40420')&&source.includes('config.database.port != 25433'));
+source=source.replaceAll('r4def','r4ghi').replaceAll('756d813c9578090fcf8e56821acce01b46b40420','aaa4b16ac66092f0cb1dc6646a02cf14e80823ee').replaceAll('25433','25434').replaceAll('actual-internal-producer32','actual-internal-producer08');
+const marker='    let config = Config::load().map_err(|_| "config")?;';
+assert.equal(source.split(marker).length,2);
+const gate='    let gate: Json = serde_json::from_slice(&fs::read("/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/docs/design/rust-r4ghi/g1-online01.json").map_err(|_| "actual_g1_read")?).map_err(|_| "actual_g1_shape")?;\n    if gate["G1Certified"] != true || gate["G2Authorized"] != true || gate["counts"]["total"] != 32 { return Err("actual_business_g1_required"); }\n';
+source=source.replace(marker,()=>gate+marker);
+fs.writeFileSync(target,source,{flag:'wx'});
+const sha=b=>createHash('sha256').update(b).digest('hex');
+fs.writeFileSync('tools/rust-r4ghi/summary-producer-derivation08.json',JSON.stringify({kind:'guarded-actual-nonHTTP-test-producer-namespace-derivation',capturedAt:new Date().toISOString(),input,inputSHA256:sha(original),target,targetSHA256:sha(Buffer.from(source)),namespace:'poms-r4ghi',port:25434,coreCommonServiceAndMaterialChecksRetained:true,newProductionHTTPEntrypoint:false,createsBusinessApproval:false,executed:false},null,2)+'\n',{flag:'wx'});
+console.log(JSON.stringify({target,namespace:'poms-r4ghi',executed:false}));

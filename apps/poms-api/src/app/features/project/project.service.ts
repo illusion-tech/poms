@@ -1,3 +1,5 @@
+import { parseR4GhiFrozenNativeValue } from "../../core/rust-r4ghi-native-protocol.guard";
+import { ProjectStageSchema } from "../../core/rust-r4ghi-frozen-native-reference";
 import { Inject, BadRequestException, ConflictException, Injectable, NotFoundException } from '@nestjs/common';
 import { randomUUID } from 'node:crypto';
 import { BusinessNumberService } from '../business-number/business-number.service';
@@ -13,8 +15,8 @@ import type {
     ProjectOwnerReassignmentResult,
     ProjectStatus,
     ProjectStage
-} from '@poms/shared-contracts';
-import { ProjectStageValue, ProjectStatusValue } from '@poms/shared-contracts';
+} from "../../core/rust-r4ghi-frozen-native-reference";
+import { ProjectStageValue, ProjectStatusValue } from "../../core/rust-r4ghi-frozen-native-reference";
 import { AcceptanceRecord } from './acceptance-record.entity';
 import { ProjectArchiveRecord } from './project-archive-record.entity';
 import { ProjectBidCommercialProcess } from './project-bid-commercial-process.entity';
@@ -269,8 +271,8 @@ export class ProjectService {
             throw new NotFoundException(`Project ${projectId} not found`);
         }
 
-        if (project.currentStage !== ProjectStageValue.Acceptance) {
-            throw new BadRequestException(`Project ${projectId} cannot record acceptance in stage ${project.currentStage}`);
+        if (parseR4GhiFrozenNativeValue(ProjectStageSchema, project.currentStage) !== ProjectStageValue.Acceptance) {
+            throw new BadRequestException(`Project ${projectId} cannot record acceptance in stage ${parseR4GhiFrozenNativeValue(ProjectStageSchema, project.currentStage)}`);
         }
 
         const now = new Date();
@@ -300,12 +302,12 @@ export class ProjectService {
             throw new NotFoundException(`Project ${projectId} not found`);
         }
 
-        if (project.status === ProjectStatusValue.Closed || CLOSED_PROJECT_STAGES.includes(project.currentStage)) {
+        if (project.status === ProjectStatusValue.Closed || CLOSED_PROJECT_STAGES.includes(parseR4GhiFrozenNativeValue(ProjectStageSchema, project.currentStage))) {
             throw new BadRequestException(`Project ${projectId} cannot record completion because it is closed`);
         }
 
-        if (project.currentStage !== ProjectStageValue.Acceptance) {
-            throw new BadRequestException(`Project ${projectId} cannot record completion in stage ${project.currentStage}`);
+        if (parseR4GhiFrozenNativeValue(ProjectStageSchema, project.currentStage) !== ProjectStageValue.Acceptance) {
+            throw new BadRequestException(`Project ${projectId} cannot record completion in stage ${parseR4GhiFrozenNativeValue(ProjectStageSchema, project.currentStage)}`);
         }
 
         const acceptanceRecord = await this.projectRepository.findAcceptanceRecordById(input.acceptanceRecordId);
@@ -345,7 +347,7 @@ export class ProjectService {
             throw new NotFoundException(`Project ${projectId} not found`);
         }
 
-        if (project.currentStage === ProjectStageValue.Completed) {
+        if (parseR4GhiFrozenNativeValue(ProjectStageSchema, project.currentStage) === ProjectStageValue.Completed) {
             if (project.status !== ProjectStatusValue.Completed) {
                 throw new BadRequestException(`Project ${projectId} cannot record archive because completion is not effective`);
             }
@@ -376,7 +378,7 @@ export class ProjectService {
             return record;
         }
 
-        if (CLOSED_PROJECT_STAGES.includes(project.currentStage)) {
+        if (CLOSED_PROJECT_STAGES.includes(parseR4GhiFrozenNativeValue(ProjectStageSchema, project.currentStage))) {
             if (project.status !== ProjectStatusValue.Closed || !project.closedAt) {
                 throw new BadRequestException(`Project ${projectId} cannot record archive because close fact is not effective`);
             }
@@ -385,7 +387,7 @@ export class ProjectService {
 
             const record = this.projectRepository.createProjectArchiveRecord({
                 projectId,
-                archiveAnchorStage: project.currentStage,
+                archiveAnchorStage: parseR4GhiFrozenNativeValue(ProjectStageSchema, project.currentStage),
                 archiveAnchorSourceType: 'project',
                 archiveAnchorSourceId: project.id,
                 status: 'recorded',
@@ -402,7 +404,7 @@ export class ProjectService {
             return record;
         }
 
-        throw new BadRequestException(`Project ${projectId} cannot record archive in stage ${project.currentStage}`);
+        throw new BadRequestException(`Project ${projectId} cannot record archive in stage ${parseR4GhiFrozenNativeValue(ProjectStageSchema, project.currentStage)}`);
     }
 
     async replaceProjectArchiveRecord(id: string, input: ReplaceProjectArchiveRecordInput, operatorUserId: string): Promise<ProjectArchiveRecord> {
@@ -481,8 +483,8 @@ export class ProjectService {
             throw new NotFoundException(`Project ${projectId} not found`);
         }
 
-        if (project.status === ProjectStatusValue.Closed || !BID_COMMERCIAL_ALLOWED_PROJECT_STAGES.includes(project.currentStage)) {
-            throw new BadRequestException(`Project ${projectId} cannot record bid commercial process in stage ${project.currentStage}`);
+        if (project.status === ProjectStatusValue.Closed || !BID_COMMERCIAL_ALLOWED_PROJECT_STAGES.includes(parseR4GhiFrozenNativeValue(ProjectStageSchema, project.currentStage))) {
+            throw new BadRequestException(`Project ${projectId} cannot record bid commercial process in stage ${parseR4GhiFrozenNativeValue(ProjectStageSchema, project.currentStage)}`);
         }
 
         this.assertBidCommercialPathConsistent(input);
@@ -560,8 +562,8 @@ export class ProjectService {
             throw new NotFoundException(`Project ${projectId} not found`);
         }
 
-        if (project.status === ProjectStatusValue.Closed || !PRICING_MARGIN_ALLOWED_PROJECT_STAGES.includes(project.currentStage)) {
-            throw new BadRequestException(`Project ${projectId} cannot record pricing margin review in stage ${project.currentStage}`);
+        if (project.status === ProjectStatusValue.Closed || !PRICING_MARGIN_ALLOWED_PROJECT_STAGES.includes(parseR4GhiFrozenNativeValue(ProjectStageSchema, project.currentStage))) {
+            throw new BadRequestException(`Project ${projectId} cannot record pricing margin review in stage ${parseR4GhiFrozenNativeValue(ProjectStageSchema, project.currentStage)}`);
         }
 
         const currentTechnicalCostPackage = await this.projectRepository.findCurrentProjectTechnicalCostPackageByProjectId(projectId);
@@ -653,8 +655,8 @@ export class ProjectService {
             throw new NotFoundException(`Project ${projectId} not found`);
         }
 
-        if (project.status === ProjectStatusValue.Closed || !TECHNICAL_COST_ALLOWED_PROJECT_STAGES.includes(project.currentStage)) {
-            throw new BadRequestException(`Project ${projectId} cannot record technical cost package in stage ${project.currentStage}`);
+        if (project.status === ProjectStatusValue.Closed || !TECHNICAL_COST_ALLOWED_PROJECT_STAGES.includes(parseR4GhiFrozenNativeValue(ProjectStageSchema, project.currentStage))) {
+            throw new BadRequestException(`Project ${projectId} cannot record technical cost package in stage ${parseR4GhiFrozenNativeValue(ProjectStageSchema, project.currentStage)}`);
         }
 
         for (const [index, item] of input.costItems.entries()) {

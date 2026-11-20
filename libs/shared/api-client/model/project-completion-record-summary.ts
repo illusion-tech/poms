@@ -7,6 +7,8 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
+import { FrozenLifecycleEvidence } from './frozen-lifecycle-evidence';
+import { ProjectCompletionConditionSummary } from './project-completion-condition-summary';
 
 
 export interface ProjectCompletionRecordSummary {
@@ -25,6 +27,12 @@ export interface ProjectCompletionRecordSummary {
     updatedAt: string;
     updatedBy: string | null;
     rowVersion: number;
+    sourcePayloadHash: string | null;
+    sourceQualification: ProjectCompletionRecordSummarySourceQualificationEnum;
+    sourceStageRecordId: string | null;
+    evidenceRefs: Array<FrozenLifecycleEvidence>;
+    conditionStatus: ProjectCompletionRecordSummaryConditionStatusEnum;
+    conditions: Array<ProjectCompletionConditionSummary>;
 }
 export enum ProjectCompletionRecordSummaryCompletionResultEnum {
     Completed = 'completed',
@@ -32,4 +40,14 @@ export enum ProjectCompletionRecordSummaryCompletionResultEnum {
 };
 export enum ProjectCompletionRecordSummaryStatusEnum {
     Confirmed = 'confirmed'
+};
+export enum ProjectCompletionRecordSummarySourceQualificationEnum {
+    VerifiedProducer = 'verified-producer',
+    LegacyUnverified = 'legacy-unverified'
+};
+export enum ProjectCompletionRecordSummaryConditionStatusEnum {
+    NotApplicable = 'not-applicable',
+    Pending = 'pending',
+    Closed = 'closed',
+    LegacyUnverified = 'legacy-unverified'
 };

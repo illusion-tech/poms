@@ -15,4 +15,5 @@ export {
 } from './serializer';
 export { validate } from './validate';
 export { cleanupOpenApiDoc } from './cleanupOpenApiDoc';
+export { convertToOpenApi3Point0 } from './utils';
 export { ZodResponse } from './response';

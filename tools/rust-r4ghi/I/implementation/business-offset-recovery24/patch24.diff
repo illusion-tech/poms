@@ -1,0 +1,240 @@
+--- a/tools/rust-r4ghi/business/creator-proofs.mjs
++++ b/tools/rust-r4ghi/business/creator-proofs.mjs
+@@ -1,10 +1,25 @@
+ import assert from 'node:assert/strict';
+ 
+-const instant = value => {
+-  const matched = typeof value === 'string' && /^(\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2})(?:\.(\d{1,9}))?(?:Z|\+00:00)$/.exec(value);
+-  assert(matched, 'Actual UTC producer timestamp required');
+-  return `${matched[1]}.${(matched[2] ?? '').padEnd(9, '0')}Z`;
+-};
++export function instantNanoseconds(value) {
++  const matched = typeof value === 'string' && /^(\d{4})-(\d{2})-(\d{2})T(\d{2}):(\d{2}):(\d{2})(?:\.(\d{1,9}))?(Z|([+-])(\d{2}):(\d{2}))$/.exec(value);
++  assert(matched, 'Actual offset-qualified producer timestamp required');
++  const [year, month, day, hour, minute, second] = matched.slice(1, 7).map(Number);
++  const leap = year % 4 === 0 && (year % 100 !== 0 || year % 400 === 0);
++  const months = [31, leap ? 29 : 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
++  assert(year >= 1 && month >= 1 && month <= 12 && day >= 1 && day <= months[month - 1] && hour <= 23 && minute <= 59 && second <= 59,
++    'Invalid producer civil timestamp');
++  const offsetHours = matched[8] === 'Z' ? 0 : Number(matched[10]), offsetMinutes = matched[8] === 'Z' ? 0 : Number(matched[11]);
++  assert(offsetHours <= 23 && offsetMinutes <= 59, 'Invalid producer UTC offset');
++  const previousYears = year - 1;
++  // Gregorian civil days are exact small integers. Fractions never pass through
++  // Number/Date.parse, so PG microseconds remain distinct across offset/day rolls.
++  const days = 365 * previousYears + Math.floor(previousYears / 4) - Math.floor(previousYears / 100) + Math.floor(previousYears / 400)
++    + months.slice(0, month - 1).reduce((sum, size) => sum + size, 0) + day - 1 - 719162;
++  const offset = (offsetHours * 60 + offsetMinutes) * 60 * (matched[9] === '-' ? -1 : 1);
++  const seconds = BigInt(days) * 86400n + BigInt(hour * 3600 + minute * 60 + second - offset);
++  return seconds * 1000000000n + BigInt((matched[7] ?? '').padEnd(9, '0'));
++}
++const instant = instantNanoseconds;
+ export function assertCreatorAnchor(view, expected, schema) {
+   assert.deepEqual(Object.keys(view).sort(), Object.keys(schema.properties).sort());
+   assert.equal(view.scopeKind, 'creator-first-assignment-only'); assert.equal(view.projectId, expected.projectId);
+--- a/tools/rust-r4ghi/business/creator-ownership.mjs
++++ b/tools/rust-r4ghi/business/creator-ownership.mjs
+@@ -12,6 +12,13 @@
+   assert.deepEqual(schema.enum, ['creator', 'organization']);
+   const pins = JSON.parse(fs.readFileSync(new URL('./ownership-sources23.json', import.meta.url)));
+   for (const pin of pins) assert.equal(sha(fs.readFileSync(`${ctx.win}/${pin.file}`)), pin.sha256, 'Root must refreeze the reviewed22/Shared131/M97 input; do not bind old08 source/state');
++  // Check every fixed new-helper operation before its first HTTP, including
++  // negative paths that would otherwise fail only after committed producers.
++  assert(api.operations.has('CustomerController_create'));
++  for (const file of ['creator-ownership.mjs', 'legacy-compatibility.mjs', 'ownership-race.mjs', 'pause-boundary23.mjs']) {
++    const text = fs.readFileSync(new URL(`./${file}`, import.meta.url), 'utf8');
++    for (const match of text.matchAll(/['"]([A-Za-z]+Controller_[A-Za-z0-9]+)['"]/g)) assert(api.operations.has(match[1]), `Noncanonical ownership operationId: ${match[1]}`);
++  }
+   return pins;
+ }
+ const rows = (ctx, snapshot, table) => readRows(snapshot.databases[ctx.database].tables[table]);
+@@ -36,7 +43,7 @@
+   assert.equal(f.customer.ownerUserId, ctx.state.actors.manager.id); assert.equal(f.customer.ownerOrgId, f.org.id);
+   return f.customer;
+ }
+-function creationProof(ctx, response, organization, requireAuth) {
++export function creationProof(ctx, response, organization, requireAuth) {
+   const before = loadSnapshot(ctx, response.before), after = loadSnapshot(ctx, response.after), body = data(response), id = uuid(body.id);
+   assertOwnershipRowsIsolated(ownershipRows(ctx, before), ownershipRows(ctx, after), id);
+   assert(!rows(ctx, before, 'project').some(row => row.key[0] === id)); assert(!rows(ctx, before, 'project_ownership_origin').some(row => row.key[0] === id));
+@@ -80,7 +87,7 @@
+   }
+   receipts.push((await api.request('ProjectController_reassignOwner', { id: projectId }, { ownerUserId: ctx.state.actors.execution.id,
+     ownerOrgId: f.org.id, expectedVersion: currentVersion, reason: '原creator全权限也不能复活已耗尽的首派权。' }, 'manager', { expectedStatus: 404 })).receiptId);
+-  receipts.push((await api.request('ProjectController_update', { id: projectId }, { projectName: '原creator不得靠全RBAC越过已耗尽责任链。' }, 'manager', { expectedStatus: 404 })).receiptId);
++  receipts.push((await api.request('ProjectController_updateBasicInfo', { id: projectId }, { projectName: '原creator不得靠全RBAC越过已耗尽责任链。' }, 'manager', { expectedStatus: 404 })).receiptId);
+   return ctx.artifact(`${ctx.next(label)}.json`, { projectId, realManagerPermissions: ctx.state.actors.manager.permissions, currentVersion, receipts, creatorScopeConsumed: true,
+     platformAllPermissionsDoNotRetainProjectAuthority: true }, { kind: 'actual-no-retained-creator-read-or-write-after-consume', allPermissionActor: true });
+ }
+--- a/tools/rust-r4ghi/business/legacy-compatibility.mjs
++++ b/tools/rust-r4ghi/business/legacy-compatibility.mjs
+@@ -115,7 +115,7 @@
+   // Root safety29 now gates ordinary update with real OwnerWrite. An unexpected
+   // success remains a failed original; the exact fixture may still be owned for cleanup.
+   if (!fixture.ordinaryUpdateDenied) {
+-    const result = await api.request('ProjectController_update', { id: fixture.projectId }, { projectName: '受控legacy负例：此权限单独不足以修改项目。' }, 'manager', { expectedStatus: 403, mutableTables: ['project'],
++    const result = await api.request('ProjectController_updateBasicInfo', { id: fixture.projectId }, { projectName: '受控legacy负例：此权限单独不足以修改项目。' }, 'manager', { expectedStatus: 403, mutableTables: ['project'],
+       updatedAnchors: [{ table: 'project', id: fixture.projectId, requestBinding: 'path:id' }] });
+     unchangedFixture(ctx, fixture, result); fixture.ordinaryUpdateDenied = result.receiptId; ctx.persist();
+   }
+--- /dev/null
++++ b/tools/rust-r4ghi/business/recover-creator-slot24.mjs
+@@ -0,0 +1,89 @@
++// Exact metadata-only recovery of the already committed09 omitted-creator slot.
++// No HTTP, business SQL, ownership SHA rebasing, original rewrite or blocked reset.
++import fs from 'node:fs';
++import assert from 'node:assert/strict';
++import { ownedFile } from './context.mjs';
++import { sha, data, keyOf } from './pure.mjs';
++import { capture, loadSnapshot, readRows } from './snapshot.mjs';
++import { assertRecorded } from './ledger.mjs';
++import { creationProof } from './creator-ownership.mjs';
++
++function original(ctx, pin, publicReceipt = false) {
++  assert(pin.file.startsWith((publicReceipt ? ctx.out : ctx.priv) + '/'));
++  const bytes = ownedFile(pin.file); assert.equal(sha(bytes), pin.sha256); return bytes;
++}
++function oneRow(ctx, snapshot, table, id) {
++  const rows = readRows(snapshot.databases[ctx.database].tables[table]).filter(row => row.key.length === 1 && row.key[0] === id);
++  assert.equal(rows.length, 1); return rows[0];
++}
++export async function recoverCreatorSlot24(ctx, { planFile, approvedPlanSHA256 }) {
++  assert.equal(process.platform, 'linux', 'Only Root executes reviewed metadata recovery');
++  assert(/^[a-f0-9]{64}$/.test(approvedPlanSHA256));
++  const bytes = ownedFile(planFile); assert.equal(sha(bytes), approvedPlanSHA256);
++  const plan = JSON.parse(bytes);
++  assert.equal(plan.kind, 'exact-default-creator-proof-metadata-recovery24-prepared-unrun');
++  assert.equal(plan.epoch, ctx.epoch); assert.equal(plan.run, ctx.run); assert.equal(plan.marker, ctx.state.marker);
++  assert.equal(plan.sourcePinsSHA256, sha(JSON.stringify(ctx.pins))); assert.equal(plan.sourcePinsCount, ctx.pins.length);
++  assert.equal(plan.slotName, 'default'); assert.equal(plan.initialOwnershipMode, 'omitted-creator');
++  assert(!ctx.state.cleaned && !ctx.state.cleanupPlan && !ctx.state.activeFault && !ctx.state.blockedObservation);
++  const lock = `${ctx.priv}/driver.lock`;
++  fs.writeFileSync(lock, JSON.stringify({ pid: process.pid, mode: 'exact-creator-slot-metadata-recovery24', approvedPlanSHA256 }) + '\n', { flag: 'wx', mode: 0o600 });
++  try {
++    const slot = ctx.state.fixtures.creatorOwnership23.projects.default;
++    assert.equal(sha(JSON.stringify(slot)), plan.slotBeforeSHA256); assert.equal(slot.project.id, plan.projectId);
++    assert.equal(slot.proofPending, true); assert(!slot.proof); assert.equal(slot.createReceipt, plan.httpReceipt.file);
++    assert.equal(ctx.state.actors.manager.id, plan.actorId); assert.equal(ctx.state.fixtures.org.id, plan.orgId);
++    const http = JSON.parse(original(ctx, plan.httpReceipt, true));
++    assert.equal(http.operationId, 'ProjectController_create'); assert.equal(http.requestId, plan.requestId);
++    assert.equal(http.status, 201); assert.equal(http.expectedStatus, 201); assert.equal(http.responseComplete, true); assert.equal(http.transportFailure, false);
++    for (const [name, pin] of Object.entries(plan.originals)) {
++      assert.deepEqual({ file: http.originals[name].file, sha256: http.originals[name].rawBytesSha256 }, pin); original(ctx, pin);
++    }
++    const request = JSON.parse(original(ctx, plan.originals.requestConfig)), requestBytes = original(ctx, plan.originals.requestBody);
++    const body = JSON.parse(requestBytes), response = JSON.parse(original(ctx, plan.originals.responseBody)), headers = JSON.parse(original(ctx, plan.originals.responseHeaders));
++    assert.equal(request.operationId, http.operationId); assert.equal(request.method, 'POST'); assert.equal(request.requestId, http.requestId);
++    assert.equal(request.headers['X-Request-Id'], http.requestId); assert.equal(headers.status, 201);
++    const url = new URL(request.url); assert.equal(url.origin, ctx.api); assert.equal(url.pathname, '/api/projects'); assert.equal(url.search, '');
++    assert(!Object.hasOwn(body, 'initialOwnership')); assert.equal(body.currentStage, 'assessment');
++    assert.equal(body.customerId, ctx.state.fixtures.customer.id); assert.deepEqual(data({ body: response }), slot.project);
++    const partial = JSON.parse(original(ctx, plan.partial)); assert.equal(partial.message, 'Actual UTC producer timestamp required');
++    const ledger = JSON.parse(original(ctx, plan.ledger));
++    assert.equal(ledger.ownershipComplete, true); assert.deepEqual(ledger.blockers, []); assert.equal(ledger.requestId, http.requestId); assert.equal(ledger.operationId, http.operationId);
++    assert.deepEqual(request.before, plan.before); assert.deepEqual(ledger.before, plan.before); assert.deepEqual(ledger.after, plan.after);
++    const before = loadSnapshot(ctx, plan.before), after = loadSnapshot(ctx, plan.after);
++    const cookies = Object.fromEntries(request.headers.Cookie.split(';').map(part => { const text = part.trim(), at = text.indexOf('='); return [text.slice(0, at), text.slice(at + 1)]; }));
++    const session = readRows(before.databases[ctx.database].tables.auth_session).map(row => JSON.parse(row.raw)).find(row => row.token_hash === sha(decodeURIComponent(cookies.poms_session)));
++    assert(session && session.user_id === plan.actorId && session.status === 'active', 'Original actual cookie must bind the real creating actor');
++    const proof = creationProof(ctx, { body: response, before: plan.before, after: plan.after }, false, false);
++    assert.deepEqual(proof, plan.expectedProof, 'Recomputed same producer proof must match the reviewed exact original');
++    assert.equal(proof.projectId, plan.projectId); assert.equal(proof.actualCommonXmin, plan.actualCommonXmin);
++    const target = (table, row) => ({ table, id: row.key[0], sha256: row.sha256, xmin: row.xmin });
++    assert.deepEqual(plan.targets, [target('project', proof.project), target('project_ownership_origin', proof.origin), ...proof.creationAudit.map(row => target('audit_log', row))]);
++    const current = await capture(ctx, ctx.next('creator-recovery24-current'));
++    // Other legitimate run-owned activity (e.g. Legacy/login) may advance. The
++    // existing ledger must explain all of it; no new drift exception is added.
++    assertRecorded(ctx, current);
++    for (const target of plan.targets) {
++      const historical = oneRow(ctx, after, target.table, target.id), live = oneRow(ctx, current, target.table, target.id);
++      assert.equal(historical.sha256, target.sha256); assert.equal(historical.xmin, target.xmin);
++      assert.equal(live.sha256, target.sha256); assert.equal(live.xmin, target.xmin, 'The already committed target changed before proof recovery');
++      const owned = ctx.state.owned[keyOf(ctx.database, target.table, [target.id])];
++      assert(owned && !owned.deleted && owned.latestSha256 === target.sha256 && owned.latestXmin === target.xmin);
++    }
++    const ownedBefore = sha(JSON.stringify(ctx.state.owned)), borrowedBefore = sha(JSON.stringify(ctx.state.borrowed));
++    const receipt = ctx.artifact(`${ctx.next('creator-slot-recovery24-proof')}.json`, { kind: 'exact-default-creator-proof-metadata-recovery24', approvedPlanSHA256,
++      originalHTTP: plan.httpReceipt, originalCompleteLedger: plan.ledger, originalPartial: plan.partial, before: plan.before, after: plan.after, freshCurrent: current.manifest,
++      proof, projectId: plan.projectId, originalProducerReevaluated: true, originalBytesPreserved: true, allOtherCurrentChangesRequireExistingLedger: true,
++      businessRequestsSent: 0, businessDatabaseWrites: 0, ownershipHashesRebased: 0, blockedObservationCleared: false },
++    { kind: 'actual-metadata-only-creator-proof-reconciliation24', projectId: plan.projectId, actualCommonXmin: proof.actualCommonXmin,
++      businessRequestsSent: 0, businessDatabaseWrites: 0, ownershipHashesRebased: 0, G3Certified: false, G4Certified: false });
++    slot.proof = receipt; slot.proofPending = false; slot.metadataRecovery24 = { approvedPlanSHA256, receipt, originalHTTP: plan.httpReceipt };
++    ctx.state.metadataReconciliations ??= []; ctx.state.metadataReconciliations.push({ kind: 'creator-slot24', projectId: plan.projectId, receipt, approvedPlanSHA256 });
++    assert.equal(sha(JSON.stringify(ctx.state.owned)), ownedBefore); assert.equal(sha(JSON.stringify(ctx.state.borrowed)), borrowedBefore); assert(!ctx.state.blockedObservation);
++    ctx.persist();
++    return { kind: 'completed-exact-default-creator-slot-metadata-recovery24', receipt, businessRequestsSent: 0, businessDatabaseWrites: 0,
++      originalCompleteLedgerUnchanged: true, ownershipHashesRebased: 0, blockedObservationCleared: false, G3Certified: false, G4Certified: false };
++  } finally {
++    const owner = JSON.parse(fs.readFileSync(lock)); assert.equal(owner.pid, process.pid); fs.unlinkSync(lock);
++  }
++}
+--- /dev/null
++++ b/tools/rust-r4ghi/business/run-creator-slot-recovery24.mjs
+@@ -0,0 +1,25 @@
++#!/usr/bin/env node
++import fs from 'node:fs';
++import assert from 'node:assert/strict';
++import { pathToFileURL } from 'node:url';
++import { createContext, ownedFile, FIXED } from './context.mjs';
++import { sha, segment, safeFailure } from './pure.mjs';
++import { recoverCreatorSlot24 } from './recover-creator-slot24.mjs';
++
++export async function main(argv = process.argv.slice(2)) {
++  if (argv.length === 1 && argv[0] === '--help') { console.log('Root-only metadata recovery: run-creator-slot-recovery24.mjs EXACT_PLAN_FILE ROOT_APPROVED_PLAN_SHA256; no HTTP or business SQL.'); return; }
++  let ctx;
++  try {
++    assert.equal(process.platform, 'linux'); assert.equal(argv.length, 2);
++    const [planFile, approvedPlanSHA256] = argv, bytes = ownedFile(planFile); assert.equal(sha(bytes), approvedPlanSHA256);
++    const plan = JSON.parse(bytes); const epoch = segment(plan.epoch), run = segment(plan.run);
++    assert(!fs.existsSync(`${FIXED.private}/business/${epoch}/${run}/driver.lock`), 'Wait for the existing Root driver; do not overwrite concurrent state');
++    ctx = createContext({ epoch, run });
++    const result = await recoverCreatorSlot24(ctx, { planFile, approvedPlanSHA256 }); console.log(JSON.stringify(result));
++  } catch (error) {
++    let original = null;
++    if (ctx && !fs.existsSync(`${ctx.priv}/driver.lock`)) original = ctx.artifact(`${ctx.next('creator-recovery24-partial')}.json`, { name: error.name, message: error.message, stack: error.stack });
++    console.error(JSON.stringify({ ...safeFailure(error), original, recoveryFailurePreserved: true })); process.exitCode = 1;
++  }
++}
++if (process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href) await main();
+--- /dev/null
++++ b/tools/rust-r4ghi/business/offset-proof24.test.mjs
+@@ -0,0 +1,39 @@
++import test from 'node:test';
++import assert from 'node:assert/strict';
++import { instantNanoseconds } from './creator-proofs.mjs';
++import { operationMap } from './pure.mjs';
++import fs from 'node:fs';
++
++test('actual PG +08 and payload Z represent the exact same creation instant', () => {
++  assert.equal(instantNanoseconds('2026-11-07T20:29:05.476+08:00'), instantNanoseconds('2026-11-07T12:29:05.476Z'));
++  assert.equal(instantNanoseconds('2026-11-07T04:29:05.476123-08:00'), instantNanoseconds('2026-11-07T12:29:05.476123Z'));
++});
++test('offset comparison preserves microseconds and nanoseconds rather than Date.parse milliseconds', () => {
++  const base = instantNanoseconds('2026-11-07T12:29:05.476123Z');
++  assert.equal(instantNanoseconds('2026-11-07T20:29:05.476124+08:00') - base, 1000n);
++  assert.equal(instantNanoseconds('2026-11-07T20:29:05.476123001+08:00') - base, 1n);
++});
++test('signed offsets roll real Gregorian day/year boundaries and pre-epoch fractions exactly', () => {
++  assert.equal(instantNanoseconds('1970-01-01T00:00:00Z'), 0n);
++  assert.equal(instantNanoseconds('1969-12-31T23:59:59.999999Z'), -1000n);
++  assert.equal(instantNanoseconds('2024-03-01T00:30:00.000001+01:00'), instantNanoseconds('2024-02-29T23:30:00.000001Z'));
++  assert.equal(instantNanoseconds('2027-01-01T00:30:00+08:00'), instantNanoseconds('2026-12-31T16:30:00Z'));
++  assert.equal(instantNanoseconds('2000-03-01T00:00:00+00:30'), instantNanoseconds('2000-02-29T23:30:00Z'));
++});
++test('invalid civil dates, unknown offsets and truncated/overprecise inputs fail closed', () => {
++  for (const value of ['2026-02-29T00:00:00Z', '1900-02-29T00:00:00Z', '2026-11-31T00:00:00Z', '2026-11-07T24:00:00Z',
++    '2026-11-07T12:29:05', '2026-11-07T12:29:05+24:00', '2026-11-07T12:29:05+08:60', '2026-11-07T12:29:05.1234567890Z', null]) {
++    assert.throws(() => instantNanoseconds(value));
++  }
++});
++test('all fixed ownership command IDs exist in the current canonical OpenAPI', () => {
++  const root = 'E:/projects/worktrees/poms-r3hijk-next28/poms';
++  const specFile = `${root}/libs/shared/api-spec/openapi.json`;
++  // Offline tool tests in Root WSL use the exact review mount; no API request.
++  const file = process.platform === 'linux' ? '/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/libs/shared/api-spec/openapi.json' : specFile;
++  const operations = operationMap(JSON.parse(fs.readFileSync(file)));
++  for (const name of ['creator-ownership.mjs', 'legacy-compatibility.mjs', 'ownership-race.mjs', 'pause-boundary23.mjs']) {
++    for (const match of fs.readFileSync(new URL(`./${name}`, import.meta.url), 'utf8').matchAll(/['"]([A-Za-z]+Controller_[A-Za-z0-9]+)['"]/g)) assert(operations.has(match[1]), match[1]);
++  }
++  assert(operations.has('ProjectController_updateBasicInfo')); assert(!operations.has('ProjectController_update'));
++});

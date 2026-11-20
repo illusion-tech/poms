@@ -7,9 +7,15 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
+import { OperatingEvaluationContext } from './operating-evaluation-context';
 import { OperatingSnapshotActionLevel } from './operating-snapshot-action-level';
 import { BaselineSelectionSource } from './baseline-selection-source';
+import { OperatingGateReviewDecision } from './operating-gate-review-decision';
+import { OperatingMetricKnowledge } from './operating-metric-knowledge';
+import { OperatingReasonView } from './operating-reason-view';
 import { OperatingDataMaturityLevel } from './operating-data-maturity-level';
+import { SensitiveStringFieldProjection } from './sensitive-string-field-projection';
+import { OperatingGateStage } from './operating-gate-stage';
 import { OperatingSignalLevel } from './operating-signal-level';
 
 
@@ -17,25 +23,58 @@ export interface CommissionGateBindingHistoryView {
     bindingId: string;
     projectId: string;
     signalEvaluationId: string;
-    gateStageType: string;
+    gateStageType: OperatingGateStage;
     signalLevel: OperatingSignalLevel;
-    taxImpactSummary: string;
-    taxImpactPendingAmount: string;
+    taxImpactSummary: CommissionGateBindingHistoryViewTaxImpactSummaryEnum | null;
+    taxImpactPendingAmount: CommissionGateBindingHistoryViewTaxImpactPendingAmountEnum | null;
     dataMaturityLevel: OperatingDataMaturityLevel;
     costActionRecommendation: OperatingSnapshotActionLevel;
-    currentActionLevel: OperatingSnapshotActionLevel;
+    currentActionLevel: CommissionGateBindingHistoryViewCurrentActionLevelEnum;
     baselineSelectionSource: BaselineSelectionSource;
     referencedBaselineVersion: string;
     referencedSnapshotVersion: string;
     bindingAction: OperatingSnapshotActionLevel;
-    gateReviewDecision: string | null;
-    blockingReasonSummary: string | null;
+    gateReviewDecision: OperatingGateReviewDecision | null;
+    blockingReasonSummary: CommissionGateBindingHistoryViewBlockingReasonSummaryEnum | null;
     summaryPackageKey: string | null;
     summarySnapshotId: string | null;
     projectionLevel: string | null;
     exportPolicy: string | null;
-    nextActionSummary: string | null;
+    nextActionSummary: CommissionGateBindingHistoryViewNextActionSummaryEnum | null;
     handledBy: string | null;
     handledAt: string | null;
     allowedActions: Array<string>;
+    evaluationContext: OperatingEvaluationContext;
+    reasonItems: Array<OperatingReasonView>;
+    reviewState: CommissionGateBindingHistoryViewReviewStateEnum;
+    metricKnowledge: OperatingMetricKnowledge;
+    rowVersion: number;
+    systemBindingAction: CommissionGateBindingHistoryViewSystemBindingActionEnum;
+    systemSignalLevel: OperatingSignalLevel;
+    sourceSummarySnapshotId: string | null;
+    taxImpactSummaryProjection: SensitiveStringFieldProjection;
+    taxImpactPendingAmountProjection: SensitiveStringFieldProjection;
+    blockingReasonSummaryProjection: SensitiveStringFieldProjection;
+    nextActionSummaryProjection: SensitiveStringFieldProjection;
 }
+export type CommissionGateBindingHistoryViewTaxImpactSummaryEnum = null;;
+export type CommissionGateBindingHistoryViewTaxImpactPendingAmountEnum = null;;
+export enum CommissionGateBindingHistoryViewCurrentActionLevelEnum {
+    Prompt = 'prompt',
+    Review = 'review',
+    Block = 'block'
+};
+export type CommissionGateBindingHistoryViewBlockingReasonSummaryEnum = null;;
+export type CommissionGateBindingHistoryViewNextActionSummaryEnum = null;;
+export enum CommissionGateBindingHistoryViewReviewStateEnum {
+    NotRequired = 'not-required',
+    Pending = 'pending',
+    Acknowledged = 'acknowledged',
+    ManualConfirmed = 'manual-confirmed',
+    Stale = 'stale'
+};
+export enum CommissionGateBindingHistoryViewSystemBindingActionEnum {
+    Prompt = 'prompt',
+    Review = 'review',
+    Block = 'block'
+};

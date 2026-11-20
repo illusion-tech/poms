@@ -4,12 +4,15 @@
 use chrono::{DateTime, NaiveDate, Utc};
 use serde_json::{Value, json};
 
-use super::model::{CreateProject, ProjectListQuery, ReassignProjectOwner, UpdateProject};
+use super::model::{
+    CreateProject, ProjectInitialOwnership, ProjectListQuery, ReassignProjectOwner, UpdateProject,
+};
 use crate::{
     auth::js_json::{JsObject, JsString, decode_string},
     compat::json::Field,
     dictionary::validation::{failure, integer, invalid_type, json_type, object, text},
     error::ApiError,
+    project_operating_common::model::ProjectStage as QueryProjectStage,
     shared::generated::{ProjectStage, ProjectStatus},
 };
 
@@ -105,11 +108,8 @@ fn enumeration(
 }
 
 fn stage(object: &JsObject<'_>, errors: &mut Vec<Value>) -> Option<ProjectStage> {
-    let values = ProjectStage::ALL
-        .iter()
-        .map(|value| value.as_str())
-        .collect::<Vec<_>>();
-    enumeration(object, "currentStage", &values, errors).and_then(|value| value.parse().ok())
+    enumeration(object, "currentStage", &["assessment"], errors)
+        .and_then(|value| value.parse().ok())
 }
 
 /// Original z.iso.datetime() requires seconds and uppercase T/Z, accepts any
@@ -191,6 +191,15 @@ pub fn validate_create(raw: Option<&str>) -> Result<CreateProject, ApiError> {
     let customer_id = uuid(&object, "customerId", true, false, &mut errors);
     let customer_project_no = nullable_text(&object, "customerProjectNo", &mut errors)?;
     let current_stage = stage(&object, &mut errors);
+    let ownership_values = ProjectInitialOwnership::ALL
+        .iter()
+        .map(|value| value.as_str())
+        .collect::<Vec<_>>();
+    let initial_ownership =
+        match enumeration(&object, "initialOwnership", &ownership_values, &mut errors) {
+            Some(value) => value.parse().map_err(|_| ApiError::internal())?,
+            None => ProjectInitialOwnership::Creator,
+        };
     let planned_sign_at = datetime(&object, &mut errors);
     if !errors.is_empty() {
         return Err(failure(errors));
@@ -201,6 +210,7 @@ pub fn validate_create(raw: Option<&str>) -> Result<CreateProject, ApiError> {
             customer_id,
             customer_project_no,
             current_stage,
+            initial_ownership,
             planned_sign_at,
         }),
         _ => Err(ApiError::internal()),
@@ -240,6 +250,16 @@ pub fn validate_reassign(raw: Option<&str>) -> Result<ReassignProjectOwner, ApiE
     let owner_org_id = uuid(&object, "ownerOrgId", false, true, &mut errors);
     let reason = text(&object, "reason", true, true, 1, 1000, &mut errors)?;
     let expected_version = integer(&object, "expectedVersion", Some(1), &mut errors);
+    if object.get("expectedVersion").is_none() {
+        errors.push(invalid_type(
+            "number",
+            "undefined",
+            vec![json!("expectedVersion")],
+        ));
+    }
+    if expected_version.is_some_and(|version| version > i64::from(i32::MAX)) {
+        errors.push(json!({"origin":"number","code":"too_big","maximum":i32::MAX,"inclusive":true,"path":["expectedVersion"],"message":"expectedVersion must fit positive int4"}));
+    }
     if !errors.is_empty() {
         return Err(failure(errors));
     }
@@ -254,6 +274,31 @@ pub fn validate_reassign(raw: Option<&str>) -> Result<ReassignProjectOwner, ApiE
     }
 }
 
+/// Query consumes the versioned public enum generated from the current TS
+/// canonical contract; create independently remains assessment-only.
+fn query_stage(object: &JsObject<'_>, errors: &mut Vec<Value>) -> Option<QueryProjectStage> {
+    let raw = object.get("currentStage")?;
+    if let Some(value) = decode_string(raw.get())
+        .ok()
+        .map(|value| value.to_utf8_lossy())
+        && let Ok(stage) = serde_json::from_value::<QueryProjectStage>(Value::String(value))
+    {
+        return Some(stage);
+    }
+    // Error metadata comes from the same certified schema, never a parallel
+    // handwritten list. A model/registry mismatch fails closed, never unfilters.
+    let values = crate::project_operating_common::schema::public_registry()["components"]["schemas"]["ProjectStage"]["enum"]
+        .as_array().cloned().unwrap_or_default();
+    let allowed = values
+        .iter()
+        .filter_map(Value::as_str)
+        .map(|value| format!("\"{value}\""))
+        .collect::<Vec<_>>()
+        .join("|");
+    errors.push(json!({"code":"invalid_value","values":values,"path":["currentStage"],"message":format!("Invalid option: expected one of {allowed}")}));
+    None
+}
+
 pub fn validate_query(raw: Option<&str>) -> Result<ProjectListQuery, ApiError> {
     let object = object(raw)?;
     let mut errors = Vec::new();
@@ -263,7 +308,7 @@ pub fn validate_query(raw: Option<&str>) -> Result<ProjectListQuery, ApiError> {
         .collect::<Vec<_>>();
     let status =
         enumeration(&object, "status", &values, &mut errors).and_then(|value| value.parse().ok());
-    let current_stage = stage(&object, &mut errors);
+    let current_stage = query_stage(&object, &mut errors);
     let owner_org_id = optional_uuid(&object, "ownerOrgId", &mut errors);
     let keyword = text(&object, "keyword", false, true, 1, 128, &mut errors)?;
     if !errors.is_empty() {
@@ -308,6 +353,83 @@ mod tests {
     use crate::projects::model::js;
 
     const CUSTOMER: &str = "11000000-0000-4000-8000-000000000001";
+
+    #[test]
+    fn omitted_and_explicit_creator_modes_keep_the_original_creator_default() {
+        for ownership in [None, Some(json!("creator"))] {
+            let mut body = json!({"projectName":"真实默认创建人主责回归","customerId":CUSTOMER});
+            if let Some(ownership) = ownership {
+                body["initialOwnership"] = ownership;
+            }
+            let parsed = validate_create(Some(&body.to_string()))
+                .unwrap_or_else(|_| panic!("valid default/creator request"));
+            assert_eq!(parsed.initial_ownership, ProjectInitialOwnership::Creator);
+            assert!(parsed.current_stage.is_none());
+        }
+    }
+
+    #[test]
+    fn organization_mode_is_an_explicit_optional_nonnullable_enum() {
+        let body = json!({"projectName":"真实组织承接回归","customerId":CUSTOMER,"initialOwnership":"organization"});
+        let parsed = validate_create(Some(&body.to_string()))
+            .unwrap_or_else(|_| panic!("valid organization request"));
+        assert_eq!(
+            parsed.initial_ownership,
+            ProjectInitialOwnership::Organization
+        );
+        for invalid in [
+            Value::Null,
+            json!("org-owned"),
+            json!("Organization"),
+            json!(" organization"),
+            json!(""),
+            json!(true),
+            json!(1),
+            json!({}),
+        ] {
+            let body = json!({"projectName":"非法承接模式","customerId":CUSTOMER,"initialOwnership":invalid});
+            assert!(validate_create(Some(&body.to_string())).is_err());
+        }
+    }
+
+    #[test]
+    fn ownership_choice_cannot_create_an_advanced_stage() {
+        for ownership in ["creator", "organization"] {
+            let body = json!({"projectName":"不能伪造执行准入","customerId":CUSTOMER,"initialOwnership":ownership,"currentStage":"execution"});
+            assert!(validate_create(Some(&body.to_string())).is_err());
+        }
+    }
+
+    #[test]
+    fn list_stage_uses_current_public_enum_without_expanding_create() {
+        let registry = crate::project_operating_common::schema::public_registry();
+        let values = registry["components"]["schemas"]["ProjectStage"]["enum"]
+            .as_array()
+            .expect("registered public project stage");
+        for stage in values.iter().filter_map(Value::as_str) {
+            let raw = json!({"currentStage":stage}).to_string();
+            let parsed = validate_query(Some(&raw))
+                .unwrap_or_else(|_| panic!("registered query stage {stage}"));
+            assert_eq!(
+                parsed.current_stage.map(|value| value.as_str()),
+                Some(stage)
+            );
+        }
+        for value in [
+            json!("unknown-stage"),
+            json!("ConditionalCompleted"),
+            json!(1),
+            Value::Null,
+        ] {
+            assert!(validate_query(Some(&json!({"currentStage":value}).to_string())).is_err());
+        }
+        let create = json!({"projectName":"Project","customerId":CUSTOMER,"currentStage":"conditional-completed"}).to_string();
+        assert!(validate_create(Some(&create)).is_err());
+        let create =
+            json!({"projectName":"Project","customerId":CUSTOMER,"currentStage":"assessment"})
+                .to_string();
+        assert!(validate_create(Some(&create)).is_ok());
+    }
 
     #[test]
     fn project_strings_use_joint_oracle_code_points_after_js_trim() {
@@ -386,7 +508,9 @@ mod tests {
                 .to_string();
             assert!(validate_reassign(Some(&raw)).is_err());
         }
-        let raw = json!({"ownerUserId":CUSTOMER,"reason":" 调整 ","ownerOrgId":null}).to_string();
+        let raw =
+            json!({"ownerUserId":CUSTOMER,"reason":" 调整 ","ownerOrgId":null,"expectedVersion":1})
+                .to_string();
         let value = validate_reassign(Some(&raw)).unwrap_or_else(|_| panic!("explicit null org"));
         assert!(value.owner_org_id.is_null());
         assert_eq!(value.reason, js("调整"));

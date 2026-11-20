@@ -1,0 +1,16 @@
+import fs from 'node:fs';
+import path from 'node:path';
+import assert from 'node:assert/strict';
+import { fileURLToPath } from 'node:url';
+const dir=path.dirname(fileURLToPath(import.meta.url)),prior=path.resolve(dir,'../labor-masking47-02');
+assert(!fs.existsSync(dir+'/checks'));
+fs.cpSync(prior+'/checks',dir+'/checks',{recursive:true,force:false,errorOnExist:true});
+fs.copyFileSync(dir+'/proposed/tools/rust-r4ghi/business/labor-mask47.mjs',dir+'/checks/tools/rust-r4ghi/business/labor-mask47.mjs');
+fs.copyFileSync(prior+'/prior47.test.mjs',dir+'/prior47.test.mjs');
+let guards=fs.readFileSync(prior+'/guards47-02.test.mjs','utf8');
+guards=guards.replaceAll('owned-test-temp47-02','owned-test-temp47-03');
+const old="const details=()=>({fieldPackageKey:'labor-cost-rate',projectionMode:'masked',targetType:'project-operating',targetId:'t',targetCount:1,sampleTargetIds:['t'],fieldKeys:['financialGroup'],hiddenFieldCount:1,reasonCode:'missing-sensitive-read-permission',requiredPermission:'labor-cost-rate:sensitive:read',auditAggregationMode:'sensitive-field-batch',projectId:'p'});";
+assert.equal(guards.split(old).length,2);
+guards=guards.replace(old,"const target='00000000-0000-4000-8000-000000000001',project='00000000-0000-4000-8000-000000000002',expectedTargets={'project-operating':new Set([target])};\nconst details=()=>({fieldPackageKey:'labor-cost-rate',projectionMode:'masked',targetType:'project-operating',targetId:target,targetCount:1,sampleTargetIds:[target],fieldKeys:['operatingFinancialGroup'],hiddenFieldCount:1,reasonCode:'missing-sensitive-read-permission',requiredPermission:'labor-cost-rate:sensitive:read',auditAggregationMode:'sensitive-field-batch',projectId:project});");
+guards=guards.replaceAll("new Set(['financialGroup'])","new Set(['operatingFinancialGroup'])").replaceAll('assertLaborAuditDetails47(details(),allowed)','assertLaborAuditDetails47(details(),allowed,expectedTargets)').replaceAll('assertLaborAuditDetails47(d,allowed)','assertLaborAuditDetails47(d,allowed,expectedTargets)');
+fs.writeFileSync(dir+'/prior-guards47-02.test.mjs',guards,{flag:'wx'});

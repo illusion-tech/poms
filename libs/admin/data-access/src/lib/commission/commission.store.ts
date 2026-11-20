@@ -1,10 +1,12 @@
 import { computed, inject, Injectable, signal } from '@angular/core';
 import type {
+    ApproveCommissionLowDownPaymentReleaseRequest,
     CommandResult,
     CommissionAdjustmentSummary,
     CommissionCalculationSummary,
     CommissionPayoutSummary,
     CommissionRuleVersionSummary,
+    CommissionLowDownPaymentReleaseListView,
     ConfirmCommissionCalculationRequest,
     CreateCommissionAdjustmentRequest,
     CreateCommissionCalculationRequest,
@@ -42,6 +44,9 @@ export class CommissionStore {
     readonly #loadingAdjustments = signal(false);
     readonly #loadingRuleVersions = signal(false);
     readonly #saving = signal(false);
+    readonly #lowDownPaymentView = signal<CommissionLowDownPaymentReleaseListView | null>(null);
+    readonly #loadingLowDownPayment = signal(false);
+    #lowDownPaymentLoad = 0;
 
     readonly calculations = this.#calculations.asReadonly();
     readonly payouts = this.#payouts.asReadonly();
@@ -52,6 +57,31 @@ export class CommissionStore {
     readonly loadingAdjustments = this.#loadingAdjustments.asReadonly();
     readonly loadingRuleVersions = this.#loadingRuleVersions.asReadonly();
     readonly saving = this.#saving.asReadonly();
+    readonly lowDownPaymentView = this.#lowDownPaymentView.asReadonly();
+    readonly loadingLowDownPayment = this.#loadingLowDownPayment.asReadonly();
+
+    async loadLowDownPaymentReleases(projectId: string) {
+        const request = ++this.#lowDownPaymentLoad;
+        this.#loadingLowDownPayment.set(true);
+        this.#lowDownPaymentView.set(null);
+        try {
+            const view = await firstValueFrom(this.#commissionApi.commissionControllerListLowDownPaymentReleases({ projectId }));
+            if (view.projectId !== projectId) throw new Error('批准材料不属于当前项目。');
+            if (request === this.#lowDownPaymentLoad) this.#lowDownPaymentView.set(view);
+            return view;
+        } finally {
+            if (request === this.#lowDownPaymentLoad) this.#loadingLowDownPayment.set(false);
+        }
+    }
+
+    async approveLowDownPaymentRelease(projectId: string, request: ApproveCommissionLowDownPaymentReleaseRequest) {
+        this.#saving.set(true);
+        try {
+            return await firstValueFrom(this.#commissionApi.commissionControllerApproveLowDownPaymentRelease({ projectId, approveCommissionLowDownPaymentReleaseRequest: request }));
+        } finally {
+            this.#saving.set(false);
+        }
+    }
 
     readonly currentEffectiveCalculation = computed(
         () => this.#calculations().find((item) => item.isCurrent && item.status === CommissionCalculationStatus.Effective) ?? null
@@ -344,6 +374,9 @@ export class CommissionStore {
     }
 
     clear() {
+        this.#lowDownPaymentLoad++;
+        this.#loadingLowDownPayment.set(false);
+        this.#lowDownPaymentView.set(null);
         this.#ruleVersions.set([]);
         this.#calculations.set([]);
         this.#payouts.set([]);

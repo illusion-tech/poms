@@ -1,0 +1,47 @@
+{
+  "kind": "R1B-closed-module-inspection-proposal06",
+  "rootBaseSha256": "c6cf0836f7f497745b2e86009fbf93cffc8f96d883c4de78368e3f9b024c0be6",
+  "files": [
+    {
+      "file": "export-shared.inspection-seam.candidate.mjs",
+      "bytes": 64286,
+      "sha256": "a3ea8fa3bb96e497610b16bff732a5ea35fa5d26ba718ff50cad04795db67d09"
+    },
+    {
+      "file": "export-shared-inspection-seam06.patch",
+      "bytes": 3893,
+      "sha256": "7a77edc124d6d7ed3d108928eb23771a5c594e72c758225024255fa309c0c86f"
+    },
+    {
+      "file": "registered-module-graph.candidate.mjs",
+      "bytes": 13898,
+      "sha256": "32d829c6a32aa1228c1dddaaff28be321803933673e7bc5238701d5643b87d4b"
+    },
+    {
+      "file": "closed-module-registry06.candidate.json",
+      "bytes": 389425,
+      "sha256": "43d5da17344f26f90b7a2a06b3dc51b0bf11ab079efb7a7986994b0f407965bd"
+    },
+    {
+      "file": "closed-module-analysis06.json",
+      "bytes": 201638,
+      "sha256": "6004cce6c19a980c06fde5eb427511d9da68f09eba9708c5c07d38ecc39f5fb9"
+    },
+    {
+      "file": "diagnosis06.json",
+      "bytes": 5952,
+      "sha256": "094ea12ab4048a12cd0036392f5c2e5952f1fff2ef2026a218309e95c5689997"
+    }
+  ],
+  "rootProductModified": false,
+  "implemented": "A closed three-module AST/hash/runtime oracle inspection seam, not an incomplete replacement of the full legacy manifest builder.",
+  "fullExporterStatus": "--write/--check still deliberately use the original buildManifest/compareR0 and remain blocked on explicit historical migrations/additions/cross-module nominal alias registration. No whole check pass claimed.",
+  "sourceGuard": "Working/index/untracked guard retained; source scope expanded to include exact registry, new canonical module explicitly becomes a manifest source. No guard=false, unreviewed dirty override or automatic HEAD/sourceHead advance.",
+  "rootRequired": [
+    "Review closed module function/declaration pins and exact graph",
+    "Freeze new SOURCE_HEAD and matching registry.sourceHead only through Root governance after committing actual reviewed source inputs",
+    "Register immutable R0 historical replacements/migrations/additions and nominal source alias maps; never rewrite R0 or merge unrelated same-value enums",
+    "Integrate module observations into full data/family renderer and original static evaluator; retain independent actual TS/Zod comparisons",
+    "Run old/new exporter negative controls and actual whole --check/--write, then exact generated manifest/Rust/tests diff"
+  ]
+}

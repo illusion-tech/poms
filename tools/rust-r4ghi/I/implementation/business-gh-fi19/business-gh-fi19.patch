@@ -1,0 +1,792 @@
+--- /dev/null
++++ b/tools/rust-r4ghi/business/gh-write-facts.mjs
+@@ -0,0 +1,92 @@
++// Instrumentation inventory from actual owned rows, never an authorization or money calculator.
++import assert from 'node:assert/strict';
++import { keyOf, uuid } from './pure.mjs';
++
++export const ghWriteOperations = Object.freeze([
++  'ProjectCostController_activateOperatingBaselinePackage', 'ProjectCostController_createProjectOperatingSnapshot',
++  'ProjectCostController_createPeriodClosingSnapshot', 'ProjectCostController_createOperatingRestatement',
++  'ProjectCostController_reviewOperatingSignalEvaluation', 'ProjectCostController_reviewCommissionGateBinding',
++]);
++export const isGHWrite = operation => ghWriteOperations.includes(operation);
++const sorted = values => [...new Set(values)].sort();
++const stable = value => value === null || typeof value !== 'object' ? JSON.stringify(value) : Array.isArray(value) ? '[' + value.map(stable).join(',') + ']' : '{' + Object.keys(value).sort().map(k => JSON.stringify(k) + ':' + stable(value[k])).join(',') + '}';
++function unchangedDecision(input, prior) {
++  const previous = prior?.frozen_payload?.input;
++  if (!previous || prior.source_row_version !== input.target.expectedVersion) return false;
++  if (['decision', 'recognitionRole', 'reasonCode', 'reasonText', 'primaryCostRef'].some(k => stable(input[k]) !== stable(previous[k]))) return false;
++  return ['supportingSourceRefs', 'evidenceRefs'].every(k => Array.isArray(input[k]) && Array.isArray(previous[k]) && stable(input[k].map(stable).sort()) === stable(previous[k].map(stable).sort()));
++}
++export function deriveGHWriteFacts(ctx, snapshot, operationId, scope, readRows) {
++  assert(isGHWrite(operationId)); const { projectId, actorId, actorKey, params, body } = scope;
++  const actor = ctx.state.actors[actorKey]; assert.equal(actor.id, actorId);
++  for (const permission of ['operating:finance:sensitive:read', 'labor-cost-rate:sensitive:read']) assert(actor.permissions.includes(permission), 'This positive inventory requires the real source-sensitive actor; masked/denied-event paths need their own inventory');
++  const rows = table => readRows(snapshot.databases[ctx.database].tables[table]).map(r => ({ row: r, value: JSON.parse(r.raw) }));
++  const values = table => rows(table).map(r => r.value);
++  const owned = (table, id) => { uuid(id); const row = rows(table).find(r => r.row.key.length === 1 && r.row.key[0] === id); assert(row, `Missing actual ${table} row`); const proof = ctx.state.owned[keyOf(ctx.database, table, row.row.key)]; assert(proof && !proof.deleted, 'Never arm FI on an original or foreign source'); return row.value; };
++  owned('project', projectId); owned('platform_user', actorId);
++  const head = values('project_operating_head').find(r => r.project_id === projectId) ?? null;
++  const result = { version: 1, projectId, headPresent: Boolean(head), baselineId: head?.baseline_package_id ?? null,
++    currentSnapshotId: head?.current_snapshot_id ?? null, captureCount: 0, snapshotMode: null, terminalIds: [], costUnits: [], costUpdates: [],
++    decisionInserts: [], oldBindingIds: [], oldGateReviewIds: [], oldSignalReviewId: null, oldSummaryId: null, targetSignalId: null, targetBindingId: null, selectedGateStage: null };
++  const currentGateRows = () => values('operating_signal_gate_binding').filter(r => r.project_id === projectId && r.status === 'active');
++  const oldGates = () => {
++    result.oldBindingIds = sorted(currentGateRows().map(r => owned('operating_signal_gate_binding', r.id).id));
++    result.oldGateReviewIds = sorted(values('commission_gate_review_record').filter(r => result.oldBindingIds.includes(r.binding_id) && r.status === 'active').map(r => owned('commission_gate_review_record', r.id).id));
++  };
++  if (operationId.endsWith('reviewOperatingSignalEvaluation')) {
++    const signal = owned('operating_signal_evaluation_result', params.id); assert.equal(signal.project_id, projectId); result.targetSignalId = signal.id;
++    const previous = values('operating_signal_review_record').filter(r => r.signal_evaluation_id === signal.id && r.status === 'active'); assert(previous.length <= 1);
++    result.oldSignalReviewId = previous[0] ? owned('operating_signal_review_record', previous[0].id).id : null;
++    assert.equal(head?.current_snapshot_id, signal.referenced_snapshot_id, 'Positive review needs the actual current source'); oldGates(); return result;
++  }
++  if (operationId.endsWith('reviewCommissionGateBinding')) {
++    const binding = owned('operating_signal_gate_binding', params.id); assert.equal(binding.project_id, projectId);
++    const signal = owned('operating_signal_evaluation_result', binding.signal_evaluation_id); assert.equal(head?.current_snapshot_id, signal.referenced_snapshot_id);
++    result.targetSignalId = signal.id; result.targetBindingId = binding.id; result.selectedGateStage = binding.gate_stage_type;
++    result.oldSummaryId = owned('approval_summary_snapshot', binding.current_summary_id).id;
++    result.oldGateReviewIds = values('commission_gate_review_record').filter(r => r.binding_id === binding.id && r.status === 'active').map(r => owned('commission_gate_review_record', r.id).id); assert(result.oldGateReviewIds.length <= 1); return result;
++  }
++  assert.equal(body.projectId, projectId); assert.equal(body.expectedVersion, head?.row_version ?? 0, 'Body must use the actual observed G head before arming');
++  if (operationId.endsWith('activateOperatingBaselinePackage')) {
++    result.oldBaselineId = body.expectedCurrentPackageRef ? owned('operating_baseline_package', body.expectedCurrentPackageRef.id).id : null;
++    assert.equal(result.oldBaselineId, result.baselineId);
++    result.changePackageIds = (body.approvedChangeRefs ?? []).map(r => owned('project_technical_cost_package', r.id).id); return result;
++  }
++  assert(result.baselineId); owned('operating_baseline_package', result.baselineId);
++  let decisionInputs = body.costDecisions ?? [];
++  if (operationId.endsWith('createOperatingRestatement')) {
++    for (const key of ['laborCorrections', 'allocationCorrections', 'stageCorrections', 'taxCorrections']) assert.equal(body[key]?.length, 0, 'Actual E/F correction branches need their producer-specific inventory; never infer them from the historical late-expense case');
++    assert.equal(body.scope, 'live'); assert.equal(body.periodEndSnapshotRef, null);
++    const targets = [{ projectId, restatesSnapshotRef: body.restatesSnapshotRef, periodEndSnapshotRef: null }, ...(body.affectedTargets ?? [])];
++    assert(targets.every(t => t.projectId === projectId && t.periodEndSnapshotRef === null), 'This source-bound late-expense inventory is one-project/live; do not truncate multi-project/period targets');
++    result.terminalIds = sorted(targets.map(t => { const s = owned('project_operating_snapshot', t.restatesSnapshotRef.id); assert.equal(s.project_id, projectId); assert.equal(s.status, 'active'); return s.id; }));
++    assert.equal(result.terminalIds.length, targets.length); result.captureCount = targets.length; result.snapshotMode = 'restated';
++    decisionInputs = [...decisionInputs, ...(body.affectedTargets ?? []).flatMap(t => t.costDecisions)];
++    if (result.terminalIds.includes(result.currentSnapshotId)) oldGates();
++  } else {
++    result.captureCount = 1; result.snapshotMode = operationId.endsWith('createPeriodClosingSnapshot') ? 'period-end' : body.snapshotMode;
++    assert(['realtime', 'period-end'].includes(result.snapshotMode));
++    // Current source explicitly leaves ordinary paired period captures unselected.
++    // The runtime wrapper blocks period writes while decision7 is pending.
++    if (result.snapshotMode === 'realtime') oldGates();
++  }
++  const seen = new Map();
++  for (const input of decisionInputs) {
++    assert.equal(input.target.kind, 'ProjectActualCostRecord', 'Shared allocation correction/consumption is not silently covered by an expense fixture');
++    const cost = owned('project_actual_cost_record', input.target.id); assert.equal(cost.project_id, projectId);
++    const unit = `cost:${cost.id}`; result.costUnits.push(unit);
++    const priorInput = seen.get(unit); if (priorInput) { assert.equal(stable(priorInput), stable(input), 'Same root cannot supply conflicting repeated cost decisions'); continue; } seen.set(unit, input);
++    const hRow = rows('project_cost_inclusion_head').find(r => r.value.project_id === projectId && r.value.unit_key === unit);
++    if (hRow) assert(ctx.state.owned[keyOf(ctx.database, 'project_cost_inclusion_head', hRow.row.key)], 'Existing composite classification head must also be this run owned');
++    const h = hRow?.value;
++    const prior = h ? owned('project_cost_inclusion_decision', h.decision_id) : null;
++    if (prior && unchangedDecision(input, prior)) continue;
++    result.decisionInserts.push({ unit, headEvent: h ? 'UPDATE' : 'INSERT' });
++    if (input.decision === 'include' && cost.is_included_in_project_cost !== true) {
++      assert.equal(input.recognitionRole, 'direct-source'); assert.equal(cost.record_status, 'confirmed'); result.costUpdates.push(cost.id);
++    }
++  }
++  if (!result.costUnits.length) result.costUnits = values('project_cost_inclusion_head').filter(r => r.project_id === projectId).map(r => r.unit_key);
++  result.costUnits = sorted(result.costUnits); assert(result.costUnits.length, 'Do not claim cost membership FI for an empty/unproven cost-scope case');
++  result.costUpdates = sorted(result.costUpdates); result.decisionInserts.sort((a, b) => a.unit.localeCompare(b.unit)); return result;
++}
+--- /dev/null
++++ b/tools/rust-r4ghi/business/gh-write-inventory.mjs
+@@ -0,0 +1,83 @@
++import assert from 'node:assert/strict';
++import { uuid } from './pure.mjs';
++import { isGHWrite } from './gh-write-facts.mjs';
++
++const g = name => `apps/poms-api-rust/src/project_operating/${name}.rs`;
++const h = name => `apps/poms-api-rust/src/project_operating_signals/${name}.rs`;
++const add = (key, table, event, match, source, rationale, expectedRows = 1) => ({ key, table, event, match, source, rationale, expectedRows });
++const eq = (key, table, event, values, source, why, count = 1) => add(key, table, event, { kind: 'equals', values }, source, why, count);
++export function ghWriteInventory(operationId, scope) {
++  assert(isGHWrite(operationId)); const { projectId, actorId, params, body, ghFacts: facts } = scope;
++  uuid(projectId); uuid(actorId); assert(facts?.version === 1 && facts.projectId === projectId);
++  const root = (key, table, event, values = {}, source = g('capture'), why = 'Real source writes this owned project FK branch.', count = 1) => eq(key, table, event, { project_id: projectId, ...values }, source, why, count);
++  const oldUpdates = (ids, table, source, prefix) => ids.map(id => eq(`${prefix}:${id}`, table, 'UPDATE', { id: uuid(id) }, source, 'Actual active owned predecessor observed before the command; test every addressed predecessor.'));
++  const summary = (count, targetId = null) => [
++    add('H-summary-snapshot', 'approval_summary_snapshot', 'INSERT', { kind: 'summary', actorId, scenario: 'commission-gate-review', packageKey: 'project-operating-commission-gate-v1', targetType: 'operating-signal-gate-binding', targetId }, h('summary'), 'The real producer creates each immutable gate summary; generated binding UUID is not fabricated by the harness.', count),
++    add('H-summary-last-field', 'approval_summary_field_projection', 'INSERT', { kind: 'summary-field', summary: { actorId, scenario: 'commission-gate-review', packageKey: 'project-operating-commission-gate-v1', targetType: 'operating-signal-gate-binding', targetId }, fieldOrder: 3 }, h('summary'), 'Actual fourth mandatory financialFacts field; all real new summaries must share the final TX.', count),
++    root('H-summary-payload', 'operating_gate_summary_payload', 'INSERT', targetId ? { binding_id: uuid(targetId) } : { gate_stage_type: 'retention' }, h('summary'), 'Actual immutable payload for this exact binding, or real last-stage retention payload.', targetId ? 1 : facts.captureCount || 1),
++  ];
++  let entries = [];
++  const baseline = operationId.endsWith('activateOperatingBaselinePackage'), signalReview = operationId.endsWith('reviewOperatingSignalEvaluation'), gateReview = operationId.endsWith('reviewCommissionGateBinding');
++  if (baseline) {
++    entries = [root('G-baseline-source', 'operating_baseline_source', 'INSERT'), root('G-baseline-package', 'operating_baseline_package', 'INSERT')];
++    if (facts.oldBaselineId) entries.push(...oldUpdates([facts.oldBaselineId], 'operating_baseline_package', g('capture'), 'G-old-baseline'));
++    for (const id of facts.changePackageIds) entries.push(add(`G-approved-change-baseline:${id}`, 'change_package_baseline', 'INSERT', { kind: 'gh-change-baseline', projectId, actorId, changePackageId: id }, g('capture'), 'Only when the real input/derived approved transition exists; no invented change package.'));
++  } else if (signalReview) {
++    entries = [root('H-signal-cas', 'operating_signal_evaluation_result', 'UPDATE', { id: uuid(params.id) }, h('review')),
++      eq('H-signal-review', 'operating_signal_review_record', 'INSERT', { signal_evaluation_id: uuid(params.id), handled_by: actorId }, h('review'), 'Actual immutable append after exact signal CAS.'),
++      root('H-review-new-bindings', 'operating_signal_gate_binding', 'INSERT', { signal_evaluation_id: uuid(params.id), gate_stage_type: 'retention' }, h('service'), 'Four real replacement bindings; retention is the last fixed producer stage.'),
++      ...summary(4), ...oldUpdates(facts.oldBindingIds, 'operating_signal_gate_binding', h('service'), 'H-old-binding'),
++      ...oldUpdates(facts.oldGateReviewIds, 'commission_gate_review_record', h('service'), 'H-old-binding-review')];
++    if (facts.oldSignalReviewId) entries.push(...oldUpdates([facts.oldSignalReviewId], 'operating_signal_review_record', h('review'), 'H-previous-signal-review'));
++  } else if (gateReview) {
++    entries = [root('H-binding-cas', 'operating_signal_gate_binding', 'UPDATE', { id: uuid(params.id) }, h('review')),
++      eq('H-gate-review', 'commission_gate_review_record', 'INSERT', { binding_id: uuid(params.id), handled_by: actorId }, h('review'), 'Actual gate review append and exact actor.'),
++      ...summary(1, params.id), ...oldUpdates([facts.oldSummaryId], 'approval_summary_snapshot', h('summary'), 'H-old-summary'),
++      ...oldUpdates(facts.oldGateReviewIds, 'commission_gate_review_record', h('review'), 'H-previous-gate-review')];
++  } else {
++    const count = facts.captureCount; assert(Number.isSafeInteger(count) && count > 0);
++    for (const id of facts.costUpdates) entries.push(root(`G-cost-consumption:${id}`, 'project_actual_cost_record', 'UPDATE', { id }, g('inclusion'), 'Only a real confirmed/nonincluded input takes this one-time consumption CAS.'));
++    for (const d of facts.decisionInserts) {
++      entries.push(root(`G-inclusion-decision:${d.unit}`, 'project_cost_inclusion_decision', 'INSERT', { unit_key: d.unit }, g('inclusion'), 'Actual input differs from the stored frozen prior; unchanged decisions deliberately do not write.'));
++      entries.push(root(`G-inclusion-head:${d.unit}`, 'project_cost_inclusion_head', d.headEvent, { unit_key: d.unit }, g('inclusion'), 'INSERT for no real head, otherwise the actual existing composite-key CAS.'));
++    }
++    entries.push(root('G-source-context', 'operating_source_context', 'INSERT', {}, g('capture'), 'One real final immutable context per complete terminal capture.', count),
++      root('G-snapshot', 'project_operating_snapshot', 'INSERT', { snapshot_mode: facts.snapshotMode }, g('capture'), 'Final source/canonical hash comes from the sole Rust collector.', count),
++      add('G-source-member-baseline', 'operating_source_member', 'INSERT', { kind: 'gh-source-member', projectId, baselineId: facts.baselineId }, g('capture'), 'Actual mandatory baseline closure member joined through the inserted context/project.', count),
++      root('G-cost-member', 'operating_snapshot_cost_member', 'INSERT', { unit_key: facts.costUnits.at(-1) }, g('capture'), 'Real selected input/current classification member; no synthetic cost.', count),
++      root('H-evaluation-evidence', 'operating_evaluation_evidence', 'INSERT', { evaluated_by: actorId }, h('service'), 'H reloads the actual new G immutable context.', count),
++      add('H-evaluation-reason', 'operating_evaluation_reason', 'INSERT', { kind: 'gh-reason', projectId, actorId, index: 0 }, h('service'), 'Real generated system reason0, joined to actual evaluation evidence. New source H08 is not silently resolved.', count),
++      root('H-maturity', 'data_maturity_evaluation_result', 'INSERT', { created_by: actorId }, h('service'), 'Actual H maturity output, not a browser label.', count),
++      root('H-signal', 'operating_signal_evaluation_result', 'INSERT', { created_by: actorId }, h('service'), 'Actual H system signal output.', count),
++      root('H-gates', 'operating_signal_gate_binding', 'INSERT', { gate_stage_type: 'retention' }, h('service'), 'Real fixed last stage; final proof includes all source-selected rows.', count),
++      ...summary(count * 4), ...oldUpdates(facts.oldBindingIds, 'operating_signal_gate_binding', h('service'), 'H-old-binding'),
++      ...oldUpdates(facts.oldGateReviewIds, 'commission_gate_review_record', h('service'), 'H-old-binding-review'));
++    if (facts.snapshotMode === 'period-end') entries.push(root('G-paired-period', 'period_closing_snapshot', 'INSERT', { period_key: body.periodKey }, g('capture'), 'The real paired period fact; runtime remains blocked pending decision7.'));
++    if (operationId.endsWith('createOperatingRestatement')) {
++      entries.push(...oldUpdates(facts.terminalIds, 'project_operating_snapshot', g('restatement'), 'G-terminal-cas'));
++      for (const id of facts.terminalIds) entries.push(root(`G-restatement-record:${id}`, 'operating_restatement_record', 'INSERT', { restates_snapshot_id: id }, g('service'), 'Actual complete terminal root, causal source refs and shared batch from Rust.'));
++    }
++  }
++  if (!signalReview && !gateReview) entries.push(root('G-head-cas', 'project_operating_head', facts.headPresent ? 'UPDATE' : 'INSERT', {}, g('store'), 'Exact actual head branch; no fabricated initial head.'));
++  const auditCount = operationId.endsWith('createOperatingRestatement') ? facts.captureCount : 1;
++  entries.push(add('required-success-audit', 'audit_log', 'INSERT', { kind: 'audit', operationId, actorId, projectId }, 'apps/poms-api-rust/src/contract_support/mod.rs', 'Mandatory exact root operation/request/actor/project audit; every complete terminal restatement audits its own record.', auditCount));
++  if (!baseline && !signalReview && !gateReview) entries.push(add('H-policy-audit', 'audit_log', 'INSERT', { kind: 'audit', operationId: 'OperatingPolicy_evaluate', actorId, projectId }, h('service'), 'Real H evaluation audit in the same G outer transaction.', facts.captureCount));
++  entries.push(eq('GH-command-receipt', 'operating_command_receipt', 'INSERT', { operation_id: operationId, actor_id: actorId, target_scope: signalReview || gateReview ? uuid(params.id) : projectId }, signalReview || gateReview ? h('store') : g('service'), 'Actual same-TX idempotency receipt; not a forged committed JSON claim.'));
++  entries.push(add('pending-auth-coflush', 'auth_session', 'UPDATE', { kind: 'auth-coflush', operationId, actorId, projectId }, 'apps/poms-api-rust/src/auth/store.rs', 'Real pending-auth update only after the exact root audit; independent raw touch remains separate.'));
++  assert.equal(new Set(entries.map(d => d.key)).size, entries.length); return entries;
++}
++
++export function ghSelectorSql(descriptor) {
++  const m = descriptor.match; for (const key of ['projectId', 'actorId', 'baselineId', 'changePackageId']) if (m[key]) uuid(m[key]);
++  if (m.kind === 'gh-source-member') return `j->>'source_kind'='OperatingBaselinePackage' AND j->>'source_id'='${m.baselineId}' AND EXISTS(SELECT 1 FROM poms.operating_source_context c WHERE c.id=(j->>'context_id')::uuid AND c.project_id='${m.projectId}'::uuid)`;
++  if (m.kind === 'gh-reason') { assert.equal(m.index, 0); return `(j->>'reason_index')::int=0 AND EXISTS(SELECT 1 FROM poms.operating_evaluation_evidence e WHERE e.id=(j->>'evidence_id')::uuid AND e.project_id='${m.projectId}'::uuid AND e.evaluated_by='${m.actorId}'::uuid)`; }
++  if (m.kind === 'gh-change-baseline') return `j->>'change_package_id'='${m.changePackageId}' AND j->>'created_by'='${m.actorId}' AND EXISTS(SELECT 1 FROM poms.operating_baseline_package b WHERE b.id=(j->>'baseline_package_id')::uuid AND b.project_id='${m.projectId}'::uuid)`;
++  throw new Error('Unknown reviewed GH selector');
++}
++export function ghWriteMatches(descriptor, row, allRows) {
++  const m = descriptor.match, v = JSON.parse(row.raw), find = (table, id) => allRows(table).map(r => JSON.parse(r.raw)).find(r => r.id === id);
++  if (m.kind === 'gh-source-member') return v.source_kind === 'OperatingBaselinePackage' && v.source_id === m.baselineId && find('operating_source_context', v.context_id)?.project_id === m.projectId;
++  if (m.kind === 'gh-reason') { const e = find('operating_evaluation_evidence', v.evidence_id); return v.reason_index === 0 && e?.project_id === m.projectId && e.evaluated_by === m.actorId; }
++  if (m.kind === 'gh-change-baseline') return v.change_package_id === m.changePackageId && v.created_by === m.actorId && find('operating_baseline_package', v.baseline_package_id)?.project_id === m.projectId;
++  throw new Error('Unknown reviewed GH final write');
++}
+--- /dev/null
++++ b/tools/rust-r4ghi/business/gh-write-inventory.test.mjs
+@@ -0,0 +1,80 @@
++import test from 'node:test';
++import assert from 'node:assert/strict';
++import { keyOf, sha } from './pure.mjs';
++import { deriveGHWriteFacts, ghWriteOperations } from './gh-write-facts.mjs';
++import { ghWriteInventory } from './gh-write-inventory.mjs';
++import { selectorSql } from './required-write-inventory.mjs';
++import { rowsWritten, assertPeriodSweepPolicy } from './fault-sweep.mjs';
++import { assertObservedTaxKnowledge } from './cost-readiness.mjs';
++
++const id = n => `${String(n).padStart(8, '0')}-1111-4111-8111-111111111111`;
++const project = id(1), actor = id(2), baseline = id(3), cost = id(4), snapshot = id(5), signal = id(6), decision = id(7);
++const row = (value, key = [value.id], xmin = '10') => { const raw = JSON.stringify(value); return { raw, key, sha256: sha(raw), xmin }; };
++function fixture() {
++  const tables = {}, ctx = { database: 'db', state: { owned: {}, actors: { manager: { id: actor, permissions: ['operating:finance:sensitive:read', 'labor-cost-rate:sensitive:read'] } } } };
++  const put = (table, value, key) => { const item = row(value, key); (tables[table] ??= { rows: [] }).rows.push(item); ctx.state.owned[keyOf('db', table, item.key)] = { latestSha256: item.sha256 }; return value; };
++  put('project', { id: project }); put('platform_user', { id: actor });
++  const observed = { databases: { db: { tables: new Proxy(tables, { get: (target, key) => target[key] ?? { rows: [] } }) } } };
++  const input = { target: { kind: 'ProjectActualCostRecord', id: cost, expectedVersion: 2, payloadHash: 'a'.repeat(64) }, expectedVersion: 0,
++    decision: 'include', recognitionRole: 'direct-source', reasonCode: 'actual-expense', reasonText: 'actual fixture', primaryCostRef: null, supportingSourceRefs: [], evidenceRefs: [{ kind: 'ProjectActualCostRecord', id: cost, expectedVersion: 2, payloadHash: 'a'.repeat(64) }] };
++  const scope = body => ({ projectId: project, actorId: actor, actorKey: 'manager', params: {}, body });
++  const derive = (op, s) => deriveGHWriteFacts(ctx, observed, op, s, meta => meta.rows);
++  const base = () => { put('operating_baseline_package', { id: baseline, project_id: project }); put('project_operating_head', { project_id: project, baseline_package_id: baseline, current_snapshot_id: snapshot, row_version: 1 }, [project]);
++    put('project_operating_snapshot', { id: snapshot, project_id: project, status: 'active' }); put('project_actual_cost_record', { id: cost, project_id: project, row_version: 2, record_status: 'confirmed', is_included_in_project_cost: false }); };
++  return { ctx, observed, put, input, scope, derive, base };
++}
++test('first baseline source inventory is real source/package/head/audit/receipt/auth and no H evaluation', () => {
++  const f = fixture(), s = f.scope({ projectId: project, expectedVersion: 0, expectedCurrentPackageRef: null, approvedChangeRefs: [] });
++  const facts = f.derive(ghWriteOperations[0], s); const inventory = ghWriteInventory(ghWriteOperations[0], { ...s, ghFacts: facts });
++  assert.equal(inventory.length, 6); assert.equal(inventory.find(d => d.key === 'G-head-cas').event, 'INSERT');
++  assert(!inventory.some(d => d.key.startsWith('H-')));
++});
++test('first expense snapshot declares20 real write families, including consumption and decision/head inserts', () => {
++  const f = fixture(); f.base(); const s = f.scope({ projectId: project, expectedVersion: 1, snapshotMode: 'realtime', costDecisions: [f.input] });
++  const facts = f.derive(ghWriteOperations[1], s), inventory = ghWriteInventory(ghWriteOperations[1], { ...s, ghFacts: facts });
++  assert.equal(inventory.length, 20); assert.deepEqual(facts.costUpdates, [cost]);
++  assert.equal(inventory.find(d => d.key === 'H-summary-snapshot').expectedRows, 4); assert.equal(inventory.find(d => d.key === 'H-summary-last-field').expectedRows, 4);
++  for (const descriptor of inventory) assert(selectorSql(descriptor, { requestId: 'actual-request', sessionId: id(99) }).length > 10);
++});
++test('existing frozen pre-consumption refs genuinely trigger a new decision and UPDATE head', () => {
++  const f = fixture(); f.base(); const currentCost = f.observed.databases.db.tables.project_actual_cost_record.rows[0];
++  Object.assign(currentCost, row({ id: cost, project_id: project, row_version: 3, record_status: 'included', is_included_in_project_cost: true }));
++  f.put('project_cost_inclusion_decision', { id: decision, project_id: project, source_row_version: 3, frozen_payload: { input: f.input } });
++  f.put('project_cost_inclusion_head', { project_id: project, unit_key: `cost:${cost}`, decision_id: decision, row_version: 1 }, [project, `cost:${cost}`]);
++  const changed = structuredClone(f.input); changed.target.expectedVersion = 3; changed.evidenceRefs[0].expectedVersion = 3; changed.expectedVersion = 1;
++  const body = { projectId: project, expectedVersion: 1, scope: 'live', periodEndSnapshotRef: null, restatesSnapshotRef: { id: snapshot }, costDecisions: [changed], affectedTargets: [], laborCorrections: [], allocationCorrections: [], stageCorrections: [], taxCorrections: [] };
++  const facts = f.derive(ghWriteOperations[3], f.scope(body));
++  assert.deepEqual(facts.costUpdates, []); assert.deepEqual(facts.decisionInserts, [{ unit: `cost:${cost}`, headEvent: 'UPDATE' }]);
++  const sameInput = { ...changed, evidenceRefs: f.input.evidenceRefs }; body.costDecisions = [sameInput];
++  assert.deepEqual(f.derive(ghWriteOperations[3], f.scope(body)).decisionInserts, []);
++});
++test('H signal and gate review inventories follow actual existing binding/summary rows', () => {
++  const f = fixture(); f.base(); f.put('operating_signal_evaluation_result', { id: signal, project_id: project, referenced_snapshot_id: snapshot });
++  for (const [n, stage] of ['first', 'second', 'final', 'retention'].entries()) {
++    f.put('approval_summary_snapshot', { id: id(30 + n), target_id: id(20 + n) });
++    f.put('operating_signal_gate_binding', { id: id(20 + n), project_id: project, signal_evaluation_id: signal, status: 'active', current_summary_id: id(30 + n), gate_stage_type: stage });
++  }
++  let s = { ...f.scope({}), params: { id: signal } }; let facts = f.derive(ghWriteOperations[4], s);
++  let inventory = ghWriteInventory(ghWriteOperations[4], { ...s, ghFacts: facts }); assert.equal(inventory.length, 13);
++  assert.equal(inventory.filter(d => d.key.startsWith('H-old-binding:')).length, 4); assert(!inventory.some(d => d.table === 'data_maturity_evaluation_result'));
++  s = { ...f.scope({}), params: { id: id(20) } }; facts = f.derive(ghWriteOperations[5], s); inventory = ghWriteInventory(ghWriteOperations[5], { ...s, ghFacts: facts }); assert.equal(inventory.length, 9);
++  assert(inventory.some(d => d.key === 'H-old-summary:' + id(30))); assert.equal(inventory.find(d => d.key === 'H-summary-snapshot').expectedRows, 1);
++});
++test('actual operation type keeps summary INSERT separate from predecessor UPDATE', () => {
++  const before = row({ id: id(40), status: 'active' }), changed = row({ id: id(40), status: 'superseded' }, undefined, '11'), added = row({ id: id(41), status: 'active' }, undefined, '11');
++  assert.deepEqual(rowsWritten([before], [changed, added], 'INSERT').map(r => r.key[0]), [id(41)]);
++  assert.deepEqual(rowsWritten([before], [changed, added], 'UPDATE').map(r => r.key[0]), [id(40)]);
++});
++test('period inventory is preparable but runtime cannot infer decision7 approval from any flag', () => {
++  const f = fixture(); f.base(); const s = f.scope({ projectId: project, expectedVersion: 1, periodKey: '2026-10', costDecisions: [f.input] });
++  const facts = f.derive(ghWriteOperations[2], s), inventory = ghWriteInventory(ghWriteOperations[2], { ...s, ghFacts: facts });
++  assert(inventory.some(d => d.key === 'G-paired-period')); assert.equal(inventory.find(d => d.key === 'G-snapshot').match.values.snapshot_mode, 'period-end');
++  assert.throws(() => assertPeriodSweepPolicy(ghWriteOperations[2], { ...s.body, approved: true, decision7Approved: true }));
++  assert.throws(() => assertPeriodSweepPolicy(ghWriteOperations[1], { snapshotMode: 'period-end', approved: true }));
++  assertPeriodSweepPolicy(ghWriteOperations[1], { snapshotMode: 'realtime' });
++});
++test('unproduced F tax stays unknown; real knowledge is not replaced with a fixture default', () => {
++  assertObservedTaxKnowledge({ financialProjection: { value: { taxPending: { knowledge: 'unknown', value: null, unknownReasonCode: 'tax-assessment-missing' } } } }, 0);
++  assert.throws(() => assertObservedTaxKnowledge({ financialProjection: { value: { taxPending: { knowledge: 'known', value: '0.00' } } } }, 0));
++  assert.throws(() => assertObservedTaxKnowledge({ financialProjection: { value: { taxPending: { knowledge: 'unknown', value: '0.00' } } } }, 0));
++});
+--- /dev/null
++++ b/tools/rust-r4ghi/business/gh-restatement-preparation.mjs
+@@ -0,0 +1,39 @@
++import assert from 'node:assert/strict';
++import { capture, readRows } from './snapshot.mjs';
++import { assertRecorded } from './ledger.mjs';
++import { data, uuid } from './pure.mjs';
++import { expectedRef } from './handover.mjs';
++import { deriveGHWriteFacts } from './gh-write-facts.mjs';
++
++const operationId = 'ProjectCostController_createOperatingRestatement';
++export async function prepareLiveRestatementBody(ctx, api, body) {
++  assert.equal(body.scope, 'live'); assert.equal(body.periodEndSnapshotRef, null);
++  const scope = { projectId: uuid(body.projectId), actorId: uuid(ctx.state.actors.manager.id), actorKey: 'manager', params: {}, body };
++  const before = await capture(ctx, ctx.next('restatement-branch-facts')); assertRecorded(ctx, before);
++  const facts = deriveGHWriteFacts(ctx, before, operationId, scope, readRows);
++  const query = { view: 'preparation', intent: 'restatement', restatesSnapshotId: body.restatesSnapshotRef.id };
++  const firstResponse = await api.request('ProjectCostController_getProjectUnifiedAccounting', { projectId: body.projectId }, null, 'manager', { query });
++  const first = data(firstResponse).preparation;
++  const changedUnits = new Set(facts.decisionInserts.filter(d => d.headEvent === 'UPDATE').map(d => d.unit));
++  const refs = [];
++  for (const row of first.sourceRows) if (row.rowKind === 'direct-cost' && changedUnits.has(`cost:${row.sourceRef.id}`)) {
++    const ref = row.currentDecisionRef; assert(ref?.kind === 'ProjectCostInclusionDecision', 'Use actual server-provided prior decision factual hash, never hash a SQL row'); refs.push(expectedRef(ref));
++  }
++  assert.equal(refs.length, changedUnits.size, 'Every changed existing classification needs its real current DecisionRef');
++  refs.sort((a, b) => a.kind.localeCompare(b.kind) || a.id.localeCompare(b.id));
++  const response = refs.length ? await api.request('ProjectCostController_getProjectUnifiedAccounting', { projectId: body.projectId }, null, 'manager', { query: { ...query, correctionSourceRefs: JSON.stringify(refs) } }) : firstResponse;
++  const preparation = data(response).preparation;
++  assert.equal(preparation.intent, 'restatement'); assert.equal(preparation.kind, 'preparation-only');
++  assert.equal(preparation.headVersion, body.expectedVersion); assert.equal(preparation.projectVersion, body.expectedProjectVersion);
++  const supplied = [{ projectId: body.projectId, restatesSnapshotRef: body.restatesSnapshotRef, periodEndSnapshotRef: body.periodEndSnapshotRef }, ...(body.affectedTargets ?? [])];
++  const shape = target => ({ projectId: target.projectId, restatesSnapshotRef: target.restatesSnapshotRef, periodEndSnapshotRef: target.periodEndSnapshotRef });
++  const ordered = values => values.map(shape).sort((a, b) => a.projectId.localeCompare(b.projectId) || a.restatesSnapshotRef.id.localeCompare(b.restatesSnapshotRef.id));
++  assert.deepEqual(ordered(preparation.proposedAffectedTargets), ordered(supplied), 'Complete reverse-discovered targets changed: stop and build all real target decisions; never drop them');
++  assert(/^[a-f0-9]{64}$/.test(preparation.expectedInputHash));
++  // Mutate this one real request object before the sweep begins. The18 caller
++  // checkpoints this actual body afterwards, including the real corrected hash.
++  body.expectedInputHash = preparation.expectedInputHash;
++  return ctx.artifact(`${ctx.next('restatement-pre-effect-preparation')}.json`, { actualPreparationReceipt: response.receiptId,
++    changedPriorDecisionRefs: refs, actualBranchObservation: before.manifest, expectedInputHash: preparation.expectedInputHash,
++    completeTargetSetPreserved: true, localBusinessHashMinted: false }, { kind: 'actual-server-preparation-for-changed-classification-roots', sourceRefsAreServerProduced: true, completeTargetSetPreserved: true });
++}
+--- /dev/null
++++ b/tools/rust-r4ghi/business/restatement-sweep-adapter.mjs
+@@ -0,0 +1,24 @@
++import fs from 'node:fs';
++import assert from 'node:assert/strict';
++import { faultSweepAndRetry } from './fault-sweep.mjs';
++import { prepareLiveRestatementBody } from './gh-restatement-preparation.mjs';
++
++export async function operatingRestatementSweep(ctx, api) {
++  assert(fs.existsSync(new URL('./restatement.mjs', import.meta.url)), 'Root must first review/promote18 actual late-producer driver;19 does not overwrite that frozen candidate');
++  const op = 'ProjectCostController_createOperatingRestatement', f = ctx.state.fixtures;
++  if (f.liveRestatement?.command) assert(f.ghRequiredWriteSweepReceipts?.[op + ':' + f.project.id], 'An existing ordinary successful restatement cannot be claimed as FI');
++  const wrapped = { ...api, request: async (operationId, params = {}, body = null, actor = 'bootstrap', binding = {}) => {
++    // Explicit negatives and true idempotent replays keep the original API path.
++    // Only18's first fact-producing POST with response birth bindings is swept.
++    if (operationId !== op || binding.expectedStatus || !binding.responseBirths?.some(r => r.table === 'operating_restatement_record')) return api.request(operationId, params, body, actor, binding);
++    assert.equal(actor, 'manager');
++    const preparation = await prepareLiveRestatementBody(ctx, api, body);
++    const result = await faultSweepAndRetry(ctx, api, { operationId, params, body, actor, binding });
++    f.ghRequiredWriteSweepReceipts ??= {}; f.ghRequiredWriteSweepReceipts[op + ':' + f.project.id] = result.receipt;
++    f.liveRestatement.preEffectPreparation = preparation; ctx.persist(); return result.successful;
++  } };
++  const { operatingLiveRestatement } = await import('./restatement.mjs');
++  const result = await operatingLiveRestatement(ctx, wrapped);
++  assert(f.ghRequiredWriteSweepReceipts?.[op + ':' + f.project.id]);
++  return { ...result, necessaryWritesFI: 'only-source-listed-families-with-actual-hit1-rollback-and-one-final-success', priorOrdinaryRestatementRetrospectivelyCertified: false };
++}
+--- /dev/null
++++ b/tools/rust-r4ghi/business/cost-readiness.mjs
+@@ -0,0 +1,37 @@
++import assert from 'node:assert/strict';
++import { data, uuid } from './pure.mjs';
++
++export async function verifyExpenseCostReadiness(ctx, api, costId) {
++  const f = ctx.state.fixtures;
++  const detailResponse = await api.request('ProjectCostController_getProjectActualCostRecordDetail', { id: uuid(costId) }, null, 'manager');
++  const detail = data(detailResponse);
++  const rows = await ctx.db(async c => (await c.query(`SELECT c.id::text,c.project_id::text "projectId",c.source_type "sourceType",c.source_id::text "sourceId",c.record_status "recordStatus",c.row_version "rowVersion",c.currency,
++    c.amount_excluding_tax::text net,c.tax_cost_amount::text tax,c.amount_including_tax::text gross,c.confirmed_at "confirmedAt",c.confirmed_by::text "confirmedBy",
++    c.execution_stage_code "executionStage",c.stage_derived_from_type "stageDerivedType",c.stage_derived_from_id::text "stageDerivedId",
++    s.status "stageStatus",s.cost_record_id::text "stageCostId",s.attributed_stage "attributedStage",s.governance_schema_version "stageSchemaVersion",s.handled_at "stageHandledAt",s.handled_by::text "stageHandledBy",s.evidence_business_date::text "stageBusinessDate",
++    e.project_id::text "evidenceProjectId",e.id::text "governanceEvidenceId",e.schema_version "evidenceSchemaVersion",e.target_id::text "evidenceTargetId",e.payload_hash "evidencePayloadHash",
++    c.occurred_on::date::text "costBusinessDate",(SELECT count(*)::int FROM poms.accounting_tax_treatment_snapshot t WHERE t.project_id=c.project_id AND t.status IN ('active','pending')) "realTaxAssessmentCount"
++    FROM poms.project_actual_cost_record c JOIN poms.cost_stage_attribution_snapshot s ON s.id=c.stage_derived_from_id::uuid AND s.cost_record_id=c.id
++    JOIN poms.cost_governance_evidence e ON e.id=s.governance_evidence_id WHERE c.id=$1::uuid`, [costId])).rows);
++  assert.equal(rows.length, 1); const row = rows[0];
++  assert.equal(row.projectId, f.project.id); assert.equal(row.sourceType, 'expense-record'); assert.equal(row.sourceId, f.expense.id);
++  assert(['confirmed', 'included'].includes(row.recordStatus)); assert(row.confirmedAt && row.confirmedBy);
++  assert.equal(row.rowVersion, detail.rowVersion); assert.equal(row.currency, 'CNY');
++  assert.equal(row.net, '5000.00'); assert.equal(row.tax, '650.00'); assert.equal(row.gross, '5650.00');
++  assert.equal(row.stageDerivedType, 'CostStageAttributionSnapshot'); assert.equal(row.stageDerivedId, row.evidenceTargetId); assert.equal(row.stageCostId, costId);
++  assert.equal(row.stageStatus, 'active'); assert.equal(row.evidenceProjectId, f.project.id);
++  assert.equal(row.stageSchemaVersion, 1); assert.equal(row.evidenceSchemaVersion, 1); assert(/^[a-f0-9]{64}$/.test(row.evidencePayloadHash));
++  assert(row.stageHandledAt && row.stageHandledBy); assert.equal(row.executionStage, 'execution'); assert.equal(row.attributedStage, 'execution'); assert.equal(row.stageBusinessDate, row.costBusinessDate);
++  const receipt = ctx.artifact(`${ctx.next('actual-cost-G-readiness')}.json`, { actualDetailReceipt: detailResponse.receiptId, actualRows: rows,
++    sourceGuards: ['project_operating/inclusion.rs::qualify_cost', 'project_cost_governance/service.rs::stage_inner', 'project_operating/context.rs::build', 'project_operating_signals/policy.rs::hard_missing'],
++    actualFTaxRequiredForGHardAdmission: false, taxKnowledgeRule: row.realTaxAssessmentCount === 0 ? 'taxed-cost-with-no-tax-assessment-remains-unknown' : 'only-actual-tax-producer-facts-may-be-used',
++    taxDeductibilityOrDefaultZeroInvented: false, finalRustCollectorStillRequired: true }, { kind: 'actual-E-F-stage-cost-readiness-for-G', actualConfirmedCost: true, sourceAmountAndStageFKsBound: true, actualFTaxRequiredForGHardAdmission: false });
++  f.costReadinessForG = receipt; f.actualCost = detail; ctx.persist(); return receipt;
++}
++export function assertObservedTaxKnowledge(snapshot, actualTaxAssessmentCount) {
++  const tax = snapshot.financialProjection?.value?.taxPending;
++  assert(tax, 'Actual full finance projection must expose the source-derived knowledge state');
++  if (actualTaxAssessmentCount === 0) { assert.equal(tax.knowledge, 'unknown'); assert.equal(tax.value, null); assert.equal(tax.unknownReasonCode, 'tax-assessment-missing'); }
++  else if (tax.knowledge === 'unknown') assert.equal(tax.value, null);
++  else { assert.equal(tax.knowledge, 'known'); assert(typeof tax.value === 'string'); }
++}
+--- /dev/null
++++ b/tools/rust-r4ghi/business/required-write-sources19.json
+@@ -0,0 +1,110 @@
++[
++  {
++    "file": "apps/poms-api-rust/src/project_operating/baseline.rs",
++    "sha256": "5146be07aae708162d0aead9ba415456ef8857680114b44e9d0851bb2d4bdb0d"
++  },
++  {
++    "file": "apps/poms-api-rust/src/project_operating/capture.rs",
++    "sha256": "e4bb0fc676ef669e211da400b8421662f12560c6eed8faccdd5e3f09366e6151"
++  },
++  {
++    "file": "apps/poms-api-rust/src/project_operating/collector.rs",
++    "sha256": "093c982188db4f5e2bb4fecb0e90cf309cf66d8f38745fcf294bf22ecf1c7d17"
++  },
++  {
++    "file": "apps/poms-api-rust/src/project_operating/context.rs",
++    "sha256": "a504f99f5d06c719b7cf2886b5cfbe84ef190a0fd9da9c80009dc893671bdb4d"
++  },
++  {
++    "file": "apps/poms-api-rust/src/project_operating/facts.rs",
++    "sha256": "273884c21d2bb04ff38d1eb98e3be5a955ad8817912784b09a05c4208b1b869f"
++  },
++  {
++    "file": "apps/poms-api-rust/src/project_operating/inclusion.rs",
++    "sha256": "b948ed81a0e60cbb3fa3334625eb489e22f4493e407b4520442b352273729e7d"
++  },
++  {
++    "file": "apps/poms-api-rust/src/project_operating/mod.rs",
++    "sha256": "671a0958d40005e7381f254393253af866f55645d660d63b5f7df46472f42897"
++  },
++  {
++    "file": "apps/poms-api-rust/src/project_operating/preparation.rs",
++    "sha256": "ccff8729cf6f77749f435c5d429b88bcc54a8166431ba452da0328251baaf185"
++  },
++  {
++    "file": "apps/poms-api-rust/src/project_operating/projection.rs",
++    "sha256": "3be184b32d86abbcf82a928f773eda319ba63ecbe8e0f7cb1b3c77fcc673fdda"
++  },
++  {
++    "file": "apps/poms-api-rust/src/project_operating/restatement.rs",
++    "sha256": "097bc607b8a1388b477faf427e66bea8c7fbcd1a2f390e0bce610008c248a893"
++  },
++  {
++    "file": "apps/poms-api-rust/src/project_operating/service.rs",
++    "sha256": "8e7a18f8349a5b9545ae9fde56ec4a11668338de7b2f9580d30a2e80ccb7599c"
++  },
++  {
++    "file": "apps/poms-api-rust/src/project_operating/sources.rs",
++    "sha256": "96112ed17471ede323fad1dc6a069e777bf258d2a8bacae5d55c27323c50df2f"
++  },
++  {
++    "file": "apps/poms-api-rust/src/project_operating/store.rs",
++    "sha256": "13850ed78ab5e2619becc91311afdd8eff415adcf3ff30b7b8272868d75382bb"
++  },
++  {
++    "file": "apps/poms-api-rust/src/project_operating/view.rs",
++    "sha256": "310aea4bc44e0f600316e5cc0f5a6fc7b8e9c9305a025f30603478b35480d2e9"
++  },
++  {
++    "file": "apps/poms-api-rust/src/project_operating_signals/mod.rs",
++    "sha256": "3fa3519dcd29561cfe115665afe08f65203e4d6cd09d55dd96387833915e5fda"
++  },
++  {
++    "file": "apps/poms-api-rust/src/project_operating_signals/policy.rs",
++    "sha256": "7f351253b74cd801f1d1e0a52bb27df681ef680bb7ca57a931c93ed7adb0acab"
++  },
++  {
++    "file": "apps/poms-api-rust/src/project_operating_signals/projection.rs",
++    "sha256": "c048d0d464d88a4d023b4af8e7397752417063b6ffee8cc42a1abdd1d15e45db"
++  },
++  {
++    "file": "apps/poms-api-rust/src/project_operating_signals/query.rs",
++    "sha256": "7eaa441f5789b64533fa8defcfa3f5b56d4cbb6ec2b33506dd7cb309ccfc72eb"
++  },
++  {
++    "file": "apps/poms-api-rust/src/project_operating_signals/review.rs",
++    "sha256": "7b51814b321aee598700e7a1ff238ee312735340044c8f415d6678582a37ef72"
++  },
++  {
++    "file": "apps/poms-api-rust/src/project_operating_signals/service.rs",
++    "sha256": "2cbe8319ad3ceb3bc6e7cdff7f3b3fce9bd3e27f12a3fa41394be067807608e3"
++  },
++  {
++    "file": "apps/poms-api-rust/src/project_operating_signals/store.rs",
++    "sha256": "de935757080ccf735bd8166f4086c2ef4efae0267d034e90caa54b991a2e6687"
++  },
++  {
++    "file": "apps/poms-api-rust/src/project_operating_signals/summary.rs",
++    "sha256": "d7ac414a8389dd3972fadbe5952dfa659e281eb2316c6e473fa9743c22a4b93c"
++  },
++  {
++    "file": "apps/poms-api-rust/src/project_operating_signals/tests.rs",
++    "sha256": "987fab7dd5624fd752eb25f396bbd9c8bb91e73c0d7529135062b68f6ee647f6"
++  },
++  {
++    "file": "apps/poms-api-rust/src/project_cost_governance/service.rs",
++    "sha256": "40cfd49a18a592876b2a2ccf06176372fadc20ee3a9b22cdbc1c7b01a1171897"
++  },
++  {
++    "file": "apps/poms-api-rust/src/contract_support/mod.rs",
++    "sha256": "f0152a5b1fd36f5d0a5eb0daa55ec52d1bac26a068850d6ae624104d268244f8"
++  },
++  {
++    "file": "apps/poms-api-rust/src/contract_support/http.rs",
++    "sha256": "cf205c9aca5812870bae66b790973d32b45dd9a4801005da7f38485c85534edf"
++  },
++  {
++    "file": "apps/poms-api-rust/src/auth/projection.rs",
++    "sha256": "5b973bdbda8a7e2138cf4237bec63a30d3220cf34273de6161168e2eeee028f8"
++  }
++]
+--- a/tools/rust-r4ghi/business/fault-sweep.mjs
++++ b/tools/rust-r4ghi/business/fault-sweep.mjs
+@@ -3,15 +3,17 @@
+ import assert from 'node:assert/strict';
+ import { setTimeout as delay } from 'node:timers/promises';
+ import { sha, quote, uuid, keyOf } from './pure.mjs';
+-import { loadSnapshot, readRows } from './snapshot.mjs';
++import { capture, loadSnapshot, readRows } from './snapshot.mjs';
++import { assertRecorded } from './ledger.mjs';
++import { isGHWrite, deriveGHWriteFacts } from './gh-write-facts.mjs';
+ import { requiredWriteInventory, selectorSql, writeMatches, requireOwnedScope } from './required-write-inventory.mjs';
+ import { loadActualAuthConfig } from './auth-config-binding.mjs';
+ 
+ const kind = 'source-bound-required-write-sweep17';
+ const identitySHA = value => sha(JSON.stringify(value));
+ const exactStatus = attempt => assert(attempt.status === 500 && attempt.responseComplete === true && attempt.transportFailure === false, 'FI requires an actual complete500; no missing-ACK rollback inference');
+-function verifySources(ctx) {
+-  const pins = JSON.parse(fs.readFileSync(new URL('./required-write-sources17.json', import.meta.url)));
++function verifySources(ctx, operationId = null) {
++  const pins = JSON.parse(fs.readFileSync(new URL(isGHWrite(operationId) ? './required-write-sources19.json' : './required-write-sources17.json', import.meta.url)));
+   for (const pin of pins) assert.equal(ctx.pins.find(p => p.file === pin.file)?.sha256, pin.sha256, `Reviewed FI source changed: ${pin.file}`);
+   return pins;
+ }
+@@ -51,7 +53,9 @@
+ export async function installSweepFault(ctx, descriptor, requestId, before) {
+   assert.equal(process.platform, 'linux'); assert(!ctx.state.activeFault);
+   assert.equal(descriptor.kind, kind); assert(/^[A-Za-z0-9_-]{1,100}$/.test(requestId));
+-  const sourcePins = verifySources(ctx);
++  assertPeriodSweepPolicy(descriptor.operationId, descriptor.scope.body);
++  const sourcePins = verifySources(ctx, descriptor.operationId);
++  if (isGHWrite(descriptor.operationId)) assert.deepEqual(deriveGHWriteFacts(ctx, before, descriptor.operationId, descriptor.scope, readRows), descriptor.scope.ghFacts, 'Actual source write branches changed; never trust a preflight-only facts object');
+   const inventory = requiredWriteInventory(descriptor.operationId, descriptor.scope);
+   const selected = inventory.find(d => d.key === descriptor.key); assert(selected);
+   assert.deepEqual(selected, descriptor.selected, 'Never accept client-provided SQL or an altered write inventory');
+@@ -59,7 +63,7 @@
+   const binding = { requestId, sessionId }, suffix = ctx.next('sweep-fi').replaceAll('-', '_');
+   const primary = controlNames(ctx, selected.table, selected.event, `${suffix}_p`);
+   const fallback = controlNames(ctx, 'audit_log', 'INSERT', `${suffix}_f`, true);
+-  const audit = inventory.find(d => d.match.kind === 'audit'); assert(audit);
++  const audit = inventory.find(d => d.key === 'required-success-audit'); assert(audit);
+   for (const control of [primary, fallback]) assert(before.databases[ctx.database].tables[control.table]);
+   const active = { kind, phase: 'install-intent', requestId, operationId: descriptor.operationId, key: selected.key, sessionId, scope: descriptor.scope,
+     selected, sourcePins, before: before.manifest, primary, fallback };
+@@ -166,29 +170,47 @@
+   }
+ }
+ 
++export function rowsWritten(beforeRows, afterRows, event) {
++  assert(['INSERT', 'UPDATE'].includes(event));
++  const before = new Map(beforeRows.map(row => [JSON.stringify(row.key), row]));
++  return afterRows.filter(row => { const old = before.get(JSON.stringify(row.key)); return event === 'INSERT' ? !old : old && (old.sha256 !== row.sha256 || old.xmin !== row.xmin); });
++}
+ export function verifyFinalWrites(ctx, before, after, attempt, inventory, sessionId) {
+   const all = table => readRows(after.databases[ctx.database].tables[table]);
+-  const changed = table => {
+-    const b = new Map(readRows(before.databases[ctx.database].tables[table]).map(r => [JSON.stringify(r.key), r]));
+-    return all(table).filter(r => !b.has(JSON.stringify(r.key)) || b.get(JSON.stringify(r.key)).sha256 !== r.sha256 || b.get(JSON.stringify(r.key)).xmin !== r.xmin);
+-  };
++  const changed = (table, event) => rowsWritten(readRows(before.databases[ctx.database].tables[table]), all(table), event);
+   const binding = { requestId: attempt.requestId, sessionId };
+-  const auditDescriptor = inventory.find(d => d.match.kind === 'audit');
+-  const audits = changed('audit_log').filter(r => writeMatches(auditDescriptor, r, all, binding)); assert.equal(audits.length, 1);
++  const auditDescriptor = inventory.find(d => d.key === 'required-success-audit');
++  const audits = changed('audit_log', 'INSERT').filter(r => writeMatches(auditDescriptor, r, all, binding)); assert.equal(audits.length, auditDescriptor.expectedRows ?? 1);
+   const xid = audits[0].xmin, writes = [];
+   for (const descriptor of inventory) {
+-    const matches = changed(descriptor.table).filter(r => writeMatches(descriptor, r, all, binding));
+-    assert.equal(matches.length, 1, `Final success lacks exactly one actual selected mandatory write: ${descriptor.key}`);
+-    assert.equal(matches[0].xmin, xid, `Necessary ${descriptor.key} is not in the actual audit/business outer transaction`);
+-    writes.push({ family: descriptor.key, table: descriptor.table, key: matches[0].key, rowSHA256: matches[0].sha256, xmin: matches[0].xmin, source: descriptor.source });
++    const matches = changed(descriptor.table, descriptor.event).filter(r => writeMatches(descriptor, r, all, binding));
++    assert.equal(matches.length, descriptor.expectedRows ?? 1, `Final success lacks exact source-selected mandatory rows: ${descriptor.key}`);
++    for (const row of matches) {
++      assert.equal(row.xmin, xid, `Necessary ${descriptor.key} is not in the actual audit/business outer transaction`);
++      writes.push({ family: descriptor.key, table: descriptor.table, key: row.key, rowSHA256: row.sha256, xmin: row.xmin, source: descriptor.source });
++    }
+   }
+   return { actualSharedBusinessAuditAuthXmin: xid, writes };
+ }
+ 
++export function assertPeriodSweepPolicy(operationId, body) {
++  // There is no approval boolean or alternate route around the pending business decision.
++  assert(!(operationId === 'ProjectCostController_createPeriodClosingSnapshot' || operationId === 'ProjectCostController_createProjectOperatingSnapshot' && body.snapshotMode === 'period-end'), 'Period writes remain blocked pending actual user decision7 and a reviewed followup');
++}
+ export async function faultSweepAndRetry(ctx, api, { operationId, params, body, actor = 'manager', binding = {} }) {
+   assert(!binding.fi && !binding.expectedStatus && !binding.rawJson && !binding.bytes);
+-  const sourcePins = verifySources(ctx), f = ctx.state.fixtures;
++  assertPeriodSweepPolicy(operationId, body);
++  const sourcePins = verifySources(ctx, operationId), f = ctx.state.fixtures;
+   const scope = { projectId: uuid(f.project.id), actorId: uuid(ctx.state.actors[actor].id), actorKey: actor, params, body };
++  if (isGHWrite(operationId)) {
++    const observation = await capture(ctx, ctx.next('GH-write-facts')); assertRecorded(ctx, observation);
++    scope.ghFacts = deriveGHWriteFacts(ctx, observation, operationId, scope, readRows); scope.ghObservation = observation.manifest;
++  }
++  const sourceMutable = isGHWrite(operationId) ? [
++    ...(scope.ghFacts.oldBindingIds.length ? ['operating_signal_gate_binding'] : []),
++    ...(scope.ghFacts.oldGateReviewIds.length ? ['commission_gate_review_record'] : []),
++  ] : [];
++  const attemptBinding = sourceMutable.length ? { ...binding, mutableTables: [...new Set([...(binding.mutableTables ?? []), ...sourceMutable])] } : binding;
+   const inventory = requiredWriteInventory(operationId, scope), bodySHA256 = sha(JSON.stringify(body));
+   const sweepKey = sha(JSON.stringify({ operationId, params, actorId: scope.actorId, bodySHA256 }));
+   ctx.state.requiredWriteSweeps ??= {};
+@@ -209,7 +231,7 @@
+     }
+     if (selected.match.kind === 'auth-coflush') await waitForActualPendingAuth(ctx, actor);
+     assert.equal(sha(JSON.stringify(body)), bodySHA256, 'A sweep never edits the body or refreshes its CAS between failures');
+-    const failed = await api.request(operationId, params, body, actor, { ...binding, expectedStatus: 500,
++    const failed = await api.request(operationId, params, body, actor, { ...attemptBinding, expectedStatus: 500,
+       fi: { kind, key: selected.key, operationId, scope, selected } });
+     exactStatus(failed); assert.equal(failed.requestBodySha256, bodySHA256);
+     // Record rollback before enforcing coverage so a fallback miss remains an
+@@ -225,7 +247,7 @@
+   // Make the final real successful request exercise actual pending-auth too.
+   await waitForActualPendingAuth(ctx, actor);
+   assert.equal(sha(JSON.stringify(body)), bodySHA256);
+-  const successful = await api.request(operationId, params, body, actor, binding);
++  const successful = await api.request(operationId, params, body, actor, attemptBinding);
+   // Persist the actual success before any postcondition. A failed verifier must
+   // never make a resume replay this already committed command.
+   state.finalSuccess = { receipt: successful.receiptId, requestId: successful.requestId, status: successful.status, postconditions: 'pending' }; ctx.persist();
+--- a/tools/rust-r4ghi/business/required-write-inventory.mjs
++++ b/tools/rust-r4ghi/business/required-write-inventory.mjs
+@@ -2,6 +2,8 @@
+ import assert from 'node:assert/strict';
+ import { sha, uuid, keyOf } from './pure.mjs';
+ import { readRows } from './snapshot.mjs';
++import { isGHWrite } from './gh-write-facts.mjs';
++import { ghWriteInventory, ghSelectorSql, ghWriteMatches } from './gh-write-inventory.mjs';
+ 
+ const roleSource = 'apps/poms-api-rust/src/commission_assignment/service.rs';
+ const lifecycleSource = 'apps/poms-api-rust/src/project_lifecycle/service.rs';
+@@ -13,7 +15,9 @@
+ function entry(key, table, event, match, source, rationale) {
+   return { key, table, event, match, source, rationale };
+ }
+-export function requiredWriteInventory(operationId, { projectId, actorId, params, body }) {
++export function requiredWriteInventory(operationId, scope) {
++  if (isGHWrite(operationId)) return ghWriteInventory(operationId, scope);
++  const { projectId, actorId, params, body } = scope;
+   uuid(projectId); uuid(actorId); assert(body && typeof body === 'object');
+   const project = (key = 'project-cas') => entry(key, 'project', 'UPDATE', { kind: 'equals', values: { id: projectId } }, lifecycleSource, 'Actual source calls bump_project or write_stage CAS.');
+   const projectInsert = (key, table, values = {}, source = lifecycleSource) => entry(key, table, 'INSERT', { kind: 'equals', values: { project_id: projectId, ...values } }, source, 'Actual INSERT includes this run owned project FK.');
+@@ -86,6 +90,7 @@
+ }
+ export function selectorSql(descriptor, context) {
+   const m = descriptor.match;
++  if (m.kind.startsWith('gh-')) return ghSelectorSql(descriptor);
+   switch (m.kind) {
+     case 'equals': return equalSql('j', m.values);
+     case 'participant': return `(j->>'sort_order')::int=${m.order} AND EXISTS(SELECT 1 FROM poms.commission_role_assignment a WHERE a.id=(j->>'assignment_id')::uuid AND a.project_id=${literal(uuid(m.projectId))}::uuid)`;
+@@ -109,6 +114,7 @@
+ }
+ export function writeMatches(descriptor, row, allRows, context) {
+   const v = JSON.parse(row.raw), m = descriptor.match;
++  if (m.kind.startsWith('gh-')) return ghWriteMatches(descriptor, row, allRows);
+   const lookup = (table, id) => allRows(table).map(r => JSON.parse(r.raw)).find(r => r.id === id);
+   switch (m.kind) {
+     case 'equals': return Object.entries(m.values).every(([k, value]) => v[k] === value);
+--- a/tools/rust-r4ghi/business/costs.mjs
++++ b/tools/rust-r4ghi/business/costs.mjs
+@@ -1,5 +1,6 @@
+ import assert from 'node:assert/strict';
+ import { data, uuid } from './pure.mjs';
++import { verifyExpenseCostReadiness } from './cost-readiness.mjs';
+ 
+ const rv = row => { assert(Number.isSafeInteger(row?.rowVersion) && row.rowVersion > 0 && row.rowVersion <= 2147483647); return row.rowVersion; };
+ export async function actualExpenseAndStage(ctx, api) {
+@@ -34,7 +35,8 @@
+       { responseBirths: [{ table: 'cost_stage_attribution_snapshot', pointer: '/targetId' }], mutableTables: ['project_actual_cost_record'],
+         updatedAnchors: [{ table: 'project_actual_cost_record', id: f.actualCost.id, requestBinding: 'path:id' }] }); ctx.persist();
+   }
++  await verifyExpenseCostReadiness(ctx, api, f.actualCost.id);
+   f.actualExpenseStageComplete = true; ctx.persist();
+   return { kind: 'actual-E-expense-cost-and-F-stage-producers', completed: true, businessFactsThroughHTTP: true, stageVersionUsesRealSequenceNo: true,
+-    laborAllocationTaxCorrectionCases: 'not-run', nextStage: 'operating', G3Certified: false, G4Certified: false };
++    actualConfirmedCostAndFStageReadiness: true, actualFTaxRequiredForGHardAdmission: false, laborAllocationTaxCorrectionCases: 'not-run', nextStage: 'operating', G3Certified: false, G4Certified: false };
+ }
+--- a/tools/rust-r4ghi/business/operating.mjs
++++ b/tools/rust-r4ghi/business/operating.mjs
+@@ -1,6 +1,8 @@
+ import assert from 'node:assert/strict';
++import fs from 'node:fs';
+ import { randomUUID } from 'node:crypto';
+-import { data, uuid } from './pure.mjs';
++import { data, uuid, sha } from './pure.mjs';
++import { verifyExpenseCostReadiness, assertObservedTaxKnowledge } from './cost-readiness.mjs';
+ import { expectedRef } from './handover.mjs';
+ 
+ const rv = row => { assert(Number.isSafeInteger(row?.rowVersion) && row.rowVersion > 0 && row.rowVersion <= 2147483647); return row.rowVersion; };
+@@ -24,10 +26,23 @@
+   const schema = api.spec.components.schemas[ref.split('/').at(-1)];
+   for (const [key, rule] of Object.entries(schema.properties ?? {})) if (rule.enum?.length === 1 && rule.enum[0] === null) assert.equal(value[key], null, 'Sensitive compatibility keys must be literal null even for a fully permitted caller');
+ }
+-export async function operatingCaptureAndReview(ctx, api) {
++export async function operatingCaptureAndReview(ctx, api, { requiredWriteSweep = false } = {}) {
+   const f = ctx.state.fixtures; assert(f.actualExpenseStageComplete && !f.operatingComplete);
++  const receiptKey = (op, params) => op + ':' + (params.id ?? f.project.id);
++  if (requiredWriteSweep) {
++    for (const [field, op] of [['operatingBaselineCommand', 'ProjectCostController_activateOperatingBaselinePackage'], ['operatingSnapshotCommand', 'ProjectCostController_createProjectOperatingSnapshot'], ['signalReview', 'ProjectCostController_reviewOperatingSignalEvaluation'], ['gateReview', 'ProjectCostController_reviewCommissionGateBinding']]) {
++      if (f[field]) { const id = field === 'signalReview' || field === 'gateReview' ? f[field].targetId : f.project.id; assert(f.ghRequiredWriteSweepReceipts?.[op + ':' + id], 'An ordinary prior success cannot be claimed as G/H required-write FI'); }
++    }
++  }
++  if (!f.costReadinessForG) await verifyExpenseCostReadiness(ctx, api, f.actualCost.id);
+   const call = async (op, params, body = null, binding = {}) => {
+     const value = data(await api.request(op, params, body, 'manager', binding)); rawNulls(api, op, value); return value;
++  };
++  const write = async (op, params, body, binding = {}) => {
++    if (!requiredWriteSweep) return call(op, params, body, binding);
++    const { faultSweepAndRetry } = await import('./fault-sweep.mjs');
++    const result = await faultSweepAndRetry(ctx, api, { operationId: op, params, body, binding, actor: 'manager' });
++    f.ghRequiredWriteSweepReceipts ??= {}; f.ghRequiredWriteSweepReceipts[receiptKey(op, params)] = result.receipt; ctx.persist(); const value = data(result.successful); rawNulls(api, op, value); return value;
+   };
+   const prep = async intent => {
+     const value = await call('ProjectCostController_getProjectUnifiedAccounting', { projectId: f.project.id }, null, { query: { view: 'preparation', intent } });
+@@ -37,7 +52,7 @@
+   if (!f.operatingBaselineCommand) {
+     const p = await prep('baseline-activation'); assert(p.proposedOriginalCostRef && p.proposedOriginalCostRef.id === f.cost.id);
+     const basis = refsOf(p).find(ref => ref.id === f.handover.handoverBasisSnapshotId); assert(basis, 'Use only the actual preparation handover basis reference');
+-    f.operatingBaselineCommand = await call('ProjectCostController_activateOperatingBaselinePackage', {}, { inputVersion: 'server-derived-v1', projectId: f.project.id,
++    f.operatingBaselineCommand = await write('ProjectCostController_activateOperatingBaselinePackage', {}, { inputVersion: 'server-derived-v1', projectId: f.project.id,
+       expectedVersion: p.headVersion, expectedProjectVersion: p.projectVersion, expectedInputHash: p.expectedInputHash, assertions: null,
+       expectedCurrentPackageRef: p.selectedBaselinePackageRef ? expectedRef(p.selectedBaselinePackageRef) : null, originalAdoptedCostRef: expectedRef(p.proposedOriginalCostRef),
+       selectedHandoverBasisRef: expectedRef(basis), handoverRebaselineRef: null, approvedChangeRefs: [], reason: '从两份真实批准激活合同采用同一项目估算一次，固定已确认移交依据。' },
+@@ -50,18 +65,20 @@
+   f.operatingBaseline = await call('ProjectCostController_getCurrentOperatingBaselinePackage', { projectId: f.project.id });
+   if (!f.operatingSnapshotCommand) {
+     const p = await prep('snapshot-create'); assert(p.selectedBaselinePackageRef);
+-    f.operatingSnapshotCommand = await call('ProjectCostController_createProjectOperatingSnapshot', {}, { inputVersion: 'server-derived-v1', projectId: f.project.id,
++    f.operatingSnapshotCommand = await write('ProjectCostController_createProjectOperatingSnapshot', {}, { inputVersion: 'server-derived-v1', projectId: f.project.id,
+       expectedVersion: p.headVersion, expectedProjectVersion: p.projectVersion, expectedInputHash: p.expectedInputHash, assertions: null, baselinePackageRef: expectedRef(p.selectedBaselinePackageRef),
+       snapshotMode: 'realtime', periodKey: null, costDecisions: decisions(p, [f.actualCost.id]) },
+       { responseBirths: [{ table: 'project_operating_snapshot', pointer: '/targetId' }], mutableTables: mutable }); ctx.persist();
+   }
+   f.operatingSnapshot = await call('ProjectCostController_getProjectOperatingSnapshot', { id: uuid(f.operatingSnapshotCommand.snapshotId ?? f.operatingSnapshotCommand.targetId) }); ctx.persist();
+   assert.equal(f.operatingSnapshot.evaluationStatus, 'evaluated'); assert(f.operatingSnapshot.evaluationRefs);
++  const readinessBytes = fs.readFileSync(f.costReadinessForG.file); assert.equal(sha(readinessBytes), f.costReadinessForG.rawBytesSha256);
++  assertObservedTaxKnowledge(f.operatingSnapshot, JSON.parse(readinessBytes).actualRows[0].realTaxAssessmentCount);
+   const evaluation = f.operatingSnapshot.evaluationRefs;
+   assert.equal(new Set(Object.values(evaluation.bindingIds)).size, 4); assert.equal(new Set(Object.values(evaluation.summarySnapshotIds)).size, 4);
+   let signal = await call('ProjectCostController_getOperatingSignalEvaluation', { id: uuid(evaluation.signalEvaluationId) });
+   if (!f.signalReview) {
+-    f.signalReview = await call('ProjectCostController_reviewOperatingSignalEvaluation', { id: signal.signalEvaluationId }, { inputVersion: 'server-derived-v1', reviewDecision: 'approve',
++    f.signalReview = await write('ProjectCostController_reviewOperatingSignalEvaluation', { id: signal.signalEvaluationId }, { inputVersion: 'server-derived-v1', reviewDecision: 'approve',
+       resolvedDataMaturityLevel: signal.dataMaturityLevel, costActionRecommendation: signal.costActionRecommendation, referencedBaselineVersion: signal.referencedBaselineVersion,
+       referencedSnapshotVersion: signal.referencedSnapshotVersion, expectedSourceHash: signal.evaluationContext.sourceHash, expectedEvaluationHash: signal.evaluationContext.evaluationHash,
+       expectedVersion: rv(signal), requestKey: randomUUID(), manualMaterialityReview: null, reviewComment: '按真实不可变来源完成复核，不改变系统成熟度、金额、hard constraint或未知质性结论。' },
+@@ -77,7 +94,7 @@
+   if (!f.gateReview) {
+     const gate = f.gateViews.first;
+     const blockingReasonCodes = [...new Set(gate.reasonItems.filter(reason => reason.stageActions?.[gate.gateStageType] === 'block').map(reason => reason.code))].sort();
+-    f.gateReview = await call('ProjectCostController_reviewCommissionGateBinding', { id: gate.bindingId }, { inputVersion: 'server-derived-v1', expectedVersion: rv(gate),
++    f.gateReview = await write('ProjectCostController_reviewCommissionGateBinding', { id: gate.bindingId }, { inputVersion: 'server-derived-v1', expectedVersion: rv(gate),
+       bindingAction: gate.bindingAction, gateReviewDecision: 'blocked', reviewAction: 'tighten-block', blockingReasonCodes, blockingReasonCode: null,
+       baselineSelectionSource: gate.baselineSelectionSource, summaryPackageKey: gate.summaryPackageKey, summarySnapshotId: uuid(gate.summarySnapshotId),
+       referencedBaselineVersion: gate.referencedBaselineVersion, referencedSnapshotVersion: gate.referencedSnapshotVersion,
+@@ -92,5 +109,7 @@
+   f.operatingComplete = true; ctx.persist();
+   return { kind: 'actual-G-live-capture-and-H-eight-operation-paths', completed: true, oneProjectEstimateAdoptedAcrossTwoContracts: true, exactServerInputHashes: true,
+     stageBindings: 4, humanReviewOnlyTightens: true, literalNullCompatibilityKeysChecked: true, numericPolicyThresholdBoundaryCertification: 'not-run',
+-    periodClose: 'not-run-pending-user-current-selection', restatementAndOtherProducers: 'not-run', G3Certified: false, G4Certified: false };
++    requiredWriteFI: requiredWriteSweep ? 'only-actual-source-listed-one-hit-rollbacks-and-one-success-per-command' : 'not-run', taxUnknownWithoutProducerPreserved: true, periodClose: 'not-run-pending-user-current-selection', restatementAndOtherProducers: 'not-run', G3Certified: false, G4Certified: false };
+ }
++
++export { decisions as expenseDecisions };
+--- a/tools/rust-r4ghi/business/upstream.mjs
++++ b/tools/rust-r4ghi/business/upstream.mjs
+@@ -88,6 +88,8 @@
+   if (stage === 'lifecycle-sweep') { const { lifecycleAcceptance } = await import('./lifecycle.mjs'); return lifecycleAcceptance(ctx, api, { requiredWriteSweep: true }); }
+   if (stage === 'lifecycle') { const { lifecycleAcceptance } = await import('./lifecycle.mjs'); return lifecycleAcceptance(ctx, api); }
+   if (stage === 'actual-costs') { const { actualExpenseAndStage } = await import('./costs.mjs'); return actualExpenseAndStage(ctx, api); }
++  if (stage === 'operating-sweep') { const { operatingCaptureAndReview } = await import('./operating.mjs'); return operatingCaptureAndReview(ctx, api, { requiredWriteSweep: true }); }
++  if (stage === 'operating-restatement-sweep') { const { operatingRestatementSweep } = await import('./restatement-sweep-adapter.mjs'); return operatingRestatementSweep(ctx, api); }
+   if (stage === 'operating') { const { operatingCaptureAndReview } = await import('./operating.mjs'); return operatingCaptureAndReview(ctx, api); }
+   throw new Error('Requested business stage is not implemented yet; inspect README and retain not-run label');
+ }
+--- a/tools/rust-r4ghi/business/driver.mjs
++++ b/tools/rust-r4ghi/business/driver.mjs
+@@ -9,7 +9,7 @@
+ 
+ export const HELP = `business/driver.mjs preflight|baseline|run|report|cycle-sandbox|disarm-fi|plan-cleanup|apply-cleanup|noop
+   --epoch NEW_BUSINESS_EPOCH --run RUN [--phase UNIQUE_PHASE]
+-  [--stage platform|project-sources|summary|contract-prepare|contract-finish|receipt|handover|roles-and-execution|roles-and-execution-sweep|actual-costs|operating|lifecycle|lifecycle-sweep]
++  [--stage platform|project-sources|summary|contract-prepare|contract-finish|receipt|handover|roles-and-execution|roles-and-execution-sweep|actual-costs|operating|operating-sweep|operating-restatement-sweep|lifecycle|lifecycle-sweep]
+   [--provision-receipt ORIGINAL_NAMESPACE_PROVISION_JSON]
+   [--api-process-record PRIVATE_ACTUAL_PROCESS_JSON]
+   [--approved-plan-sha SHA --api-stopped-receipt PRIVATE_ACTUAL_STOP_JSON]
+--- a/tools/rust-r4ghi/business/README.md
++++ b/tools/rust-r4ghi/business/README.md
+@@ -98,3 +98,17 @@
+ 每次失败观察双库 139 表 PK/完整 bytes/SHA/真实 xmin、catalog/OID/ACL/functions/triggers/sequences、对象 bytes/keys/directories完全回滚；只单列允许精确当前 actor/session 的源代码原始 last_seen touch，其它 audit/security/platform 均不豁免。控制对象按本次独占名称与实际 OID/定义/owner/ACL 核验后移除，`disarm-fi` 已支持这对控制；中断安装且身份不可证时停给 Root 核对，不删除未知对象。私有原件保留，最终 actual success 在任何事后断言前即记录，断言失败不能重放已提交命令。
+ 
+ 作者只执行 node syntax 和纯测试；未实际 SQL 安装触发器、未 HTTP、未执行 sweep、未认证完整必要写/竞态/G3/G4。真实 run 原件、hit sequence 和最终事务行是唯一实际覆盖证据。
++
++## 19 G/H六写逐项必要FI（候选，未运行）
++
++以Root已应用17a为base，不覆盖18原件。`operating-sweep`替代尚未成功的operating阶段，实际baseline activation/snapshot/signal review/gate review四写逐命令先全部源清单primary hit1+fallback0、同body/CAS失败全回滚，再唯一最终成功。每次安装从本次真实before快照重算写分支并核与private observation一致，不能只信preflight JSON。普通成功fact无对应immutable sweep receipt不得追认。Role/I已通过的原件保持，不重新POST。
++
++`gh-write-facts`只选择实际SQL写分支：真实当前head有无、现存决策与其冻结input refs是否相同、实际confirmed未消费cost、真实old binding/review/summary/terminal PK。没有相应旧行或真正未改decision就不猜一次FI。每个真实old binding/review单独命中；G/H四summary及字段使用实际expectedRows=4，final proof按INSERT/UPDATE区分，不能把同table的旧summary UPDATE混成新INSERT。实际source member通过context/project/真实baseline FK；H reason通过实际evidence FK；receipt、G root audit/H policy audit/auth均纳入同TX证明。所用SQL不生产业务fixture，所有金额/hash/分类仍由真实生产者计算。
++
++六个write operationId的清单包含普通period close与live restatement，但period runtime和period-end snapshot仍硬阻断，任何approved boolean都无效，必须等真实第7业务裁决和Root后续审阅。当前测试夹具的first baseline6/snapshot20/signal review13/gate review9家族是prepared条件计数，实际只认新private hit receipts；不是已跑48次。完整含allocation/labor/stage/tax correction的restatement须另接其真实producer inventory，本最小expense fixture主动拒绝非空correction而不外推旧E/F验收。
++
++`operating-restatement-sweep`仅在Root另审并晋升18后动态加载其真实晚到费用driver；19不偷偷复制18到Root。19适配18首次真正fact-producing POST，真实negative/idempotent重试保留原路径。既有分类可能因首capture消费使版本与frozen input refs不同而真正产生替代：从实际before识别，再取server currentDecisionRef，重新GET prep(correctionSourceRefs=真实refs)拿hash；完整terminal target集合改变就停，绝不删target。最终body在进入FI前固定，18保存的是这个实际body。optional-18-delta是单独精确18base补充，含同一prep修正和business_date alias，不属于19当前base替换列表。
++
++费用readiness复核：真实F.stage已把registered推进confirmed；G qualify_cost与H hard_missing没有要求F.tax。没有税务producer时，taxed expense的pending tax保留unknown/null，不能猜deductible/non-deductible或0。costs保留Root真实PG15 AS business_date修正，增加实际confirmed/金额/currency/stage/evidence FK/schema检查；最终G snapshot必须保留server给出的unknown。这里没有擅造F税务结论，不声称完整F.tax流程已验收。
++
++Root唯一执行SQL/HTTP/FI。作者只跑离线syntax/纯测试，所有G/H实际FI、period2和完整跨项目更正/竞态均未运行，G3/G4 false。

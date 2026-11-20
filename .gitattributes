@@ -76,3 +76,10 @@ docs/design/archive/slices/rust-r4def/**/*.bin binary
 # Failed G1 candidate02 is retained evidence, not the executable SQL authority.
 docs/design/rust-r4def/joint-g1-02/schema02.sql binary
 docs/design/archive/slices/rust-r4def/joint-g1-02/schema02.sql binary
+
+# R4 GHI admitted source packets, tool receipts and correction originals retain bytes.
+docs/design/rust-r4ghi/** -text whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
+tools/rust-r4ghi/** -text whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
+docs/design/rust-r4ghi/**/*.bin binary
+docs/design/rust-r4ghi/**/*.zip binary
+tools/rust-r4ghi/**/*.bin binary

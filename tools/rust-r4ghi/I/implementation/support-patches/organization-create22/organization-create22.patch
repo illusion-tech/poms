@@ -1,0 +1,416 @@
+--- a/apps/poms-api-rust/src/projects/model.rs
++++ b/apps/poms-api-rust/src/projects/model.rs
+@@ -2,6 +2,8 @@
+ 
+ use chrono::{DateTime, Utc};
+ use serde_json::Value;
++
++pub use crate::shared::generated::ProjectInitialOwnership;
+ 
+ use crate::{
+     auth::js_json::JsString,
+@@ -16,6 +18,7 @@
+     pub customer_id: String,
+     pub customer_project_no: Field<JsString>,
+     pub current_stage: Option<ProjectStage>,
++    pub initial_ownership: ProjectInitialOwnership,
+     pub planned_sign_at: Field<DateTime<Utc>>,
+ }
+ 
+--- a/apps/poms-api-rust/src/projects/validation.rs
++++ b/apps/poms-api-rust/src/projects/validation.rs
+@@ -4,7 +4,9 @@
+ use chrono::{DateTime, NaiveDate, Utc};
+ use serde_json::{Value, json};
+ 
+-use super::model::{CreateProject, ProjectListQuery, ReassignProjectOwner, UpdateProject};
++use super::model::{
++    CreateProject, ProjectInitialOwnership, ProjectListQuery, ReassignProjectOwner, UpdateProject,
++};
+ use crate::{
+     auth::js_json::{JsObject, JsString, decode_string},
+     compat::json::Field,
+@@ -189,6 +191,15 @@
+     let customer_id = uuid(&object, "customerId", true, false, &mut errors);
+     let customer_project_no = nullable_text(&object, "customerProjectNo", &mut errors)?;
+     let current_stage = stage(&object, &mut errors);
++    let ownership_values = ProjectInitialOwnership::ALL
++        .iter()
++        .map(|value| value.as_str())
++        .collect::<Vec<_>>();
++    let initial_ownership =
++        match enumeration(&object, "initialOwnership", &ownership_values, &mut errors) {
++            Some(value) => value.parse().map_err(|_| ApiError::internal())?,
++            None => ProjectInitialOwnership::Creator,
++        };
+     let planned_sign_at = datetime(&object, &mut errors);
+     if !errors.is_empty() {
+         return Err(failure(errors));
+@@ -199,6 +210,7 @@
+             customer_id,
+             customer_project_no,
+             current_stage,
++            initial_ownership,
+             planned_sign_at,
+         }),
+         _ => Err(ApiError::internal()),
+@@ -343,6 +355,52 @@
+     const CUSTOMER: &str = "11000000-0000-4000-8000-000000000001";
+ 
+     #[test]
++    fn omitted_and_explicit_creator_modes_keep_the_original_creator_default() {
++        for ownership in [None, Some(json!("creator"))] {
++            let mut body = json!({"projectName":"真实默认创建人主责回归","customerId":CUSTOMER});
++            if let Some(ownership) = ownership {
++                body["initialOwnership"] = ownership;
++            }
++            let parsed = validate_create(Some(&body.to_string()))
++                .unwrap_or_else(|_| panic!("valid default/creator request"));
++            assert_eq!(parsed.initial_ownership, ProjectInitialOwnership::Creator);
++            assert!(parsed.current_stage.is_none());
++        }
++    }
++
++    #[test]
++    fn organization_mode_is_an_explicit_optional_nonnullable_enum() {
++        let body = json!({"projectName":"真实组织承接回归","customerId":CUSTOMER,"initialOwnership":"organization"});
++        let parsed = validate_create(Some(&body.to_string()))
++            .unwrap_or_else(|_| panic!("valid organization request"));
++        assert_eq!(
++            parsed.initial_ownership,
++            ProjectInitialOwnership::Organization
++        );
++        for invalid in [
++            Value::Null,
++            json!("org-owned"),
++            json!("Organization"),
++            json!(" organization"),
++            json!(""),
++            json!(true),
++            json!(1),
++            json!({}),
++        ] {
++            let body = json!({"projectName":"非法承接模式","customerId":CUSTOMER,"initialOwnership":invalid});
++            assert!(validate_create(Some(&body.to_string())).is_err());
++        }
++    }
++
++    #[test]
++    fn ownership_choice_cannot_create_an_advanced_stage() {
++        for ownership in ["creator", "organization"] {
++            let body = json!({"projectName":"不能伪造执行准入","customerId":CUSTOMER,"initialOwnership":ownership,"currentStage":"execution"});
++            assert!(validate_create(Some(&body.to_string())).is_err());
++        }
++    }
++
++    #[test]
+     fn list_stage_uses_current_public_enum_without_expanding_create() {
+         let registry = crate::project_operating_common::schema::public_registry();
+         let values = registry["components"]["schemas"]["ProjectStage"]["enum"]
+--- a/apps/poms-api-rust/src/projects/store.rs
++++ b/apps/poms-api-rust/src/projects/store.rs
+@@ -278,6 +278,21 @@
+     .transpose()
+ }
+ 
++/// Lock and select the actual creating account's current primary organization.
++/// The origin producer separately locks and validates active organization/M facts.
++pub(crate) async fn lock_creation_org(
++    connection: &mut PgConnection,
++    creator: Uuid,
++) -> Result<Option<Uuid>, sqlx::Error> {
++    let current: Option<Option<Uuid>> = sqlx::query_scalar(
++        "SELECT primary_org_unit_id FROM poms.platform_user WHERE id=$1 AND is_active FOR SHARE",
++    )
++    .bind(creator)
++    .fetch_optional(connection)
++    .await?;
++    Ok(current.flatten())
++}
++
+ pub struct NewProject {
+     pub project_no: String,
+     pub project_name: String,
+@@ -286,7 +301,8 @@
+     pub customer_project_no: Option<String>,
+     pub current_stage: String,
+     pub owner_org_id: Option<Uuid>,
+-    pub owner_user_id: Uuid,
++    pub owner_user_id: Option<Uuid>,
++    pub creator_user_id: Uuid,
+     pub planned_sign_at: Option<DateTime<Utc>>,
+     pub created_at: DateTime<Utc>,
+     pub updated_at: DateTime<Utc>,
+@@ -296,10 +312,10 @@
+     connection: &mut PgConnection,
+     input: &NewProject,
+ ) -> Result<ProjectRow, sqlx::Error> {
+-    let row = sqlx::query("INSERT INTO poms.project (project_no,project_name,source_lead_id,customer_id,customer_name,customer_project_no,status,current_stage,owner_org_id,owner_user_id,planned_sign_at,closed_at,closed_reason,created_at,created_by,updated_at,updated_by) VALUES ($1,$2,NULL,$3,$4,$5,'active',$6,$7,$8,$9,NULL,NULL,$10,$8,$11,$8) RETURNING *")
++    let row = sqlx::query("INSERT INTO poms.project (project_no,project_name,source_lead_id,customer_id,customer_name,customer_project_no,status,current_stage,owner_org_id,owner_user_id,planned_sign_at,closed_at,closed_reason,created_at,created_by,updated_at,updated_by) VALUES ($1,$2,NULL,$3,$4,$5,'active',$6,$7,$8,$9,NULL,NULL,$10,$12,$11,$12) RETURNING *")
+         .bind(&input.project_no).bind(&input.project_name).bind(input.customer_id).bind(&input.customer_name)
+         .bind(&input.customer_project_no).bind(&input.current_stage).bind(input.owner_org_id).bind(input.owner_user_id)
+-        .bind(input.planned_sign_at).bind(input.created_at).bind(input.updated_at).fetch_one(connection).await?;
++        .bind(input.planned_sign_at).bind(input.created_at).bind(input.updated_at).bind(input.creator_user_id).fetch_one(connection).await?;
+     project(row)
+ }
+ 
+--- a/apps/poms-api-rust/src/projects/service.rs
++++ b/apps/poms-api-rust/src/projects/service.rs
+@@ -105,6 +105,7 @@
+             customer_id,
+             customer_project_no,
+             current_stage,
++            initial_ownership,
+             planned_sign_at,
+         } = input;
+         if current_stage.is_some_and(|stage| stage != ProjectStage::Assessment) {
+@@ -151,6 +152,11 @@
+                             .map_err(|_| {
+                                 sqlx::Error::Protocol("project number persistence failed".into())
+                             })?;
++                        let owner_org_id = store::lock_creation_org(&mut transaction, operator.id).await?;
++                        let owner_user_id = match initial_ownership {
++                            super::model::ProjectInitialOwnership::Creator => Some(operator.id),
++                            super::model::ProjectInitialOwnership::Organization => None,
++                        };
+                         let now = clock_now();
+                         let project = store::insert(
+                             &mut transaction,
+@@ -163,8 +169,9 @@
+                                     .as_ref()
+                                     .map(JsString::to_utf8_lossy),
+                                 current_stage: ProjectStage::Assessment.as_str().to_owned(),
+-                                owner_org_id: operator.primary_org_unit_id,
+-                                owner_user_id: operator.id,
++                                owner_org_id,
++                                owner_user_id,
++                                creator_user_id: operator.id,
+                                 planned_sign_at,
+                                 created_at: now,
+                                 updated_at: now,
+--- a/apps/poms-api-rust/src/project_action_authorization/ownership.rs
++++ b/apps/poms-api-rust/src/project_action_authorization/ownership.rs
+@@ -2,7 +2,7 @@
+ //! New-project producers call this once, inside their existing transaction.
+ use crate::contract_support::{Error, canonical_hash, new_uuid};
+ use serde_json::{Value, json};
+-use sqlx::PgConnection;
++use sqlx::{Connection, PgConnection, Row};
+ use uuid::Uuid;
+ 
+ async fn validate_responsibility(
+@@ -45,6 +45,25 @@
+     Ok(())
+ }
+ 
++/// Static direct-create provenance only. Fresh org/M and immutable payload/audit
++/// checks remain separate; a personal origin never becomes bootstrap-eligible.
++pub(crate) fn direct_creation_source_matches(
++    project_id: Uuid,
++    source_record_id: Uuid,
++    source_lead_id: Option<Uuid>,
++    creator: Uuid,
++    initial_kind: &str,
++    initial_owner: Option<Uuid>,
++) -> bool {
++    source_record_id == project_id
++        && source_lead_id.is_none()
++        && match (initial_kind, initial_owner) {
++            ("personal", Some(owner)) => owner == creator,
++            ("org-owned", None) => true,
++            _ => false,
++        }
++}
++
+ pub(crate) async fn record_new_origin_with_connection(
+     connection: &mut PgConnection,
+     project_id: Uuid,
+@@ -53,24 +72,44 @@
+     source_record_id: Uuid,
+     request_id: Option<&str>,
+ ) -> Result<(), Error> {
+-    let p: Value =
+-        sqlx::query_scalar("SELECT to_jsonb(p) FROM poms.project p WHERE id=$1 FOR UPDATE")
+-            .bind(project_id)
+-            .fetch_optional(&mut *connection)
+-            .await?
+-            .ok_or(Error::Internal)?;
++    if !connection.is_in_transaction() {
++        return Err(Error::Internal);
++    }
++    let row = sqlx::query("SELECT to_jsonb(p) AS project,p.xmin::text AS creation_xid,(txid_current() % 4294967296)::text AS current_xid FROM poms.project p WHERE id=$1 FOR UPDATE")
++        .bind(project_id).fetch_optional(&mut *connection).await?.ok_or(Error::Internal)?;
++    let p: Value = row.try_get("project")?;
++    let creation_xid: String = row.try_get("creation_xid")?;
++    let current_xid: String = row.try_get("current_xid")?;
++    if creation_xid != current_xid {
++        return Err(Error::Conflict(
++            "ownership-origin只能由同一真实创建事务产生，不能补写普通旧项目来源。".into(),
++        ));
++    }
+     let owner = p["owner_user_id"]
+         .as_str()
+         .and_then(|s| Uuid::parse_str(s).ok());
+     let owner_org = p["owner_org_id"]
+         .as_str()
+         .and_then(|s| Uuid::parse_str(s).ok());
++    let kind = if owner.is_some() {
++        "personal"
++    } else {
++        "org-owned"
++    };
++    let source_lead_id = p["source_lead_id"]
++        .as_str()
++        .map(Uuid::parse_str)
++        .transpose()
++        .map_err(|_| Error::Internal)?;
+     let valid_source = match source_type {
+-        "direct-create" => {
+-            source_record_id == project_id
+-                && owner == Some(creator_id)
+-                && p["source_lead_id"].is_null()
+-        }
++        "direct-create" => direct_creation_source_matches(
++            project_id,
++            source_record_id,
++            source_lead_id,
++            creator_id,
++            kind,
++            owner,
++        ),
+         "lead-conversion" => p["source_lead_id"] == source_record_id.to_string(),
+         _ => false,
+     };
+@@ -106,11 +145,7 @@
+         chrono::DateTime::parse_from_rfc3339(p["created_at"].as_str().ok_or(Error::Internal)?)
+             .map_err(|_| Error::Internal)?
+             .with_timezone(&chrono::Utc);
+-    let kind = if owner.is_some() {
+-        "personal"
+-    } else {
+-        "org-owned"
+-    };
++
+     let payload = json!({"schemaVersion":1,"projectId":project_id,"creatorUserId":creator_id,"sourceType":source_type,"sourceRecordId":source_record_id,"initialKind":kind,"initialOwnerUserId":owner,"initialOwnerOrgId":owner_org,"createdAt":created_at});
+     let hash = canonical_hash(&payload)?;
+     sqlx::query("INSERT INTO poms.project_ownership_origin(project_id,producer_version,creator_user_id,source_type,source_record_id,initial_kind,initial_owner_user_id,initial_owner_org_id,source_payload,source_payload_hash,bootstrap_state,first_personal_owner_user_id,first_personal_assigned_at,bootstrap_consumed_at,row_version,created_at) VALUES($1,1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$6,$11,$11,1,$12)")
+@@ -123,3 +158,79 @@
+         .execute(&mut *connection).await?;
+     Ok(())
+ }
++
++#[cfg(test)]
++mod decision8_source_tests {
++    use super::*;
++
++    #[test]
++    fn direct_personal_creation_keeps_only_the_real_creator_as_initial_owner() {
++        let project = Uuid::from_u128(1);
++        let creator = Uuid::from_u128(2);
++        assert!(direct_creation_source_matches(
++            project,
++            project,
++            None,
++            creator,
++            "personal",
++            Some(creator)
++        ));
++        assert!(!direct_creation_source_matches(
++            project,
++            project,
++            None,
++            creator,
++            "personal",
++            Some(Uuid::from_u128(3))
++        ));
++        assert!(!direct_creation_source_matches(
++            project, project, None, creator, "personal", None
++        ));
++    }
++
++    #[test]
++    fn direct_organization_creation_has_no_personal_owner_or_lead_alias() {
++        let project = Uuid::from_u128(1);
++        let creator = Uuid::from_u128(2);
++        assert!(direct_creation_source_matches(
++            project,
++            project,
++            None,
++            creator,
++            "org-owned",
++            None
++        ));
++        assert!(!direct_creation_source_matches(
++            project,
++            project,
++            None,
++            creator,
++            "org-owned",
++            Some(creator)
++        ));
++        assert!(!direct_creation_source_matches(
++            project,
++            project,
++            Some(Uuid::from_u128(3)),
++            creator,
++            "org-owned",
++            None
++        ));
++        assert!(!direct_creation_source_matches(
++            project,
++            Uuid::from_u128(4),
++            None,
++            creator,
++            "org-owned",
++            None
++        ));
++        assert!(!direct_creation_source_matches(
++            project,
++            project,
++            None,
++            creator,
++            "organization",
++            None
++        ));
++    }
++}
+--- a/apps/poms-api-rust/src/project_action_authorization/mod.rs
++++ b/apps/poms-api-rust/src/project_action_authorization/mod.rs
+@@ -494,12 +494,14 @@
+     let hash: String = row.try_get("source_payload_hash")?;
+     let expected = json!({"schemaVersion":1,"projectId":project.id,"creatorUserId":creator,"sourceType":source_type,"sourceRecordId":source_id,"initialKind":kind,"initialOwnerUserId":initial_owner,"initialOwnerOrgId":initial_org,"createdAt":created_at});
+     let source_matches = match source_type.as_str() {
+-        "direct-create" => {
+-            source_id == project.id
+-                && project.source_lead_id.is_none()
+-                && kind == "personal"
+-                && initial_owner == Some(creator)
+-        }
++        "direct-create" => ownership::direct_creation_source_matches(
++            project.id,
++            source_id,
++            project.source_lead_id,
++            creator,
++            &kind,
++            initial_owner,
++        ),
+         "lead-conversion" => project.source_lead_id == Some(source_id),
+         _ => false,
+     };
+@@ -525,6 +527,16 @@
+     // bootstrap source, even if someone later returns its project to an org.
+     if kind != "org-owned" || initial_owner.is_some() || initial_org.is_none() {
+         return Ok(none());
++    }
++    // Only this producer's exact creation audit can support a bootstrap source.
++    // Long-lived authority never compares historical xmin (vacuum may freeze it).
++    let creation_audits: Vec<Uuid> = sqlx::query_scalar("SELECT id FROM poms.audit_log WHERE event_type='project.ownership-origin-created' AND target_type='project' AND target_id=$1 AND operator_id=$2 AND result='success' AND after_snapshot=$3 AND metadata->>'projectId'=$1 AND metadata->>'sourcePayloadHash'=$4 AND metadata->>'sourceType'=$5 AND occurred_at=$6 ORDER BY id FOR SHARE")
++        .bind(project.id.to_string()).bind(creator).bind(&payload).bind(&hash).bind(&source_type).bind(created_at)
++        .fetch_all(&mut *session.connection).await?;
++    if creation_audits.len() != 1 {
++        return Err(changed(
++            "The new ownership origin has no exact required creation audit",
++        ));
+     }
+     let state: String = row.try_get("bootstrap_state")?;
+     let first_owner: Option<Uuid> = row.try_get("first_personal_owner_user_id")?;

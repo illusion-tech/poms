@@ -1,0 +1,44 @@
+// Root-only source capture. Semantic observations and snapshots share raw bytes.
+import assert from 'node:assert/strict';
+import { createHash } from 'node:crypto';
+import { execFileSync } from 'node:child_process';
+import { createRequire } from 'node:module';
+import { existsSync, mkdirSync, writeFileSync } from 'node:fs';
+import { dirname, resolve } from 'node:path';
+import { fileURLToPath } from 'node:url';
+import { createRawObservation273, observeTypeScriptProgram273 } from '../rust-r1b/273/capture-observation273.mjs';
+const root=resolve(dirname(fileURLToPath(import.meta.url)),'../..'),args=process.argv.slice(2);
+if(args.length===1&&args[0]==='--help')console.log('Source-only273 --capture: exact observed bytes, no commit/SDK/service/DB.');
+else{
+ assert.deepEqual(args,['--capture']);assert.equal(resolve(process.cwd()).toLowerCase(),root.toLowerCase(),'Run at exact repository root');
+ const require=createRequire(resolve(root,'package.json')),ts=require('typescript'),sha=raw=>createHash('sha256').update(raw).digest('hex');
+ assert.equal(process.versions.node.split('.')[0],'24');assert.equal(ts.version,'6.0.3');
+ const observation=createRawObservation273(root,ts.sys);
+ const old=observation.readJSON('tools/openapi/shared-api-client-baseline.json');assert.equal(old.sourceHead,'2cd1be6029cf1b14ebfb1fc4530af894507a4c5a');
+ for(const row of old.protectedSources)observation.readRaw(resolve(root,row.file));
+ const feature=observation.readJSON('tools/rust-r4ghi/contracts273/registration.json');assert.equal(feature.kind,'historical-public273-explicit-source-registration');
+ const canonicalRaw=observation.readRaw(resolve(root,'tools/rust-r4ghi/contracts273/canonical.json'));assert.equal(sha(canonicalRaw),feature.canonical.rawBytesSha256);
+ const canonical=observation.readJSON('tools/rust-r4ghi/contracts273/canonical.json');assert.equal(Object.keys(canonical.public.components.schemas).length,132);
+ const spec=observation.readJSON('libs/shared/api-spec/openapi.json'),methods=new Set(['get','post','put','patch','delete','head','options','trace']);
+ const operations=Object.entries(spec.paths).flatMap(([path,item])=>Object.entries(item).filter(([method])=>methods.has(method)).map(([method,operation])=>({method,path,operationId:operation.operationId})));
+ const sort=values=>[...values].sort((a,b)=>JSON.stringify(a).localeCompare(JSON.stringify(b)));
+ assert.deepEqual(sort(operations),sort(old.spec.operations));assert.deepEqual(Object.keys(spec.paths).sort(),old.spec.paths);
+ const schemas=Object.keys(spec.components.schemas).sort();assert.equal(schemas.length,691);assert.deepEqual(schemas.filter(name=>!old.spec.schemas.includes(name)),['HistoricalPeriodBaselineSelection']);assert(old.spec.schemas.every(name=>schemas.includes(name)));
+ const compiler=observeTypeScriptProgram273(root,ts,observation);assert.equal(compiler.errors.length,0,'Full Native program must typecheck against the same captured raw bytes');
+ const extra=['docs/design/rust-r0-api-operations.json','docs/design/rust-r4ghi/g1-online01.json','docs/design/rust-r4ghi/operation-map01.json','docs/design/rust-r4ghi/user-decision-historical-baseline272.json','tools/rust-r4ghi/contracts273/public-delta.json','tools/openapi/strict-jsonschema-oas30.cjs'];
+ const raws=observation.snapshotInputs(extra);assert(raws.length>0);
+ const semanticObservation={...observation.proof(),typescript:compiler.proof};
+ const output='tools/openapi/checkpoints/r4ghi-273-02';assert(!existsSync(resolve(root,output)),'Never overwrite an epoch');
+ const gitRoot=execFileSync('git',['rev-parse','--show-toplevel'],{cwd:root,encoding:'utf8',windowsHide:true}).trim();assert.equal(resolve(gitRoot).toLowerCase(),root.toLowerCase(),'Do not inherit ancestor checkout identity');
+ const parentHead=execFileSync('git',['rev-parse','--verify','HEAD'],{cwd:root,encoding:'utf8',windowsHide:true}).trim();assert(/^[0-9a-f]{40}$/.test(parentHead));
+ observation.assertStable();
+ mkdirSync(resolve(root,output,'inputs'),{recursive:true});writeFileSync(resolve(root,output,'.gitattributes'),'* -text\n*.bin -diff\n',{flag:'wx'});
+ const inputs=raws.map(({file,raw},i)=>{const snapshot='inputs/'+String(i+1).padStart(4,'0')+'.bin';writeFileSync(resolve(root,output,snapshot),raw,{flag:'wx'});return{file,snapshot,bytes:raw.length,rawBytesSHA256:sha(raw),normalizedTextSHA256:sha(raw.toString('utf8').replace(/\r\n/g,'\n'))};});
+ observation.assertStable();
+ const inventory={...old.spec,paths:Object.keys(spec.paths).sort(),operations,schemas};
+ const manifest={kind:'G2-complete-273-input-not-product-G3',capturedAt:new Date().toISOString(),parentHead,formalSourceACommit:null,sourceCommitPending:true,permanentS4:'4f0ad88e78622a75b88b4e3cc72aded9da67458a',previousCompleteS6:old.sourceHead,oldS6Rewritten:false,inputs,inventory,generator:old.generator,handManagedMetadata:old.client.metadata,typescript:compiler.proof,semanticObservation,canonical:feature.canonical,G3Certified:false};
+ const baseline={...old,sourceHead:null,spec:inventory,featureRegistration:'tools/rust-r4ghi/contracts273/registration.json',protectedSources:old.protectedSources.map(row=>({...row,sha256:sha(observation.readRaw(resolve(root,row.file)).toString('utf8').replace(/\r\n/g,'\n'))}))};
+ observation.assertStable();writeFileSync(resolve(root,output,'sdk-baseline.pending.json'),JSON.stringify(baseline,null,2)+'\n',{flag:'wx'});
+ observation.assertStable();writeFileSync(resolve(root,output,'input-manifest01.json'),JSON.stringify(manifest,null,2)+'\n',{flag:'wx'});observation.assertStable();
+ console.log(JSON.stringify({kind:manifest.kind,checkpoint:output,inputRecords:inputs.length,paths:242,operations:296,schemas:691,parentHead,formalSourceACommit:null,sourceCommitPending:true,semanticObservationBound:true,oldS6Rewritten:false,GitMutation:false,G3Certified:false}));
+}

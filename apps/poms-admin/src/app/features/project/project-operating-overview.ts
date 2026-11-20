@@ -67,7 +67,7 @@ export class ProjectOperatingOverview implements OnInit {
             return '--';
         }
 
-        return overview.allowedActions.includes('reviewOperatingSignalEvaluation') ? '当前需要人工复核' : '当前口径可直接下游使用';
+        return overview.currentActionLevel === 'block' ? '当前存在经营阻断' : overview.currentActionLevel === 'review' ? '当前口径需要复核' : '当前为提示；下游使用仍须核对对应阶段门禁';
     });
 
     readonly operatingStateItems = computed<WorkspaceFactGridItem[]>(() => {

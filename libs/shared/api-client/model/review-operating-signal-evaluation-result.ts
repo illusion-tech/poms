@@ -7,19 +7,50 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
+import { OperatingEvaluationContext } from './operating-evaluation-context';
 import { OperatingSnapshotActionLevel } from './operating-snapshot-action-level';
+import { OperatingRiskLevel } from './operating-risk-level';
+import { EvaluationRefsBindingIds } from './evaluation-refs-binding-ids';
+import { OperatingMetricKnowledge } from './operating-metric-knowledge';
+import { OperatingReasonView } from './operating-reason-view';
 import { OperatingDataMaturityLevel } from './operating-data-maturity-level';
+import { SensitiveStringFieldProjection } from './sensitive-string-field-projection';
+import { OperatingSignalLevel } from './operating-signal-level';
 
 
 export interface ReviewOperatingSignalEvaluationResult {
     targetId: string;
     signalEvaluationId: string;
     reviewRecordId: string;
-    taxImpactSummary: string;
+    taxImpactSummary: ReviewOperatingSignalEvaluationResultTaxImpactSummaryEnum | null;
     dataMaturityLevel: OperatingDataMaturityLevel;
     costActionRecommendation: OperatingSnapshotActionLevel;
-    currentActionLevel: OperatingSnapshotActionLevel;
+    currentActionLevel: ReviewOperatingSignalEvaluationResultCurrentActionLevelEnum;
     referencedBaselineVersion: string;
     referencedSnapshotVersion: string;
     resultStatus: string;
+    evaluationContext: OperatingEvaluationContext;
+    reasonItems: Array<OperatingReasonView>;
+    reviewState: ReviewOperatingSignalEvaluationResultReviewStateEnum;
+    metricKnowledge: OperatingMetricKnowledge;
+    rowVersion: number;
+    signalLevel: OperatingSignalLevel;
+    riskLevel: OperatingRiskLevel;
+    systemSignalLevel: OperatingSignalLevel;
+    systemRiskLevel: OperatingRiskLevel;
+    gateBindingIds: EvaluationRefsBindingIds;
+    taxImpactSummaryProjection: SensitiveStringFieldProjection;
 }
+export type ReviewOperatingSignalEvaluationResultTaxImpactSummaryEnum = null;;
+export enum ReviewOperatingSignalEvaluationResultCurrentActionLevelEnum {
+    Prompt = 'prompt',
+    Review = 'review',
+    Block = 'block'
+};
+export enum ReviewOperatingSignalEvaluationResultReviewStateEnum {
+    NotRequired = 'not-required',
+    Pending = 'pending',
+    Acknowledged = 'acknowledged',
+    ManualConfirmed = 'manual-confirmed',
+    Stale = 'stale'
+};

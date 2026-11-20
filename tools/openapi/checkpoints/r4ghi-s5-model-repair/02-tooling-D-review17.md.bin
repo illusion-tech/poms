@@ -1,0 +1,11 @@
+# SDK确定性修正工具D独立准入17
+
+**允许精确feature工具D提交；不签业务G3/G4或main。** 范围只含SDK主运行器、repair模块及两份测试、必要说明和独立D原始证据，不夹canonical/spec、六protected输入、SDK产品输出或common/G/H业务WIP。A仍`883f88fdf4fd609bb8b0725b28bda011d408d6ee`，spec仍896/242/296/689。
+
+管线在固定JAR临时完整生成并校验FILES之后、目标同步及前后guard之前修正已识别表示。literal null须对应精确空enum及原nullable形状；boolean须逐值等于canonical；pure union只消费真实本地ref和已生成model文件，并拒alias/missing target；不新增any或unchecked cast。`as const`仅保留已逐值校验的boolean常量表示。唯一optional修正是zeroWeightReason的base optional，零权重必填规则仍由原canonical服务端校验，未改业务规则。
+
+实际固定A的70修正/23文件逐项核验：61 null、2 boolean、3引用union与3移除merged enum、1 conditional optional。七项repair纯测试由本审阅者实际重跑通过。另以固定Node24.19/Java17.0.12/JAR7.20.0在review目录隔离临时生成并真实readonly check通过；682文件与Root05全部一致，完整manifest `57f644666d8668afd1127e0582b99e108e77a9bf06cf113c15fc73043445885f`，全部repair ledger也完全一致，Root target每字节/mtime与工具/spec输入保持。
+
+Root05真实write/check均通过；integration04四项实际JAR/并发/override/PS入口检查全部通过。保留旧01的PATH环境失败，不将其重写为通过。三手管metadata raw字节/mtime与05前像和原03基线一致。38项sdkUnit04是替身检查，七项repair测试和实际JAR结果分别记录，不混标。
+
+精确工具hash、输入原件、Root05/04原始证据和独立实际check在本目录。D实际提交后仍须readback精确tree/guard。H内存ngc/109单元只作附加候选证据，未作为真实浏览器或业务HTTP验收，本报告也不据其签整体交付。

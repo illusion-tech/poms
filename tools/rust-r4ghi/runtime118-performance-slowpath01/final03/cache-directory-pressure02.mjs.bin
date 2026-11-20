@@ -1,0 +1,10 @@
+import fs from 'node:fs';import path from 'node:path';import {createHash,randomUUID} from 'node:crypto';import assert from 'node:assert/strict';
+import {createObservationController118,createPhaseMetrics118} from '../../../../tools/rust-r4ghi/runtime118-performance-candidate02/candidate/tools/rust-r4ghi/performance118/observation118.mjs';
+const work='E:/projects/worktrees/poms-r3hijk-next28/poms/tmp/rust-r4ghi/root/runtime118-performance-slowpath01',root=fs.realpathSync(fs.mkdtempSync(work+'/cache-directory-'));
+const sha=b=>createHash('sha256').update(b).digest('hex'),metrics=createPhaseMetrics118(),controller=createObservationController118({metrics,maxCacheBytes:256}),pins=[];
+for(const [i,n]of [80,80,40,20,8,8,4,4,4,2,2].entries()){const bytes=Buffer.from(JSON.stringify('x'.repeat(n-2))),file=path.join(root,'json-'+i);fs.writeFileSync(file,bytes,{flag:'wx'});const pin={file,bytes:bytes.length,rawBytesSha256:sha(bytes)};pins.push(pin);controller.run('fill-'+i,()=>controller.json(pin));}
+const directory=fs.realpathSync(fs.mkdtempSync(root+'/dir-'));fs.writeFileSync(path.join(directory,'valid-static-file-name'),'x');let result,error;
+try{controller.run('existing-directory',()=>{result=controller.directory(directory);});}catch(e){error={name:e.name,message:e.message};}
+const fresh=createObservationController118({maxCacheBytes:256});let withoutCache;fresh.run('fresh-directory',()=>{withoutCache=fresh.directory(directory);});
+const record={kind:'author-owned-cache-directory-pressure',schemaVersion:1,source:'candidate02 exact 42af review input',quota:256,priorDecodedJSONBytes:pins.reduce((n,p)=>n+p.bytes,0),directoryNameBytes:Buffer.byteLength('valid-static-file-name'),warmResult:result??null,warmError:error??null,freshResult:withoutCache,validSameDirectoryRejectedOnlyAfterCache:Boolean(error)&&withoutCache.length===1,actualEffects:{SQL:0,HTTP:0,Auth:0,snapshots:0},limits:['Owned 256B-cache model; not the actual private Native resource footprint']};
+fs.writeFileSync(root+'/result.json',JSON.stringify(record,null,2)+'\n',{flag:'wx'});console.log(JSON.stringify({file:root+'/result.json',...record}));

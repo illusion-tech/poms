@@ -1,5 +1,6 @@
+import { ProjectStageRecord } from '../project-cost/rust-r4ghi-entities.entity';
 import { defineEntity } from '@mikro-orm/core';
-import { PROJECT_STAGES, PROJECT_STATUSES, ProjectStatusValue, type ProjectStage, type ProjectStatus } from '@poms/shared-contracts';
+import { PROJECT_STATUSES, ProjectStatusValue, type ProjectStage, type ProjectStatus } from '@poms/shared-contracts';
 import { Customer } from '../customer/customer.entity';
 import { Lead } from '../lead/lead.entity';
 
@@ -24,10 +25,7 @@ export const ProjectSchema = defineEntity({
             name: 'chk_project_status',
             expression: `"status" in (${toSqlStringList(PROJECT_STATUSES)})`
         },
-        {
-            name: 'chk_project_current_stage',
-            expression: `"current_stage" in (${toSqlStringList(PROJECT_STAGES)})`
-        }
+        {"name":"chk_project_current_stage","expression":"current_stage IN\n ('assessment','scope-confirmation','commercial-closure','contracting','handover','execution','acceptance',\n  'completed','conditional-completed','closed-lost','closed-terminated')"}
     ],
     properties: {
         id: p.uuid().primary().defaultRaw('gen_random_uuid()').comment('项目主键'),
@@ -60,6 +58,9 @@ export const ProjectSchema = defineEntity({
             .fieldName('updated_at')
             .comment('最后更新时间'),
         updatedBy: p.uuid().nullable().fieldName('updated_by').comment('最后更新人标识')
+    ,
+        currentStageRecordId: p.uuid().nullable().fieldName("current_stage_record_id"),
+        jghiScopeConstraint1: () => p.manyToOne(ProjectStageRecord).mapToPk().joinColumns("current_stage_record_id","id").referencedColumnNames("id","project_id").columnTypes("uuid","uuid").ownColumns().hydrate(false).hidden().foreignKeyName("project_current_stage_record_same_project_fk").deleteRule("restrict").updateRule("no action").nullable()
     }
 });
 

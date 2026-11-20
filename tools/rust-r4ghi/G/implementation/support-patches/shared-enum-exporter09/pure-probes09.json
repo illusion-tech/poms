@@ -1,0 +1,215 @@
+{
+  "kind": "S5-pure-proposal-probes09",
+  "startedAt": "2026-11-07T07:21:12.222Z",
+  "finishedAt": "2026-11-07T07:21:19.015Z",
+  "results": [
+    {
+      "name": "candidate builds all semantic occurrences and retains historical names",
+      "passed": true
+    },
+    {
+      "name": "production builder refuses candidate registry",
+      "passed": true
+    },
+    {
+      "name": "unfrozen review does not authorize metadata",
+      "passed": true
+    },
+    {
+      "name": "pure review matcher accepts only exact reviewed metadata",
+      "passed": true
+    },
+    {
+      "name": "changed metadata cannot self-authorize by reviewStatus",
+      "passed": true
+    },
+    {
+      "name": "changed identity bytes cannot keep a reviewed pin",
+      "passed": true
+    },
+    {
+      "name": "registry source head must match independently pinned review",
+      "passed": true
+    },
+    {
+      "name": "missing current enum registration is rejected",
+      "passed": true
+    },
+    {
+      "name": "unreviewed historical migration is rejected",
+      "passed": true
+    },
+    {
+      "name": "unreviewed historical value replacement is rejected",
+      "passed": true
+    },
+    {
+      "name": "coverage cannot be silently lowered",
+      "passed": true
+    },
+    {
+      "name": "historical consumer type alias cannot be replaced",
+      "passed": true
+    },
+    {
+      "name": "unknown module import remains closed",
+      "passed": true
+    },
+    {
+      "name": "opaque top-level construct is rejected before repinning",
+      "passed": true
+    },
+    {
+      "name": "computed Zod enum construction cannot evade semantic inventory",
+      "passed": true
+    },
+    {
+      "name": "unknown Zod factory remains rejected even before repinning",
+      "passed": true
+    },
+    {
+      "name": "enum cannot hide in a helper body",
+      "passed": true
+    },
+    {
+      "name": "new helper declaration needs independent registration",
+      "passed": true
+    },
+    {
+      "name": "equivalent CRLF normalization retains exact reviewed source",
+      "passed": true
+    },
+    {
+      "name": "empty working/staged/untracked source guard reports pass",
+      "passed": true
+    },
+    {
+      "name": "source guard rejects changed input",
+      "passed": true
+    },
+    {
+      "name": "source guard rejects staged input",
+      "passed": true
+    },
+    {
+      "name": "source guard rejects untracked input",
+      "passed": true
+    },
+    {
+      "name": "pure artifact write/check roundtrip produces every expected file",
+      "passed": true
+    },
+    {
+      "name": "unexpected artifact target is rejected",
+      "passed": true
+    },
+    {
+      "name": "stale artifact is rejected without automatic repair",
+      "passed": true
+    },
+    {
+      "name": "forged source reader cannot reach whole builder",
+      "passed": true
+    },
+    {
+      "name": "unregistered logical source cannot be consumed",
+      "passed": true
+    },
+    {
+      "name": "wrong checkpoint manifest hash is rejected",
+      "passed": true
+    },
+    {
+      "name": "all checkpoint physical files must exist in committed A tree",
+      "passed": true
+    },
+    {
+      "name": "ignored or absent committed physical input cannot be consumed",
+      "passed": true
+    },
+    {
+      "name": "binary committed-source parser checks all consumed raw blobs",
+      "passed": true
+    },
+    {
+      "name": "Git normalization cannot substitute different committed raw bytes",
+      "passed": true
+    },
+    {
+      "name": "missing committed blob is rejected",
+      "passed": true
+    },
+    {
+      "name": "extra committed-source response bytes are rejected",
+      "passed": true
+    },
+    {
+      "name": "actual checkpoint source reads identical raw snapshots in isolated fixture",
+      "passed": true
+    },
+    {
+      "name": "normalized-equivalent dirty live source is rejected by raw equality",
+      "passed": true
+    },
+    {
+      "name": "normalized-equivalent dirty physical snapshot is rejected by raw hash",
+      "passed": true
+    },
+    {
+      "name": "unknown checkpoint traversal is rejected even in a newly hashed proposal",
+      "passed": true
+    },
+    {
+      "name": "duplicate checkpoint logical identity is rejected",
+      "passed": true
+    },
+    {
+      "name": "immutable R0 hash remains enforced through snapshot reader",
+      "passed": true
+    },
+    {
+      "name": "public OpenAPI drift remains rejected through physical A source",
+      "passed": true
+    },
+    {
+      "name": "actual Root source bytes remained stable during pure probes",
+      "passed": true
+    }
+  ],
+  "passed": 43,
+  "failed": 0,
+  "inputsBefore": [
+    {
+      "path": "libs/shared/contracts/src/index.ts",
+      "rawSha256": "6ebfa5afd35d3eb2bbea4c1681643591c8e39e584df751d1b9e2c9a27e11ba31"
+    },
+    {
+      "path": "libs/shared/contracts/src/lib/shared-contracts.ts",
+      "rawSha256": "e835ce085e0cfd19fa2d49030f1b286ed8f774164fbbddbafc98e04e2d13fdab"
+    },
+    {
+      "path": "libs/shared/contracts/src/lib/rust-r4ghi-contracts.generated.ts",
+      "rawSha256": "c4b156574f4486b2f02eccc8b75f4cac7ef1ff1d6a85eb0de665ab9de797e7d9"
+    }
+  ],
+  "inputsAfter": [
+    {
+      "path": "libs/shared/contracts/src/index.ts",
+      "rawSha256": "6ebfa5afd35d3eb2bbea4c1681643591c8e39e584df751d1b9e2c9a27e11ba31"
+    },
+    {
+      "path": "libs/shared/contracts/src/lib/shared-contracts.ts",
+      "rawSha256": "e835ce085e0cfd19fa2d49030f1b286ed8f774164fbbddbafc98e04e2d13fdab"
+    },
+    {
+      "path": "libs/shared/contracts/src/lib/rust-r4ghi-contracts.generated.ts",
+      "rawSha256": "c4b156574f4486b2f02eccc8b75f4cac7ef1ff1d6a85eb0de665ab9de797e7d9"
+    }
+  ],
+  "limitations": [
+    "No Git source guard command executed by this author",
+    "No Root --s5 --write or --check executed",
+    "The non-null source head in review matcher is a pure fixture, never an authorized Git reference",
+    "Root must freeze final canonical130 physical-source registry, A reference and independent B metadata after review"
+  ]
+}

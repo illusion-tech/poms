@@ -1,0 +1,47 @@
+{
+  "schemaVersion": 1,
+  "proposal": "I-A07-cent-max-exact-producer-admission57-02",
+  "state": "frozen-prepared-unrun",
+  "applyAfter": {
+    "manifest": "../business-lifecycle-races57/manifest57.json",
+    "sha256": "231dbc5117bd75c39d976a14798bc8d4a3106ca6b6d966363eb4ae2d0fbf19b9"
+  },
+  "files": [
+    {
+      "file": "tools/rust-r4ghi/business/lifecycle-published-source57.mjs",
+      "beforeSHA256": null,
+      "afterSHA256": "5bee94c6923b281f29c28e75fd23376b9e0f45db5e8b9f68c1d659da9a7878bc",
+      "candidate": "proposed/tools/rust-r4ghi/business/lifecycle-published-source57.mjs"
+    },
+    {
+      "file": "tools/rust-r4ghi/business/lifecycle-published-source57.test.mjs",
+      "beforeSHA256": null,
+      "afterSHA256": "afa9caef64af932da3201f033ece1a67082d0cdc2d317fdf91b04603d4440e78",
+      "candidate": "proposed/tools/rust-r4ghi/business/lifecycle-published-source57.test.mjs"
+    },
+    {
+      "file": "tools/rust-r4ghi/business/lifecycle-two-task57.mjs",
+      "beforeSHA256": "4fc43c037bd46668e7ff980494a9979dca2b8d6c328283b7ad7a53bc0d7fc11b",
+      "afterSHA256": "95f7851e4947d82ef0a0ee1b66e00a89349e31e5bc9907e2b4021a6c85ee731e",
+      "candidate": "proposed/tools/rust-r4ghi/business/lifecycle-two-task57.mjs"
+    }
+  ],
+  "RootTargetAtFreeze": "Original57 not yet promoted; changed file beforeSHA is sealed57 candidate, not a nonexistent Root file",
+  "closedGap": "Before any consumer view/API/HTTP, verify actual persisted cent-max admission+published receipt and canonical regular file rawpin; verify exact project/snapshot/4H contexts",
+  "oldProducerRecordWritten": false,
+  "validation": {
+    "node": "v26.13.0",
+    "pure": 87,
+    "failed": 0,
+    "newPure": 2,
+    "log": "offline-tests57-02.log",
+    "sha256": "59fba7ed1bcb67701b26232dc1119bce12343454c45259608308ad74ed47cab5"
+  },
+  "documentation": {
+    "file": "README57-02.md",
+    "sha256": "920986dfab85ae3e6d91e2c225062f06d0cc40344b6a0c05aef0c4b33847d16e"
+  },
+  "SQLOrHTTPExecutedByAuthor": false,
+  "G3Certified": false,
+  "G4Certified": false
+}

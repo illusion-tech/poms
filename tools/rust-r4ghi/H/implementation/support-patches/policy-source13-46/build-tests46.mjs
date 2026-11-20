@@ -1,0 +1,8 @@
+import fs from'node:fs';import path from'node:path';import assert from'node:assert/strict';import{createHash}from'node:crypto';import{fileURLToPath}from'node:url';
+const dir=path.dirname(fileURLToPath(import.meta.url)),root='E:/projects/worktrees/poms-r3hijk-next28/poms',i='E:/projects/worktrees/poms-r4i-lifecycle/poms',sha=b=>createHash('sha256').update(b).digest('hex'),graph=[];
+function copy(file,from,expected){const b=fs.readFileSync(from);if(expected)assert.equal(sha(b),expected);const to=dir+'/checks/'+file;fs.mkdirSync(path.dirname(to),{recursive:true});fs.writeFileSync(to,b);graph.push({file,source:from,rawBytesSha256:sha(b)});}
+for(const name of fs.readdirSync(root+'/tools/rust-r4ghi/business').filter(n=>/\.(mjs|json)$/.test(n)))copy('tools/rust-r4ghi/business/'+name,root+'/tools/rust-r4ghi/business/'+name);
+const m=JSON.parse(fs.readFileSync(i+'/tools/rust-r4ghi/I/implementation/schema-admission108-02/manifest108-02.json'));for(const p of m.candidates)copy(p.target,i+'/tools/rust-r4ghi/I/implementation/schema-admission108-02/'+p.candidate,p.afterSHA256);
+const future=i+'/tools/rust-r4ghi/I/implementation/process-restart1351-02/future-source13/tools/rust-r4ghi/business/';for(const name of['consumer-admission54.mjs','retained-schema-admission108.mjs'])copy('tools/rust-r4ghi/business/'+name,future+name);
+const products=JSON.parse(fs.readFileSync(dir+'/products46.json'));for(const p of products)copy(p.file,dir+'/'+p.candidate);
+fs.writeFileSync(dir+'/test-graph46.json',JSON.stringify({kind:'isolated-FS-only-10802-plus1351future-plusH46-import-graph',graph,actualSource13Admission:false},null,2)+'\n',{flag:'wx'});console.log(JSON.stringify({copiedGraphLeaves:graph.length,actualRootMutated:false}));

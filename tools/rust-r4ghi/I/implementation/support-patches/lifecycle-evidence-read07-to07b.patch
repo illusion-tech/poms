@@ -1,0 +1,30 @@
+--- a/apps/poms-api-rust/src/lifecycle_evidence/mod.rs
++++ b/apps/poms-api-rust/src/lifecycle_evidence/mod.rs
+@@ -74,7 +74,7 @@
+ 
+ fn classification_readable(row: &Value, can_read_sensitive: bool) -> bool {
+     match row["securityLevel"].as_str() {
+-        Some("normal" | "internal") => true,
++        Some("normal" | "internal" | "sensitive") => true,
+         Some("confidential" | "restricted") => can_read_sensitive,
+         _ => false,
+     }
+@@ -388,11 +388,13 @@
+     #[test]
+     fn unchanged_readable_source_returns_only_original_frozen_reference() {
+         let (project, mut frozen) = frozen_source();
+-        let current = frozen.clone();
+-        assert_eq!(
+-            current_public_ref(project, &frozen, &current, true, false).ok(),
+-            Some(public_ref(&frozen))
+-        );
++        for level in ["normal", "internal", "sensitive"] {
++            frozen["securityLevel"] = json!(level);
++            assert_eq!(
++                current_public_ref(project, &frozen, &frozen, true, false).ok(),
++                Some(public_ref(&frozen))
++            );
++        }
+         frozen["securityLevel"] = json!("restricted");
+         assert!(matches!(
+             current_public_ref(project, &frozen, &frozen, true, false),

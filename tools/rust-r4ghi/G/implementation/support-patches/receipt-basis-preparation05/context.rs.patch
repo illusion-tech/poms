@@ -1,0 +1,316 @@
+--- a/apps/poms-api-rust/src/project_operating/context.rs
++++ b/apps/poms-api-rust/src/project_operating/context.rs
+@@ -9,9 +9,9 @@
+     contract_support::{Actor, Error, canonical_hash},
+     project_operating_common::{
+         hash,
+         model::{
+-            OperatingBusinessWindow, OperatingGeneratedIds, OperatingMoneyCents,
++            ExpectedRef, OperatingBusinessWindow, OperatingGeneratedIds, OperatingMoneyCents,
+             OperatingSourceContext, OperatingSourceRow,
+         },
+     },
+ };
+@@ -449,8 +449,192 @@
+     out.sort_by_key(|row| (row.source_ref.kind.clone(), row.source_ref.id));
+     Ok(out)
+ }
+ 
++/// Receipt preparation exposes exact producer references, never a browser-made
++/// hash. Each term row keeps its own currency-basis relation addressable.
++pub(crate) async fn receipt_basis_source_members(
++    session: &mut CommonSession<'_, '_>,
++    project: Uuid,
++    expected_receipt: &ExpectedRef,
++    catalog: &Catalog,
++    window: &OperatingBusinessWindow,
++    rows: &mut Vec<OperatingSourceRow>,
++    actor: &Actor,
++) -> Result<Vec<String>, Error> {
++    let receipt = catalog
++        .find(Table::Receipt, expected_receipt.id)
++        .ok_or_else(|| store::conflict("operating_receipt_source_missing"))?;
++    sources::assert_expected(
++        &sources::reference(Table::Receipt, receipt)?,
++        &serde_json::to_value(expected_receipt).map_err(|_| Error::Internal)?,
++    )?;
++    if receipt["project_id"] != project.to_string()
++        || !matches!(
++            receipt["status"].as_str(),
++            Some("pending-confirmation" | "confirmed")
++        )
++    {
++        return Err(store::conflict(
++            "operating_receipt_project_or_status_changed",
++        ));
++    }
++    let contract = catalog
++        .by(Table::Contract, "id", &receipt["contract_id"])
++        .filter(|contract| contract["project_id"] == project.to_string())
++        .ok_or_else(|| store::conflict("operating_receipt_contract_changed"))?;
++    let mut members = Vec::new();
++    let mut viable_terms = 0;
++    for (term, commercial) in receipt_basis_terms(catalog, project, contract, window) {
++        let term_ref = sources::reference(Table::Term, term)?;
++        let currency_refs = commercial
++            .map(|basis| sources::reference(Table::Commercial, basis))
++            .transpose()?
++            .into_iter()
++            .collect::<Vec<_>>();
++        let currency = term["currency_code"]
++            .as_str()
++            .or_else(|| commercial.and_then(|basis| basis["currency_code"].as_str()));
++        let currency_known = currency.is_some_and(|code| {
++            code.len() == 3 && code.bytes().all(|value| value.is_ascii_uppercase())
++        });
++        let tax_known = term["tax_rate"]
++            .as_str()
++            .is_some_and(|rate| crate::contract_support::ratio(rate).is_ok());
++        let ready = currency_known && tax_known;
++        viable_terms += usize::from(ready);
++        let mut reasons = Vec::new();
++        if !currency_known {
++            reasons.push("receipt-currency-evidence-required");
++        }
++        if !tax_known {
++            reasons.push("receipt-term-tax-evidence-required");
++        }
++        let amounts = facts::empty_triple(currency, false)?;
++        let financial = projection::source(
++            session,
++            actor,
++            project,
++            store::id(term, "id")?,
++            "no",
++            &amounts,
++            None,
++            None,
++        )
++        .await?;
++        rows.push(
++            serde_json::from_value(json!({
++                "rowKind":"stage-evidence", "sourceRef":term_ref,
++                "sourceMembers":currency_refs, "state":if ready {"ready"} else {"pending"},
++                "blockingReasonCodes":reasons, "currentDecisionRef":null,
++                "canonicalAccumulationKey":null, "sourceChainKey":null,
++                "containsLabor":"no", "allowedRecognitionRoles":[], "primaryCostRef":null,
++                "sourceBusinessDate":sources::business_day(&term["effective_at"])?,
++                "sourceEffectiveBusinessDate":sources::business_day(&term["effective_at"])?,
++                "financialProjection":financial
++            }))
++            .map_err(|_| Error::Internal)?,
++        );
++        members.push(term_ref);
++        members.extend(currency_refs);
++    }
++    members.sort_by_key(|reference| (reference["kind"].to_string(), reference["id"].to_string()));
++    members.dedup();
++    let mut receipt_members = vec![sources::reference(Table::Contract, contract)?];
++    receipt_members.extend(members.iter().cloned());
++    for row in rows.iter_mut() {
++        let selected = if row.source_ref.kind == "Contract"
++            && row.source_ref.id == store::id(contract, "id")?
++        {
++            Some(&members)
++        } else if row.source_ref.kind == "ReceiptRecord" && row.source_ref.id == expected_receipt.id
++        {
++            Some(&receipt_members)
++        } else {
++            None
++        };
++        if let Some(selected) = selected {
++            row.source_members =
++                serde_json::from_value(json!(selected)).map_err(|_| Error::Internal)?;
++        }
++    }
++    if rows.len() > 1000 {
++        return Err(Error::Unprocessable(
++            "Operating source scope exceeds the frozen collection capacity".into(),
++        ));
++    }
++    rows.sort_by_key(|row| (row.source_ref.kind.clone(), row.source_ref.id));
++    Ok(if viable_terms == 0 {
++        vec!["receipt-activated-tax-currency-basis-required".into()]
++    } else {
++        vec![]
++    })
++}
++
++fn receipt_basis_terms<'a>(
++    catalog: &'a Catalog,
++    project: Uuid,
++    contract: &Value,
++    window: &OperatingBusinessWindow,
++) -> Vec<(&'a Value, Option<&'a Value>)> {
++    catalog
++        .all(Table::Term)
++        .iter()
++        .filter_map(|term| {
++            if term["contract_id"] != contract["id"]
++                || !matches!(
++                    term["snapshot_status"].as_str(),
++                    Some("active" | "superseded")
++                )
++                || !sources::known_at(term, window.knowledge_cutoff)
++                || sources::business_day(&term["effective_at"]).is_err()
++                || !term_proven(catalog, term)
++            {
++                return None;
++            }
++            let preparation =
++                catalog.by(Table::Preparation, "id", &term["source_preparation_id"])?;
++            if preparation["contract_id"] != contract["id"]
++                || preparation["source_baseline_id"] != term["source_baseline_id"]
++                || preparation["source_readiness_id"] != term["source_readiness_id"]
++                || !catalog.all(Table::ReviewBinding).iter().any(|binding| {
++                    binding["preparation_id"] == preparation["id"]
++                        && binding["contract_id"] == contract["id"]
++                        && binding["payload_hash"] == term["payload_hash"]
++                        && binding["contract_amendment_id"] == term["source_amendment_id"]
++                        && catalog
++                            .by(Table::Approval, "id", &binding["approval_record_id"])
++                            .is_some_and(|approval| {
++                                approval["current_status"] == "approved"
++                                    && approval["approval_type"] == "contract-review"
++                                    && approval["target_object_id"] == contract["id"]
++                            })
++                })
++            {
++                return None;
++            }
++            let commercial = catalog
++                .by(Table::Commercial, "id", &term["source_baseline_id"])
++                .filter(|basis| {
++                    basis["project_id"] == project.to_string()
++                        && matches!(
++                            basis["baseline_status"].as_str(),
++                            Some("effective" | "superseded")
++                        )
++                        && store::version(basis).is_ok()
++                        && basis["currency_code"].as_str().is_some_and(|currency| {
++                            currency.len() == 3
++                                && currency.bytes().all(|value| value.is_ascii_uppercase())
++                                && term["currency_code"]
++                                    .as_str()
++                                    .is_none_or(|term_currency| term_currency == currency)
++                        })
++                });
++            Some((term, commercial))
++        })
++        .collect()
++}
++
+ fn estimate_adopted(catalog: &Catalog, estimate: &Value) -> bool {
+     catalog.all(Table::Preparation).iter().any(|p| {
+         p["source_cost_package_id"] == estimate["id"]
+             && p["status"] == "activated"
+@@ -1383,4 +1567,109 @@
+         })
+         .map(|t| sources::reference(Table::Tax, t))
+         .collect()
+ }
++
++#[cfg(test)]
++mod receipt_preparation_tests {
++    use super::*;
++
++    fn fixture() -> (Catalog, Uuid, Value, OperatingBusinessWindow) {
++        let project = Uuid::from_u128(101);
++        let contract = json!({"id":Uuid::from_u128(102),"project_id":project});
++        let term = json!({"id":Uuid::from_u128(103),"contract_id":contract["id"],
++            "source_preparation_id":Uuid::from_u128(104),"source_baseline_id":Uuid::from_u128(105),
++            "source_readiness_id":Uuid::from_u128(106),"source_amendment_id":null,
++            "snapshot_status":"superseded","payload_hash":"exact-approved-payload",
++            "effective_at":"2026-10-01T00:00:00Z","currency_code":null,"row_version":3});
++        let preparation = json!({"id":term["source_preparation_id"],"contract_id":contract["id"],
++            "status":"activated","activated_snapshot_id":term["id"],
++            "source_baseline_id":term["source_baseline_id"],"source_readiness_id":term["source_readiness_id"],
++            "payload_hash":term["payload_hash"]});
++        let binding = json!({"preparation_id":preparation["id"],"contract_id":contract["id"],
++            "payload_hash":term["payload_hash"],"contract_amendment_id":null,"approval_record_id":Uuid::from_u128(107)});
++        let approval = json!({"id":binding["approval_record_id"],"current_status":"approved",
++            "approval_type":"contract-review","target_object_id":contract["id"]});
++        let commercial = json!({"id":term["source_baseline_id"],"project_id":project,
++            "baseline_status":"superseded","row_version":4,"currency_code":"CNY"});
++        let mut catalog = Catalog::default();
++        catalog.rows.insert(Table::Term, vec![term]);
++        catalog.rows.insert(Table::Preparation, vec![preparation]);
++        catalog.rows.insert(Table::ReviewBinding, vec![binding]);
++        catalog.rows.insert(Table::Approval, vec![approval]);
++        catalog.rows.insert(Table::Commercial, vec![commercial]);
++        let cutoff = chrono::DateTime::parse_from_rfc3339("2026-11-07T00:00:00Z")
++            .expect("fixed test cutoff")
++            .with_timezone(&chrono::Utc);
++        let window = OperatingBusinessWindow {
++            business_cutoff: cutoff.date_naive(),
++            knowledge_cutoff: cutoff,
++            source_window_start: None,
++            source_window_end: Some(cutoff.date_naive()),
++            period_key: None,
++            business_timezone: "Asia/Hong_Kong".into(),
++        };
++        (catalog, project, contract, window)
++    }
++
++    #[test]
++    fn historical_terms_keep_their_actual_superseded_commercial_source() {
++        let (catalog, project, contract, window) = fixture();
++        let terms = receipt_basis_terms(&catalog, project, &contract, &window);
++        assert_eq!(terms.len(), 1);
++        assert_eq!(terms[0].0["snapshot_status"], "superseded");
++        assert_eq!(
++            terms[0].1.map(|basis| &basis["id"]),
++            Some(&terms[0].0["source_baseline_id"])
++        );
++    }
++
++    #[test]
++    fn unrelated_terms_or_approval_payloads_are_not_selectable() {
++        let (catalog, project, contract, window) = fixture();
++        for table in [
++            Table::Term,
++            Table::Preparation,
++            Table::ReviewBinding,
++            Table::Approval,
++        ] {
++            let mut changed = catalog.clone();
++            let row = &mut changed.rows.get_mut(&table).expect("fixture family")[0];
++            match table {
++                Table::Term | Table::Preparation => {
++                    row["contract_id"] = json!(Uuid::from_u128(999))
++                }
++                Table::ReviewBinding => row["payload_hash"] = json!("different-approved-payload"),
++                Table::Approval => row["target_object_id"] = json!(Uuid::from_u128(999)),
++                _ => unreachable!(),
++            }
++            assert!(receipt_basis_terms(&changed, project, &contract, &window).is_empty());
++        }
++    }
++
++    #[test]
++    fn currency_members_cannot_use_foreign_draft_or_disagreeing_baselines() {
++        let (catalog, project, contract, window) = fixture();
++        for (field, value) in [
++            ("project_id", json!(Uuid::from_u128(999))),
++            ("baseline_status", json!("draft")),
++            ("currency_code", Value::Null),
++        ] {
++            let mut changed = catalog.clone();
++            changed
++                .rows
++                .get_mut(&Table::Commercial)
++                .expect("fixture baseline")[0][field] = value;
++            let terms = receipt_basis_terms(&changed, project, &contract, &window);
++            assert_eq!(terms.len(), 1);
++            assert!(terms[0].1.is_none());
++        }
++        let mut changed = catalog.clone();
++        changed.rows.get_mut(&Table::Term).expect("fixture term")[0]["currency_code"] =
++            json!("USD");
++        assert!(
++            receipt_basis_terms(&changed, project, &contract, &window)[0]
++                .1
++                .is_none()
++        );
++    }
++}

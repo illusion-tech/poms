@@ -1,0 +1,102 @@
+{
+  "kind": "independent-technical-G1-Tax14-invocation-proof-review",
+  "reviewer": "/root/r4h_engineering",
+  "proposalAuthor": "I",
+  "proposal": {
+    "file": "E:/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/tax14-invocation-proof-G1-proposal02/manifest-G1-PROPOSAL02.json",
+    "bytes": 4749,
+    "rawBytesSha256": "c343f05a0e6b47befbeff5584f703a3505b9b52ed2b197f8bdddffa26736b40e"
+  },
+  "parent01": {
+    "file": "E:/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/tax14-invocation-proof-G1-proposal01/manifest-G1-PROPOSAL.json",
+    "bytes": 6835,
+    "rawBytesSha256": "57254961eab1602ebd9b722568fdfd2203c7759a71e03d6e69f49eada0ae1835"
+  },
+  "RootPendingBaseline": {
+    "file": "E:/projects/worktrees/poms-r3hijk-next28/poms/docs/design/rust-r4ghi/tax14-invocation-reuse118-baseline.md",
+    "bytes": 7134,
+    "rawBytesSha256": "7cd72051c7ec7db72d2a598378ba50de9ea3fa8e132f3bbe67ffa21f5aff6231"
+  },
+  "verdict": "recommend-bounded-implementation-after-Root-G1-freeze",
+  "designFeasible": true,
+  "designBlockers": [],
+  "P1": 0,
+  "P2": 0,
+  "scope": {
+    "externalLeaves": [
+      "run-tax14-once.mjs",
+      "invocation-proof.mjs",
+      "retained-tax-proof.mjs",
+      "tax14-once-effects.mjs",
+      "tax14-once-wire.mjs",
+      "tax14-once-ledger.mjs"
+    ],
+    "modes": [
+      "fi-closed-set",
+      "fi-family",
+      "commit-once",
+      "verify-committed",
+      "disarm-owned"
+    ],
+    "businessOperationsAdded": 0,
+    "H2218ChangeAllowed": false,
+    "Reg4B1EpochChangeAllowed": false,
+    "globalPatchOrFakeContextReaderAllowed": false,
+    "actualInputsRemainRootInjected": true
+  },
+  "requiredImplementationConditions": [
+    "Exact original function/assertion/raw image to external-copy difference map; assertRecorded only loader change and full remaining loops; original reconcileAttempt reused.",
+    "Real original entry/exit252; private immutable per-invocation/root/pid/boot/nonce/mode capability; no public aliases, forged proof or view counter/persist fork.",
+    "Only immutable parent/comparison proof cached; every current identity/data/session/permission/source/full target/catalog/control check and real139x2 observation remains fresh.",
+    "Exact full ordered closed inventory, durable independent family stages, single-step cursor, first failure STOP, separately reviewed prefix recovery and normal201.",
+    "Canonical/raw ACK/cookie/CSRF/status/45s and original ACK -> control removal -> after capture -> reconcile order preserved; unknown/201 never replayed, current-owned control identity required, failed bookend never overwrites effects.",
+    "Original completion/FI business shape plus explicit new-executor sidecar consumed by actual downstream reader;40 design negatives implemented and independently code-reviewed before Root exact G2."
+  ],
+  "nonEquivalentImplementationContracts": [
+    "Old heavy guard frequency and runner/FI dispatch are intentionally replaced.",
+    "Old createApi is replaced by a bounded canonical-wire successor; direct original invocation cannot meet the proposed reduced-call count.",
+    "assertRecorded comparison108 loader is replaced by invocation-bound proved baseline; none of its attribution/catalog checks may disappear."
+  ],
+  "staticReadback": {
+    "file": "E:/projects/worktrees/poms-r4h-signals/poms/tools/rust-r4ghi/H/implementation/independent-tax14-invocation-G1-review01/static-readback.json",
+    "bytes": 9214,
+    "rawBytesSha256": "beb73cd894255e21d8b210fea40f726a8cb19e0a74f1aeaa29d9b58921999ad0"
+  },
+  "details": {
+    "file": "E:/projects/worktrees/poms-r4h-signals/poms/tools/rust-r4ghi/H/implementation/independent-tax14-invocation-G1-review01/REVIEW.md",
+    "bytes": 3347,
+    "rawBytesSha256": "268e41a10d8271ad7033b5a2ca725e5faf65527345dd949dcb7c8a20b1483ee9"
+  },
+  "validation": {
+    "proposalAnd40CaseMatrixParsed": true,
+    "narrowSourceHashesMatched": true,
+    "sourceAndTransitiveFunctionsRead": true,
+    "newCodeImplemented": false,
+    "runtimeOrMatrixTestsExecuted": false,
+    "performanceBenefitMeasuredByH": false,
+    "fullSourceHelperOrSnapshotScan": false
+  },
+  "recommendationOnly": true,
+  "RootMustFreezeG1AndExplicitlyAuthorizeImplementation": true,
+  "implementationAuthorized": false,
+  "actualG2Authorized": false,
+  "RootPrepare76985Touched": false,
+  "RootWritten": false,
+  "SQL": false,
+  "HTTP": false,
+  "services": false,
+  "contextConstructed": false,
+  "Git": false,
+  "IssueChanged": false,
+  "G1FrozenByH": false,
+  "G3Certified": false,
+  "G4Certified": false,
+  "authorialWordingCorrection": {
+    "previousUnsubmittedDraft": {
+      "file": "E:/projects/worktrees/poms-r4h-signals/poms/tools/rust-r4ghi/H/implementation/independent-tax14-invocation-G1-review01/review-G1-proposal02.json",
+      "bytes": 4551,
+      "rawBytesSha256": "a1d7f34c1286f3c768e8f1d82dafa2d1352ce06f639f72b1a3cbbdc34fb4f5b2"
+    },
+    "scope": "Correct order wording to the original wire source; README was already correct; no design or verdict change"
+  }
+}

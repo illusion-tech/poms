@@ -3,7 +3,7 @@ import type {
     CreateProjectArchiveRecordRequest,
     CreateProjectRequest,
     ProjectArchiveRecordSummary,
-    ProjectDetailView,
+    FullProjectDetailView,
     ProjectListView,
     ReassignProjectOwnerRequest,
     ProjectTimelineView,
@@ -11,15 +11,16 @@ import type {
     UpdateProjectBasicInfoRequest,
     VoidProjectArchiveRecordRequest
 } from '@poms/shared-api-client';
-import { ProjectApi, ProjectStatus } from '@poms/shared-api-client';
+import { ProjectApi, ProjectInitialOwnership, ProjectStatus } from '@poms/shared-api-client';
 import { firstValueFrom } from 'rxjs';
 
 @Injectable()
 export class ProjectStore {
     readonly #projectApi = inject(ProjectApi);
+    #projectLoadEpoch = 0;
 
     readonly #projects = signal<ProjectListView[]>([]);
-    readonly #selectedProject = signal<ProjectDetailView | null>(null);
+    readonly #selectedProject = signal<FullProjectDetailView | null>(null);
     readonly #selectedProjectTimeline = signal<ProjectTimelineView | null>(null);
     readonly #selectedProjectArchiveRecords = signal<ProjectArchiveRecordSummary[]>([]);
     readonly #loading = signal(false);
@@ -61,10 +62,12 @@ export class ProjectStore {
     }
 
     async loadProject(id: string) {
+        const epoch = ++this.#projectLoadEpoch;
         this.#loading.set(true);
 
         try {
             if (this.#selectedProject()?.id !== id) {
+                this.#selectedProject.set(null);
                 this.#selectedProjectTimeline.set(null);
                 this.#selectedProjectArchiveRecords.set([]);
                 this.#timelineError.set(null);
@@ -72,10 +75,15 @@ export class ProjectStore {
             }
 
             const project = await firstValueFrom(this.#projectApi.projectControllerGetById({ id }));
+            if (epoch !== this.#projectLoadEpoch) throw new Error('项目已变化，请重新读取。');
+            if (project.scopeKind !== 'full-project') throw new Error('当前入口只读取完整项目范围，请返回项目责任锚点。');
             this.#selectedProject.set(project);
             return project;
+        } catch (error) {
+            if (epoch === this.#projectLoadEpoch) this.#selectedProject.set(null);
+            throw error;
         } finally {
-            this.#loading.set(false);
+            if (epoch === this.#projectLoadEpoch) this.#loading.set(false);
         }
     }
 
@@ -126,7 +134,10 @@ export class ProjectStore {
 
         try {
             const project = await firstValueFrom(this.#projectApi.projectControllerCreate({ createProjectRequest: request }));
-            if (this.#loaded()) {
+            if (request.initialOwnership === ProjectInitialOwnership.Organization) {
+                // The creator-only anchor is selected by its own route. No list/full/finance fan-out here.
+                this.#loaded.set(false);
+            } else if (this.#loaded()) {
                 await this.loadProjects();
             }
             return project;
@@ -235,6 +246,7 @@ export class ProjectStore {
     }
 
     async #reloadProjectArchiveContext(projectId: string) {
-        await Promise.all([this.loadProject(projectId), this.loadProjectTimeline(projectId).catch(() => undefined), this.loadProjectArchiveRecords(projectId).catch(() => undefined)]);
+        await this.loadProject(projectId);
+        await Promise.all([this.loadProjectTimeline(projectId).catch(() => undefined), this.loadProjectArchiveRecords(projectId).catch(() => undefined)]);
     }
 }

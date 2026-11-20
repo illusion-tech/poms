@@ -1,0 +1,119 @@
+{
+  "kind": "Root-reviewable-retention139-package140-active1351-correction",
+  "schemaVersion": 1,
+  "candidates": [
+    {
+      "target": "tools/rust-r4ghi/package-retained-candidate140.mjs",
+      "candidate": "proposed/tools/rust-r4ghi/package-retained-candidate140.mjs",
+      "before": "before/tools/rust-r4ghi/package-retained-candidate140.mjs",
+      "beforeSHA256": "a178a5e2612fa0617884548622e598c2e522977d72aecc02c728d9c10cd6b766",
+      "afterSHA256": "5b02ca8cf6fa05b639d69f89f85ba85a339056afcc07b891c33b82bb6c6b9557",
+      "bytes": 6425
+    },
+    {
+      "target": "tools/rust-r4ghi/retain-epoch12-before-source13-139.mjs",
+      "candidate": "proposed/tools/rust-r4ghi/retain-epoch12-before-source13-139.mjs",
+      "before": "before/tools/rust-r4ghi/retain-epoch12-before-source13-139.mjs",
+      "beforeSHA256": "4dd05c337263bb5fac413b83e517cf56cc7c35706df7289c4328e4f3c399b987",
+      "afterSHA256": "fee87f3029c832027b38b3cd180f928957203cda02a0c1dbfc5b185cb0e01446",
+      "bytes": 12781
+    },
+    {
+      "target": "tools/rust-r4ghi/retention-process1351-139-lib.mjs",
+      "candidate": "proposed/tools/rust-r4ghi/retention-process1351-139-lib.mjs",
+      "before": null,
+      "beforeSHA256": null,
+      "afterSHA256": "dcacd9c35b61013e70d2b86aff949006f400e2eaa18dd0a018ac3e611b7aa002",
+      "bytes": 5353
+    }
+  ],
+  "sidecars": [
+    {
+      "file": "README139-140.md",
+      "rawBytesSha256": "71f938ee2d21f246c20ee57aa60d84020f12897024a71f1de03de96b5f134edc",
+      "bytes": 3234
+    },
+    {
+      "file": "bases139-140.json",
+      "rawBytesSha256": "1b0d6ec38141b695daaf5763adec7fba43a5cc95e68bc6680de38d8a29816923",
+      "bytes": 336
+    },
+    {
+      "file": "dependencies139-140.json",
+      "rawBytesSha256": "2a2af63c6cc7eff9c8a4a86e620f3ed145351af467ccbefcbaa2f5b65c6ab2c0",
+      "bytes": 571
+    },
+    {
+      "file": "validation139-140.json",
+      "rawBytesSha256": "ebb68cab098210e0654dc7a1b9701b351373936490fb37cf01ea3633e7b3e41c",
+      "bytes": 690
+    },
+    {
+      "file": "retention1351.test.mjs",
+      "rawBytesSha256": "7ebfdf5ae254807a89b0becb7cecd3ebc9831f8cb1d8a84375f7b342e5028707",
+      "bytes": 3634
+    },
+    {
+      "file": "pure139-140.stdout.log",
+      "rawBytesSha256": "305200629b4d762fe434eb979f8c03b7d9de26b3805b8e37c329641e0da6c97e",
+      "bytes": 1096
+    },
+    {
+      "file": "pure139-140.stderr.log",
+      "rawBytesSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    }
+  ],
+  "validation": {
+    "kind": "I-retention1351-read-only-author-validation",
+    "nodeVersion": "v24.19.0",
+    "syntax": [
+      {
+        "file": "retain-epoch12-before-source13-139.mjs",
+        "exitCode": 0
+      },
+      {
+        "file": "package-retained-candidate140.mjs",
+        "exitCode": 0
+      },
+      {
+        "file": "retention-process1351-139-lib.mjs",
+        "exitCode": 0
+      }
+    ],
+    "purePass": 4,
+    "pureFail": 0,
+    "staticImportFiles": 3,
+    "RootInputsStable": true,
+    "candidateInputsStable": true,
+    "RootWrites": 0,
+    "SQLConnections": 0,
+    "HTTPRequests": 0,
+    "retentionExecuted": false,
+    "processStopped": false,
+    "processStarted": false,
+    "actualPackage140": null,
+    "actualRetention139": null
+  },
+  "active1351": {
+    "pid": 11616,
+    "processSHA256": "fd81b926dbaad79debc0343ac63b6cff7c967ac4a52cd64db0a7d0e7d4dbc2a1",
+    "candidateSHA256": "1dde0fda6f0c23682568f8256ea98da4137ebd7793da7915238e0ac066a9740c",
+    "restartRegistrySHA256": "05985940f4a4085fab81d0711d2285931818a2b78fb29a9612bfcc1365b1667b"
+  },
+  "allSixUiCompletionGuardsPreserved": true,
+  "original139GuardBytesIdentical": true,
+  "old135EvidenceLabelsKept": true,
+  "currentProcessAndHistoryPrivatelyRetained": true,
+  "source13ConsumerBeforeStill6fe": true,
+  "actualSource13": null,
+  "actualPackage140": null,
+  "actualRetention139": null,
+  "RootWritesByAuthor": 0,
+  "SQLConnectionsByAuthor": 0,
+  "HTTPRequestsByAuthor": 0,
+  "processStartsByAuthor": 0,
+  "processStopsByAuthor": 0,
+  "G3Certified": false,
+  "G4Certified": false
+}

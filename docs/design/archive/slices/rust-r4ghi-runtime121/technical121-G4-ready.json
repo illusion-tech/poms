@@ -1,0 +1,112 @@
+{
+  "kind": "Root-runtime121-technical-G4-ready-closeout-record",
+  "recordedAt": "2026-11-13T02:45:59.147Z",
+  "issue": 121,
+  "parentIssue": 114,
+  "scope": "Runtime recovery and actual complete prepare/K through independent readback; zero new business operations",
+  "fixedIndependentReviewHead": "c10e3aa3829d985ce4bc73109b41a0d77e1d9583",
+  "fixedActualAcceptanceEvidenceCommit": "33646ef44f1b884cd59ec3e4b85a19193eea9eb4",
+  "technicalG3": {
+    "passed": true,
+    "review": {
+      "file": "docs/design/archive/slices/rust-r4ghi-runtime121/technical121-preclose-independent01/review-technical121-G3.json",
+      "bytes": 9301,
+      "rawBytesSha256": "cddeeefedfa4bcf7de4261d5d2d438bb0671068c1a0e320071b559adc9bf5737"
+    }
+  },
+  "G4preclose": {
+    "passed": true,
+    "review": {
+      "file": "docs/design/archive/slices/rust-r4ghi-runtime121/technical121-preclose-independent01/review-technical121-G4-preclose.json",
+      "bytes": 9840,
+      "rawBytesSha256": "af1507a2076b0fea30c6fa2e6efc496a2926184a6cc0236f4136e515a85aeca9"
+    },
+    "onlyIssue121EligibleAfterFinalActions": true
+  },
+  "actualG4Completed": false,
+  "actualOnlineClosurePending": true,
+  "independentActualTerminalReviewPending": true,
+  "remainingFinalActions": [
+    "Commit and push this safe closeout/archival delta and obtain the bounded independent delta check",
+    "Apply only issue121 technical checklist/G3/G4 comment and close; preserve all other issue state and dependency edges",
+    "Exact online readback, local mirror/tracker update, then non-author actual terminal G4"
+  ],
+  "finalRecordActions": {
+    "preparedArtifactLabelCorrected": true,
+    "preparedArtifact": {
+      "bytes": 672398,
+      "rawBytesSha256": "b7ed0bd59bef213af4a7e479055e8221231868f052820cb4cec92d31bb3a889b"
+    },
+    "bodySHA256": "0f92913cd78146402e5eb3a004f10a55c8e47417d961301210d2e7d5376dcc98",
+    "domainPOSTCount": 0,
+    "currentResultAndInitialOnlineMirrorMovedToArchive": true,
+    "archiveExceptions": {
+      "file": "docs/design/archive/slices/rust-r4ghi-runtime121/archive-exceptions121.json",
+      "retainedParentInputs": 47
+    },
+    "immutableTerminalCopiesOfRetainedInputsArchived": true,
+    "privateAndActiveToolingExactPathsNotMoved": true,
+    "sourceAndCanonicalStateUnchanged": true,
+    "immutableRawArchiveDiffClassification": {
+      "file": "docs/design/archive/slices/rust-r4ghi-runtime121/raw-snapshot-format-check121.json",
+      "rawCRLFSnapshots": 4,
+      "rawBytesPreserved": true,
+      "binaryDiffOnlyForBinSnapshots": true,
+      "currentDiffCheckExitCode": 0
+    }
+  },
+  "archiveLocations": {
+    "actualResult": "docs/design/archive/slices/rust-r4ghi-runtime121/prepare362-actual.md",
+    "initialOnlineSnapshot": "docs/design/archive/slices/rust-r4ghi-runtime121/prepare362-actual-online.json",
+    "wordingCorrection": "docs/design/archive/slices/rust-r4ghi-runtime121/prepared-artifact-label-correction01.json",
+    "actualIndependentReadback": "docs/design/archive/slices/rust-r4ghi-runtime121/prepare362-actual-readback01/archive.json",
+    "independentPreclose": "docs/design/archive/slices/rust-r4ghi-runtime121/technical121-preclose-independent01/archive.json",
+    "retainedParentInputs": "docs/design/archive/slices/rust-r4ghi-runtime121/archive-exceptions121.json"
+  },
+  "ownerHandoff": {
+    "owner": "Root",
+    "parentIssue": 114,
+    "consumers": [
+      118,
+      120
+    ],
+    "reason": "The parent acceptance still uses the same owned runtime, private originals and exact active inputs. Closing the recovery child does not terminate authorized parent resources.",
+    "due": "Parent #114 final G4 or earlier once no authorized descendant/reference consumer requires them",
+    "newPGOrAPIStartedByCloseout": false,
+    "temporaryBypassOrCredentialPublished": false
+  },
+  "E1": {
+    "sameOncePrepareAccepted": true,
+    "actualSeconds": 4941.4120591,
+    "resultsAndTimingAndReadbackArchived": true,
+    "directCheckpointSamples": 0,
+    "wholeFIBudget": "UNKNOWN",
+    "minimumFullFICheckpoints": 618,
+    "idleSeconds": 900,
+    "absoluteSeconds": 28800,
+    "throttleSeconds": 60,
+    "FIG2Granted": false,
+    "normalTaxPOSTGranted": false,
+    "MainPOSTGranted": false
+  },
+  "boundaries": {
+    "onlyIssue121MayClose": true,
+    "otherIssueStatesUnchanged": true,
+    "mustRemainOpen": [
+      114,
+      118,
+      120,
+      57,
+      116
+    ],
+    "issue119": "CLOSED historical technical G4",
+    "newCertified": 0,
+    "businessG3": false,
+    "businessG4": false,
+    "officialRust": 240,
+    "R4Delivered": 67,
+    "R4Total": 95,
+    "batchCandidate": 32,
+    "productionDeploymentOrMainIntegrationCertified": false
+  }
+}

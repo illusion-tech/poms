@@ -7,23 +7,52 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
-import { BaselineSelectionSource } from './baseline-selection-source';
-import { OperatingBaselinePackageStatus } from './operating-baseline-package-status';
+import { FinancialProjection } from './financial-projection';
+import { SourceRow } from './source-row';
+import { SourceRef } from './source-ref';
 
 
 export interface OperatingBaselinePackageSummary {
+    outputVersion: OperatingBaselinePackageSummaryOutputVersionEnum;
     id: string;
     projectId: string;
-    originalBaselineCost: string;
-    changePackageTotal: string;
-    currentEffectiveBaselineCost: string;
-    baselineSelectionSource: BaselineSelectionSource;
-    effectiveOperatingBaselineId: string | null;
-    baselineSummary: string | null;
-    isCurrent: boolean;
-    status: OperatingBaselinePackageStatus;
-    effectiveAt: string | null;
     rowVersion: number;
+    capturedRowVersion: number;
+    headVersion: number;
+    producerVersion: OperatingBaselinePackageSummaryProducerVersionEnum;
+    certification: OperatingBaselinePackageSummaryCertificationEnum;
+    sourceHash: string;
+    sourceContextId: string;
+    sourcePayloadHash: string;
+    containsLabor: OperatingBaselinePackageSummaryContainsLaborEnum;
+    financialProjection: FinancialProjection;
+    sourceRows: Array<SourceRow>;
     createdAt: string;
     updatedAt: string;
+    isCurrent: boolean;
+    status: OperatingBaselinePackageSummaryStatusEnum;
+    originalAdoptedCostRef: SourceRef;
+    currentEffectiveCostRef: SourceRef;
+    handoverBasisRef: SourceRef | null;
+    handoverRebaselineRef: SourceRef | null;
+    approvedChangeRefs: Array<SourceRef>;
+    effectiveAt: string;
 }
+export enum OperatingBaselinePackageSummaryOutputVersionEnum {
+    ServerDerivedV1 = 'server-derived-v1'
+};
+export enum OperatingBaselinePackageSummaryProducerVersionEnum {
+    NUMBER_1 = 1
+};
+export enum OperatingBaselinePackageSummaryCertificationEnum {
+    Verified = 'verified'
+};
+export enum OperatingBaselinePackageSummaryContainsLaborEnum {
+    Yes = 'yes',
+    No = 'no',
+    Unknown = 'unknown'
+};
+export enum OperatingBaselinePackageSummaryStatusEnum {
+    Active = 'active',
+    Superseded = 'superseded'
+};

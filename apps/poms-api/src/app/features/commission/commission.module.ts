@@ -18,6 +18,7 @@ import { CommissionFreezeDisputeController } from './commission-freeze-dispute.c
 import { CommissionFreezeDisputeRecord } from './commission-freeze-dispute-record.entity';
 import { CommissionRoleAssignmentController } from './commission-role-assignment.controller';
 import { CommissionPayout } from './commission-payout.entity';
+import { CommissionLowDownPaymentRelease } from './commission-low-down-payment-release.entity';
 import { CommissionRoleAssignment } from './commission-role-assignment.entity';
 import { CommissionRuleVersion } from './commission-rule-version.entity';
 import { CommissionController } from './commission.controller';
@@ -44,6 +45,7 @@ import { CommissionService } from './commission.service';
             CommissionFreezeChangeRequest,
             CommissionCalculation,
             CommissionPayout,
+            CommissionLowDownPaymentRelease,
             CommissionAdjustment,
             CommissionDepartureExceptionDecision,
             CommissionFinalSettlementSnapshot,

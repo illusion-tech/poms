@@ -1,0 +1,37 @@
+{
+  "kind": "source-verified-F-tax-vs-G-hard-admission-review",
+  "actualRuntimeValidation": "not-run-by-author",
+  "finding": "F.stage real producer confirms cost; no F.tax hard-admission requirement in current G/H. Missing assessment remains explicit unknown, never guessed zero/deductibility.",
+  "sources": [
+    {
+      "file": "apps/poms-api-rust/src/project_operating/inclusion.rs",
+      "sha256": "b948ed81a0e60cbb3fa3334625eb489e22f4493e407b4520442b352273729e7d",
+      "line": 60,
+      "needle": "pub(crate) async fn qualify_cost"
+    },
+    {
+      "file": "apps/poms-api-rust/src/project_cost_governance/service.rs",
+      "sha256": "40cfd49a18a592876b2a2ccf06176372fadc20ee3a9b22cdbc1c7b01a1171897",
+      "line": 1017,
+      "needle": "UPDATE poms.project_actual_cost_record SET record_status=CASE"
+    },
+    {
+      "file": "apps/poms-api-rust/src/project_operating/context.rs",
+      "sha256": "a504f99f5d06c719b7cf2886b5cfbe84ef190a0fd9da9c80009dc893671bdb4d",
+      "line": 1458,
+      "needle": "facts::unknown(\"tax-assessment-missing\")"
+    },
+    {
+      "file": "apps/poms-api-rust/src/project_operating_signals/policy.rs",
+      "sha256": "7f351253b74cd801f1d1e0a52bb27df681ef680bb7ca57a931c93ed7adb0acab",
+      "line": 638,
+      "needle": "fn hard_missing"
+    }
+  ],
+  "exactChecksAdded": [
+    "Real confirmed/included cost with confirmation actor/time and original expense FK/currency/exact decimal text.",
+    "Exact stage pointer cast from legacy text to UUID, actual cost_record_id parent FK (stage has no project_id), active1 stage/evidence/project1 link/schema.",
+    "Actual no-tax-producer snapshot knowledge unknown/null with tax-assessment-missing reason. Final Rust source/hash validation remains authoritative."
+  ],
+  "scopeLimitation": "No full F.tax workflow/correction acceptance claimed."
+}

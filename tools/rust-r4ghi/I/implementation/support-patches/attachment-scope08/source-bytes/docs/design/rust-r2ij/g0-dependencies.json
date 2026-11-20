@@ -1,0 +1,2388 @@
+{
+  "formatVersion": 1,
+  "kind": "RUST-R2IJ non-author C read-only G0 dependency and risk input review",
+  "decision": "Input inventory only; no G1/G3/G4 decision or gate release",
+  "scope": {
+    "batch": "RUST-R2I + RUST-R2J",
+    "issues": [
+      76,
+      77
+    ],
+    "parentIssue": 67,
+    "rootIssue": 57,
+    "baseHead": "61d6df1e971e7e785382dc85c75273e584ee2545",
+    "branch": "codex/poms-r2ij-storage-attachments",
+    "publicOperations": 25,
+    "existingOperationsOnly": true,
+    "publicRouteSurfaceChange": false,
+    "localFrozenCanonicalRowsExist": true,
+    "batchBaselineFrozen": false,
+    "localInitialIAndJStatus": "Todo / G1 Todo",
+    "counts": {
+      "beforeBatchDelivered": 74,
+      "batchRequested": 25,
+      "conditionalAfterFullDelivery": 99,
+      "totalR2Operations": 108,
+      "remainingKAndL": 9,
+      "R2MAndParentClosure": "Still required; R3-R5 and #61 remain outside this batch"
+    },
+    "runtimeAndOnlineEvidence": "No DB/service/container/network/installation/Git mutation was performed. Online issue state is not revalidated by C; Root must provide current body/comments/subissues/dependencies/closing linkage receipts before any formal freeze or closure.",
+    "reviewerOwnership": "Only this new tmp/rust-r2ij/c-g0-dependencies.json; no baseline/product/fixture/runner/Cargo/old-GH-evidence edits",
+    "modelContract": {
+      "plan": "docs/design/backend-rust-migration-plan.md:31-38",
+      "requested": "gpt-6.1-sol / max / Fast",
+      "actualModelAndEffort": "Not independently attested in this source-only review",
+      "Fast": "Unverified; no claim that enabled"
+    }
+  },
+  "canonicalBoundary": {
+    "authoritativeInventory": "docs/design/api-route-canonical-inventory.md",
+    "operationOwnership": "docs/design/rust-r2-operation-slices.json",
+    "I": "Six existing routes; all canonical-match; inventory lines 442-447; permission platform:attachment-storage-providers:manage",
+    "J": "Nineteen existing routes: upload sessions 6, attachments 12, center 1; all canonical-match; inventory lines 372-378,384,390-392,394-395,448-453",
+    "K": "Five parameter-name-difference routes, all owned by RUST-R2K #78, controller attachment-handover.controller.ts, inventory lines 401-405; current handoverId/packageId vs canonical id",
+    "routeDecisionIssue": "#61 is required for K G1. I/J must add no K route, alias, URI/parameter rename, checklist refresh, download package or handover workflow. Shared TS service co-location does not merge ownership.",
+    "KIsolationSourceCheck": "References to the five K entry methods outside their definitions are in attachment-handover.controller.ts, plus internal K create-package -> refresh-checklist call. J still accepts project-handover as a target and therefore needs existing-row reads; that does not implement K.",
+    "staleMetadata": "operation-slices top-level scope/currentHead/summary.allSlicesG1 retain older A-D/A-B text while slice rows and current tracker report A-H delivered. Root must reconcile metadata in batch governance docs; do not treat old top-level strings as current state.",
+    "newPublicSurface": "None authorized or needed. A new public URI/DTO/schema would require a separately frozen authoritative inventory row before coding. Existing canonical alignment is not this batch's G1 approval."
+  },
+  "g0InputBlocks": [
+    {
+      "id": "C-G0-01",
+      "kind": "Shared contract freeze required before parallel implementation",
+      "finding": "Existing GH upstream is Axios JSON/text, while original OBS is Node fetch with custom SigV4 and readable binary responses. No raw-byte/stream storage transport or shared storage location/metadata port is currently wired.",
+      "sources": [
+        "apps/poms-api-rust/src/provider_support/upstream.rs:16-30,123-180",
+        "apps/poms-api/src/app/features/attachment/huawei-obs-s3-attachment-object-storage.provider.ts:150-212"
+      ],
+      "requiredRootAction": "Freeze I-owned object storage operations and Root-owned config/router/raw HTTP/binary response edges. Retain the existing GH upstream behavior and tests; avoid a global transport replacement."
+    },
+    {
+      "id": "C-G0-02",
+      "kind": "existing-baseline-drift input inconsistency",
+      "finding": "Canonical inventory line 446 says testConnection only checks local configuration completeness. Actual local provider creates, writes and unlinks a temporary file; actual OBS provider sends signed HEAD to bucket. Controller summary also describes completeness.",
+      "sources": [
+        "docs/design/api-route-canonical-inventory.md:446",
+        "apps/poms-api/src/app/features/attachment/attachment-storage-provider.controller.ts:60-66",
+        "apps/poms-api/src/app/features/attachment/local-attachment-object-storage.provider.ts:64-75",
+        "apps/poms-api/src/app/features/attachment/huawei-obs-s3-attachment-object-storage.provider.ts:136-146"
+      ],
+      "requiredRootAction": "Freeze the actual Nest side effects and classify/reconcile prose under governance. This is no route grammar change and grants no permission to connect real OBS or read deployment secrets. Obtain controlled original-Nest witnesses before claiming parity."
+    },
+    {
+      "id": "C-G0-03",
+      "kind": "Business read seam boundary required",
+      "finding": "J accesses six R3/R4 target types and a four-type center projection. Rust target-domain services are not present. A replacement returning fixed true/empty/fake records would erase authorization or data dependencies.",
+      "sources": [
+        "apps/poms-api/src/app/features/attachment/attachment.service.ts:1873-2085",
+        "apps/poms-api/src/app/features/attachment/attachment.repository.ts:39-65"
+      ],
+      "requiredRootAction": "Freeze a real existing-schema read seam with exact Nest fields/permissions and missing-row behavior. Record that domain writes, lead conversion, contract/handover workflow and K remain future R3/R4 work."
+    },
+    {
+      "id": "C-G0-04",
+      "kind": "Acceptance environment and cleanup design required",
+      "finding": "Provider default is globally unique and object cleanup crosses DB and filesystem/OBS. The inherited GH complete-reference guard knows GH/base identity, not new I/J objects and business-target seed rows. Prefix or actor ownership alone cannot authorize their deletion.",
+      "sources": [
+        "apps/poms-api/src/migrations/Migration20260511140000_ex65b_attachment_storage_provider_config.ts:36-37",
+        "tools/rust-r2gh/fixture-complete-references.mjs",
+        "tools/rust-r2gh/cipher-faults.mjs"
+      ],
+      "requiredRootAction": "Design dedicated controlled stores, exact per-run object and row ledgers, known-reference closure, global-default protection and fail-closed restoration before acceptance tooling executes mutations. Keep original GH evidence unchanged."
+    }
+  ],
+  "businessReadSeam": {
+    "targetTypes": [
+      {
+        "type": "customer",
+        "table": "customer",
+        "permission": "customer:read/write",
+        "centerFields": [
+          "id",
+          "customer_no",
+          "display_name"
+        ]
+      },
+      {
+        "type": "lead",
+        "table": "lead",
+        "permission": "lead:read/write",
+        "centerFields": [
+          "id",
+          "lead_no",
+          "lead_name"
+        ]
+      },
+      {
+        "type": "project",
+        "table": "project",
+        "permission": "project:read/write",
+        "centerFields": [
+          "id",
+          "project_no",
+          "project_name"
+        ]
+      },
+      {
+        "type": "contract",
+        "table": "contract",
+        "permission": "project:read/write",
+        "centerFields": [
+          "id",
+          "contract_no",
+          "project_id"
+        ],
+        "centerJoin": "project.project_name, fallback contract_no"
+      },
+      {
+        "type": "sales-follow-up",
+        "table": "sales_follow_up_record",
+        "permission": "any customer/lead/project read/write",
+        "centerIncluded": false
+      },
+      {
+        "type": "project-handover",
+        "table": "project_handover",
+        "permission": "project:read/write",
+        "centerIncluded": false
+      }
+    ],
+    "targetAccess": "Check target-specific permission before querying row by exact id; return original type-specific NotFound when absent. Original requireTargetAccess does not filter by owner or org. Do not invent a stronger row-scope rule during compatibility migration.",
+    "readAttachment": "Attachment must be active, pass security gate and have at least one active link with target permission and a real existing row. canAccessAnyLink catches each target error and tries the next link; no uploader bypass here.",
+    "mutateAttachment": "Original assertCanMutateAttachment accepts uploadedBy==user.sub; otherwise any active link with the type-level write permission suffices, without checking target existence here. Keep this distinct from read/access/link/unlink checks.",
+    "uploadOwner": "If session.createdBy is non-null and different, deny before target reads. Non-null targetType+targetId use normal target access. Only when those are absent does baseAttachmentId fallback apply. Do not replace these ordered branches with one blanket ownership check.",
+    "security": "Only confidential/restricted levels require any of contract:finance:sensitive:read, operating:finance:sensitive:read, commission:amount:sensitive:read, platform:roles:manage. Normal/internal/sensitive follow original behavior.",
+    "center": "Only customer/lead/project/contract; latest active attachments linked to permitted target types, security filter, actual target lookup, suppress dangling targets, one row per targetType/targetId/attachmentId. targetOwnerName is currently null. Preserve linkage ordering and full attachment active-link summaries.",
+    "uploader": "Read platform_user by actual uploadedBy IDs; displayName fallback username. Initial complete summaries explicitly have uploadedByName null while subsequent GET/list resolves the user.",
+    "R2EDependencies": "Reuse DictionaryService.require_active_item(AttachmentCategory) and SystemSettingsService.get_attachment_max_upload_size_bytes; do not hard-code active categories or upload size.",
+    "notDeliveredByThisSeam": [
+      "R3/R4 public commands and business transactions",
+      "lead conversion's copyActiveLinksToTarget consumer",
+      "contract/handover state machines or frozen evidence",
+      "R2K checklist/package generation",
+      "R2L registered business handlers",
+      "R2M/parent closeout"
+    ]
+  },
+  "storageSemanticsToFreeze": {
+    "sourceSSOT": "Current TypeScript contracts/service/repository/providers and original Nest behavior; shared types and OpenAPI remain TS-owned",
+    "location": "storageProvider + storageBucket + storageKey only. Session/attachment has no providerConfigId or frozen endpoint/key credentials.",
+    "selection": "Default lookup enabled=true/isDefault=true; absent -> implicit local. Present but not active -> BadRequest. Existing locations select provider+bucket configs, then longest normalized matching keyPrefix, retaining repository createdAt DESC ties; lookup does not filter enabled/status. Local without bucket and no match -> implicit local; non-local without match -> NotFound.",
+    "prefix": "Convert backslash to slash, trim leading/trailing slash; append exactly once for new default plan. Existing location is already prefixed. Prefix matching uses segment boundary, not arbitrary startsWith.",
+    "defaultAndLocationConstraints": "Enabled provider location unique on provider_type/coalesce(bucket,'')/coalesce(key_prefix,''); exactly at most one enabled/default globally. Creation/default set can change the previous default's isDefault and updatedBy. Disabling/misconfiguring clears default; set-default requires active+enabled. Do not modify any preexisting global default during fixture setup/cleanup.",
+    "local": "Root defaults to storage/attachments resolved against process CWD, overridden by POMS_ATTACHMENT_LOCAL_ROOT. File writes overwrite exact path; path lexical containment is checked after slash conversion and resolve. readObject stats then opens a stream, head returns size/mtime with null eTag/contentType/checksum; delete unlinks one key. testConnection creates .poms-storage-test-UUID at root then removes it. No recursive cleanup is justified.",
+    "secret": "Reuse AES-256-GCM v1 envelope and exact options: ATTACHMENT_STORAGE_PROVIDER_SECRET_KEY -> POMS_SECRET_KEY -> JWT_SECRET -> dev fallback, first nonempty without trimming; attachment-specific unreadable message. API and audit expose only configured booleans/timestamps, never ciphertext or plaintext.",
+    "configSecrets": "Create only accepts nonempty trimmed secret strings if supplied; update distinguishes absent/nullable clear/new value. credentialsUpdatedAt changes when either key is supplied. toDetail configured flags are based on ciphertext presence, not attempted decryption. testConfig catches decrypt/provider errors into failed result, while direct runtime location use may surface an unreadable BadRequest.",
+    "OBS": "Node fetch + custom SigV4. Preserve forcePathStyle vs bucket-host URL, endpoint base path/query, key path encoding, canonical headers/query sorting, SHA256/HMAC strings and signed headers. Presigned PUT uses UNSIGNED-PAYLOAD, optional content-type/x-amz-meta-sha256, TTL floor clamp 1..3600 seconds, but expiresAt response remains supplied session expiry.",
+    "OBSResponse": "404 -> NotFound exact message; other non-ok -> BadGateway with whitespace-collapsed response body truncated to 300 JS characters; GET body streams, missing stream -> BadGateway. HEAD reads content-length/eTag/last-modified/content-type and x-amz-meta-sha256 fallback x-obs-meta-sha256.",
+    "OBSRetry": "Only fetch throws retry up to 3 attempts with delays 250ms then 500ms, same signed request/body. HTTP 4xx/5xx responses are not retried. Do not import AWS SDK default retries or GH Axios protocol/error/proxy behavior as a premise.",
+    "remove": "Product AttachmentStorageService.remove swallows errors as best effort and keeps DB authoritative. Test cleanup must separately prove object absence; a swallowed product error is no zero-residue receipt."
+  },
+  "uploadAndVersionSemantics": {
+    "create": "Sanitize original filename/extension, require dynamic max size and category/target access, freeze operation+metadata+provider/bucket/key/mode; expiresAt=createdAt+3600000ms. create-version resolves latest active group and copies effective category/security/first-link target.",
+    "get": "Only checks session access; does not transition expired sessions or remove objects.",
+    "target": "Expected version check before nonterminal/expiry. Pending->uploading is saved before generating target, so later sign/decrypt failure can retain uploading. Proxy returns POMS PUT path; OBS produces presigned PUT. multipart is not newly implemented by this batch.",
+    "proxy": "Only pending/uploading, nonterminal/unexpired, proxy mode; exact body byte count, SHA256 equal to existing declared string or set computed checksum; storage write precedes uploaded state/save. Raw body is not JSON. No expectedVersion body is defined for proxy upload.",
+    "complete": "Owner/access/version/terminal/expiry checks; validating save occurs before try. HEAD size must match; declared checksum compares metadata checksum only when present, otherwise declared checksum is accepted. With no declared checksum, read full object and compute SHA256. Do not silently strengthen checksum verification in migration.",
+    "completeCommits": "Attachment+link or new-version+old-latest+copied-links flush, audit insert, and completed session flush are distinct from validating and catch->failed flush. Failures can leave a real attachment/audit/object with failed session. Root must preserve and compare these facts rather than rolling them back in fixture normalization.",
+    "terminalAndExpiry": "completed/failed/expired/aborted terminal; receive/complete detects expiresAt<=now, saves expired+failedReason then throws409. Expiry does not delete object. Abort completed throws409; only nonterminal abort best-effort removes, saves aborted and audits. Abort failed/expired/already-aborted does nothing and can leave objects.",
+    "versions": "Version group fallback attachment.id; allocate latest.versionNo+1, clear old latest, new row latest=true/final=false, previousAttachmentId=latest.id; copy active links. Keep DB unique version number and partial active latest/final constraints and optimistic row_version.",
+    "finalAndVoid": "mark-final clears other group finals; clear-final requires reason and clears group finals; void clears final, reassigns latest to first other active in repository version order; it does not delete stored object. Audit and returned read can fail after actual mutation.",
+    "links": "link requires readable existing attachment + target write, repeats exact active relation idempotently; unlink requires exact link belongs to attachment and target write, soft-unlinks once, then calls getAttachment. Last-link unlink can persist and audit before returned read fails. No physical delete API.",
+    "dormantNonHTTP": "Legacy uploadAttachment/uploadAttachmentVersion methods have no current controller callers and are not two extra operations. copyActiveLinksToTarget is called by LeadService conversion; that real cross-domain consumer remains R3 scope with original caller transaction semantics."
+  },
+  "minimumSharedPortsRecommendation": [
+    {
+      "name": "AttachmentRuntimeSettings",
+      "owner": "Root",
+      "contract": "Pass a redacted snapshot using existing Config/ProviderSettings mechanism; admit ATTACHMENT_STORAGE_PROVIDER_SECRET_KEY and POMS_ATTACHMENT_LOCAL_ROOT in KNOWN_ENVIRONMENT_KEYS. Config::load currently filters both out. Capture local root semantics without reading real deployment env.",
+      "reuse": "SecretCipher::from_env with attachment-specific Options; no second cipher implementation or identity-specific key"
+    },
+    {
+      "name": "AttachmentObjectStoragePort",
+      "owner": "Root freezes types; I owns provider/registry implementation; J consumes",
+      "contract": "Exact AttachmentObjectLocation, metadata, upload plan and presigned target structs; plan original(sessionId,name,size,time), put raw bytes, head, open read stream, read buffer when required, create presigned target and best-effort remove. Preserve no-providerConfigId storage identity and dynamic location selection.",
+      "reuse": "Use existing hash/HMAC/URL/crypto facilities after source parity; Root alone owns Cargo/lock edits if stream/fs support is required"
+    },
+    {
+      "name": "RawFetchAndBinaryResponse",
+      "owner": "Root",
+      "contract": "Raw-byte PUT, status/header preserving HEAD/DELETE/GET and readable body; independent Node-fetch compatible transport policy. Guard before body consumption; octet-stream must bypass JSON parse. Return MIME, RFC5987 encodeURIComponent filename disposition, private,no-store, and actual stream bytes with appropriate error timing.",
+      "reuse": "auth::http::guarded_route and ParsedBody leave non-JSON/form body intact; existing observe_and_cors surrounds response. GH Axios execute is not a binary port."
+    },
+    {
+      "name": "ExistingBusinessTargetReads",
+      "owner": "J; Root freezes seam and fixture ownership boundary",
+      "contract": "Exact row existence reads for six target types; batch projections for four center types plus project name by contract.projectId and platform_user uploader display. No business mutation port, fake success, fixed empty center or new public API.",
+      "reuse": "Existing Database/SQLx, generated enums/permission sources, Dictionary/SystemSettings services and auth audit insertion; preserve service-specific commit boundaries"
+    }
+  ],
+  "requiredRootOriginalNestWitnesses": [
+    "All 25 existing method/path/operationIds, exact runtime statuses/DTOs/Zod error shapes, session+CSRF+permissions guard ordering, malformed IDs/query enabled coerce (string false is truthy under z.coerce.boolean), body/nullable/unknown keys",
+    "Provider create/update/default/disable/version conflicts and enabled-location/global-default races, DB partial unique constraints, audit order and existing default isolation; no claim based only on mock repositories",
+    "Local testConnection real write/unlink and controlled failure; OBS signed bucket HEAD, network-throw retries vs HTTP status non-retries, status/error text/body truncation; controlled endpoint and synthetic keys only",
+    "SigV4 canonical request/presigned URL verification by captured original Nest requests; endpoint query/base path/path-style/bucket-host, escaped and Unicode key components, checksum/content-type headers and expiry relation",
+    "Location remains provider/bucket/key after default switch; disabled/config-rotation/longest-prefix selection, missing config and implicit local fallback; no immutable providerConfigId assumption",
+    "Cross-language existing v1 keys/envelopes, roundtrip plaintext fingerprints, write-only flags/redaction, malformed envelope/auth-tag cases using new exact ledger and restoration before cleanup",
+    "PUT proxy actual octet-stream including nonUTF8/NUL bytes and correct/wrong/absent content-type, raw-body/parser/guard ordering, size/checksum rejection and storage-before-session failure facts",
+    "Create/target/proxy/complete/abort state matrix, owner mismatch and target permission/existence, one-hour TTL bounded by send/receive and createdAt/expiresAt, no mutation on GET after expiry, terminal/failed/expired residual objects",
+    "Complete with HEAD missing/wrong size/checksum metadata, no declared checksum requires GET hash, missing metadata with declared checksum follows original; audit/session failure retains committed data; no failure normalization masking",
+    "Concurrent target/complete/default/version/final/link actions, PostgreSQL optimistic versions and unique constraints with original SQLSTATE/HTTP mapping, retry semantics and retained artifacts; atomicity is not assumed from service intentions",
+    "GET download/preview/thumbnail through real authenticated server; binary byte count+SHA256, MIME/disposition/private no-store, unsupported type415, missing object404, real stream failure/partial response timing and original audit timing. Thumbnail serves original image stream, not a generated resized bitmap",
+    "Six real target read types and four center projections on actual original schema, restricted/security permission combinations, uploader vs target ownership distinctions, dangling links and last-unlink persisted-failure; no hardcoded business records",
+    "Migration/entity/original DDL/contracts alignment, no generated DDL execution, additive lint/build/unit/HTTP/browser/OpenAPI/client/schema receipts appropriate to final frozen slice; classify drift rather than relaxing old guards"
+  ],
+  "acceptanceSafetyCarryForward": {
+    "oldEvidence": "Keep tools/rust-r2gh and tmp/rust-r2gh original receipts immutable. Any reuse occurs via new IJ modules or explicit imports that do not mutate old evidence. No GH run can count as new IJ runtime acceptance.",
+    "completeReferenceGuard": "Carry C-G3-02 pre-first-DELETE check inside verified transaction after requests settle: frozen full table catalog, locks, complete incoming-FK shapes including source schema/ordered multi-columns/target/update-delete actions/match/validated/deferrable/deferred. Preserve UUID/text/JSON compact-uppercase logical reference closure for all base + IJ + owned target seed rows. Unknown references/FK/catalog/identity mismatch reject before DML.",
+    "guardExtension": "The existing function's ownership keys are GH-only. IJ must register exact table/id/identity for provider config, upload session, attachment, link, dynamic audit/security rows and any target seed rows, preserve base/subtree rules, and extend frozen incoming-FK targets from original migrations. Do not simply call GH guard and claim IJ coverage, drop unknown relations, filter cardinality=1 or use actor/prefix adoption.",
+    "globalDefault": "Before creating default fixture configs, prove controlled DB and absence of unowned default; refuse or use new dedicated DB if any unowned default exists. Product API can demote previous default globally. Never repair test setup by clearing all defaults or deleting preexisting provider rows.",
+    "objectLedger": "Durable intent before each owned local/OBS PUT or controllable connection-test temporary object; store backend/run/environment identity, exact provider/location/config identity, expected bytes/SHA256, originating session/attachment and state transitions. Preserve result/error and observed current hash. Prefix alone never grants ownership.",
+    "objectDeletion": "Preflight every candidate and DB logical reference before first file/object delete or DB DELETE; require exact registered location, expected hash/size, owned row identity and no foreign references. Changed/unknown object, unresolved stream writes or ambiguous ownership blocks. Exact local containment and no symlink escape, exact key deletion only; no recursive directory/bucket/prefix cleanup. OBS requires controlled synthetic endpoint, never live deployment credentials.",
+    "residuals": "Failed/expired/aborted/completed upload residue is meaningful product state, not blanket cleanup permission. Record all expected/actual orphan objects with hashes, then clean only owned originals after assertions. Product best-effort remove does not prove absence. Perform repeat DB+local/controlled-OBS zero checks and preserve interrupted/failed rounds with real labels.",
+    "cipherFaults": "Port OwnedCipherFaults discipline to attachment_storage_provider_config encrypted_access_key_id and encrypted_secret_access_key: exact new owned row+column+identity+original/fault hashes, durable record before update, actually prove decrypt fails, normalizer only recognizes registered bad hash, finally restore only cipher columns, verify original ciphertext and plaintext fingerprint, retain real version/audit/last-error effects. Unknown cipher value or unrestored fault blocks cleanup.",
+    "timestampPolicy": "Create IJ explicit allowlist for only server-owned DB/DTO/audit fields, not arbitrary requestSnapshot/description/business/provider strings. Preserve ordinary ISO text literally; fact sorting only explicit table array paths. Assert upload session createdAt/expiresAt difference=3600000ms and actual send/receive bounds; signed URL X-Amz-Date/X-Amz-Expires/supplied expiry relation uses original floor/clamp semantics, not a blanket timestamp marker.",
+    "expectedSafetyCounterexamples": "Unknown scalar/JSON compact uppercase reference to owned upload/attachment/target, unknown/composite/foreign-schema FK, exact-ID identity alteration, same-count different table, unregistered default, changed object bytes or path, interrupted journal write, restore mismatch; each must reject with zero attempted destructive action. These are future IJ tests, not run or claimed here."
+  },
+  "reviewLimits": {
+    "staticOnly": true,
+    "productImplementationChanged": false,
+    "fixtureOrRunnerChanged": false,
+    "formalBaselineChanged": false,
+    "oldGHEvidenceChanged": false,
+    "liveGitHubChecked": false,
+    "runtimeTestsRun": false,
+    "gatePassDeclared": false,
+    "nextBoundary": "Root resolves/fixes the G0 input blocks and prepares an exact shared-port/baseline candidate. C remains available for a distinct formal joint G1 review, then one complete independent G3 of final source and actual new IJ evidence."
+  },
+  "sourcePaths": [
+    "CLAUDE.md",
+    ".agents/skills/poms-implementation-governance/SKILL.md",
+    ".agents/skills/poms-implementation-governance/references/governance-summary.md",
+    ".agents/skills/poms-github-task-governance/SKILL.md",
+    "docs/design/backend-rust-migration-plan.md",
+    "docs/design/rust-migration-execution-tracker.md",
+    "docs/design/rust-r2-scope-and-dependencies.md",
+    "docs/design/rust-r2-operation-slices.json",
+    "docs/design/api-route-canonical-inventory.md",
+    "libs/shared/api-spec/openapi.json",
+    "libs/shared/contracts/src/lib/shared-contracts.ts",
+    "libs/api/contracts/src/lib/attachment/attachment.dto.ts",
+    "apps/poms-api/src/app/features/attachment/attachment-storage-provider.controller.ts",
+    "apps/poms-api/src/app/features/attachment/attachment-upload-session.controller.ts",
+    "apps/poms-api/src/app/features/attachment/attachment.controller.ts",
+    "apps/poms-api/src/app/features/attachment/attachment-center-record.controller.ts",
+    "apps/poms-api/src/app/features/attachment/attachment-handover.controller.ts",
+    "apps/poms-api/src/app/features/attachment/attachment-storage-provider.service.ts",
+    "apps/poms-api/src/app/features/attachment/attachment-storage-provider.repository.ts",
+    "apps/poms-api/src/app/features/attachment/attachment-storage-provider-registry.service.ts",
+    "apps/poms-api/src/app/features/attachment/attachment-object-storage-provider.types.ts",
+    "apps/poms-api/src/app/features/attachment/attachment-storage.service.ts",
+    "apps/poms-api/src/app/features/attachment/local-attachment-object-storage.provider.ts",
+    "apps/poms-api/src/app/features/attachment/huawei-obs-s3-attachment-object-storage.provider.ts",
+    "apps/poms-api/src/app/features/attachment/attachment-storage-provider-secret.constants.ts",
+    "apps/poms-api/src/app/core/secret/secret-cipher.service.ts",
+    "apps/poms-api/src/app/features/attachment/attachment.service.ts",
+    "apps/poms-api/src/app/features/attachment/attachment.repository.ts",
+    "apps/poms-api/src/app/features/attachment/attachment.mapper.ts",
+    "apps/poms-api/src/app/features/attachment/attachment-preview.util.ts",
+    "apps/poms-api/src/app/features/attachment/attachment-upload-session.entity.ts",
+    "apps/poms-api/src/migrations/Migration20260430140000_ex45_attachment_evidence_repository.ts",
+    "apps/poms-api/src/migrations/Migration20260505100000_ex51_attachment_version_final_runtime.ts",
+    "apps/poms-api/src/migrations/Migration20260505113000_ex52a_attachment_handover_runtime.ts",
+    "apps/poms-api/src/migrations/Migration20260511140000_ex65b_attachment_storage_provider_config.ts",
+    "apps/poms-api/src/migrations/Migration20260511160000_ex65d_attachment_upload_session.ts",
+    "apps/poms-api-rust/src/config.rs",
+    "apps/poms-api-rust/src/http.rs",
+    "apps/poms-api-rust/src/main.rs",
+    "apps/poms-api-rust/src/auth/http.rs",
+    "apps/poms-api-rust/src/auth/guards.rs",
+    "apps/poms-api-rust/src/auth/crypto.rs",
+    "apps/poms-api-rust/src/auth/audit.rs",
+    "apps/poms-api-rust/src/provider_support/settings.rs",
+    "apps/poms-api-rust/src/provider_support/upstream.rs",
+    "apps/poms-api-rust/src/dictionary/service.rs",
+    "apps/poms-api-rust/src/system_settings/service.rs",
+    "apps/poms-api-rust/Cargo.toml",
+    "tools/rust-r2gh/fixture-complete-references.mjs",
+    "tools/rust-r2gh/cipher-faults.mjs",
+    "tools/rust-r2gh/timestamp-policy.mjs",
+    "tmp/rust-r2gh/c-g3-review02.json"
+  ],
+  "operations": [
+    {
+      "slice": "RUST-R2I",
+      "method": "GET",
+      "path": "/api/platform/attachment-storage-providers",
+      "operationId": "AttachmentStorageProviderController_listAttachmentStorageProviderConfigs",
+      "controllerSource": {
+        "path": "apps/poms-api/src/app/features/attachment/attachment-storage-provider.controller.ts",
+        "line": 23
+      },
+      "authorization": {
+        "mode": "permission",
+        "all": [
+          "platform:attachment-storage-providers:manage"
+        ],
+        "any": [],
+        "csrf": "safe-method-no-CSRF-check",
+        "evidence": [
+          "@ApiCookieAuth('pomsSession')",
+          "@HasPermissions('platform:attachment-storage-providers:manage')"
+        ]
+      },
+      "canonicalStatus": "canonical-match",
+      "canonicalRows": [
+        {
+          "source": {
+            "path": "docs/design/api-route-canonical-inventory.md",
+            "line": 442
+          },
+          "canonical": [
+            {
+              "method": "GET",
+              "path": "/platform/attachment-storage-providers"
+            }
+          ],
+          "currentImplemented": [
+            {
+              "method": "GET",
+              "path": "/platform/attachment-storage-providers"
+            }
+          ],
+          "status": "aligned",
+          "drift": null,
+          "action": "`EX-65B` implemented；附件存储 provider 配置列表不返回 AK / SK、内部 storage key 或永久对象 URL。"
+        }
+      ],
+      "schemas": [
+        "#/components/schemas/AttachmentStorageProviderConfigList",
+        "#/components/schemas/AttachmentStorageProviderConfigStatus",
+        "#/components/schemas/AttachmentStorageProviderType"
+      ],
+      "serviceCallClues": [
+        "this.storageProviderService.listAttachmentStorageProviderConfigs"
+      ],
+      "inheritedPhaseDependencies": [
+        "R1: compatibility foundation"
+      ],
+      "directDependencies": [
+        "R1.session+CSRF+permission",
+        "I.config_query"
+      ]
+    },
+    {
+      "slice": "RUST-R2I",
+      "method": "POST",
+      "path": "/api/platform/attachment-storage-providers",
+      "operationId": "AttachmentStorageProviderController_createAttachmentStorageProviderConfig",
+      "controllerSource": {
+        "path": "apps/poms-api/src/app/features/attachment/attachment-storage-provider.controller.ts",
+        "line": 36
+      },
+      "authorization": {
+        "mode": "permission",
+        "all": [
+          "platform:attachment-storage-providers:manage"
+        ],
+        "any": [],
+        "csrf": "double-submit-and-session-bound-token",
+        "evidence": [
+          "@ApiCookieAuth('pomsSession')",
+          "@HasPermissions('platform:attachment-storage-providers:manage')"
+        ]
+      },
+      "canonicalStatus": "canonical-match",
+      "canonicalRows": [
+        {
+          "source": {
+            "path": "docs/design/api-route-canonical-inventory.md",
+            "line": 443
+          },
+          "canonical": [
+            {
+              "method": "POST",
+              "path": "/platform/attachment-storage-providers"
+            }
+          ],
+          "currentImplemented": [
+            {
+              "method": "POST",
+              "path": "/platform/attachment-storage-providers"
+            }
+          ],
+          "status": "aligned",
+          "drift": null,
+          "action": "`EX-65B` implemented；local / huawei-obs-s3 provider 配置创建，secret write-only。"
+        }
+      ],
+      "schemas": [
+        "#/components/schemas/AttachmentStorageProviderConfigDetail",
+        "#/components/schemas/CreateAttachmentStorageProviderConfigRequest"
+      ],
+      "serviceCallClues": [
+        "this.storageProviderService.createAttachmentStorageProviderConfig"
+      ],
+      "inheritedPhaseDependencies": [
+        "R1: compatibility foundation"
+      ],
+      "directDependencies": [
+        "R1.session+CSRF+permission",
+        "I.config_persistence",
+        "I.attachment_cipher",
+        "I.global_default",
+        "R2F.audit_writer"
+      ]
+    },
+    {
+      "slice": "RUST-R2I",
+      "method": "GET",
+      "path": "/api/platform/attachment-storage-providers/{id}",
+      "operationId": "AttachmentStorageProviderController_getAttachmentStorageProviderConfig",
+      "controllerSource": {
+        "path": "apps/poms-api/src/app/features/attachment/attachment-storage-provider.controller.ts",
+        "line": 44
+      },
+      "authorization": {
+        "mode": "permission",
+        "all": [
+          "platform:attachment-storage-providers:manage"
+        ],
+        "any": [],
+        "csrf": "safe-method-no-CSRF-check",
+        "evidence": [
+          "@ApiCookieAuth('pomsSession')",
+          "@HasPermissions('platform:attachment-storage-providers:manage')"
+        ]
+      },
+      "canonicalStatus": "canonical-match",
+      "canonicalRows": [
+        {
+          "source": {
+            "path": "docs/design/api-route-canonical-inventory.md",
+            "line": 444
+          },
+          "canonical": [
+            {
+              "method": "GET",
+              "path": "/platform/attachment-storage-providers/{id}"
+            }
+          ],
+          "currentImplemented": [
+            {
+              "method": "GET",
+              "path": "/platform/attachment-storage-providers/{id}"
+            }
+          ],
+          "status": "aligned",
+          "drift": null,
+          "action": "`EX-65B` implemented；provider 配置详情只返回 secret configured 状态。"
+        }
+      ],
+      "schemas": [
+        "#/components/schemas/AttachmentStorageProviderConfigDetail"
+      ],
+      "serviceCallClues": [
+        "this.storageProviderService.getAttachmentStorageProviderConfig"
+      ],
+      "inheritedPhaseDependencies": [
+        "R1: compatibility foundation"
+      ],
+      "directDependencies": [
+        "R1.session+CSRF+permission",
+        "I.config_query"
+      ]
+    },
+    {
+      "slice": "RUST-R2I",
+      "method": "PATCH",
+      "path": "/api/platform/attachment-storage-providers/{id}",
+      "operationId": "AttachmentStorageProviderController_updateAttachmentStorageProviderConfig",
+      "controllerSource": {
+        "path": "apps/poms-api/src/app/features/attachment/attachment-storage-provider.controller.ts",
+        "line": 52
+      },
+      "authorization": {
+        "mode": "permission",
+        "all": [
+          "platform:attachment-storage-providers:manage"
+        ],
+        "any": [],
+        "csrf": "double-submit-and-session-bound-token",
+        "evidence": [
+          "@ApiCookieAuth('pomsSession')",
+          "@HasPermissions('platform:attachment-storage-providers:manage')"
+        ]
+      },
+      "canonicalStatus": "canonical-match",
+      "canonicalRows": [
+        {
+          "source": {
+            "path": "docs/design/api-route-canonical-inventory.md",
+            "line": 445
+          },
+          "canonical": [
+            {
+              "method": "PATCH",
+              "path": "/platform/attachment-storage-providers/{id}"
+            }
+          ],
+          "currentImplemented": [
+            {
+              "method": "PATCH",
+              "path": "/platform/attachment-storage-providers/{id}"
+            }
+          ],
+          "status": "aligned",
+          "drift": null,
+          "action": "`EX-65B` implemented；provider 配置更新、启停、endpoint / bucket / keyPrefix 和 secret 轮换。"
+        }
+      ],
+      "schemas": [
+        "#/components/schemas/AttachmentStorageProviderConfigDetail",
+        "#/components/schemas/UpdateAttachmentStorageProviderConfigRequest"
+      ],
+      "serviceCallClues": [
+        "this.storageProviderService.updateAttachmentStorageProviderConfig"
+      ],
+      "inheritedPhaseDependencies": [
+        "R1: compatibility foundation"
+      ],
+      "directDependencies": [
+        "R1.session+CSRF+permission",
+        "I.config_persistence",
+        "I.attachment_cipher",
+        "I.global_default",
+        "R2F.audit_writer"
+      ]
+    },
+    {
+      "slice": "RUST-R2I",
+      "method": "POST",
+      "path": "/api/platform/attachment-storage-providers/{id}:set-default",
+      "operationId": "AttachmentStorageProviderController_setDefaultAttachmentStorageProvider",
+      "controllerSource": {
+        "path": "apps/poms-api/src/app/features/attachment/attachment-storage-provider.controller.ts",
+        "line": 69
+      },
+      "authorization": {
+        "mode": "permission",
+        "all": [
+          "platform:attachment-storage-providers:manage"
+        ],
+        "any": [],
+        "csrf": "double-submit-and-session-bound-token",
+        "evidence": [
+          "@ApiCookieAuth('pomsSession')",
+          "@HasPermissions('platform:attachment-storage-providers:manage')"
+        ]
+      },
+      "canonicalStatus": "canonical-match",
+      "canonicalRows": [
+        {
+          "source": {
+            "path": "docs/design/api-route-canonical-inventory.md",
+            "line": 447
+          },
+          "canonical": [
+            {
+              "method": "POST",
+              "path": "/platform/attachment-storage-providers/{id}:set-default"
+            }
+          ],
+          "currentImplemented": [
+            {
+              "method": "POST",
+              "path": "/platform/attachment-storage-providers/{id}:set-default"
+            }
+          ],
+          "status": "aligned",
+          "drift": null,
+          "action": "`EX-65B` implemented；默认 provider 切换只允许 enabled + active provider 成为新上传默认值。"
+        }
+      ],
+      "schemas": [
+        "#/components/schemas/AttachmentStorageProviderConfigDetail",
+        "#/components/schemas/SetDefaultAttachmentStorageProviderRequest"
+      ],
+      "serviceCallClues": [
+        "this.storageProviderService.setDefaultAttachmentStorageProvider"
+      ],
+      "inheritedPhaseDependencies": [
+        "R1: compatibility foundation"
+      ],
+      "directDependencies": [
+        "R1.session+CSRF+permission",
+        "I.config_persistence",
+        "I.global_default",
+        "R2F.audit_writer"
+      ]
+    },
+    {
+      "slice": "RUST-R2I",
+      "method": "POST",
+      "path": "/api/platform/attachment-storage-providers/{id}:testConnection",
+      "operationId": "AttachmentStorageProviderController_testAttachmentStorageProviderConnection",
+      "controllerSource": {
+        "path": "apps/poms-api/src/app/features/attachment/attachment-storage-provider.controller.ts",
+        "line": 60
+      },
+      "authorization": {
+        "mode": "permission",
+        "all": [
+          "platform:attachment-storage-providers:manage"
+        ],
+        "any": [],
+        "csrf": "double-submit-and-session-bound-token",
+        "evidence": [
+          "@ApiCookieAuth('pomsSession')",
+          "@HasPermissions('platform:attachment-storage-providers:manage')"
+        ]
+      },
+      "canonicalStatus": "canonical-match",
+      "canonicalRows": [
+        {
+          "source": {
+            "path": "docs/design/api-route-canonical-inventory.md",
+            "line": 446
+          },
+          "canonical": [
+            {
+              "method": "POST",
+              "path": "/platform/attachment-storage-providers/{id}:testConnection"
+            }
+          ],
+          "currentImplemented": [
+            {
+              "method": "POST",
+              "path": "/platform/attachment-storage-providers/{id}:testConnection"
+            }
+          ],
+          "status": "aligned",
+          "drift": null,
+          "action": "`EX-65B` implemented；provider 连接测试只做本地配置完整性校验，不持久化测试对象，不泄露 secret。"
+        }
+      ],
+      "schemas": [
+        "#/components/schemas/AttachmentStorageProviderConnectionTestResult",
+        "#/components/schemas/TestAttachmentStorageProviderConnectionRequest"
+      ],
+      "serviceCallClues": [
+        "this.storageProviderService.testAttachmentStorageProviderConnection"
+      ],
+      "inheritedPhaseDependencies": [
+        "R1: compatibility foundation"
+      ],
+      "directDependencies": [
+        "R1.session+CSRF+permission",
+        "I.config_query",
+        "I.attachment_cipher",
+        "I.object_storage",
+        "Root.controlled_local_and_OBS"
+      ]
+    },
+    {
+      "slice": "RUST-R2J",
+      "method": "GET",
+      "path": "/api/attachment-center-records",
+      "operationId": "AttachmentCenterRecordController_list",
+      "controllerSource": {
+        "path": "apps/poms-api/src/app/features/attachment/attachment-center-record.controller.ts",
+        "line": 14
+      },
+      "authorization": {
+        "mode": "permission",
+        "all": [],
+        "any": [
+          "customer:read",
+          "lead:read",
+          "project:read"
+        ],
+        "csrf": "safe-method-no-CSRF-check",
+        "evidence": [
+          "@ApiCookieAuth('pomsSession')",
+          "@HasAnyPermissions('customer:read', 'lead:read', 'project:read')"
+        ]
+      },
+      "canonicalStatus": "canonical-match",
+      "canonicalRows": [
+        {
+          "source": {
+            "path": "docs/design/api-route-canonical-inventory.md",
+            "line": 384
+          },
+          "canonical": [
+            {
+              "method": "GET",
+              "path": "/attachment-center-records"
+            }
+          ],
+          "currentImplemented": [
+            {
+              "method": "GET",
+              "path": "/attachment-center-records"
+            }
+          ],
+          "status": "aligned",
+          "drift": null,
+          "action": "将 FE-49 前端聚合留白纠偏为受控后端读模型；只返回可读业务对象的 latest active 附件记录。"
+        }
+      ],
+      "schemas": [
+        "#/components/schemas/AttachmentCenterRecordList"
+      ],
+      "serviceCallClues": [
+        "this.attachmentService.listAttachmentCenterRecords"
+      ],
+      "inheritedPhaseDependencies": [
+        "R1: compatibility foundation"
+      ],
+      "directDependencies": [
+        "R1.session+CSRF+permission",
+        "J.attachment_link_query",
+        "J.security",
+        "R3R4.four_type_center_projection",
+        "R2D.uploader_reads"
+      ]
+    },
+    {
+      "slice": "RUST-R2J",
+      "method": "POST",
+      "path": "/api/attachment-upload-sessions",
+      "operationId": "AttachmentUploadSessionController_create",
+      "controllerSource": {
+        "path": "apps/poms-api/src/app/features/attachment/attachment-upload-session.controller.ts",
+        "line": 25
+      },
+      "authorization": {
+        "mode": "permission",
+        "all": [],
+        "any": [
+          "customer:write",
+          "lead:write",
+          "project:write"
+        ],
+        "csrf": "double-submit-and-session-bound-token",
+        "evidence": [
+          "@ApiCookieAuth('pomsSession')",
+          "@HasAnyPermissions('customer:write', 'lead:write', 'project:write')"
+        ]
+      },
+      "canonicalStatus": "canonical-match",
+      "canonicalRows": [
+        {
+          "source": {
+            "path": "docs/design/api-route-canonical-inventory.md",
+            "line": 448
+          },
+          "canonical": [
+            {
+              "method": "POST",
+              "path": "/attachment-upload-sessions"
+            }
+          ],
+          "currentImplemented": [
+            {
+              "method": "POST",
+              "path": "/attachment-upload-sessions"
+            }
+          ],
+          "status": "aligned",
+          "drift": null,
+          "action": "`EX-65D` implemented；创建上传会话时冻结 provider、bucket、storage key、operation 和 metadata。"
+        }
+      ],
+      "schemas": [
+        "#/components/schemas/AttachmentUploadSessionSummary",
+        "#/components/schemas/CreateAttachmentUploadSessionRequest"
+      ],
+      "serviceCallClues": [
+        "this.attachmentService.createAttachmentUploadSession"
+      ],
+      "inheritedPhaseDependencies": [
+        "R1: compatibility foundation"
+      ],
+      "directDependencies": [
+        "R1.session+CSRF+permission",
+        "J.upload_persistence",
+        "R3R4.six_type_target_reads",
+        "R2E.dictionary_and_size_setting",
+        "I.object_storage",
+        "R2F.audit_writer"
+      ]
+    },
+    {
+      "slice": "RUST-R2J",
+      "method": "GET",
+      "path": "/api/attachment-upload-sessions/{id}",
+      "operationId": "AttachmentUploadSessionController_get",
+      "controllerSource": {
+        "path": "apps/poms-api/src/app/features/attachment/attachment-upload-session.controller.ts",
+        "line": 33
+      },
+      "authorization": {
+        "mode": "permission",
+        "all": [],
+        "any": [
+          "customer:read",
+          "lead:read",
+          "project:read"
+        ],
+        "csrf": "safe-method-no-CSRF-check",
+        "evidence": [
+          "@ApiCookieAuth('pomsSession')",
+          "@HasAnyPermissions('customer:read', 'lead:read', 'project:read')"
+        ]
+      },
+      "canonicalStatus": "canonical-match",
+      "canonicalRows": [
+        {
+          "source": {
+            "path": "docs/design/api-route-canonical-inventory.md",
+            "line": 449
+          },
+          "canonical": [
+            {
+              "method": "GET",
+              "path": "/attachment-upload-sessions/{id}"
+            }
+          ],
+          "currentImplemented": [
+            {
+              "method": "GET",
+              "path": "/attachment-upload-sessions/{id}"
+            }
+          ],
+          "status": "aligned",
+          "drift": null,
+          "action": "`EX-65D` implemented；读取会话摘要，不暴露 provider secret、AK / SK 或永久对象 URL。"
+        }
+      ],
+      "schemas": [
+        "#/components/schemas/AttachmentUploadSessionSummary"
+      ],
+      "serviceCallClues": [
+        "this.attachmentService.getAttachmentUploadSession"
+      ],
+      "inheritedPhaseDependencies": [
+        "R1: compatibility foundation"
+      ],
+      "directDependencies": [
+        "R1.session+CSRF+permission",
+        "J.upload_owner_and_target_access",
+        "R3R4.six_type_target_reads",
+        "J.attachment_link_query",
+        "J.security"
+      ]
+    },
+    {
+      "slice": "RUST-R2J",
+      "method": "POST",
+      "path": "/api/attachment-upload-sessions/{id}:abort",
+      "operationId": "AttachmentUploadSessionController_abort",
+      "controllerSource": {
+        "path": "apps/poms-api/src/app/features/attachment/attachment-upload-session.controller.ts",
+        "line": 71
+      },
+      "authorization": {
+        "mode": "permission",
+        "all": [],
+        "any": [
+          "customer:write",
+          "lead:write",
+          "project:write"
+        ],
+        "csrf": "double-submit-and-session-bound-token",
+        "evidence": [
+          "@ApiCookieAuth('pomsSession')",
+          "@HasAnyPermissions('customer:write', 'lead:write', 'project:write')"
+        ]
+      },
+      "canonicalStatus": "canonical-match",
+      "canonicalRows": [
+        {
+          "source": {
+            "path": "docs/design/api-route-canonical-inventory.md",
+            "line": 453
+          },
+          "canonical": [
+            {
+              "method": "POST",
+              "path": "/attachment-upload-sessions/{id}:abort"
+            }
+          ],
+          "currentImplemented": [
+            {
+              "method": "POST",
+              "path": "/attachment-upload-sessions/{id}:abort"
+            }
+          ],
+          "status": "aligned",
+          "drift": null,
+          "action": "`EX-65D` implemented；状态转为 aborted 并 best-effort 清理 provider 临时对象。"
+        }
+      ],
+      "schemas": [
+        "#/components/schemas/AbortAttachmentUploadSessionRequest",
+        "#/components/schemas/AttachmentUploadSessionSummary"
+      ],
+      "serviceCallClues": [
+        "this.attachmentService.abortAttachmentUploadSession"
+      ],
+      "inheritedPhaseDependencies": [
+        "R1: compatibility foundation"
+      ],
+      "directDependencies": [
+        "R1.session+CSRF+permission",
+        "J.upload_owner_and_target_access",
+        "R3R4.six_type_target_reads",
+        "J.upload_persistence",
+        "I.object_storage",
+        "R2F.audit_writer"
+      ]
+    },
+    {
+      "slice": "RUST-R2J",
+      "method": "POST",
+      "path": "/api/attachment-upload-sessions/{id}:complete",
+      "operationId": "AttachmentUploadSessionController_complete",
+      "controllerSource": {
+        "path": "apps/poms-api/src/app/features/attachment/attachment-upload-session.controller.ts",
+        "line": 62
+      },
+      "authorization": {
+        "mode": "permission",
+        "all": [],
+        "any": [
+          "customer:write",
+          "lead:write",
+          "project:write"
+        ],
+        "csrf": "double-submit-and-session-bound-token",
+        "evidence": [
+          "@ApiCookieAuth('pomsSession')",
+          "@HasAnyPermissions('customer:write', 'lead:write', 'project:write')"
+        ]
+      },
+      "canonicalStatus": "canonical-match",
+      "canonicalRows": [
+        {
+          "source": {
+            "path": "docs/design/api-route-canonical-inventory.md",
+            "line": 452
+          },
+          "canonical": [
+            {
+              "method": "POST",
+              "path": "/attachment-upload-sessions/{id}:complete"
+            }
+          ],
+          "currentImplemented": [
+            {
+              "method": "POST",
+              "path": "/attachment-upload-sessions/{id}:complete"
+            }
+          ],
+          "status": "aligned",
+          "drift": null,
+          "action": "`EX-65D` implemented；后端 `headObject`、size 和 checksum 校验通过后才创建 active 附件或版本。"
+        }
+      ],
+      "schemas": [
+        "#/components/schemas/AttachmentSummary",
+        "#/components/schemas/CompleteAttachmentUploadSessionRequest"
+      ],
+      "serviceCallClues": [
+        "this.attachmentService.completeAttachmentUploadSession"
+      ],
+      "inheritedPhaseDependencies": [
+        "R1: compatibility foundation"
+      ],
+      "directDependencies": [
+        "R1.session+CSRF+permission",
+        "J.upload_owner_and_target_access",
+        "R3R4.six_type_target_reads",
+        "J.upload_persistence",
+        "I.object_storage",
+        "J.version_and_link_persistence",
+        "R2F.audit_writer"
+      ]
+    },
+    {
+      "slice": "RUST-R2J",
+      "method": "PUT",
+      "path": "/api/attachment-upload-sessions/{id}/object",
+      "operationId": "AttachmentUploadSessionController_proxyUploadObject",
+      "controllerSource": {
+        "path": "apps/poms-api/src/app/features/attachment/attachment-upload-session.controller.ts",
+        "line": 50
+      },
+      "authorization": {
+        "mode": "permission",
+        "all": [],
+        "any": [
+          "customer:write",
+          "lead:write",
+          "project:write"
+        ],
+        "csrf": "double-submit-and-session-bound-token",
+        "evidence": [
+          "@ApiCookieAuth('pomsSession')",
+          "@HasAnyPermissions('customer:write', 'lead:write', 'project:write')"
+        ]
+      },
+      "canonicalStatus": "canonical-match",
+      "canonicalRows": [
+        {
+          "source": {
+            "path": "docs/design/api-route-canonical-inventory.md",
+            "line": 451
+          },
+          "canonical": [
+            {
+              "method": "PUT",
+              "path": "/attachment-upload-sessions/{id}/object"
+            }
+          ],
+          "currentImplemented": [
+            {
+              "method": "PUT",
+              "path": "/attachment-upload-sessions/{id}/object"
+            }
+          ],
+          "status": "aligned",
+          "drift": null,
+          "action": "`EX-65D` implemented；local provider 二进制 proxy 上传使用后端鉴权和 session owner 校验。"
+        }
+      ],
+      "schemas": [
+        "#/components/schemas/AttachmentUploadTargetResult"
+      ],
+      "serviceCallClues": [
+        "this.attachmentService.proxyUploadAttachmentObject"
+      ],
+      "inheritedPhaseDependencies": [
+        "R1: compatibility foundation"
+      ],
+      "directDependencies": [
+        "R1.session+CSRF+permission",
+        "J.upload_owner_and_target_access",
+        "R3R4.six_type_target_reads",
+        "Root.raw_binary_HTTP",
+        "I.object_storage",
+        "J.upload_persistence"
+      ]
+    },
+    {
+      "slice": "RUST-R2J",
+      "method": "POST",
+      "path": "/api/attachment-upload-sessions/{id}/upload-targets",
+      "operationId": "AttachmentUploadSessionController_createUploadTarget",
+      "controllerSource": {
+        "path": "apps/poms-api/src/app/features/attachment/attachment-upload-session.controller.ts",
+        "line": 41
+      },
+      "authorization": {
+        "mode": "permission",
+        "all": [],
+        "any": [
+          "customer:write",
+          "lead:write",
+          "project:write"
+        ],
+        "csrf": "double-submit-and-session-bound-token",
+        "evidence": [
+          "@ApiCookieAuth('pomsSession')",
+          "@HasAnyPermissions('customer:write', 'lead:write', 'project:write')"
+        ]
+      },
+      "canonicalStatus": "canonical-match",
+      "canonicalRows": [
+        {
+          "source": {
+            "path": "docs/design/api-route-canonical-inventory.md",
+            "line": 450
+          },
+          "canonical": [
+            {
+              "method": "POST",
+              "path": "/attachment-upload-sessions/{id}/upload-targets"
+            }
+          ],
+          "currentImplemented": [
+            {
+              "method": "POST",
+              "path": "/attachment-upload-sessions/{id}/upload-targets"
+            }
+          ],
+          "status": "aligned",
+          "drift": null,
+          "action": "`EX-65D` implemented；local 返回 POMS proxy target，OBS 返回短期 presigned PUT；multipart target 暂作为 `EX65D-E3` 转交。"
+        }
+      ],
+      "schemas": [
+        "#/components/schemas/AttachmentUploadTarget",
+        "#/components/schemas/CreateAttachmentUploadTargetRequest"
+      ],
+      "serviceCallClues": [
+        "this.attachmentService.createAttachmentUploadTarget"
+      ],
+      "inheritedPhaseDependencies": [
+        "R1: compatibility foundation"
+      ],
+      "directDependencies": [
+        "R1.session+CSRF+permission",
+        "J.upload_owner_and_target_access",
+        "R3R4.six_type_target_reads",
+        "J.upload_persistence",
+        "I.object_storage",
+        "I.attachment_cipher"
+      ]
+    },
+    {
+      "slice": "RUST-R2J",
+      "method": "GET",
+      "path": "/api/attachments",
+      "operationId": "AttachmentController_list",
+      "controllerSource": {
+        "path": "apps/poms-api/src/app/features/attachment/attachment.controller.ts",
+        "line": 25
+      },
+      "authorization": {
+        "mode": "permission",
+        "all": [],
+        "any": [
+          "customer:read",
+          "lead:read",
+          "project:read"
+        ],
+        "csrf": "safe-method-no-CSRF-check",
+        "evidence": [
+          "@ApiCookieAuth('pomsSession')",
+          "@HasAnyPermissions('customer:read', 'lead:read', 'project:read')"
+        ]
+      },
+      "canonicalStatus": "canonical-match",
+      "canonicalRows": [
+        {
+          "source": {
+            "path": "docs/design/api-route-canonical-inventory.md",
+            "line": 372
+          },
+          "canonical": [
+            {
+              "method": "GET",
+              "path": "/attachments"
+            }
+          ],
+          "currentImplemented": [
+            {
+              "method": "GET",
+              "path": "/attachments"
+            }
+          ],
+          "status": "aligned",
+          "drift": null,
+          "action": "新增按 targetType + targetId 查询附件集合，不做全局网盘列表。"
+        }
+      ],
+      "schemas": [
+        "#/components/schemas/AttachmentCategory",
+        "#/components/schemas/AttachmentList",
+        "#/components/schemas/AttachmentStatus",
+        "#/components/schemas/AttachmentTargetType"
+      ],
+      "serviceCallClues": [
+        "this.attachmentService.listAttachments"
+      ],
+      "inheritedPhaseDependencies": [
+        "R1: compatibility foundation"
+      ],
+      "directDependencies": [
+        "R1.session+CSRF+permission",
+        "R3R4.six_type_target_reads",
+        "J.attachment_link_query",
+        "J.security",
+        "R2D.uploader_reads"
+      ]
+    },
+    {
+      "slice": "RUST-R2J",
+      "method": "GET",
+      "path": "/api/attachments/{id}",
+      "operationId": "AttachmentController_get",
+      "controllerSource": {
+        "path": "apps/poms-api/src/app/features/attachment/attachment.controller.ts",
+        "line": 41
+      },
+      "authorization": {
+        "mode": "permission",
+        "all": [],
+        "any": [
+          "customer:read",
+          "lead:read",
+          "project:read"
+        ],
+        "csrf": "safe-method-no-CSRF-check",
+        "evidence": [
+          "@ApiCookieAuth('pomsSession')",
+          "@HasAnyPermissions('customer:read', 'lead:read', 'project:read')"
+        ]
+      },
+      "canonicalStatus": "canonical-match",
+      "canonicalRows": [
+        {
+          "source": {
+            "path": "docs/design/api-route-canonical-inventory.md",
+            "line": 373
+          },
+          "canonical": [
+            {
+              "method": "GET",
+              "path": "/attachments/{id}"
+            }
+          ],
+          "currentImplemented": [
+            {
+              "method": "GET",
+              "path": "/attachments/{id}"
+            }
+          ],
+          "status": "aligned",
+          "drift": null,
+          "action": "新增附件元数据详情读取，必须经过业务对象权限和安全等级校验。"
+        }
+      ],
+      "schemas": [
+        "#/components/schemas/AttachmentSummary"
+      ],
+      "serviceCallClues": [
+        "this.attachmentService.getAttachment"
+      ],
+      "inheritedPhaseDependencies": [
+        "R1: compatibility foundation"
+      ],
+      "directDependencies": [
+        "R1.session+CSRF+permission",
+        "R3R4.six_type_target_reads",
+        "J.attachment_link_query",
+        "J.security",
+        "R2D.uploader_reads"
+      ]
+    },
+    {
+      "slice": "RUST-R2J",
+      "method": "PATCH",
+      "path": "/api/attachments/{id}",
+      "operationId": "AttachmentController_update",
+      "controllerSource": {
+        "path": "apps/poms-api/src/app/features/attachment/attachment.controller.ts",
+        "line": 96
+      },
+      "authorization": {
+        "mode": "permission",
+        "all": [],
+        "any": [
+          "customer:write",
+          "lead:write",
+          "project:write"
+        ],
+        "csrf": "double-submit-and-session-bound-token",
+        "evidence": [
+          "@ApiCookieAuth('pomsSession')",
+          "@HasAnyPermissions('customer:write', 'lead:write', 'project:write')"
+        ]
+      },
+      "canonicalStatus": "canonical-match",
+      "canonicalRows": [
+        {
+          "source": {
+            "path": "docs/design/api-route-canonical-inventory.md",
+            "line": 375
+          },
+          "canonical": [
+            {
+              "method": "PATCH",
+              "path": "/attachments/{id}"
+            }
+          ],
+          "currentImplemented": [
+            {
+              "method": "PATCH",
+              "path": "/attachments/{id}"
+            }
+          ],
+          "status": "aligned",
+          "drift": null,
+          "action": "新增附件展示名、分类、安全等级与说明维护。"
+        }
+      ],
+      "schemas": [
+        "#/components/schemas/AttachmentSummary",
+        "#/components/schemas/UpdateAttachmentRequest"
+      ],
+      "serviceCallClues": [
+        "this.attachmentService.updateAttachment"
+      ],
+      "inheritedPhaseDependencies": [
+        "R1: compatibility foundation"
+      ],
+      "directDependencies": [
+        "R1.session+CSRF+permission",
+        "J.uploader_or_link_mutation_access",
+        "R2E.dictionary_and_size_setting",
+        "J.attachment_persistence",
+        "R2F.audit_writer",
+        "R3R4.six_type_target_reads"
+      ]
+    },
+    {
+      "slice": "RUST-R2J",
+      "method": "POST",
+      "path": "/api/attachments/{id}:clear-final",
+      "operationId": "AttachmentController_clearFinal",
+      "controllerSource": {
+        "path": "apps/poms-api/src/app/features/attachment/attachment.controller.ts",
+        "line": 122
+      },
+      "authorization": {
+        "mode": "permission",
+        "all": [],
+        "any": [
+          "customer:write",
+          "lead:write",
+          "project:write"
+        ],
+        "csrf": "double-submit-and-session-bound-token",
+        "evidence": [
+          "@ApiCookieAuth('pomsSession')",
+          "@HasAnyPermissions('customer:write', 'lead:write', 'project:write')"
+        ]
+      },
+      "canonicalStatus": "canonical-match",
+      "canonicalRows": [
+        {
+          "source": {
+            "path": "docs/design/api-route-canonical-inventory.md",
+            "line": 395
+          },
+          "canonical": [
+            {
+              "method": "POST",
+              "path": "/attachments/{id}:clear-final"
+            }
+          ],
+          "currentImplemented": [
+            {
+              "method": "POST",
+              "path": "/attachments/{id}:clear-final"
+            }
+          ],
+          "status": "aligned",
+          "drift": null,
+          "action": "新增最终版撤销命令，必须记录原因并写入审计。"
+        }
+      ],
+      "schemas": [
+        "#/components/schemas/AttachmentSummary",
+        "#/components/schemas/ClearAttachmentFinalRequest"
+      ],
+      "serviceCallClues": [
+        "this.attachmentService.clearAttachmentFinal"
+      ],
+      "inheritedPhaseDependencies": [
+        "R1: compatibility foundation"
+      ],
+      "directDependencies": [
+        "R1.session+CSRF+permission",
+        "J.uploader_or_link_mutation_access",
+        "J.version_and_link_persistence",
+        "R2F.audit_writer",
+        "R3R4.six_type_target_reads"
+      ]
+    },
+    {
+      "slice": "RUST-R2J",
+      "method": "POST",
+      "path": "/api/attachments/{id}:mark-final",
+      "operationId": "AttachmentController_markFinal",
+      "controllerSource": {
+        "path": "apps/poms-api/src/app/features/attachment/attachment.controller.ts",
+        "line": 113
+      },
+      "authorization": {
+        "mode": "permission",
+        "all": [],
+        "any": [
+          "customer:write",
+          "lead:write",
+          "project:write"
+        ],
+        "csrf": "double-submit-and-session-bound-token",
+        "evidence": [
+          "@ApiCookieAuth('pomsSession')",
+          "@HasAnyPermissions('customer:write', 'lead:write', 'project:write')"
+        ]
+      },
+      "canonicalStatus": "canonical-match",
+      "canonicalRows": [
+        {
+          "source": {
+            "path": "docs/design/api-route-canonical-inventory.md",
+            "line": 394
+          },
+          "canonical": [
+            {
+              "method": "POST",
+              "path": "/attachments/{id}:mark-final"
+            }
+          ],
+          "currentImplemented": [
+            {
+              "method": "POST",
+              "path": "/attachments/{id}:mark-final"
+            }
+          ],
+          "status": "aligned",
+          "drift": null,
+          "action": "新增最终版标记命令，同一版本组只允许一个 active final。"
+        }
+      ],
+      "schemas": [
+        "#/components/schemas/AttachmentSummary",
+        "#/components/schemas/MarkAttachmentFinalRequest"
+      ],
+      "serviceCallClues": [
+        "this.attachmentService.markAttachmentFinal"
+      ],
+      "inheritedPhaseDependencies": [
+        "R1: compatibility foundation"
+      ],
+      "directDependencies": [
+        "R1.session+CSRF+permission",
+        "J.uploader_or_link_mutation_access",
+        "J.version_and_link_persistence",
+        "R2F.audit_writer",
+        "R3R4.six_type_target_reads"
+      ]
+    },
+    {
+      "slice": "RUST-R2J",
+      "method": "POST",
+      "path": "/api/attachments/{id}:void",
+      "operationId": "AttachmentController_void",
+      "controllerSource": {
+        "path": "apps/poms-api/src/app/features/attachment/attachment.controller.ts",
+        "line": 104
+      },
+      "authorization": {
+        "mode": "permission",
+        "all": [],
+        "any": [
+          "customer:write",
+          "lead:write",
+          "project:write"
+        ],
+        "csrf": "double-submit-and-session-bound-token",
+        "evidence": [
+          "@ApiCookieAuth('pomsSession')",
+          "@HasAnyPermissions('customer:write', 'lead:write', 'project:write')"
+        ]
+      },
+      "canonicalStatus": "canonical-match",
+      "canonicalRows": [
+        {
+          "source": {
+            "path": "docs/design/api-route-canonical-inventory.md",
+            "line": 376
+          },
+          "canonical": [
+            {
+              "method": "POST",
+              "path": "/attachments/{id}:void"
+            }
+          ],
+          "currentImplemented": [
+            {
+              "method": "POST",
+              "path": "/attachments/{id}:void"
+            }
+          ],
+          "status": "aligned",
+          "drift": null,
+          "action": "新增附件作废命令；不提供物理删除公共 API。"
+        }
+      ],
+      "schemas": [
+        "#/components/schemas/AttachmentSummary",
+        "#/components/schemas/VoidAttachmentRequest"
+      ],
+      "serviceCallClues": [
+        "this.attachmentService.voidAttachment"
+      ],
+      "inheritedPhaseDependencies": [
+        "R1: compatibility foundation"
+      ],
+      "directDependencies": [
+        "R1.session+CSRF+permission",
+        "J.uploader_or_link_mutation_access",
+        "J.version_and_link_persistence",
+        "R2F.audit_writer",
+        "R2D.uploader_reads"
+      ]
+    },
+    {
+      "slice": "RUST-R2J",
+      "method": "GET",
+      "path": "/api/attachments/{id}/download",
+      "operationId": "AttachmentController_download",
+      "controllerSource": {
+        "path": "apps/poms-api/src/app/features/attachment/attachment.controller.ts",
+        "line": 75
+      },
+      "authorization": {
+        "mode": "permission",
+        "all": [],
+        "any": [
+          "customer:read",
+          "lead:read",
+          "project:read"
+        ],
+        "csrf": "safe-method-no-CSRF-check",
+        "evidence": [
+          "@ApiCookieAuth('pomsSession')",
+          "@HasAnyPermissions('customer:read', 'lead:read', 'project:read')"
+        ]
+      },
+      "canonicalStatus": "canonical-match",
+      "canonicalRows": [
+        {
+          "source": {
+            "path": "docs/design/api-route-canonical-inventory.md",
+            "line": 374
+          },
+          "canonical": [
+            {
+              "method": "GET",
+              "path": "/attachments/{id}/download"
+            }
+          ],
+          "currentImplemented": [
+            {
+              "method": "GET",
+              "path": "/attachments/{id}/download"
+            }
+          ],
+          "status": "aligned",
+          "drift": null,
+          "action": "新增后端鉴权下载，避免暴露永久公开文件 URL。"
+        }
+      ],
+      "schemas": [],
+      "serviceCallClues": [
+        "this.attachmentService.openAttachmentDownload"
+      ],
+      "inheritedPhaseDependencies": [
+        "R1: compatibility foundation"
+      ],
+      "directDependencies": [
+        "R1.session+CSRF+permission",
+        "R3R4.six_type_target_reads",
+        "J.attachment_link_query",
+        "J.security",
+        "I.object_storage",
+        "Root.raw_binary_HTTP",
+        "R2F.audit_writer"
+      ]
+    },
+    {
+      "slice": "RUST-R2J",
+      "method": "POST",
+      "path": "/api/attachments/{id}/links",
+      "operationId": "AttachmentController_link",
+      "controllerSource": {
+        "path": "apps/poms-api/src/app/features/attachment/attachment.controller.ts",
+        "line": 131
+      },
+      "authorization": {
+        "mode": "permission",
+        "all": [],
+        "any": [
+          "customer:write",
+          "lead:write",
+          "project:write"
+        ],
+        "csrf": "double-submit-and-session-bound-token",
+        "evidence": [
+          "@ApiCookieAuth('pomsSession')",
+          "@HasAnyPermissions('customer:write', 'lead:write', 'project:write')"
+        ]
+      },
+      "canonicalStatus": "canonical-match",
+      "canonicalRows": [
+        {
+          "source": {
+            "path": "docs/design/api-route-canonical-inventory.md",
+            "line": 377
+          },
+          "canonical": [
+            {
+              "method": "POST",
+              "path": "/attachments/{id}/links"
+            }
+          ],
+          "currentImplemented": [
+            {
+              "method": "POST",
+              "path": "/attachments/{id}/links"
+            }
+          ],
+          "status": "aligned",
+          "drift": null,
+          "action": "新增附件复用关联，用于线索转项目来源附件挂接。"
+        }
+      ],
+      "schemas": [
+        "#/components/schemas/AttachmentSummary",
+        "#/components/schemas/CreateAttachmentLinkRequest"
+      ],
+      "serviceCallClues": [
+        "this.attachmentService.linkAttachment"
+      ],
+      "inheritedPhaseDependencies": [
+        "R1: compatibility foundation"
+      ],
+      "directDependencies": [
+        "R1.session+CSRF+permission",
+        "R3R4.six_type_target_reads",
+        "J.attachment_link_query",
+        "J.security",
+        "J.version_and_link_persistence",
+        "R2F.audit_writer",
+        "R2D.uploader_reads"
+      ]
+    },
+    {
+      "slice": "RUST-R2J",
+      "method": "DELETE",
+      "path": "/api/attachments/{id}/links/{linkId}",
+      "operationId": "AttachmentController_unlink",
+      "controllerSource": {
+        "path": "apps/poms-api/src/app/features/attachment/attachment.controller.ts",
+        "line": 140
+      },
+      "authorization": {
+        "mode": "permission",
+        "all": [],
+        "any": [
+          "customer:write",
+          "lead:write",
+          "project:write"
+        ],
+        "csrf": "double-submit-and-session-bound-token",
+        "evidence": [
+          "@ApiCookieAuth('pomsSession')",
+          "@HasAnyPermissions('customer:write', 'lead:write', 'project:write')"
+        ]
+      },
+      "canonicalStatus": "canonical-match",
+      "canonicalRows": [
+        {
+          "source": {
+            "path": "docs/design/api-route-canonical-inventory.md",
+            "line": 378
+          },
+          "canonical": [
+            {
+              "method": "DELETE",
+              "path": "/attachments/{id}/links/{linkId}"
+            }
+          ],
+          "currentImplemented": [
+            {
+              "method": "DELETE",
+              "path": "/attachments/{id}/links/{linkId}"
+            }
+          ],
+          "status": "aligned",
+          "drift": null,
+          "action": "新增取消业务对象关联；不删除文件本体。"
+        }
+      ],
+      "schemas": [
+        "#/components/schemas/AttachmentSummary"
+      ],
+      "serviceCallClues": [
+        "this.attachmentService.unlinkAttachment"
+      ],
+      "inheritedPhaseDependencies": [
+        "R1: compatibility foundation"
+      ],
+      "directDependencies": [
+        "R1.session+CSRF+permission",
+        "R3R4.six_type_target_reads",
+        "J.version_and_link_persistence",
+        "J.attachment_link_query",
+        "J.security",
+        "R2F.audit_writer",
+        "R2D.uploader_reads"
+      ]
+    },
+    {
+      "slice": "RUST-R2J",
+      "method": "GET",
+      "path": "/api/attachments/{id}/preview",
+      "operationId": "AttachmentController_preview",
+      "controllerSource": {
+        "path": "apps/poms-api/src/app/features/attachment/attachment.controller.ts",
+        "line": 49
+      },
+      "authorization": {
+        "mode": "permission",
+        "all": [],
+        "any": [
+          "customer:read",
+          "lead:read",
+          "project:read"
+        ],
+        "csrf": "safe-method-no-CSRF-check",
+        "evidence": [
+          "@ApiCookieAuth('pomsSession')",
+          "@HasAnyPermissions('customer:read', 'lead:read', 'project:read')"
+        ]
+      },
+      "canonicalStatus": "canonical-match",
+      "canonicalRows": [
+        {
+          "source": {
+            "path": "docs/design/api-route-canonical-inventory.md",
+            "line": 390
+          },
+          "canonical": [
+            {
+              "method": "GET",
+              "path": "/attachments/{id}/preview"
+            }
+          ],
+          "currentImplemented": [
+            {
+              "method": "GET",
+              "path": "/attachments/{id}/preview"
+            }
+          ],
+          "status": "aligned",
+          "drift": null,
+          "action": "新增受控图片 / PDF 内联预览，复用附件读取权限和审计边界。"
+        }
+      ],
+      "schemas": [],
+      "serviceCallClues": [
+        "this.attachmentService.openAttachmentPreview"
+      ],
+      "inheritedPhaseDependencies": [
+        "R1: compatibility foundation"
+      ],
+      "directDependencies": [
+        "R1.session+CSRF+permission",
+        "R3R4.six_type_target_reads",
+        "J.attachment_link_query",
+        "J.security",
+        "I.object_storage",
+        "Root.raw_binary_HTTP",
+        "R2F.audit_writer"
+      ]
+    },
+    {
+      "slice": "RUST-R2J",
+      "method": "GET",
+      "path": "/api/attachments/{id}/thumbnail",
+      "operationId": "AttachmentController_thumbnail",
+      "controllerSource": {
+        "path": "apps/poms-api/src/app/features/attachment/attachment.controller.ts",
+        "line": 62
+      },
+      "authorization": {
+        "mode": "permission",
+        "all": [],
+        "any": [
+          "customer:read",
+          "lead:read",
+          "project:read"
+        ],
+        "csrf": "safe-method-no-CSRF-check",
+        "evidence": [
+          "@ApiCookieAuth('pomsSession')",
+          "@HasAnyPermissions('customer:read', 'lead:read', 'project:read')"
+        ]
+      },
+      "canonicalStatus": "canonical-match",
+      "canonicalRows": [
+        {
+          "source": {
+            "path": "docs/design/api-route-canonical-inventory.md",
+            "line": 391
+          },
+          "canonical": [
+            {
+              "method": "GET",
+              "path": "/attachments/{id}/thumbnail"
+            }
+          ],
+          "currentImplemented": [
+            {
+              "method": "GET",
+              "path": "/attachments/{id}/thumbnail"
+            }
+          ],
+          "status": "aligned",
+          "drift": null,
+          "action": "新增图片缩略图读取接口；非图片类型返回不支持状态。"
+        }
+      ],
+      "schemas": [],
+      "serviceCallClues": [
+        "this.attachmentService.openAttachmentThumbnail"
+      ],
+      "inheritedPhaseDependencies": [
+        "R1: compatibility foundation"
+      ],
+      "directDependencies": [
+        "R1.session+CSRF+permission",
+        "R3R4.six_type_target_reads",
+        "J.attachment_link_query",
+        "J.security",
+        "I.object_storage",
+        "Root.raw_binary_HTTP",
+        "R2F.audit_writer"
+      ]
+    },
+    {
+      "slice": "RUST-R2J",
+      "method": "GET",
+      "path": "/api/attachments/{id}/versions",
+      "operationId": "AttachmentController_versions",
+      "controllerSource": {
+        "path": "apps/poms-api/src/app/features/attachment/attachment.controller.ts",
+        "line": 88
+      },
+      "authorization": {
+        "mode": "permission",
+        "all": [],
+        "any": [
+          "customer:read",
+          "lead:read",
+          "project:read"
+        ],
+        "csrf": "safe-method-no-CSRF-check",
+        "evidence": [
+          "@ApiCookieAuth('pomsSession')",
+          "@HasAnyPermissions('customer:read', 'lead:read', 'project:read')"
+        ]
+      },
+      "canonicalStatus": "canonical-match",
+      "canonicalRows": [
+        {
+          "source": {
+            "path": "docs/design/api-route-canonical-inventory.md",
+            "line": 392
+          },
+          "canonical": [
+            {
+              "method": "GET",
+              "path": "/attachments/{id}/versions"
+            }
+          ],
+          "currentImplemented": [
+            {
+              "method": "GET",
+              "path": "/attachments/{id}/versions"
+            }
+          ],
+          "status": "aligned",
+          "drift": null,
+          "action": "新增附件版本历史查询，业务对象常规列表默认只展示 latest。"
+        }
+      ],
+      "schemas": [
+        "#/components/schemas/AttachmentVersionList"
+      ],
+      "serviceCallClues": [
+        "this.attachmentService.listAttachmentVersions"
+      ],
+      "inheritedPhaseDependencies": [
+        "R1: compatibility foundation"
+      ],
+      "directDependencies": [
+        "R1.session+CSRF+permission",
+        "R3R4.six_type_target_reads",
+        "J.attachment_link_query",
+        "J.security",
+        "R2D.uploader_reads"
+      ]
+    }
+  ],
+  "excludedKOperations": [
+    {
+      "method": "GET",
+      "path": "/api/attachment-download-packages/{packageId}",
+      "operationId": "AttachmentHandoverController_getDownloadPackage",
+      "canonicalStatus": "parameter-name-difference",
+      "canonicalRows": [
+        {
+          "source": {
+            "path": "docs/design/api-route-canonical-inventory.md",
+            "line": 404
+          },
+          "canonical": [
+            {
+              "method": "GET",
+              "path": "/attachment-download-packages/{id}"
+            }
+          ],
+          "currentImplemented": [
+            {
+              "method": "GET",
+              "path": "/attachment-download-packages/{packageId}"
+            }
+          ],
+          "status": "implementation-drift",
+          "drift": "existing-baseline-drift",
+          "action": "R0F 仅校正现状登记；保留既有参数名作为迁移输入，R2 附件域工程 G1 前显式裁决命名及同步切换方案；未批准 legacy alias 例外，详见 [R0F 路由基线](archive/slices/rust-r0f-route-baseline.md)。"
+        }
+      ]
+    },
+    {
+      "method": "GET",
+      "path": "/api/attachment-download-packages/{packageId}/download",
+      "operationId": "AttachmentHandoverController_downloadPackage",
+      "canonicalStatus": "parameter-name-difference",
+      "canonicalRows": [
+        {
+          "source": {
+            "path": "docs/design/api-route-canonical-inventory.md",
+            "line": 405
+          },
+          "canonical": [
+            {
+              "method": "GET",
+              "path": "/attachment-download-packages/{id}/download"
+            }
+          ],
+          "currentImplemented": [
+            {
+              "method": "GET",
+              "path": "/attachment-download-packages/{packageId}/download"
+            }
+          ],
+          "status": "implementation-drift",
+          "drift": "existing-baseline-drift",
+          "action": "R0F 仅校正现状登记；保留既有参数名作为迁移输入，R2 附件域工程 G1 前显式裁决命名及同步切换方案；未批准 legacy alias 例外，详见 [R0F 路由基线](archive/slices/rust-r0f-route-baseline.md)。"
+        }
+      ]
+    },
+    {
+      "method": "GET",
+      "path": "/api/project-handovers/{handoverId}/attachment-checklist",
+      "operationId": "AttachmentHandoverController_getChecklist",
+      "canonicalStatus": "parameter-name-difference",
+      "canonicalRows": [
+        {
+          "source": {
+            "path": "docs/design/api-route-canonical-inventory.md",
+            "line": 401
+          },
+          "canonical": [
+            {
+              "method": "GET",
+              "path": "/project-handovers/{id}/attachment-checklist"
+            }
+          ],
+          "currentImplemented": [
+            {
+              "method": "GET",
+              "path": "/project-handovers/{handoverId}/attachment-checklist"
+            }
+          ],
+          "status": "implementation-drift",
+          "drift": "existing-baseline-drift",
+          "action": "R0F 仅校正现状登记；保留既有参数名作为迁移输入，R2 附件域工程 G1 前显式裁决命名及同步切换方案；未批准 legacy alias 例外，详见 [R0F 路由基线](archive/slices/rust-r0f-route-baseline.md)。"
+        }
+      ]
+    },
+    {
+      "method": "POST",
+      "path": "/api/project-handovers/{handoverId}/attachment-checklist:refresh",
+      "operationId": "AttachmentHandoverController_refreshChecklist",
+      "canonicalStatus": "parameter-name-difference",
+      "canonicalRows": [
+        {
+          "source": {
+            "path": "docs/design/api-route-canonical-inventory.md",
+            "line": 402
+          },
+          "canonical": [
+            {
+              "method": "POST",
+              "path": "/project-handovers/{id}/attachment-checklist:refresh"
+            }
+          ],
+          "currentImplemented": [
+            {
+              "method": "POST",
+              "path": "/project-handovers/{handoverId}/attachment-checklist:refresh"
+            }
+          ],
+          "status": "implementation-drift",
+          "drift": "existing-baseline-drift",
+          "action": "R0F 仅校正现状登记；保留既有参数名作为迁移输入，R2 附件域工程 G1 前显式裁决命名及同步切换方案；未批准 legacy alias 例外，详见 [R0F 路由基线](archive/slices/rust-r0f-route-baseline.md)。"
+        }
+      ]
+    },
+    {
+      "method": "POST",
+      "path": "/api/project-handovers/{handoverId}/attachment-download-packages",
+      "operationId": "AttachmentHandoverController_createDownloadPackage",
+      "canonicalStatus": "parameter-name-difference",
+      "canonicalRows": [
+        {
+          "source": {
+            "path": "docs/design/api-route-canonical-inventory.md",
+            "line": 403
+          },
+          "canonical": [
+            {
+              "method": "POST",
+              "path": "/project-handovers/{id}/attachment-download-packages"
+            }
+          ],
+          "currentImplemented": [
+            {
+              "method": "POST",
+              "path": "/project-handovers/{handoverId}/attachment-download-packages"
+            }
+          ],
+          "status": "implementation-drift",
+          "drift": "existing-baseline-drift",
+          "action": "R0F 仅校正现状登记；保留既有参数名作为迁移输入，R2 附件域工程 G1 前显式裁决命名及同步切换方案；未批准 legacy alias 例外，详见 [R0F 路由基线](archive/slices/rust-r0f-route-baseline.md)。"
+        }
+      ]
+    }
+  ],
+  "sourceManifest": [
+    {
+      "path": "CLAUDE.md",
+      "rawBytes": 13794,
+      "rawBytesSha256": "9a9a810d5e69b6014009711a11813fdcb3373e17ca4d71db51e6a042f3be04cf",
+      "normalizedUtf8Sha256": "9a9a810d5e69b6014009711a11813fdcb3373e17ca4d71db51e6a042f3be04cf"
+    },
+    {
+      "path": ".agents/skills/poms-implementation-governance/SKILL.md",
+      "rawBytes": 10211,
+      "rawBytesSha256": "5f418b9d161a4dbe67d8a199717d200421eb3a490be52035b1226bb9929f94a8",
+      "normalizedUtf8Sha256": "5f418b9d161a4dbe67d8a199717d200421eb3a490be52035b1226bb9929f94a8"
+    },
+    {
+      "path": ".agents/skills/poms-implementation-governance/references/governance-summary.md",
+      "rawBytes": 9479,
+      "rawBytesSha256": "a04907727b4ea4bf87a3cc72b7b405b5586d5f2b4b4bf5d546b1db8ed6e3f0bd",
+      "normalizedUtf8Sha256": "a04907727b4ea4bf87a3cc72b7b405b5586d5f2b4b4bf5d546b1db8ed6e3f0bd"
+    },
+    {
+      "path": ".agents/skills/poms-github-task-governance/SKILL.md",
+      "rawBytes": 3561,
+      "rawBytesSha256": "43e11c518e49893c92b650d0b8e71f8a86539115244dc77cf8bbbc92590fbaeb",
+      "normalizedUtf8Sha256": "43e11c518e49893c92b650d0b8e71f8a86539115244dc77cf8bbbc92590fbaeb"
+    },
+    {
+      "path": "docs/design/backend-rust-migration-plan.md",
+      "rawBytes": 43341,
+      "rawBytesSha256": "99ab1153b70282aead7f66dcf4772823fb6b7926e8bfd4b7273e03d99599833b",
+      "normalizedUtf8Sha256": "99ab1153b70282aead7f66dcf4772823fb6b7926e8bfd4b7273e03d99599833b"
+    },
+    {
+      "path": "docs/design/rust-migration-execution-tracker.md",
+      "rawBytes": 26393,
+      "rawBytesSha256": "beefa904fca96732b399778ac254b502697492fbe47e56a683b6c2b6814e2014",
+      "normalizedUtf8Sha256": "beefa904fca96732b399778ac254b502697492fbe47e56a683b6c2b6814e2014"
+    },
+    {
+      "path": "docs/design/rust-r2-scope-and-dependencies.md",
+      "rawBytes": 54537,
+      "rawBytesSha256": "a045fa9bafda93c8c5b3cd2947ad56d22d7ab08e87d1faed6bcc1dd8307b9efc",
+      "normalizedUtf8Sha256": "a045fa9bafda93c8c5b3cd2947ad56d22d7ab08e87d1faed6bcc1dd8307b9efc"
+    },
+    {
+      "path": "docs/design/rust-r2-operation-slices.json",
+      "rawBytes": 502466,
+      "rawBytesSha256": "1131d94e9bb8dc7843e80cd2233df5fb97e32508dcdc68a4f3717420434955cd",
+      "normalizedUtf8Sha256": "1131d94e9bb8dc7843e80cd2233df5fb97e32508dcdc68a4f3717420434955cd"
+    },
+    {
+      "path": "docs/design/api-route-canonical-inventory.md",
+      "rawBytes": 168452,
+      "rawBytesSha256": "0822eaacb1c67339ccc2464606d19c393216b217a2c3ad99364a2d31e2b7d60f",
+      "normalizedUtf8Sha256": "0822eaacb1c67339ccc2464606d19c393216b217a2c3ad99364a2d31e2b7d60f"
+    },
+    {
+      "path": "libs/shared/api-spec/openapi.json",
+      "rawBytes": 1129475,
+      "rawBytesSha256": "75d43527a24809a03d17a6a3b1d47c3600309c424adebe59766378eab50598e3",
+      "normalizedUtf8Sha256": "75d43527a24809a03d17a6a3b1d47c3600309c424adebe59766378eab50598e3"
+    },
+    {
+      "path": "libs/shared/contracts/src/lib/shared-contracts.ts",
+      "rawBytes": 435382,
+      "rawBytesSha256": "3dbfa25ed6c8375429090598f64c10db0f5ec9a70a197f38afe94d1fe2e0bb7a",
+      "normalizedUtf8Sha256": "3dbfa25ed6c8375429090598f64c10db0f5ec9a70a197f38afe94d1fe2e0bb7a"
+    },
+    {
+      "path": "libs/api/contracts/src/lib/attachment/attachment.dto.ts",
+      "rawBytes": 4874,
+      "rawBytesSha256": "71fddf52da5438df45d5c7f00fe5173b86bc391634ca0e8d41af3ab6ce78e892",
+      "normalizedUtf8Sha256": "71fddf52da5438df45d5c7f00fe5173b86bc391634ca0e8d41af3ab6ce78e892"
+    },
+    {
+      "path": "apps/poms-api/src/app/features/attachment/attachment-storage-provider.controller.ts",
+      "rawBytes": 4713,
+      "rawBytesSha256": "41ddb87385b90964f7468508737cd8c9a3803a545929561936525762e94309af",
+      "normalizedUtf8Sha256": "41ddb87385b90964f7468508737cd8c9a3803a545929561936525762e94309af"
+    },
+    {
+      "path": "apps/poms-api/src/app/features/attachment/attachment-upload-session.controller.ts",
+      "rawBytes": 4804,
+      "rawBytesSha256": "931bb4caf3dc0937d464d6a39804128ff389662f383599881958fff7a53473ce",
+      "normalizedUtf8Sha256": "931bb4caf3dc0937d464d6a39804128ff389662f383599881958fff7a53473ce"
+    },
+    {
+      "path": "apps/poms-api/src/app/features/attachment/attachment.controller.ts",
+      "rawBytes": 7617,
+      "rawBytesSha256": "fe7c8ab9e718d3494b3024dd098592e1aa41d273aabbe263f7b6c94db0c7dade",
+      "normalizedUtf8Sha256": "fe7c8ab9e718d3494b3024dd098592e1aa41d273aabbe263f7b6c94db0c7dade"
+    },
+    {
+      "path": "apps/poms-api/src/app/features/attachment/attachment-center-record.controller.ts",
+      "rawBytes": 1084,
+      "rawBytesSha256": "33b078a0221bf99cc25c3e5207b3e23a494e56bb9f9f199efdfd27bc9c78edfa",
+      "normalizedUtf8Sha256": "33b078a0221bf99cc25c3e5207b3e23a494e56bb9f9f199efdfd27bc9c78edfa"
+    },
+    {
+      "path": "apps/poms-api/src/app/features/attachment/attachment-handover.controller.ts",
+      "rawBytes": 4161,
+      "rawBytesSha256": "d3f74a2e292df1de8f76a1f0773a7ec17ccf9e5d11b305e41cb712d412700359",
+      "normalizedUtf8Sha256": "d3f74a2e292df1de8f76a1f0773a7ec17ccf9e5d11b305e41cb712d412700359"
+    },
+    {
+      "path": "apps/poms-api/src/app/features/attachment/attachment-storage-provider.service.ts",
+      "rawBytes": 16366,
+      "rawBytesSha256": "a0fa9e9837cd4494767f2df3624f787f154d82445eadf8759c80c89367cdc7f7",
+      "normalizedUtf8Sha256": "a0fa9e9837cd4494767f2df3624f787f154d82445eadf8759c80c89367cdc7f7"
+    },
+    {
+      "path": "apps/poms-api/src/app/features/attachment/attachment-storage-provider.repository.ts",
+      "rawBytes": 2476,
+      "rawBytesSha256": "64c5531b23974b645cc31acb03345205785cfbd0216d1b83a6ebb88d69c22d15",
+      "normalizedUtf8Sha256": "64c5531b23974b645cc31acb03345205785cfbd0216d1b83a6ebb88d69c22d15"
+    },
+    {
+      "path": "apps/poms-api/src/app/features/attachment/attachment-storage-provider-registry.service.ts",
+      "rawBytes": 10278,
+      "rawBytesSha256": "b3c7fe0ad90890702583d064ee3489948537ccc076be2ff7c7a25607c79572dd",
+      "normalizedUtf8Sha256": "b3c7fe0ad90890702583d064ee3489948537ccc076be2ff7c7a25607c79572dd"
+    },
+    {
+      "path": "apps/poms-api/src/app/features/attachment/attachment-object-storage-provider.types.ts",
+      "rawBytes": 2662,
+      "rawBytesSha256": "f3a704f43fd9cbc1594771e086986efe7664ab9dca62c94394e8802ad2919ae1",
+      "normalizedUtf8Sha256": "f3a704f43fd9cbc1594771e086986efe7664ab9dca62c94394e8802ad2919ae1"
+    },
+    {
+      "path": "apps/poms-api/src/app/features/attachment/attachment-storage.service.ts",
+      "rawBytes": 4807,
+      "rawBytesSha256": "2c37b1ff16fafda3cd6e78ead88630fd94848aaba44c078f97861dde874e0202",
+      "normalizedUtf8Sha256": "2c37b1ff16fafda3cd6e78ead88630fd94848aaba44c078f97861dde874e0202"
+    },
+    {
+      "path": "apps/poms-api/src/app/features/attachment/local-attachment-object-storage.provider.ts",
+      "rawBytes": 3553,
+      "rawBytesSha256": "987f3ba46fa8b6fc95c5f66485dbe69adb76e9c328370276182fa26f862cbc9b",
+      "normalizedUtf8Sha256": "987f3ba46fa8b6fc95c5f66485dbe69adb76e9c328370276182fa26f862cbc9b"
+    },
+    {
+      "path": "apps/poms-api/src/app/features/attachment/huawei-obs-s3-attachment-object-storage.provider.ts",
+      "rawBytes": 14261,
+      "rawBytesSha256": "07ceaf9af08afd5a71a0d0f684c0209f6c6173e532c853a23209b656a1dc1048",
+      "normalizedUtf8Sha256": "07ceaf9af08afd5a71a0d0f684c0209f6c6173e532c853a23209b656a1dc1048"
+    },
+    {
+      "path": "apps/poms-api/src/app/features/attachment/attachment-storage-provider-secret.constants.ts",
+      "rawBytes": 392,
+      "rawBytesSha256": "b7ee74a61e1d26e5d1d262e75ca763b6011b325db8413c7d81059cdbee117804",
+      "normalizedUtf8Sha256": "b7ee74a61e1d26e5d1d262e75ca763b6011b325db8413c7d81059cdbee117804"
+    },
+    {
+      "path": "apps/poms-api/src/app/core/secret/secret-cipher.service.ts",
+      "rawBytes": 2539,
+      "rawBytesSha256": "43a50b8181c0fa3773bb3544daaeba5d0639f9c4ec4aa9048e25cd4f1362d84a",
+      "normalizedUtf8Sha256": "43a50b8181c0fa3773bb3544daaeba5d0639f9c4ec4aa9048e25cd4f1362d84a"
+    },
+    {
+      "path": "apps/poms-api/src/app/features/attachment/attachment.service.ts",
+      "rawBytes": 104205,
+      "rawBytesSha256": "b5362da2690283fa930740bf3dbbdc77f56a7429613d64394bd726094cd9cbf2",
+      "normalizedUtf8Sha256": "b5362da2690283fa930740bf3dbbdc77f56a7429613d64394bd726094cd9cbf2"
+    },
+    {
+      "path": "apps/poms-api/src/app/features/attachment/attachment.repository.ts",
+      "rawBytes": 15693,
+      "rawBytesSha256": "9bfc1074b3ebe6a3baa2499425439ffce4ef939612c464a9a81779715c15da5f",
+      "normalizedUtf8Sha256": "9bfc1074b3ebe6a3baa2499425439ffce4ef939612c464a9a81779715c15da5f"
+    },
+    {
+      "path": "apps/poms-api/src/app/features/attachment/attachment.mapper.ts",
+      "rawBytes": 4340,
+      "rawBytesSha256": "0b4607b08f340e76fa89fe6e27bc33ddd4049924cf5ef5abba421f9e118098a5",
+      "normalizedUtf8Sha256": "0b4607b08f340e76fa89fe6e27bc33ddd4049924cf5ef5abba421f9e118098a5"
+    },
+    {
+      "path": "apps/poms-api/src/app/features/attachment/attachment-preview.util.ts",
+      "rawBytes": 1211,
+      "rawBytesSha256": "9da3adb2955152dc611d4f41cf133da4ea4f404aee8cb8637a54f1f0294d9154",
+      "normalizedUtf8Sha256": "9da3adb2955152dc611d4f41cf133da4ea4f404aee8cb8637a54f1f0294d9154"
+    },
+    {
+      "path": "apps/poms-api/src/app/features/attachment/attachment-upload-session.entity.ts",
+      "rawBytes": 7443,
+      "rawBytesSha256": "91c0cde339a88dccf4438dfe38fb49e291be9cb77fb465e61a0b2252be1c2367",
+      "normalizedUtf8Sha256": "91c0cde339a88dccf4438dfe38fb49e291be9cb77fb465e61a0b2252be1c2367"
+    },
+    {
+      "path": "apps/poms-api/src/migrations/Migration20260430140000_ex45_attachment_evidence_repository.ts",
+      "rawBytes": 9005,
+      "rawBytesSha256": "e057d5bffc0f6da9ed0ce290b46ef4983dfa38fa3e89f213119de6e7abc9360b",
+      "normalizedUtf8Sha256": "e057d5bffc0f6da9ed0ce290b46ef4983dfa38fa3e89f213119de6e7abc9360b"
+    },
+    {
+      "path": "apps/poms-api/src/migrations/Migration20260505100000_ex51_attachment_version_final_runtime.ts",
+      "rawBytes": 2819,
+      "rawBytesSha256": "573d95678965d4a9cf01dfc373c08846f6d1af2d8b70551fc7e71a11958bdc87",
+      "normalizedUtf8Sha256": "573d95678965d4a9cf01dfc373c08846f6d1af2d8b70551fc7e71a11958bdc87"
+    },
+    {
+      "path": "apps/poms-api/src/migrations/Migration20260505113000_ex52a_attachment_handover_runtime.ts",
+      "rawBytes": 13522,
+      "rawBytesSha256": "d856b5ea0bbfef933c7761c7443c474a39a2cb0083d3bf45bd98a194e1854e7f",
+      "normalizedUtf8Sha256": "d856b5ea0bbfef933c7761c7443c474a39a2cb0083d3bf45bd98a194e1854e7f"
+    },
+    {
+      "path": "apps/poms-api/src/migrations/Migration20260511140000_ex65b_attachment_storage_provider_config.ts",
+      "rawBytes": 3697,
+      "rawBytesSha256": "e3cc94bc625b1ffb1a5e263e0f0fcbce337e7c53aa4d0e5dd3fcf9e399a0b0b5",
+      "normalizedUtf8Sha256": "e3cc94bc625b1ffb1a5e263e0f0fcbce337e7c53aa4d0e5dd3fcf9e399a0b0b5"
+    },
+    {
+      "path": "apps/poms-api/src/migrations/Migration20260511160000_ex65d_attachment_upload_session.ts",
+      "rawBytes": 8667,
+      "rawBytesSha256": "343c1aa505878b0e7829e0946fed1205a87e0fd4f856f3b3c76a7bb7534d268b",
+      "normalizedUtf8Sha256": "343c1aa505878b0e7829e0946fed1205a87e0fd4f856f3b3c76a7bb7534d268b"
+    },
+    {
+      "path": "apps/poms-api-rust/src/config.rs",
+      "rawBytes": 43135,
+      "rawBytesSha256": "04c57b4bfdc1b0469476e9638e1ff90aeb994c1d647c9ac34ddcc21d815b7eea",
+      "normalizedUtf8Sha256": "04c57b4bfdc1b0469476e9638e1ff90aeb994c1d647c9ac34ddcc21d815b7eea"
+    },
+    {
+      "path": "apps/poms-api-rust/src/http.rs",
+      "rawBytes": 19446,
+      "rawBytesSha256": "d9c57a206a92a819c4b365c182354731def891e709b0ea31bb100b2c89b3d30a",
+      "normalizedUtf8Sha256": "d9c57a206a92a819c4b365c182354731def891e709b0ea31bb100b2c89b3d30a"
+    },
+    {
+      "path": "apps/poms-api-rust/src/main.rs",
+      "rawBytes": 4402,
+      "rawBytesSha256": "b5cda6af76fad4346ecdc4026eadc2753bd69ac5fdc19befe070b3cfd992b483",
+      "normalizedUtf8Sha256": "b5cda6af76fad4346ecdc4026eadc2753bd69ac5fdc19befe070b3cfd992b483"
+    },
+    {
+      "path": "apps/poms-api-rust/src/auth/http.rs",
+      "rawBytes": 39425,
+      "rawBytesSha256": "3e95e4f7c3686c9dac030494443afbd7f4a5ea173a7eb2fff159cd9c3591e70f",
+      "normalizedUtf8Sha256": "3e95e4f7c3686c9dac030494443afbd7f4a5ea173a7eb2fff159cd9c3591e70f"
+    },
+    {
+      "path": "apps/poms-api-rust/src/auth/guards.rs",
+      "rawBytes": 12029,
+      "rawBytesSha256": "58f7e67c075f3ee4918a0df433d0a055de81c4e99abb95ab7f0950d9c40c6082",
+      "normalizedUtf8Sha256": "58f7e67c075f3ee4918a0df433d0a055de81c4e99abb95ab7f0950d9c40c6082"
+    },
+    {
+      "path": "apps/poms-api-rust/src/auth/crypto.rs",
+      "rawBytes": 15085,
+      "rawBytesSha256": "ac29eb9c5a7cb552f15545f8e2e4e2e8412fe019b8f982375dc68e1c2de76da5",
+      "normalizedUtf8Sha256": "ac29eb9c5a7cb552f15545f8e2e4e2e8412fe019b8f982375dc68e1c2de76da5"
+    },
+    {
+      "path": "apps/poms-api-rust/src/auth/audit.rs",
+      "rawBytes": 4747,
+      "rawBytesSha256": "0b4348a873f4fdb67ba215ffa6d04014f936c984a9261b9fe984d773f171d09c",
+      "normalizedUtf8Sha256": "0b4348a873f4fdb67ba215ffa6d04014f936c984a9261b9fe984d773f171d09c"
+    },
+    {
+      "path": "apps/poms-api-rust/src/provider_support/settings.rs",
+      "rawBytes": 1617,
+      "rawBytesSha256": "d3d0ec896eae186f3f7b07e5f7cd9dc1eba064f529c55bd8165ddb1dccbc15ef",
+      "normalizedUtf8Sha256": "d3d0ec896eae186f3f7b07e5f7cd9dc1eba064f529c55bd8165ddb1dccbc15ef"
+    },
+    {
+      "path": "apps/poms-api-rust/src/provider_support/upstream.rs",
+      "rawBytes": 12748,
+      "rawBytesSha256": "e7d002ac3517a8f39350a8fe81a0fa26121184758dfd818713b061cec73db58f",
+      "normalizedUtf8Sha256": "e7d002ac3517a8f39350a8fe81a0fa26121184758dfd818713b061cec73db58f"
+    },
+    {
+      "path": "apps/poms-api-rust/src/dictionary/service.rs",
+      "rawBytes": 13451,
+      "rawBytesSha256": "ad76e7a973b20cdd991768e7e27cb09fd38e324d5ce4f6c81b8794b46e51897e",
+      "normalizedUtf8Sha256": "ad76e7a973b20cdd991768e7e27cb09fd38e324d5ce4f6c81b8794b46e51897e"
+    },
+    {
+      "path": "apps/poms-api-rust/src/system_settings/service.rs",
+      "rawBytes": 14025,
+      "rawBytesSha256": "a361a7e6a6ed04046b0dad07590680f0ca0394532f0140406ee887d99713d6b8",
+      "normalizedUtf8Sha256": "a361a7e6a6ed04046b0dad07590680f0ca0394532f0140406ee887d99713d6b8"
+    },
+    {
+      "path": "apps/poms-api-rust/Cargo.toml",
+      "rawBytes": 3004,
+      "rawBytesSha256": "9685a0989c3362f4b3deeddda16bf075dc27f90b287e71894be18bc27c3b04c8",
+      "normalizedUtf8Sha256": "9685a0989c3362f4b3deeddda16bf075dc27f90b287e71894be18bc27c3b04c8"
+    },
+    {
+      "path": "tools/rust-r2gh/fixture-complete-references.mjs",
+      "rawBytes": 14916,
+      "rawBytesSha256": "5489418777b421fdb288ad128085d0375831565d6fd982334473c7949ebc7edb",
+      "normalizedUtf8Sha256": "5489418777b421fdb288ad128085d0375831565d6fd982334473c7949ebc7edb"
+    },
+    {
+      "path": "tools/rust-r2gh/cipher-faults.mjs",
+      "rawBytes": 6416,
+      "rawBytesSha256": "c064e487dcdf8daea1db87db153ec11a1bca7f224895c688e5c23aadb6d7c233",
+      "normalizedUtf8Sha256": "c064e487dcdf8daea1db87db153ec11a1bca7f224895c688e5c23aadb6d7c233"
+    },
+    {
+      "path": "tools/rust-r2gh/timestamp-policy.mjs",
+      "rawBytes": 3896,
+      "rawBytesSha256": "61f462b9beedfea979786d2ffe4f29e40dbfe75e6936468d0ff1bab0bdc3ee0b",
+      "normalizedUtf8Sha256": "61f462b9beedfea979786d2ffe4f29e40dbfe75e6936468d0ff1bab0bdc3ee0b"
+    },
+    {
+      "path": "tmp/rust-r2gh/c-g3-review02.json",
+      "rawBytes": 17150,
+      "rawBytesSha256": "993ff5175907a39bb5c2e4eadf213ad3cfa62a993d6ee71d0048a90cafb0f615",
+      "normalizedUtf8Sha256": "993ff5175907a39bb5c2e4eadf213ad3cfa62a993d6ee71d0048a90cafb0f615"
+    }
+  ],
+  "fingerprintRule": "rawBytesSha256 is exact bytes; normalizedUtf8Sha256 decodes UTF8 preserving BOM then replaces CRLF only with LF; bare CR, Unicode and all other whitespace stay literal",
+  "recordedAtUtc": "2026-10-28T17:36:01.0822189Z",
+  "perOperationDependencyNote": "directDependencies are current-source G0 call/data requirements, not completed deliverables or an approved G1. R2F.audit_writer denotes inherited runtime audit infrastructure. R2E.dictionary_and_size_setting groups two existing ports; metadata update uses dictionary only. Read dependencies after mutations reflect returned getAttachment, not a claim of atomic authorization."
+}

@@ -1,0 +1,53 @@
+{
+  "kind": "non-author-runtime118-existing-failure-preservation-notes",
+  "schemaVersion": 1,
+  "preservedAt": "2026-11-14T19:38:03.981Z",
+  "newExecution": false,
+  "notes": [
+    {
+      "id": "audit-P2-baseline-assumption",
+      "classification": "AUDIT-SCRIPT-ERROR-NOT-SOURCE-PRODUCT-FAIL",
+      "executedScript": {
+        "file": "/mnt/e/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/runtime118-source-readback-actual01/readback-source-actual01.mjs",
+        "bytes": 16619,
+        "rawBytesSha256": "2ca14069688c92c0bb59189fcad114c1604af804848e8305f380bbbc572b08d3"
+      },
+      "observedExitCode": 1,
+      "originalOnDiskReport": null,
+      "evidenceBasis": "Existing session tool result chunk15076b; original program threw before report creation.",
+      "observedFact": "Audit v1 compared W4.baselineCompositionComplete(P3 complete5759) against s3.predecessorPublication(P2 completebd7d). Only the independent audit comparison was corrected in v2; actual Source was not changed or rerun.",
+      "rawToolOutputFileAvailable": false
+    },
+    {
+      "id": "Windows-UNC-profile",
+      "classification": "READONLY-PROFILE-INFRA-FAIL-NOT-PRODUCT-VERDICT",
+      "executedScript": {
+        "file": "/mnt/e/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/runtime118-source-readback-actual01/verify-runtime-sourceHistory-profile01.mjs",
+        "bytes": 7080,
+        "rawBytesSha256": "f63127b88a61fa308f342953a34c0fd0a430363be01088eecc1d900c39495f7c"
+      },
+      "observedExitCode": 1,
+      "originalOnDiskReport": null,
+      "evidenceBasis": "Existing session wait result chunk88eb0e; final FD assertion prevented final report.",
+      "observedFact": "Final assertion Every read-only FD closed failed with1!==0. The caught underlying profile error was not preserved by v1; its precise cause is UNKNOWN. No product rejection or accepted consumer profile is inferred.",
+      "rawToolOutputFileAvailable": false
+    },
+    {
+      "id": "Linux02-access-omission",
+      "classification": "READONLY-ALLOWLIST-OMISSION-NOT-PRODUCT-FAIL",
+      "originalReport": {
+        "file": "/mnt/e/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/runtime118-source-readback-actual01/runtime-sourceHistory-profile-linux01.json",
+        "bytes": 3689,
+        "rawBytesSha256": "467a6fbb6a987b004ebf0e107aea975dc74f621c4691cda44877efa7f5b930a3"
+      },
+      "executedScript": {
+        "file": "/mnt/e/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/runtime118-source-readback-actual01/verify-runtime-sourceHistory-profile-linux02.mjs",
+        "bytes": 7660,
+        "rawBytesSha256": "0dfc48bd0dee45bb74ab9144c58136d740517b281a45d11acaf0f3b5d2292ed5"
+      },
+      "observedExitCode": 1,
+      "observedFact": "Existing report records wrapper denial at exact boot_id read through currentBoot/pgStepBase/verifyPGStep/sourceHistory. Linux03 added only that exact path and/usr/bin/podman; all other/proc/env/actuator denials and the qualified function remained unchanged.",
+      "preservedReportVerdict": "NOTREADY-CONSUMER-PROFILE-FAILED"
+    }
+  ]
+}

@@ -4,6 +4,7 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { FormsModule } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import {
+    CreateProjectArchiveRecordRequestInputVersionEnum, ReplaceProjectArchiveRecordRequestInputVersionEnum, VoidProjectArchiveRecordRequestInputVersionEnum, type FullProjectDetailView as ProjectDetailView,
     AttachmentTargetType,
     AuthStore,
     BusinessDiscussionTargetObjectType,
@@ -19,7 +20,6 @@ import {
     type CustomerListView,
     type OwnerReferenceUser,
     type ProjectArchiveRecordSummary,
-    type ProjectDetailView,
     type ProjectTimelineView
 } from '@poms/admin-data-access';
 import { ButtonModule } from 'primeng/button';
@@ -908,9 +908,9 @@ export class ProjectDetail implements OnInit {
         });
         const id = this.#route.snapshot.paramMap.get('id');
         if (id) {
-            void this.#projectStore.loadProject(id);
-            void this.#projectStore.loadProjectTimeline(id).catch(() => undefined);
-            void this.#projectStore.loadProjectArchiveRecords(id).catch(() => undefined);
+            void this.#projectStore.loadProject(id).then(async () => {
+                await Promise.all([this.#projectStore.loadProjectTimeline(id).catch(() => undefined), this.#projectStore.loadProjectArchiveRecords(id).catch(() => undefined)]);
+            }).catch(() => undefined);
         }
     }
 
@@ -1096,6 +1096,8 @@ export class ProjectDetail implements OnInit {
 
         try {
             await this.#projectStore.createProjectArchiveRecord(project.id, {
+                inputVersion: CreateProjectArchiveRecordRequestInputVersionEnum.ServerDerivedV1,
+                expectedProjectVersion: project.projectRowVersion,
                 archivedAt,
                 archiveSummary,
                 evidenceSummary
@@ -1152,6 +1154,7 @@ export class ProjectDetail implements OnInit {
 
         try {
             await this.#projectStore.replaceProjectArchiveRecord(record.id, {
+                inputVersion: ReplaceProjectArchiveRecordRequestInputVersionEnum.ServerDerivedV1,
                 archivedAt,
                 archiveSummary,
                 evidenceSummary,
@@ -1199,6 +1202,7 @@ export class ProjectDetail implements OnInit {
 
         try {
             await this.#projectStore.voidProjectArchiveRecord(record.id, {
+                inputVersion: VoidProjectArchiveRecordRequestInputVersionEnum.ServerDerivedV1,
                 reason,
                 comment: comment || null,
                 expectedVersion: record.rowVersion

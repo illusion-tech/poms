@@ -1,0 +1,10 @@
+{
+  "kind": "reviewer-authored-explicit-original-FK-rules-candidate",
+  "path": "apps/poms-api/src/app/features/project-cost/operating-restatement-record.entity.ts",
+  "baseSHA256": "eb632c177a34fb39d30d87f5c0fc7306f7ded42382494f770fc8b65ed41a070c",
+  "candidateSHA256": "963c0578a41f95d92c030fbaf17027eaec2a2e64cf95eb67edd08a777e1d2d9b",
+  "delta": "Add only .deleteRule('no action').updateRule('no action') to existing nullable periodEndSnapshotId relation; preserve scalar field/FK identity/nullable/composite guards.",
+  "reviewerAuthoredNeedsRootReview": true,
+  "G3Certified": false,
+  "rootReview": "Existing physical NO ACTION preserved; avoid nullable default SET NULL in ORM target. No physical DDL or business source changed."
+}

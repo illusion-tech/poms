@@ -1,0 +1,120 @@
+--- a/apps/poms-api-rust/src/projects/model.rs
++++ b/apps/poms-api-rust/src/projects/model.rs
+@@ -5,8 +5,9 @@
+ 
+ use crate::{
+     auth::js_json::JsString,
+     compat::json::Field,
++    project_operating_common::model::ProjectStage as QueryProjectStage,
+     shared::generated::{ProjectStage, ProjectStatus},
+ };
+ 
+ #[derive(Clone)]
+@@ -36,9 +37,9 @@
+ 
+ #[derive(Clone, Default)]
+ pub struct ProjectListQuery {
+     pub status: Option<ProjectStatus>,
+-    pub current_stage: Option<ProjectStage>,
++    pub current_stage: Option<QueryProjectStage>,
+     pub owner_org_id: Option<String>,
+     pub keyword: Option<JsString>,
+ }
+ 
+--- a/apps/poms-api-rust/src/projects/validation.rs
++++ b/apps/poms-api-rust/src/projects/validation.rs
+@@ -9,8 +9,9 @@
+     auth::js_json::{JsObject, JsString, decode_string},
+     compat::json::Field,
+     dictionary::validation::{failure, integer, invalid_type, json_type, object, text},
+     error::ApiError,
++    project_operating_common::model::ProjectStage as QueryProjectStage,
+     shared::generated::{ProjectStage, ProjectStatus},
+ };
+ 
+ const UUID_PATTERN: &str = "/^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$/";
+@@ -260,8 +261,33 @@
+         _ => Err(ApiError::internal()),
+     }
+ }
+ 
++/// Query consumes the versioned public enum generated from the current TS
++/// canonical contract; create independently remains assessment-only.
++fn query_stage(object: &JsObject<'_>, errors: &mut Vec<Value>) -> Option<QueryProjectStage> {
++    let raw = object.get("currentStage")?;
++    if let Some(value) = decode_string(raw.get())
++        .ok()
++        .map(|value| value.to_utf8_lossy())
++        && let Ok(stage) = serde_json::from_value::<QueryProjectStage>(Value::String(value))
++    {
++        return Some(stage);
++    }
++    // Error metadata comes from the same certified schema, never a parallel
++    // handwritten list. A model/registry mismatch fails closed, never unfilters.
++    let values = crate::project_operating_common::schema::public_registry()["components"]["schemas"]["ProjectStage"]["enum"]
++        .as_array().cloned().unwrap_or_default();
++    let allowed = values
++        .iter()
++        .filter_map(Value::as_str)
++        .map(|value| format!("\"{value}\""))
++        .collect::<Vec<_>>()
++        .join("|");
++    errors.push(json!({"code":"invalid_value","values":values,"path":["currentStage"],"message":format!("Invalid option: expected one of {allowed}")}));
++    None
++}
++
+ pub fn validate_query(raw: Option<&str>) -> Result<ProjectListQuery, ApiError> {
+     let object = object(raw)?;
+     let mut errors = Vec::new();
+     let values = ProjectStatus::ALL
+@@ -269,9 +295,9 @@
+         .map(|value| value.as_str())
+         .collect::<Vec<_>>();
+     let status =
+         enumeration(&object, "status", &values, &mut errors).and_then(|value| value.parse().ok());
+-    let current_stage = stage(&object, &mut errors);
++    let current_stage = query_stage(&object, &mut errors);
+     let owner_org_id = optional_uuid(&object, "ownerOrgId", &mut errors);
+     let keyword = text(&object, "keyword", false, true, 1, 128, &mut errors)?;
+     if !errors.is_empty() {
+         return Err(failure(errors));
+@@ -316,8 +342,39 @@
+ 
+     const CUSTOMER: &str = "11000000-0000-4000-8000-000000000001";
+ 
+     #[test]
++    fn list_stage_uses_current_public_enum_without_expanding_create() {
++        let registry = crate::project_operating_common::schema::public_registry();
++        let values = registry["components"]["schemas"]["ProjectStage"]["enum"]
++            .as_array()
++            .expect("registered public project stage");
++        for stage in values.iter().filter_map(Value::as_str) {
++            let raw = json!({"currentStage":stage}).to_string();
++            let parsed = validate_query(Some(&raw))
++                .unwrap_or_else(|_| panic!("registered query stage {stage}"));
++            assert_eq!(
++                parsed.current_stage.map(|value| value.as_str()),
++                Some(stage)
++            );
++        }
++        for value in [
++            json!("unknown-stage"),
++            json!("ConditionalCompleted"),
++            json!(1),
++            Value::Null,
++        ] {
++            assert!(validate_query(Some(&json!({"currentStage":value}).to_string())).is_err());
++        }
++        let create = json!({"projectName":"Project","customerId":CUSTOMER,"currentStage":"conditional-completed"}).to_string();
++        assert!(validate_create(Some(&create)).is_err());
++        let create =
++            json!({"projectName":"Project","customerId":CUSTOMER,"currentStage":"assessment"})
++                .to_string();
++        assert!(validate_create(Some(&create)).is_ok());
++    }
++
++    #[test]
+     fn project_strings_use_joint_oracle_code_points_after_js_trim() {
+         for count in [128, 255] {
+             let raw = json!({"projectName":format!("\u{feff}{}\u{3000}", "😀".repeat(count)),"customerId":CUSTOMER}).to_string();
+             let value = validate_create(Some(&raw))

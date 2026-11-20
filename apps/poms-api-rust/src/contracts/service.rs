@@ -652,13 +652,13 @@ async fn activate(
         "INSERT INTO poms.contract_term_snapshot \
          (id,contract_id,effective_at,effective_by,retention_due_date,amount_tax_inclusive,amount_tax_exclusive,\
          tax_rate,down_payment_rate,retention_rate,payment_terms,source_readiness_id,source_baseline_id,version,\
-         snapshot_status,created_at,created_by,row_version,source_preparation_id,receivable_plan_seeds,payload_hash) \
-         VALUES($1,$2,$3,$4,$5,$6::numeric,$7::numeric,$8::numeric,$9::numeric,$10::numeric,$11,$12,$13,1,'active',$3,$4,1,$14,$15,$16)",
+         snapshot_status,created_at,created_by,row_version,source_preparation_id,receivable_plan_seeds,payload_hash,currency_code) \
+         VALUES($1,$2,$3,$4,$5,$6::numeric,$7::numeric,$8::numeric,$9::numeric,$10::numeric,$11,$12,$13,1,'active',$3,$4,1,$14,$15,$16,$17)",
     )
     .bind(snapshot_id).bind(id).bind(at).bind(actor.id).bind(due)
     .bind(&inclusive).bind(&exclusive).bind(&tax).bind(&down).bind(&retention)
     .bind(&payment_terms).bind(readiness_id).bind(baseline_id).bind(binding.preparation_id)
-    .bind(seeds).bind(&payload_hash)
+    .bind(seeds).bind(&payload_hash).bind(prepared_string(&prepared, "currencyCode")?)
     .execute(&mut *session.connection).await?;
     session
         .state

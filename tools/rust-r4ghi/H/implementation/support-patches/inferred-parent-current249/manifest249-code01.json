@@ -1,0 +1,128 @@
+{
+  "kind": "H249-stage-only-automatic-late-root-parent-current-corrective-proposal",
+  "status": "sealed-for-independent-review-not-applied-to-source13",
+  "products": [
+    {
+      "file": "apps/poms-api-rust/src/project_operating/restatement.rs",
+      "beforeSHA256": "b4a0e399ead4702c2bcfad83b22011f9c12b649233f706d011588f9889fa0fd6",
+      "afterSHA256": "7251664a65dd189b38ea9349ba6e54b8a2ea84ca307d128e3b01f29ba446890c",
+      "candidate": "proposed/apps/poms-api-rust/src/project_operating/restatement.rs"
+    }
+  ],
+  "files": [
+    {
+      "file": "proposed/apps/poms-api-rust/src/project_operating/restatement.rs",
+      "bytes": 44779,
+      "rawBytesSha256": "7251664a65dd189b38ea9349ba6e54b8a2ea84ca307d128e3b01f29ba446890c"
+    },
+    {
+      "file": "change249.patch",
+      "bytes": 12367,
+      "rawBytesSha256": "ad71baf8a0a05257ea97ef9934a87c4a293bb8a03df306b98d4f9a5c123fb0aa"
+    },
+    {
+      "file": "README249.md",
+      "bytes": 2717,
+      "rawBytesSha256": "16d4d893fa8becd4c9e8cfda079aac442227a425a5d67b21e1ae290048cd0be8"
+    },
+    {
+      "file": "prepare249.mjs",
+      "bytes": 10515,
+      "rawBytesSha256": "d6298471a597525712f30b3cfee999e0a26e7a00f363746aa03e9511180d5db7"
+    },
+    {
+      "file": "check249.mjs",
+      "bytes": 6183,
+      "rawBytesSha256": "349a5870d0cd10997d009daf69f23f2834cd495b88b4386368d269b33aa4b429"
+    },
+    {
+      "file": "checks249/result249.json",
+      "bytes": 1684,
+      "rawBytesSha256": "8a68fc86be74bdb9e5d08d25a019a415dac6df87dfc57d5f46d3480c2d0fbf38"
+    },
+    {
+      "file": "checks249/exact-source249.rs",
+      "bytes": 10602,
+      "rawBytesSha256": "b5ebfdca2d09df7fb18125825bf25ab052b0e410fef477507ab5639a5f9d3abb"
+    },
+    {
+      "file": "checks249/test-stdout.log",
+      "bytes": 754,
+      "rawBytesSha256": "e65989df26a813d7465fd4924ae8021574775a7b63b632957cf2741b411acb6f"
+    },
+    {
+      "file": "checks249/test-stderr.log",
+      "bytes": 0,
+      "rawBytesSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "file": "checks249/rustc-stdout.log",
+      "bytes": 0,
+      "rawBytesSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "file": "checks249/rustc-stderr.log",
+      "bytes": 0,
+      "rawBytesSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "file": "checks249/rustfmt-stdout.log",
+      "bytes": 0,
+      "rawBytesSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "file": "checks249/rustfmt-stderr.log",
+      "bytes": 0,
+      "rawBytesSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  ],
+  "bases": [
+    {
+      "file": "base/apps/poms-api-rust/src/project_operating/restatement.rs",
+      "bytes": 36190,
+      "rawBytesSha256": "b4a0e399ead4702c2bcfad83b22011f9c12b649233f706d011588f9889fa0fd6"
+    },
+    {
+      "file": "base/apps/poms-api-rust/src/project_operating/sources.rs",
+      "bytes": 29268,
+      "rawBytesSha256": "298bf7ee91fc6a27b7f555942f660d2e1644f57a9d6fae9ea4bd8d124d99c9bf"
+    },
+    {
+      "file": "base/apps/poms-api-rust/src/project_operating/store.rs",
+      "bytes": 22537,
+      "rawBytesSha256": "3295742a9318cbc5d17aea5a1c72758eb4f0e74848c8d9175d6ab33e078d5637"
+    }
+  ],
+  "scope": {
+    "automaticStageOnly": true,
+    "currentParentStatuses": [
+      "registered",
+      "confirmed",
+      "included"
+    ],
+    "taxIndependentRulePreserved": true,
+    "explicitHistoricalRootsBytePreserved": true,
+    "completeHistoricalImpactGraphBytePreserved": true,
+    "sameProjectDayAffectedStatesBytePreserved": true,
+    "missingCatalogParentDoesNotClaimMissingDatabaseRow": true
+  },
+  "actualChecks": {
+    "isolatedExactRustTests": {
+      "passed": 6,
+      "failed": 0
+    },
+    "exactReversePatchRestoresBase": true
+  },
+  "fullCrateCompiled": false,
+  "fullCrateTestsRun": false,
+  "actualTax08Rerun": false,
+  "RootWritten": false,
+  "SQL": false,
+  "HTTP": false,
+  "DTOChanged": false,
+  "routeChanged": false,
+  "migrationChanged": false,
+  "currentSource13Changed": false,
+  "G3Certified": false,
+  "G4Certified": false
+}

@@ -1,0 +1,18 @@
+import fs from 'node:fs';
+import assert from 'node:assert/strict';
+import {execFileSync} from 'node:child_process';
+import {createHash} from 'node:crypto';
+const reviewFile=process.argv[2];assert(reviewFile?.startsWith('tools/rust-r4ghi/independent/review05/')&&reviewFile.endsWith('.json')&&fs.existsSync(reviewFile));
+const sha=b=>createHash('sha256').update(b).digest('hex'),git=args=>execFileSync('git',args,{encoding:'utf8',maxBuffer:20000000});
+const A='2cd1be6029cf1b14ebfb1fc4530af894507a4c5a';assert.equal(git(['rev-parse','HEAD']).trim(),A);
+const base='tools/openapi/checkpoints/r4ghi-s6-tooling',proposal=JSON.parse(fs.readFileSync(base+'/proposal02.json'));
+for(const f of proposal.files)assert.equal(sha(fs.readFileSync(f.file)),f.afterSHA256);
+const expected=[...proposal.files.map(f=>f.file),base+'/.gitattributes',base+'/proposal02.json',...proposal.files.map(f=>base+'/'+f.beforeSnapshot)].sort();
+const actual=git(['diff','--cached','--name-only','-z']).split('\0').filter(Boolean).sort();assert.deepEqual(actual,expected);assert.equal(actual.length,20);git(['diff','--cached','--check']);
+const body='tmp/rust-r4ghi/root/commit-s6-tooling04.txt';
+fs.writeFileSync(body,'build(codegen): 固定 S6 客户端和全量枚举生成来源\n\n完整客户端固定 A2 输入、690 个 schema 与原有 296 项操作。\n全量枚举登记仅新增 ProjectInitialOwnership；420 项快照和 working/index/blob/工具固定哈希保护保持。\n历史 s3 身份原始字节不改写，330 个原有族及 338 个原有来源的值、别名和归属逐项保留。\n\n独立技术审查：'+reviewFile+'\n新43项纯探针、38项工具单测及完整 JAR 规范校验通过；真实 write/check 在本工具提交后另行执行。\n本提交不带产品产物，不认证业务 G3/G4，也不推进 main。\n',{flag:'wx'});
+git(['commit','--file',body]);const head=git(['rev-parse','HEAD']).trim();
+assert.deepEqual(git(['diff-tree','--no-commit-id','--name-only','-r','-z',head]).split('\0').filter(Boolean).sort(),expected);
+assert.equal(git(['status','--porcelain','--','tools/rust-r1b/s5','tools/rust-r1b/s5-reviewed-registry.json']).trim(),'');
+fs.writeFileSync('docs/design/rust-r4ghi/s6-tooling-commit04.json',JSON.stringify({kind:'actual-S6-tooling-only-feature-commit',commit:head,parent:A,paths:20,reviewFile,reviewSHA256:sha(fs.readFileSync(reviewFile)),proposal:base+'/proposal02.json',productionGenerationPending:true,G3Certified:false,mainAdvanced:false},null,2)+'\n',{flag:'wx'});
+console.log(JSON.stringify({commit:head,paths:20,toolingTrackedAndClean:true,productionGenerationPending:true}));

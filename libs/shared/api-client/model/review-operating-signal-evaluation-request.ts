@@ -7,17 +7,29 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
-import { OperatingSignalReviewDecision } from './operating-signal-review-decision';
 import { OperatingSnapshotActionLevel } from './operating-snapshot-action-level';
 import { OperatingDataMaturityLevel } from './operating-data-maturity-level';
+import { ManualOperatingMaterialityReview } from './manual-operating-materiality-review';
 
 
 export interface ReviewOperatingSignalEvaluationRequest {
-    reviewDecision: OperatingSignalReviewDecision;
+    reviewDecision: ReviewOperatingSignalEvaluationRequestReviewDecisionEnum;
     resolvedDataMaturityLevel: OperatingDataMaturityLevel;
     costActionRecommendation: OperatingSnapshotActionLevel;
     referencedBaselineVersion: string;
     referencedSnapshotVersion: string;
     reviewComment?: string | null;
-    expectedVersion?: number;
+    expectedVersion: number;
+    expectedSourceHash: string;
+    expectedEvaluationHash: string;
+    requestKey: string;
+    manualMaterialityReview?: ManualOperatingMaterialityReview | null;
+    inputVersion: ReviewOperatingSignalEvaluationRequestInputVersionEnum;
 }
+export enum ReviewOperatingSignalEvaluationRequestReviewDecisionEnum {
+    Approve = 'approve',
+    ManualConfirmed = 'manual-confirmed'
+};
+export enum ReviewOperatingSignalEvaluationRequestInputVersionEnum {
+    ServerDerivedV1 = 'server-derived-v1'
+};

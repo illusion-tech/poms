@@ -90,7 +90,8 @@ export const ContractTermSnapshotSchema = defineEntity({
         {
             name: 'chk_contract_term_snapshot_status',
             expression: `"snapshot_status" in (${toSqlStringList(CONTRACT_TERM_SNAPSHOT_STATUSES)})`
-        }
+        },
+        {"name":"chk_r4g_term_currency","expression":"currency_code IS NULL OR currency_code~'^[A-Z]{3}$'"}
     ],
     properties: {
         id: p.uuid().primary().defaultRaw('gen_random_uuid()').comment('主键'),
@@ -124,6 +125,8 @@ export const ContractTermSnapshotSchema = defineEntity({
         createdBy: p.uuid().nullable().fieldName('created_by').comment('创建人'),
         rowVersion: p.integer().version().default(1).fieldName('row_version').comment('乐观锁版本号'),
         sourceAmendmentId: () => p.manyToOne(ContractAmendment).mapToPk().nullable().fieldName("source_amendment_id").createForeignKeyConstraint(false)
+    ,
+        currencyCode: p.string().length(3).nullable().fieldName("currency_code")
     }
 });
 

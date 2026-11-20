@@ -1,0 +1,1 @@
+EO最小权限工具提案：public RolePermissions只收紧本run新EO专用role，精确owned relation软撤权source proof；再由EO自己验证Role GET403和FullProjectDetail六引用并提交execution。所有before/after SHA与候选见apply-manifest16.json。未执行DB/HTTP/private写；3纯测试及语法检查通过。FI全必要写sweep另案17，不把单audit称全表。

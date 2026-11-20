@@ -1,0 +1,593 @@
+{
+  "kind": "Root-frozen-runtime118-reentry-source-and-budget-G1-v3",
+  "schemaVersion": 1,
+  "recordedAt": "2026-11-13T20:37:29.611Z",
+  "issue": 118,
+  "parentIssue": 114,
+  "subtask": "runtime118-successful-prepare-reentry",
+  "owner": "Root",
+  "sourceHead": "089a75eb1755f8ffc39547c347f0946a00beb917",
+  "authors": [
+    "Root",
+    "/root/budget118_control",
+    "/root/budget118_tax"
+  ],
+  "independentReviewer": "/root/budget118_review",
+  "classification": "Named technical corrective G1: process/control tools with high-risk isolated-state effects; no public business operation or route changes",
+  "previousJointG1": {
+    "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/budget-probe118-g1-v2/Root-G1-budget-probe118-v2.json",
+    "bytes": 19563,
+    "rawBytesSha256": "68212af41282071678d3e062dd689fbffbf2b74443de0c5872bb2511e4d0c5a2"
+  },
+  "implementationBaseCombined04": {
+    "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/budget118-code-candidate04/combined-manifest04.json",
+    "bytes": 21237,
+    "rawBytesSha256": "235acba26f6d2189f4344f4b109617cd7cd4b1bba5726f5afa7e5c8d0680817f"
+  },
+  "implementationBaseCodeG3": {
+    "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/budget118-code-candidate04/Root-G3-budget118-code04.json",
+    "bytes": 5564,
+    "rawBytesSha256": "bd246f198ac863f18af378e84ca445a2ef83ad754e26d70429f0bd2631e6090b"
+  },
+  "formalInputs": [
+    {
+      "role": "Root source tool frozen design",
+      "original": {
+        "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tmp/rust-r4ghi/root/budget118-root-design-review-input01/budget118-source-tool-design01.md",
+        "bytes": 18849,
+        "rawBytesSha256": "314bb11d14cd2f836f0bc83b4cc28b289ba38981af1afbb8b5025d15ee457e28"
+      },
+      "retained": {
+        "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/budget-probe118-g1-v3/design/source-tool.md.bin",
+        "bytes": 18849,
+        "rawBytesSha256": "314bb11d14cd2f836f0bc83b4cc28b289ba38981af1afbb8b5025d15ee457e28"
+      }
+    },
+    {
+      "role": "Root runtime reentry frozen design",
+      "original": {
+        "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tmp/rust-r4ghi/root/budget118-root-design-review-input01/budget118-runtime-reentry-design01.md",
+        "bytes": 6940,
+        "rawBytesSha256": "d6d3c815b3c90e5ad2cb290e5b0f751d23836485d0cd5870bbb69baac38a0add"
+      },
+      "retained": {
+        "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/budget-probe118-g1-v3/design/runtime-reentry.md.bin",
+        "bytes": 6940,
+        "rawBytesSha256": "d6d3c815b3c90e5ad2cb290e5b0f751d23836485d0cd5870bbb69baac38a0add"
+      }
+    },
+    {
+      "role": "Control final exact version and receipt contract",
+      "original": {
+        "file": "/mnt/e/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/runtime118-reentry-g1-design08/design-runtime-reentry118-v8.md",
+        "bytes": 22738,
+        "rawBytesSha256": "a2a22719fbaea9ec2ee4f798be1a892532694a7ac92a418a57785135e27d97a6"
+      },
+      "retained": {
+        "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/budget-probe118-g1-v3/design/control-v8.md.bin",
+        "bytes": 22738,
+        "rawBytesSha256": "a2a22719fbaea9ec2ee4f798be1a892532694a7ac92a418a57785135e27d97a6"
+      }
+    },
+    {
+      "role": "Tax recovery impact rationale",
+      "original": {
+        "file": "/mnt/e/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/runtime118-budget-tax-impl01/recovery-impact-tax118-design01.md",
+        "bytes": 10591,
+        "rawBytesSha256": "f2fdde47afd29738e4fbbc68b1bab16623955dde581b32d0d22116e418b9280d"
+      },
+      "retained": {
+        "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/budget-probe118-g1-v3/design/Tax-impact.md.bin",
+        "bytes": 10591,
+        "rawBytesSha256": "f2fdde47afd29738e4fbbc68b1bab16623955dde581b32d0d22116e418b9280d"
+      }
+    },
+    {
+      "role": "Tax final exact raw tool contract",
+      "original": {
+        "file": "/mnt/e/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/runtime118-budget-tax-impl01/recovery-tool-raw-contract118-design03.md",
+        "bytes": 23890,
+        "rawBytesSha256": "3322f87a47d6eaa4c4df3aef3c7c250a8749f79e644f7590d4fd1b0c1c12d06c"
+      },
+      "retained": {
+        "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/budget-probe118-g1-v3/design/Tax-raw-v3.md.bin",
+        "bytes": 23890,
+        "rawBytesSha256": "3322f87a47d6eaa4c4df3aef3c7c250a8749f79e644f7590d4fd1b0c1c12d06c"
+      }
+    }
+  ],
+  "independentDesign": {
+    "original": {
+      "file": "/mnt/e/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/runtime118-reentry-design-independent01/review-runtime118-reentry-design-READY01.json",
+      "bytes": 8500,
+      "rawBytesSha256": "40462645a2c2d03acf223dadb68076e0f5515321df82faaff403fe62e8c85d3b"
+    },
+    "retained": {
+      "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/budget-probe118-g1-v3/independent-design-READY01.json",
+      "bytes": 8500,
+      "rawBytesSha256": "40462645a2c2d03acf223dadb68076e0f5515321df82faaff403fe62e8c85d3b"
+    },
+    "retainedInputMap": {
+      "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/budget-probe118-g1-v3/independent-inputs-final01.json",
+      "bytes": 3655,
+      "rawBytesSha256": "7b6dd7bf239afe0422a649c8bf2794d0ad179bd2dffe85cb5824e9d130ea3554"
+    },
+    "retainedBasis": {
+      "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/budget-probe118-g1-v3/independent-public-source-basis01.json",
+      "bytes": 4430,
+      "rawBytesSha256": "7480a8de0d46d6b877a35b0318bc0bc22e340d2734625ab141fdbc987618e157"
+    }
+  },
+  "SSOT": "The five exact retained design byte streams and independent READY review are normative. Control08 and Tax raw03 provide final shared literal/phase definitions; the two separate before domains and historical/live guards must not be conflated. No prose summary grants actual effects.",
+  "existingSources": [
+    {
+      "target": "tools/rust-r4ghi/business/runtime-admission121.mjs",
+      "operation": "MOD",
+      "owner": "/root/budget118_control",
+      "treatmentFrom04": "MOD-qualified04",
+      "deliveryBefore": {
+        "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/business/runtime-admission121.mjs",
+        "bytes": 148850,
+        "rawBytesSha256": "197fc179bfbb8d92a45d732080cc0b96a78bc4e92c497d930d65c49759a9c906"
+      },
+      "retainedDeliveryBefore": {
+        "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/budget-probe118-g1-v3/delivery-before/tools/rust-r4ghi/business/runtime-admission121.mjs.bin",
+        "bytes": 148850,
+        "rawBytesSha256": "197fc179bfbb8d92a45d732080cc0b96a78bc4e92c497d930d65c49759a9c906"
+      },
+      "implementationBefore04": {
+        "file": "/mnt/e/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/runtime118-budget-control-impl01/proposed/tools/rust-r4ghi/business/runtime-admission121.mjs",
+        "bytes": 203108,
+        "rawBytesSha256": "d68a7de22669bcf87b1d3f78885c11ed29c5b3f0e19573df840d8b3ef1366b70"
+      },
+      "retainedImplementationBefore04": {
+        "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/budget-probe118-g1-v3/implementation-before04/tools/rust-r4ghi/business/runtime-admission121.mjs.bin",
+        "bytes": 203108,
+        "rawBytesSha256": "d68a7de22669bcf87b1d3f78885c11ed29c5b3f0e19573df840d8b3ef1366b70"
+      },
+      "after": null
+    },
+    {
+      "target": "tools/rust-r4ghi/business/runtime-admission-core121.mjs",
+      "operation": "MOD",
+      "owner": "/root/budget118_control",
+      "treatmentFrom04": "MOD-qualified04",
+      "deliveryBefore": {
+        "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/business/runtime-admission-core121.mjs",
+        "bytes": 47826,
+        "rawBytesSha256": "21205f08bb1a5522bde128992ec17785ff3b5c38bb1af6b2a9cafdc1d4f5b504"
+      },
+      "retainedDeliveryBefore": {
+        "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/budget-probe118-g1-v3/delivery-before/tools/rust-r4ghi/business/runtime-admission-core121.mjs.bin",
+        "bytes": 47826,
+        "rawBytesSha256": "21205f08bb1a5522bde128992ec17785ff3b5c38bb1af6b2a9cafdc1d4f5b504"
+      },
+      "implementationBefore04": {
+        "file": "/mnt/e/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/runtime118-budget-control-impl01/proposed/tools/rust-r4ghi/business/runtime-admission-core121.mjs",
+        "bytes": 62013,
+        "rawBytesSha256": "c27b4a6f4c4b63e46fa0e334585b9f105fc1a95d6c15bf668db90ed632a2ec1e"
+      },
+      "retainedImplementationBefore04": {
+        "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/budget-probe118-g1-v3/implementation-before04/tools/rust-r4ghi/business/runtime-admission-core121.mjs.bin",
+        "bytes": 62013,
+        "rawBytesSha256": "c27b4a6f4c4b63e46fa0e334585b9f105fc1a95d6c15bf668db90ed632a2ec1e"
+      },
+      "after": null
+    },
+    {
+      "target": "tools/rust-r4ghi/runtime-recovery121/native/publish-runtime121.mjs",
+      "operation": "MOD",
+      "owner": "/root/budget118_control",
+      "treatmentFrom04": "MOD-qualified04",
+      "deliveryBefore": {
+        "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/runtime-recovery121/native/publish-runtime121.mjs",
+        "bytes": 60586,
+        "rawBytesSha256": "5339974d221acac9a64908132d92280d0686096cf6a0e5fb9a329bd12fb4ecf2"
+      },
+      "retainedDeliveryBefore": {
+        "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/budget-probe118-g1-v3/delivery-before/tools/rust-r4ghi/runtime-recovery121/native/publish-runtime121.mjs.bin",
+        "bytes": 60586,
+        "rawBytesSha256": "5339974d221acac9a64908132d92280d0686096cf6a0e5fb9a329bd12fb4ecf2"
+      },
+      "implementationBefore04": {
+        "file": "/mnt/e/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/runtime118-budget-control-impl01/proposed/tools/rust-r4ghi/runtime-recovery121/native/publish-runtime121.mjs",
+        "bytes": 84759,
+        "rawBytesSha256": "c4d38df07a5ca29f73a1e1caa11ee68a088bcdb21f83eb24bd464b9c05324f9e"
+      },
+      "retainedImplementationBefore04": {
+        "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/budget-probe118-g1-v3/implementation-before04/tools/rust-r4ghi/runtime-recovery121/native/publish-runtime121.mjs.bin",
+        "bytes": 84759,
+        "rawBytesSha256": "c4d38df07a5ca29f73a1e1caa11ee68a088bcdb21f83eb24bd464b9c05324f9e"
+      },
+      "after": null
+    },
+    {
+      "target": "tools/rust-r4ghi/tax15-invocation118/run-tax15-once.mjs",
+      "operation": "MOD",
+      "owner": "/root/budget118_tax",
+      "treatmentFrom04": "CARRY-exact-qualified04",
+      "deliveryBefore": {
+        "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/tax15-invocation118/run-tax15-once.mjs",
+        "bytes": 22564,
+        "rawBytesSha256": "c016db12248a9f30b7f4f827a70aae06fab0557c481285ecefefbaa12c49ff11"
+      },
+      "retainedDeliveryBefore": {
+        "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/budget-probe118-g1-v3/delivery-before/tools/rust-r4ghi/tax15-invocation118/run-tax15-once.mjs.bin",
+        "bytes": 22564,
+        "rawBytesSha256": "c016db12248a9f30b7f4f827a70aae06fab0557c481285ecefefbaa12c49ff11"
+      },
+      "implementationBefore04": {
+        "file": "/mnt/e/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/runtime118-budget-tax-impl01/proposed/tools/rust-r4ghi/tax15-invocation118/run-tax15-once.mjs",
+        "bytes": 35168,
+        "rawBytesSha256": "434a113a86d30ff550aec25a3f204f1962e6c3777a411007299dbb974ca51610"
+      },
+      "retainedImplementationBefore04": {
+        "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/budget-probe118-g1-v3/implementation-before04/tools/rust-r4ghi/tax15-invocation118/run-tax15-once.mjs.bin",
+        "bytes": 35168,
+        "rawBytesSha256": "434a113a86d30ff550aec25a3f204f1962e6c3777a411007299dbb974ca51610"
+      },
+      "after": null
+    },
+    {
+      "target": "tools/rust-r4ghi/tax15-invocation118/invocation-proof.mjs",
+      "operation": "MOD",
+      "owner": "/root/budget118_tax",
+      "treatmentFrom04": "CARRY-exact-qualified04",
+      "deliveryBefore": {
+        "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/tax15-invocation118/invocation-proof.mjs",
+        "bytes": 61225,
+        "rawBytesSha256": "23d6c9ef588a079ed1cc51161d0beed4d962cb0c7c4aede07694e924af299d79"
+      },
+      "retainedDeliveryBefore": {
+        "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/budget-probe118-g1-v3/delivery-before/tools/rust-r4ghi/tax15-invocation118/invocation-proof.mjs.bin",
+        "bytes": 61225,
+        "rawBytesSha256": "23d6c9ef588a079ed1cc51161d0beed4d962cb0c7c4aede07694e924af299d79"
+      },
+      "implementationBefore04": {
+        "file": "/mnt/e/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/runtime118-budget-tax-impl01/proposed/tools/rust-r4ghi/tax15-invocation118/invocation-proof.mjs",
+        "bytes": 73056,
+        "rawBytesSha256": "447fd61def46c8820dc570b891ddbd3f5df1f42d144e320d5fcaf13a8557a633"
+      },
+      "retainedImplementationBefore04": {
+        "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/budget-probe118-g1-v3/implementation-before04/tools/rust-r4ghi/tax15-invocation118/invocation-proof.mjs.bin",
+        "bytes": 73056,
+        "rawBytesSha256": "447fd61def46c8820dc570b891ddbd3f5df1f42d144e320d5fcaf13a8557a633"
+      },
+      "after": null
+    },
+    {
+      "target": "tools/rust-r4ghi/tax15-invocation118/tax15-once-effects.mjs",
+      "operation": "MOD",
+      "owner": "/root/budget118_tax",
+      "treatmentFrom04": "CARRY-exact-qualified04",
+      "deliveryBefore": {
+        "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/tax15-invocation118/tax15-once-effects.mjs",
+        "bytes": 20509,
+        "rawBytesSha256": "dea11bc6f99dc22ea1c5a5abd673a97ecdb0ab53f8fa83d2aae1a4caf08b08be"
+      },
+      "retainedDeliveryBefore": {
+        "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/budget-probe118-g1-v3/delivery-before/tools/rust-r4ghi/tax15-invocation118/tax15-once-effects.mjs.bin",
+        "bytes": 20509,
+        "rawBytesSha256": "dea11bc6f99dc22ea1c5a5abd673a97ecdb0ab53f8fa83d2aae1a4caf08b08be"
+      },
+      "implementationBefore04": {
+        "file": "/mnt/e/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/runtime118-budget-tax-impl01/proposed/tools/rust-r4ghi/tax15-invocation118/tax15-once-effects.mjs",
+        "bytes": 24461,
+        "rawBytesSha256": "7c155b60617eda37f4b6e0332db8bfd4696ad9e04ebe5055a44001ac4a99d279"
+      },
+      "retainedImplementationBefore04": {
+        "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/budget-probe118-g1-v3/implementation-before04/tools/rust-r4ghi/tax15-invocation118/tax15-once-effects.mjs.bin",
+        "bytes": 24461,
+        "rawBytesSha256": "7c155b60617eda37f4b6e0332db8bfd4696ad9e04ebe5055a44001ac4a99d279"
+      },
+      "after": null
+    },
+    {
+      "target": "tools/rust-r4ghi/tax15-invocation118/retained-tax-proof.mjs",
+      "operation": "MOD",
+      "owner": "/root/budget118_tax",
+      "treatmentFrom04": "MOD-qualified04",
+      "deliveryBefore": {
+        "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/tax15-invocation118/retained-tax-proof.mjs",
+        "bytes": 41693,
+        "rawBytesSha256": "454ba2f93bfd6ad3f7ede33b0403259e72f42fb1e4ea17c29bc0e9e162482716"
+      },
+      "retainedDeliveryBefore": {
+        "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/budget-probe118-g1-v3/delivery-before/tools/rust-r4ghi/tax15-invocation118/retained-tax-proof.mjs.bin",
+        "bytes": 41693,
+        "rawBytesSha256": "454ba2f93bfd6ad3f7ede33b0403259e72f42fb1e4ea17c29bc0e9e162482716"
+      },
+      "implementationBefore04": {
+        "file": "/mnt/e/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/runtime118-budget-tax-impl01/proposed/tools/rust-r4ghi/tax15-invocation118/retained-tax-proof.mjs",
+        "bytes": 43459,
+        "rawBytesSha256": "8a96404ae83943082206ea9a3a41027bcb4b61ab72f4c53d23c616a45a1455ab"
+      },
+      "retainedImplementationBefore04": {
+        "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/budget-probe118-g1-v3/implementation-before04/tools/rust-r4ghi/tax15-invocation118/retained-tax-proof.mjs.bin",
+        "bytes": 43459,
+        "rawBytesSha256": "8a96404ae83943082206ea9a3a41027bcb4b61ab72f4c53d23c616a45a1455ab"
+      },
+      "after": null
+    },
+    {
+      "target": "tools/rust-r4ghi/tax15-invocation118/tax15-once-wire.mjs",
+      "operation": "MOD",
+      "owner": "/root/budget118_tax",
+      "treatmentFrom04": "CARRY-exact-qualified04",
+      "deliveryBefore": {
+        "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/tax15-invocation118/tax15-once-wire.mjs",
+        "bytes": 23861,
+        "rawBytesSha256": "669985306e4166fbb2bc95763176f24f7749a50037236f0f73a19f1b81fd99cc"
+      },
+      "retainedDeliveryBefore": {
+        "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/budget-probe118-g1-v3/delivery-before/tools/rust-r4ghi/tax15-invocation118/tax15-once-wire.mjs.bin",
+        "bytes": 23861,
+        "rawBytesSha256": "669985306e4166fbb2bc95763176f24f7749a50037236f0f73a19f1b81fd99cc"
+      },
+      "implementationBefore04": {
+        "file": "/mnt/e/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/runtime118-budget-tax-impl01/proposed/tools/rust-r4ghi/tax15-invocation118/tax15-once-wire.mjs",
+        "bytes": 26828,
+        "rawBytesSha256": "d460388b7fac47416a5a97fba92a532e0b32c0044b7347e7ed8a2911e5f337d1"
+      },
+      "retainedImplementationBefore04": {
+        "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/budget-probe118-g1-v3/implementation-before04/tools/rust-r4ghi/tax15-invocation118/tax15-once-wire.mjs.bin",
+        "bytes": 26828,
+        "rawBytesSha256": "d460388b7fac47416a5a97fba92a532e0b32c0044b7347e7ed8a2911e5f337d1"
+      },
+      "after": null
+    },
+    {
+      "target": "tools/rust-r4ghi/tax15-invocation118/tax15-once-ledger.mjs",
+      "operation": "MOD",
+      "owner": "/root/budget118_tax",
+      "treatmentFrom04": "CARRY-exact-qualified04",
+      "deliveryBefore": {
+        "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/tax15-invocation118/tax15-once-ledger.mjs",
+        "bytes": 3434,
+        "rawBytesSha256": "ca5833c6bd9a31755d99914685a333af6e3c190f4c920ef12b17e76c8d2edd1d"
+      },
+      "retainedDeliveryBefore": {
+        "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/budget-probe118-g1-v3/delivery-before/tools/rust-r4ghi/tax15-invocation118/tax15-once-ledger.mjs.bin",
+        "bytes": 3434,
+        "rawBytesSha256": "ca5833c6bd9a31755d99914685a333af6e3c190f4c920ef12b17e76c8d2edd1d"
+      },
+      "implementationBefore04": {
+        "file": "/mnt/e/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/runtime118-budget-tax-impl01/proposed/tools/rust-r4ghi/tax15-invocation118/tax15-once-ledger.mjs",
+        "bytes": 5397,
+        "rawBytesSha256": "b67a48c95e4d13fc2a20babac6e64b32bf2a3490a10f389142859b864f9f96e8"
+      },
+      "retainedImplementationBefore04": {
+        "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/budget-probe118-g1-v3/implementation-before04/tools/rust-r4ghi/tax15-invocation118/tax15-once-ledger.mjs.bin",
+        "bytes": 5397,
+        "rawBytesSha256": "b67a48c95e4d13fc2a20babac6e64b32bf2a3490a10f389142859b864f9f96e8"
+      },
+      "after": null
+    },
+    {
+      "target": "tools/rust-r4ghi/runtime-recovery121/Native-plan-data-candidate01/prepare-native-plan121.mjs",
+      "operation": "MOD",
+      "owner": "/root/budget118_control",
+      "treatmentFrom04": "MOD-qualified04",
+      "deliveryBefore": {
+        "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/runtime-recovery121/Native-plan-data-candidate01/prepare-native-plan121.mjs",
+        "bytes": 83935,
+        "rawBytesSha256": "f30399b2230c0a2834a2c6fe035269b3120aa8dd136fa2d7a90055788d4e15b9"
+      },
+      "retainedDeliveryBefore": {
+        "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/budget-probe118-g1-v3/delivery-before/tools/rust-r4ghi/runtime-recovery121/Native-plan-data-candidate01/prepare-native-plan121.mjs.bin",
+        "bytes": 83935,
+        "rawBytesSha256": "f30399b2230c0a2834a2c6fe035269b3120aa8dd136fa2d7a90055788d4e15b9"
+      },
+      "implementationBefore04": {
+        "file": "/mnt/e/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/runtime118-budget-control-impl01/proposed/tools/rust-r4ghi/runtime-recovery121/Native-plan-data-candidate01/prepare-native-plan121.mjs",
+        "bytes": 116614,
+        "rawBytesSha256": "da8d5ccd58945e824ba32afa4adb0606ed10192b88c46529520e675ae7013b0a"
+      },
+      "retainedImplementationBefore04": {
+        "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/budget-probe118-g1-v3/implementation-before04/tools/rust-r4ghi/runtime-recovery121/Native-plan-data-candidate01/prepare-native-plan121.mjs.bin",
+        "bytes": 116614,
+        "rawBytesSha256": "da8d5ccd58945e824ba32afa4adb0606ed10192b88c46529520e675ae7013b0a"
+      },
+      "after": null
+    },
+    {
+      "target": "tools/rust-r4ghi/runtime-recovery121/Tax121-current-metadata-data-candidate01/prepare-tax121-current-metadata.mjs",
+      "operation": "MOD",
+      "owner": "/root/budget118_control",
+      "treatmentFrom04": "MOD-qualified04",
+      "deliveryBefore": {
+        "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/runtime-recovery121/Tax121-current-metadata-data-candidate01/prepare-tax121-current-metadata.mjs",
+        "bytes": 94015,
+        "rawBytesSha256": "543c75b7c5147b95455f1599b06c4bc47ccd90062b65b7555cc12440b3a1f087"
+      },
+      "retainedDeliveryBefore": {
+        "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/budget-probe118-g1-v3/delivery-before/tools/rust-r4ghi/runtime-recovery121/Tax121-current-metadata-data-candidate01/prepare-tax121-current-metadata.mjs.bin",
+        "bytes": 94015,
+        "rawBytesSha256": "543c75b7c5147b95455f1599b06c4bc47ccd90062b65b7555cc12440b3a1f087"
+      },
+      "implementationBefore04": {
+        "file": "/mnt/e/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/runtime118-budget-control-impl01/proposed/tools/rust-r4ghi/runtime-recovery121/Tax121-current-metadata-data-candidate01/prepare-tax121-current-metadata.mjs",
+        "bytes": 126368,
+        "rawBytesSha256": "e37e79962eda342775eec58985f1bbc07838a308bde7021986036c736f57193c"
+      },
+      "retainedImplementationBefore04": {
+        "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/budget-probe118-g1-v3/implementation-before04/tools/rust-r4ghi/runtime-recovery121/Tax121-current-metadata-data-candidate01/prepare-tax121-current-metadata.mjs.bin",
+        "bytes": 126368,
+        "rawBytesSha256": "e37e79962eda342775eec58985f1bbc07838a308bde7021986036c736f57193c"
+      },
+      "after": null
+    }
+  ],
+  "newRootSupport": [
+    {
+      "target": "tools/rust-r4ghi/runtime-recovery121/budget118/promote-budget118-source-once.mjs",
+      "owner": "Root",
+      "operation": "ADD",
+      "beforeAbsent": true,
+      "placement": "outside284-Root-support",
+      "after": null
+    },
+    {
+      "target": "tools/rust-r4ghi/runtime-recovery121/budget118/reenter-budget118-runtime.mjs",
+      "owner": "/root/budget118_tax",
+      "operation": "ADD",
+      "beforeAbsent": true,
+      "placement": "outside284-Root-support",
+      "after": null
+    },
+    {
+      "target": "tools/rust-r4ghi/runtime-recovery121/budget118/start-budget118-holder.ps1",
+      "owner": "/root/budget118_tax",
+      "operation": "ADD",
+      "beforeAbsent": true,
+      "placement": "outside284-Root-support",
+      "after": null
+    }
+  ],
+  "sourceBoundary": {
+    "members": 284,
+    "helperMembers": 229,
+    "externalMembers": 55,
+    "graphMOD": 9,
+    "helperMOD": 2,
+    "externalMOD": 7,
+    "same": 275,
+    "outsideDataMOD": 2,
+    "totalExistingLeaves": 11,
+    "newProductionModules": 0,
+    "graph": {
+      "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/runtime-recovery121/corrective362-source-actual01/actual-execution-sources284.json",
+      "bytes": 60810,
+      "rawBytesSha256": "b8fd572ffa1e32ff581631410bcacc48e4350c51d4308e96d216cc985b89a25f"
+    },
+    "modifiedFromQualified04": 6,
+    "exactCarryFromQualified04": 5,
+    "addedRootSupportOutside284": 3,
+    "actualDeliveryBefore": "R original stage3, not I04",
+    "actualSourceStages": "M06 original9 -> 361 original4 -> 362 original6 -> final qualified9",
+    "implementationBase": "I qualified04, never represented as a fifth actual source stage"
+  },
+  "versionProfile": {
+    "budgetExecution": {
+      "plan": 5,
+      "successorSchema": 4,
+      "manifestEdition": "budget-probe118-reentry-v1",
+      "G1": "This actual G1 Full3; embed only after this file exists"
+    },
+    "legacy4": {
+      "plan": 4,
+      "successorSchema": 3,
+      "technicalG1": {
+        "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/budget-probe118-g1-v2/Root-G1-budget-probe118-v2.json",
+        "bytes": 19563,
+        "rawBytesSha256": "68212af41282071678d3e062dd689fbffbf2b74443de0c5872bb2511e4d0c5a2"
+      },
+      "edition": "budget-probe118-v2",
+      "dataHistoryOnly": true,
+      "budgetExecutorAndPublisherEffectsRefusedBeforeWrites": true
+    },
+    "originalSixModesAndLE3FS": "Unchanged original contracts; no global G1 whitelist"
+  },
+  "currentFactBoundary": {
+    "passiveHostObservation": {
+      "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/budget118-host-observation01/observation.json",
+      "bytes": 2191,
+      "rawBytesSha256": "ea2175d01d0ebdf2157ce43a5dafc69816819a022d9c663bc3a2d4e7b3709459"
+    },
+    "DebianStoppedAtObservation": true,
+    "currentPrivateStateVerified": false,
+    "oldBootOrPIDClaimedLive": false,
+    "protectedFixedRuntimeFactsSource": {
+      "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/runtime-recovery121/root/facts121.mjs",
+      "bytes": 13288,
+      "rawBytesSha256": "6f81a1cd71f2ced84e0cb5190e18fd5ef86d2f1a4dfad0dee42110c832748382"
+    },
+    "historicalP3PublicMirror": {
+      "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/runtime-recovery121/Native362-plan-data-actual01/native-plan121.json",
+      "bytes": 78405,
+      "rawBytesSha256": "f3e56838c28e7006311b6f292b882d8785cb49fd764d4370e60cfa36d9995fef"
+    },
+    "linuxNodeFrozenExpectation": {
+      "file": "/home/wangzishi/.local/share/fnm/node-versions/v24.19.0/installation/bin/node",
+      "bytes": 125989464,
+      "rawBytesSha256": "bc17c508ffeed0ec622934f9b7fa72f8e78da65350e63c3eceb56fa688aa5e12"
+    },
+    "LinuxCurrentEngineOrModelRunClaimed": false
+  },
+  "stateAndCausality": {
+    "birth": "Immutable Origin6c/1da/K847/carrier565 and whole original successful record/journals",
+    "early": "Original PG and final-close baseline with pre2 full RO; source-before-API SC18 plus actual source readback",
+    "API": "Verified clean system bootstrap; actual record2/newnonce env/new229/new284, then post2 complete RO",
+    "rebind": "Only canonical.apiProcess closed3 file/rawBytesSha256/record changes 6c->realX; no bytes field or other mutation",
+    "acceptance": "actual C10 -> independent actual R8 -> Root B5 -> S4schema4 -> plan5",
+    "NativeFS": "Real X->Y only lease/history",
+    "TaxEntry": "Actual immutable Y; source/ctx/Auth/probe each separate exact G2"
+  },
+  "sharedMutex": {
+    "early": "/home/wangzishi/.local/share/poms-r4ghi/private/runtime118-reentry-operation.lock",
+    "late": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business15/main01/driver.lock",
+    "earlyAtomicWXAcrossNonces": true,
+    "lateOriginalSharedAtomicWXRetained": true,
+    "noLateDoubleLock": true,
+    "operationPartialRejectedBeforeSealAndLateEffects": true,
+    "failurePolicy": "Preserve actual partials/UNKNOWN/processes and own locks; never remove foreign locks or blindly replay"
+  },
+  "implementationAuthority": {
+    "isolatedCandidateImplementationGranted": true,
+    "RootSupportInstallationOnlyAfterIndependentCodeQualification": true,
+    "RootSoleActualOperator": true,
+    "authorsMayWriteRExecution11OrP": false,
+    "authorPrivateProcEnvSQLHTTPAllowed": false,
+    "originalRoot8AuthConfigPrepareSourcesModified": false
+  },
+  "validation": {
+    "realModelEngine": "Fixed Windows Node24.19; Linux expectation until verified bootstrap",
+    "minimum": [
+      "Root freezes a new actual G1 bound to these inputs and review; implementation then receives independent exact code qualification using complete modules and owned fixtures, with real Win Node24 engine evidence. No lexical checker or unrelated suite is required.",
+      "Recheck all actual before11/284, installed support closure, current host/process/data/lock identities and exact per-phase input, Root approval and independent peer before each actual G2. Models do not establish those facts.",
+      "Perform independent actual readbacks after source delivery and recovery before accepting SC/C/R/B/S4. Native FS and later one-budget-probe ctx/Auth each require their own exact G2."
+    ],
+    "additional": [
+      "Bounded complete-module own-IO cases for every changed lifecycle/identity/closed-shape path; exact five carried Tax04 hashes",
+      "Three Root support candidates: fixed bootstrap/argv and source scope, shared mutex, rename/spawn UNKNOWN and secondary output failures; no fake actual receipts",
+      "Before actual execution, verify all11/284 plus real P/runtime per exact per-stage input and Root/independent reviews; never treat models as runtime or budget evidence"
+    ],
+    "unrelatedAppBuildLintMigrationOpenAPI": "Not required: no app/route/DTO/DDL/generated client or lint-enabled Nx target changes",
+    "docs": "git diff --check and cached Deno equivalent of existing MD check; never pnpm"
+  },
+  "outOfScope": [
+    "Business behavior/Node bug parity",
+    "Original successful prepare replay or K/journal rewrite",
+    "New database/volume, backup restore, migration, service kill, arbitrary scripts or caller callbacks",
+    "TTL change, second login, fake FI prefix, FI, normalTax201, MainPOST, future consumer bridge"
+  ],
+  "implementationAuthorized": true,
+  "actualG2Granted": false,
+  "actualSourcePromotionGranted": false,
+  "actualRuntimeStartGranted": false,
+  "canonicalRebindGranted": false,
+  "NativeFSPublicationGranted": false,
+  "actualContextAuthProbeGranted": false,
+  "FIG2Granted": false,
+  "normalTaxPOSTGranted": false,
+  "MainPOSTGranted": false,
+  "directCheckpointSamples": 0,
+  "wholeFIBudget": "UNKNOWN",
+  "newBusinessCertified": 0,
+  "businessG3": false,
+  "businessG4": false,
+  "issue118CloseGranted": false,
+  "parent57CloseGranted": false,
+  "currentOfficial": {
+    "Rust": 240,
+    "R4Delivered": 67,
+    "R4Total": 95,
+    "batchCandidates": 32,
+    "newCertified": 0
+  },
+  "activeInputCustody": {
+    "owner": "Root",
+    "parentIssue": 114,
+    "cleanupDue": "Retire only after all authorized consumers or at #118 G4; preserve fixed original identities meanwhile"
+  }
+}

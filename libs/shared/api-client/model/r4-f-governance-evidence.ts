@@ -11,16 +11,5 @@ import { R4FManualAssessmentEvidence } from './r4-f-manual-assessment-evidence';
 import { R4FSourceEvidence } from './r4-f-source-evidence';
 
 
-export interface R4FGovernanceEvidence {
-    kind: R4FGovernanceEvidenceKindEnum;
-    sourceType: string;
-    sourceId: string;
-    sourceVersion: number;
-    businessDate: string;
-    reason: string;
-    evidenceSummary: string;
-    attachmentIds?: Array<string>;
-}
-export enum R4FGovernanceEvidenceKindEnum {
-    Manual = 'manual'
-};
+export type R4FGovernanceEvidence = R4FSourceEvidence | R4FManualAssessmentEvidence;
+;

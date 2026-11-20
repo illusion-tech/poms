@@ -1,0 +1,42 @@
+// Root-only read-only provenance for the one UI-created draft whose ACK was lost.
+// This never creates/owns a row, sends HTTP, mutates a fixture or runs a probe.
+import fs from 'node:fs';import path from 'node:path';import assert from 'node:assert/strict';import{createHash}from'node:crypto';
+import{weightUnits18}from'./ui-role18-policy.mjs';
+export const TARGET36=Object.freeze({projectId:'389793fb-0f5b-48ea-a5f1-8515ee572d7f',assignmentId:'1817b9ae-ec3a-4910-aebd-07a2b6963975',actorId:'44e8c02b-6b46-44a5-b90e-bd7422b420bf',requestId:'bg383435b83c-006937-ui10-http-e853a7b6',
+ responseSHA256:'97da24bb0bc675bf217e2f99d2b65bef5e75490b54035491aa276962193752d7',ledgerSHA256:'dfd7c3f0f41bec528163a89e8f1771617d7d756da62df986192a87351a26dc8c'});
+const sha=b=>createHash('sha256').update(b).digest('hex'),key=(db,table,k)=>JSON.stringify([db,table,k]);
+function samePin(a,b){assert(a&&b);assert.equal(a.file,b.file);assert.equal(a.rawBytesSha256,b.rawBytesSha256);}
+function read(ctx,pin){assert(pin&&/^[a-f0-9]{64}$/.test(pin.rawBytesSha256));const rel=path.relative(ctx.priv,pin.file);assert(rel&&!rel.startsWith('..')&&!path.isAbsolute(rel));const s=fs.lstatSync(pin.file);assert(s.isFile()&&!s.isSymbolicLink()&&s.nlink===1);assert.equal(fs.realpathSync(pin.file),pin.file);const b=fs.readFileSync(pin.file);assert.equal(sha(b),pin.rawBytesSha256);return JSON.parse(b);}
+export function assertCreatePair36(original,ledger){
+ const a=original.attempt;assert.equal(a.operationId,'CommissionController_createRoleAssignment');assert.equal(a.requestId,TARGET36.requestId);assert.equal(a.actorKey,'manager');assert.equal(a.actorId,TARGET36.actorId);assert.equal(a.pathParams.projectId,TARGET36.projectId);
+ assert.equal(a.status,200);assert.equal(a.expectedStatus,200);assert.equal(a.responseComplete,true);assert.equal(a.transportFailure,false);assert.equal(a.transport,'actual-owned-Windows-browser-Linux-proxy');assert.equal(original.failure,null);assert.deepEqual(JSON.parse(Buffer.from(original.bodyBase64,'base64')),a.body);
+ assert.equal(a.body.id,TARGET36.assignmentId);assert.equal(a.body.projectId,TARGET36.projectId);assert.equal(a.body.status,'draft');assert.equal(a.body.sourceQualification,'verified-producer');assert.equal(a.body.rowVersion,1);assert.equal(a.body.isCurrent,true);
+ assert.equal(a.requestValue.inputVersion,'server-derived-v1');assert.equal(a.requestValue.expectedCurrentAssignmentId,null);assert.equal(a.requestValue.expectedCurrentRowVersion,null);
+ assert.equal(ledger.operationId,a.operationId);assert.equal(ledger.requestId,a.requestId);assert.equal(ledger.ownershipComplete,true);assert.deepEqual(ledger.blockers,[]);
+ assert.equal(ledger.recorded.filter(v=>v.kind==='birth'&&v.table==='commission_role_assignment'&&v.key[0]===TARGET36.assignmentId).length,1);return a;
+}
+export function assertCompletedProbe36(proof,record,config){
+ assert.equal(proof.kind,'actual-frozen-zero-and-positive-reparent-to-real-draft-and-identity-weight-23514');assert.equal(proof.actualCaseCount,5);assert.equal(Object.keys(proof.cases).length,5);assert(Object.values(proof.cases).every(v=>v.phase==='verified'));
+ assert.equal(proof.projectId,TARGET36.projectId);assert.equal(proof.draftAssignmentId,TARGET36.assignmentId);assert.equal(proof.SQLFixtureOrCommittedDML,false);assert.equal(proof.allRowsAndXminUnchangedAfterEachRollback,true);assert.equal(proof.oldProducerRecordWritten,false);assert.deepEqual(proof.cases,record.cases);
+ assert.equal(record.projectId,TARGET36.projectId);assert.equal(record.draftAssignmentId,TARGET36.assignmentId);assert.equal(Object.keys(record.cases).length,5);assert(Object.values(record.cases).every(v=>v.phase==='verified'));
+ samePin(proof.createReceipt,config.createResponse);samePin(proof.createLedger,config.createLedger);samePin(record.createReceipt,config.createResponse);samePin(record.createLedger,config.createLedger);samePin(record.proof,config.frozenProbeProof);
+}
+export function loadExistingDraft36({ctx,scene,action,readRows}){
+ const config=action.existingDraftContinuation;assert(config);assert.equal(action.frozenReparentProbe,false,'The completed five-probe group must not run again');assert.equal(scene.projectId,TARGET36.projectId);assert.equal(scene.actor.id,TARGET36.actorId);assert.equal(action.actorKey,'manager');
+ assert.equal(config.assignmentId,TARGET36.assignmentId);assert.equal(config.createResponse.rawBytesSha256,TARGET36.responseSHA256);assert.equal(config.createLedger.rawBytesSha256,TARGET36.ledgerSHA256);assert.equal(config.createResponse.file,`${ctx.priv}/006937-ui10-http-browser-response.json`);assert.equal(config.createLedger.file,`${ctx.priv}/006938-ledger.json`);
+ const original=read(ctx,config.createResponse),ledger=read(ctx,config.createLedger),attempt=assertCreatePair36(original,ledger);
+ const probeRecord=ctx.state.consumerChecks?.frozenReparent58?.[TARGET36.assignmentId];assert(probeRecord?.proof,'All five exact I58 probes must finish before this UI continuation');const proof=read(ctx,config.frozenProbeProof);assertCompletedProbe36(proof,probeRecord,config);
+ assert.equal(action.participants.length,attempt.requestValue.participants.length);for(let i=0;i<action.participants.length;i++){const planned=action.participants[i],actual=attempt.requestValue.participants[i],returned=attempt.body.participantsJson[i];assert.equal(actual.userId,ctx.state.actors[planned.actorKey].id);assert.equal(actual.roleType,planned.roleType);assert.equal(actual.responsibilitySummary,planned.responsibilitySummary);assert.equal(actual.zeroWeightReason,planned.zeroWeightReason);assert.equal(weightUnits18(returned.weightExact),weightUnits18(planned.weight));}
+ const before=read(ctx,ledger.before),after=read(ctx,ledger.after),list=(snapshot,table)=>readRows(snapshot.databases[ctx.database].tables[table]);
+ const assignment=list(after,'commission_role_assignment').filter(r=>r.key[0]===TARGET36.assignmentId);assert.equal(assignment.length,1);assert(!list(before,'commission_role_assignment').some(r=>r.key[0]===TARGET36.assignmentId));
+ const people=list(after,'commission_role_assignment_participant').filter(r=>JSON.parse(r.raw).assignment_id===TARGET36.assignmentId);assert.equal(people.length,action.participants.length);
+ const oldPeople=new Set(list(before,'commission_role_assignment_participant').map(r=>r.key[0]));for(const r of people){assert(!oldPeople.has(r.key[0]));assert.equal(r.xmin,assignment[0].xmin);assert(ledger.recorded.some(v=>v.kind==='birth'&&v.table==='commission_role_assignment_participant'&&v.key[0]===r.key[0]));}
+ return{successfulCreate:{attempt,originals:config.createResponse,ledger:config.createLedger},expected:{id:TARGET36.assignmentId,projectId:TARGET36.projectId,rowVersion:attempt.body.rowVersion,sourceQualification:'verified-producer',participants:attempt.body.participantsJson.map(v=>({userId:v.userId,roleType:v.roleType,weightExact:v.weightExact,responsibilitySummary:v.responsibilitySummary,zeroWeightReason:v.zeroWeightReason}))},bornRows:[{table:'commission_role_assignment',row:assignment[0]},...people.map(row=>({table:'commission_role_assignment_participant',row}))],originalCreate:config.createResponse,completedProbe:config.frozenProbeProof};
+}
+export function assertExistingDraftSnapshot36({ctx,before,continuation,readRows}){
+ assert(continuation&&continuation.expected.id===TARGET36.assignmentId);const assignmentRows=readRows(before.databases[ctx.database].tables.commission_role_assignment),memberRows=readRows(before.databases[ctx.database].tables.commission_role_assignment_participant);
+ const current=assignmentRows.find(r=>r.key[0]===TARGET36.assignmentId);assert(current);const value=JSON.parse(current.raw);assert.equal(value.project_id,TARGET36.projectId);assert.equal(value.status,'draft');assert.equal(value.is_current,true);assert.equal(value.row_version,continuation.expected.rowVersion);
+ assert.equal(memberRows.filter(r=>JSON.parse(r.raw).assignment_id===TARGET36.assignmentId).length,continuation.bornRows.length-1);
+ for(const born of continuation.bornRows){const found=(born.table==='commission_role_assignment'?assignmentRows:memberRows).find(r=>r.key[0]===born.row.key[0]);assert(found);assert.equal(found.sha256,born.row.sha256);assert.equal(found.xmin,born.row.xmin);const owned=ctx.state.owned[key(ctx.database,born.table,found.key)];assert(owned&&!owned.deleted&&owned.latestSha256===found.sha256&&owned.latestXmin===found.xmin);}
+ return true;
+}

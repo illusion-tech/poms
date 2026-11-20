@@ -1,0 +1,8 @@
+{
+  "passed": 4,
+  "failed": 1,
+  "reason": "A synthetic fixture shared the same pin object between config and stored record; mutating it changed both sides, so the wrong-pin negative was not actually a mismatch.",
+  "correction": "Replace only the config pin object; real plan and persisted state are independently parsed. No proof validation was weakened.",
+  "actualRuntimeExecuted": false,
+  "RootWritten": false
+}

@@ -1,0 +1,84 @@
+{
+  "schemaVersion": 1,
+  "namespace": "poms-r4ghi",
+  "epoch": null,
+  "run": null,
+  "uiRun": "expense18-04-01",
+  "origin": "http://127.0.0.1:44551",
+  "backendPort": 31441,
+  "paths": {
+    "linuxIPC": "/home/wangzishi/.local/share/poms-r4ghi/private/ui/runtime14/expense18-04-01",
+    "windowsIPC": "//wsl.localhost/Debian/home/wangzishi/.local/share/poms-r4ghi/private/ui/runtime14/expense18-04-01",
+    "linuxPlan": "/home/wangzishi/.local/share/poms-r4ghi/private/ui-config/runtime14/expense18-04-01.json",
+    "windowsPlan": "//wsl.localhost/Debian/home/wangzishi/.local/share/poms-r4ghi/private/ui-config/runtime14/expense18-04-01.json",
+    "windowsPrivate": "E:/projects/worktrees/poms-r3hijk-next28/poms/tmp/rust-r4ghi/private/ui-runtime14/expense18-04-01",
+    "linuxPublic": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tmp/rust-r4ghi/root/ui-runtime14/expense18-04-01",
+    "windowsPublic": "E:/projects/worktrees/poms-r3hijk-next28/poms/tmp/rust-r4ghi/root/ui-runtime14/expense18-04-01",
+    "linuxBinding": "/home/wangzishi/.local/share/poms-r4ghi/private/ui-config/runtime14/expense18-04-01-binding.json",
+    "windowsBinding": "//wsl.localhost/Debian/home/wangzishi/.local/share/poms-r4ghi/private/ui-config/runtime14/expense18-04-01-binding.json"
+  },
+  "sourceBases": [
+    {
+      "file": "tools/rust-r4ghi/H/implementation/support-patches/ui-integration/append06/ui06.candidate08.mjs",
+      "rawBytesSha256": "52addde6eab92076ea50970e597754bf426fc21a87019c91e25714b40068fe0c"
+    },
+    {
+      "file": "tools/rust-r4ghi/H/implementation/support-patches/ui-integration/append06/ui-server06.mjs",
+      "rawBytesSha256": "842e6a24443cf76beefa9f640412363701f04ec6ffaa0c806322b4841cd87aed"
+    }
+  ],
+  "browserCasesSourceBaseSHA256": "52addde6eab92076ea50970e597754bf426fc21a87019c91e25714b40068fe0c",
+  "linuxNodeExecutable": null,
+  "overallTimeoutSeconds": 1800,
+  "windows": {
+    "node": {
+      "executablePath": "C:/Users/ynh2/AppData/Roaming/fnm/node-versions/v24.19.0/installation/node.exe",
+      "rawBytesSha256": "3602f2bb1a10f2cbab4c36886218a33c1ab3db87290e73b033c46c77147d0237",
+      "version": "v24.19.0"
+    },
+    "browser": {
+      "executablePath": "C:/Program Files/Google/Chrome/Application/chrome.exe",
+      "rawBytesSha256": "46461accbdc87dc88a5bdd6d611be095dd6147db009863d794f742ca90662efa",
+      "productVersion": "156.0.8078.80",
+      "fileVersion": "156.0.8078.80",
+      "browserVersion": "156.0.8078.80"
+    },
+    "playwright": {
+      "requireFromPackageJson": "E:/projects/worktrees/poms-r3hijk-next28/poms/package.json",
+      "requireFromPackageJsonRawBytesSha256": "7bb812cbdfad7356fc835e18ff250c399706eb881f9f2b491f6c1257cc3c3b75",
+      "entryFile": "E:/projects/worktrees/poms-r3hijk-next28/poms/node_modules/.pnpm/@playwright+test@1.63.0/node_modules/@playwright/test/index.js",
+      "entryRawBytesSha256": "499da5dd8585212108a1443793de31ebc061ca7db02343f107955f261180cdfc",
+      "packageFile": "E:/projects/worktrees/poms-r3hijk-next28/poms/node_modules/.pnpm/@playwright+test@1.63.0/node_modules/@playwright/test/package.json",
+      "packageRawBytesSha256": "5587f932b8979b6889654b60e3c28aeb7ca0abbac00eec8c176c939a16149536",
+      "version": "1.63.0"
+    }
+  },
+  "cases": [
+    {
+      "kind": "expense-cost-forms",
+      "actorKey": "manager",
+      "projectIdPointer": "/fixtures/uiFixtureViews23/eo/pause/result/projectId",
+      "forbiddenTextPointers": []
+    }
+  ],
+  "RootMustBindCurrentWindowsInventoryAndLinuxNode": true,
+  "writeActions": [
+    {
+      "kind": "expense-cost-forms",
+      "actorKey": "manager",
+      "fixtureViewKey": "eo",
+      "expenseCategory": null,
+      "currency": "CNY",
+      "gross": "5650.00",
+      "net": "5000.00",
+      "tax": "650.00",
+      "description": "本隔离项目由本人通过真实界面登记的费用。",
+      "expenseEvidenceSummary": "本人核对本次费用的实际发生事项与净税金额。",
+      "costDescription": "由本次真实已确认费用生产实际成本。",
+      "costEvidenceSummary": "引用服务器已固定的实际费用及当前版本。",
+      "attributionReason": "本人依据实际执行工作判断本笔成本归属正式执行阶段。",
+      "attributionEvidenceSummary": "本人工评估记录具体业务事项，不认证或伪造历史阶段台账。"
+    }
+  ],
+  "A08CompleteClaimed": false
+}

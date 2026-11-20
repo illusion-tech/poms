@@ -1,0 +1,15 @@
+39是I已定型API135→1351 same-source process-only契约的最小UI接线候选，不改Root/产品/数据库，不启动进程或发HTTP。4产品=原binding13、collector16、generator16加一个小纯metadata glue。依赖Root另审提升business/same-source-process1351.mjs（I负责完整registry/PID/候选/原件FS authority）；本包没有生成或默认任何新PID、candidate、registry或actor通过值。
+
+有overlay时唯一结构：state.processRestart1351.registry为真实新registry pin；binding.processRestart1351为同pin；actorManifest.processRestart1351/apiProcess/actualActorIndex分别为同registry/新process/本轮实际collector index；index.processRestart1351/apiProcess同pair。原sourceActualProofIndex保留，新增actualActorIndex指同真实index。各apiProcess是file+rawSHA pin，不把原135记录改标签。
+
+collector在原真实AuthCurrent GET后读取原public receipt顶层processBinding1351，强核generation='API1351'、registry、新apiProcess同pair、完整200/ACK且该HTTP artifact序号严格大于registry.admittedSequence，才收proof。只roles/org/permissions相等或旧HTTP没有该字段均拒绝。原proofs[{actorKey,httpReceipt}]形状保持。
+
+generator先核新index同pair、每条AuthCurrent实际processBinding与序号，再生成manifest/binding新字段。发布binding前同步调用I的assertRestartUIBinding1351(admittedContext,binding,完整actorManifest对象)，把fullFS权威检查交给I，不在H复制一套registry/进程loader。binding13在已read actorManifest后、逐actor循环前同样同步调用I helper；原/proc PID/start/exe/binary与源/候选检查全部保留，不能只换PID套旧actor索引。
+
+没有overlay时小glue返回null/{}，不添新字段；旧135的原mandatory checks、proof与数据输出语义保持。旧135来源仍是历史，不允许重新执行已死进程的旧plan；1351运行必须新candidate/newPID/current-auth/整个plan与全工具/build闭包，不能因代码406/M97或权限相同复用旧绑定。
+
+glue放business/ui-process-proof1351.mjs，当前inventoryClosure会扫描全部business mjs/json并递归literal import，保证新依赖自动进sourceBases；没有另改旧20清单或把新handoff依赖漏在闭包外。Root需为binding13实际修订再生成新的cumulative20/promotion receipt，并一次捕获I+H当前完整图。旧170/各run的全部封件不重写。38先不提升，后续同样用1351新绑定。
+
+8项纯例：无overlay不造新metadata、同注册pair提取、准确新AuthCurrent接受、旧值相同仍拒、registry/PID generation/ACK不符拒、<=admission序号/无原件序号拒、index/manifest全传播、binding显式pin严格格式；4候选node syntax通过。仅interface合同静态/纯检查，未执行I完整FS helper、collector/generator/浏览器或1351实际进程；I正式封件/Root审查与实际运行是必要后续，不标集成/Gate通过。
+
+Root仍用原prepare→真实fresh登录→collect→generate→审批exact plan/binding→原UI入口顺序。新collector会发实际GET，作者没有调用它；所有实际输入由Root填写，不能手工给旧receipt补processBinding1351或把null模板当已准入。Root若发现I最终shape漂移，请另封精确delta，原39保留。

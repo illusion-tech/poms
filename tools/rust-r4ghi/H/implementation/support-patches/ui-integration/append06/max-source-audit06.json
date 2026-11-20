@@ -1,0 +1,244 @@
+{
+  "schemaVersion": 1,
+  "status": "static-source-review-only",
+  "noHTTP": true,
+  "noDB": true,
+  "noBrowser": true,
+  "sourceInputs": [
+    {
+      "file": "libs/shared/api-spec/openapi.json",
+      "rawBytesSha256": "8965393af9264e0805c3174520816673a1a56920944428bb8a9321e81da74ab0"
+    },
+    {
+      "file": "apps/poms-api-rust/src/project_actual_cost/mod.rs",
+      "rawBytesSha256": "da7c644b766b0cce407a37dc8bebd74874b6bab0bf0dc652697bb3e8e0d360e3"
+    },
+    {
+      "file": "apps/poms-api-rust/src/project_actual_cost/logic.rs",
+      "rawBytesSha256": "96bdbc87dd031b59c6b895243241cd9b847eb9ae690766c5782183a5c0f9ba4c"
+    },
+    {
+      "file": "tools/rust-r4ghi/business/context.mjs",
+      "rawBytesSha256": "ee328e4dafcff9338aa74d7e049e54fd438cf995adaae94ae38285bd9c660ee0"
+    },
+    {
+      "file": "tools/rust-r4ghi/business/http.mjs",
+      "rawBytesSha256": "c817412ad986bf8c5112cbf9d567eff05dd9c0a98711d18c53b8d10b9161a8b0"
+    },
+    {
+      "file": "tools/rust-r4ghi/business/ledger.mjs",
+      "rawBytesSha256": "da29f9cc6a6acbeefc661bbecb1ede5d52c94614270c335b8119ccec70668909"
+    },
+    {
+      "file": "tools/rust-r2ef/e-authority.json",
+      "rawBytesSha256": "bba14d3b8bce83eb2df8da6fe4babd0061e2cb6f2d4ee5adaf9761dec4e385b6"
+    }
+  ],
+  "schemaFragments": {
+    "CreateProjectRequest": {
+      "type": "object",
+      "required": [
+        "customerId",
+        "projectName"
+      ],
+      "properties": {
+        "projectName": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 255
+        },
+        "customerId": {
+          "type": "string",
+          "format": "uuid",
+          "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+        },
+        "customerProjectNo": {
+          "anyOf": [
+            {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 128
+            },
+            {
+              "type": "object",
+              "nullable": true,
+              "enum": [
+                null
+              ]
+            }
+          ]
+        },
+        "currentStage": {
+          "type": "string",
+          "enum": [
+            "assessment"
+          ]
+        },
+        "plannedSignAt": {
+          "anyOf": [
+            {
+              "type": "string",
+              "format": "date-time",
+              "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d(?:\\.\\d+)?(?:Z))$"
+            },
+            {
+              "type": "object",
+              "nullable": true,
+              "enum": [
+                null
+              ]
+            }
+          ]
+        }
+      }
+    },
+    "CreateExpenseRecordRequest": {
+      "type": "object",
+      "properties": {
+        "contractId": {
+          "type": "string",
+          "format": "uuid",
+          "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+          "nullable": true
+        },
+        "expenseCategory": {
+          "$ref": "#/components/schemas/ExpenseCategory"
+        },
+        "expenseDescription": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 2000
+        },
+        "expenseDate": {
+          "type": "string",
+          "format": "date",
+          "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))$"
+        },
+        "currency": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 16
+        },
+        "amountIncludingTax": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 64
+        },
+        "taxAmount": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 64,
+          "nullable": true
+        },
+        "amountExcludingTax": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 64,
+          "nullable": true
+        },
+        "sourceType": {
+          "$ref": "#/components/schemas/ExpenseSourceType"
+        },
+        "evidenceSummary": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 2000,
+          "nullable": true
+        },
+        "attachmentCount": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740991
+        }
+      },
+      "required": [
+        "expenseCategory",
+        "expenseDescription",
+        "expenseDate",
+        "amountIncludingTax"
+      ]
+    },
+    "ConfirmExpenseRecordRequest": {
+      "type": "object",
+      "properties": {
+        "expectedVersion": {
+          "type": "integer",
+          "exclusiveMinimum": true,
+          "maximum": 9007199254740991,
+          "minimum": 0
+        }
+      }
+    },
+    "CreateExpenseProjectActualCostRecordRequest": {
+      "type": "object",
+      "properties": {
+        "costType": {
+          "type": "string",
+          "enum": [
+            "expense"
+          ]
+        },
+        "expenseRecordId": {
+          "type": "string",
+          "format": "uuid",
+          "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+        },
+        "costDescription": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 1000,
+          "nullable": true
+        },
+        "evidenceSummary": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 2000,
+          "nullable": true
+        },
+        "taxImpactSummary": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 2000,
+          "nullable": true
+        },
+        "expectedSourceVersion": {
+          "type": "integer",
+          "exclusiveMinimum": true,
+          "maximum": 9007199254740991,
+          "minimum": 0
+        }
+      },
+      "required": [
+        "costType",
+        "expenseRecordId"
+      ],
+      "additionalProperties": false
+    }
+  },
+  "findings": [
+    {
+      "kind": "schema",
+      "pointer": "#/components/schemas/CreateExpenseRecordRequest/properties/contractId",
+      "fact": "nullable=true; not in required"
+    },
+    {
+      "kind": "Rust",
+      "file": "apps/poms-api-rust/src/project_actual_cost/mod.rs",
+      "line": 341,
+      "fact": "create_expense locks project and optional contracts, active category/date and exact amounts; no execution-only stage guard"
+    },
+    {
+      "kind": "Rust",
+      "file": "apps/poms-api-rust/src/project_actual_cost/mod.rs",
+      "line": 699,
+      "fact": "expense E command derives amount from actual same-project confirmed source and expectedSourceVersion; no amount request fields"
+    },
+    {
+      "kind": "Rust",
+      "file": "apps/poms-api-rust/src/project_actual_cost/logic.rs",
+      "line": 11,
+      "fact": "MONEY_MAX=999999999999999999 cents; exact requested net/gross equals this limit; tax=0"
+    }
+  ],
+  "acceptance": "Root actual public producer/ledger/status result remains untested"
+}

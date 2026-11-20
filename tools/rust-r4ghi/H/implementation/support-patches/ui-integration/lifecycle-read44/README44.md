@@ -1,0 +1,13 @@
+Lifecycle01保持failed；本封件只改一个浏览器工具，不改产品或活图。作者FS核了该结束run的13个GET200及完整ledger、实际失败/DOM、三条真实列表响应和产品reload源码；0业务POST/0upload/actualWriteObserver=[]，没读活动state。
+
+失败处是openLifecycle点击后立即用Playwright expect默认5000ms等待“重新核对当前事实”enabled。page.setDefaultTimeout(90000)不改变expect超时。组件project-lifecycle-authoring.ts:453-477严格先await completion-list，Full分支再await acceptance/archive并行列表，finally才busy=false。原DOM在失败时仍显示“正在读取或保存当前事实…”且按钮disabled，未有接口错误或alert。
+
+固定文件的观察mtime：failure.log=2026-11-08T10:03:25.990Z，page.html=25.994Z，最后archive上游原件007251=25.456Z，但其完整observer ledger007252在26.096Z才生成。runtime14/server14.mjs:45先await afterResponse，:48才向Chrome回完整response。因此上游已200不代表Chrome已能完成该reload；5000ms断言落在最后真实read的observer收尾期间。mtime是固定文件元数据，不能当精确HTTP耗时指标；结论也不外推产品永久busy。最终13个observer read都200/完整，原失败和13条证据保留。
+
+唯一工具候选ui-lifecycle18-browser.mjs before836163074fdd55fd36d61caf2ca4b2e015d0132b87812618ea768a63038d409a → after583685ac41fb39fe5006b095f66a520b91771da0aefd86eb7e36365d9fea8b53。每次真正openLifecycle或businessLocal重新读取之前，先注册同项目completion/acceptance/archive三个既有canonical response watcher；点击真实按钮后逐一核canonical成功status、本轮nonce和实际响应，completion必须Full及同project，另两列表必须数组且所有记录同project，然后才用有界10000ms核按钮enabled和无alert。没有增加额外GET/API调用，仍由实际产品自身reload产生三请求。
+
+任何缺失或错误的接口响应仍被原90000ms canonical等待或状态/nonce断言明确拒绝；不能用UI等待兜底伪passed。后续businessLocal同样等三个真实响应完成，再使用其中实际acceptance response Date，保持原不早于真实来源的时间算法，不改日期、业务输入、附件、权限、scope、policy或ledger。原实际DOM中readiness-summary/delivery-evidence-summary/archived-at/archive字段name属性都存在，未泛改选择器。
+
+Root等现driver完全结束后，可与H43一起精确提升两个互不重叠工具文件，再捕获新完整helper/source/dist/plan和1351真实actor绑定，沿同一尚未消费EO生命周期项目新建lifecycle18-source12-02等新run。旧01无上传/业务写，无需重做执行准入或Expense02；它们原已成功事实绝不能重放。新run仍必须由真GUI完成upload/startAcceptance/acceptance/completion/archive，工具语法通过不等于这些已验。
+
+候选Node24.19 --check exit0，23个来源文件/源码已核。首个candidate builder因实际文件LF而预期CRLF匹配失败，未写candidate/Root，修正为保留实际EOL后通过；first-build44.json保留该事实。H没有执行HTTP/SQL/GUI或Root写，不认证A08/G3/G4。

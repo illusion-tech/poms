@@ -1,0 +1,77 @@
+{
+  "kind": "FullProjectDetail executionAdmissionContext Root-owned proposal",
+  "createdAt": "2026-11-07T06:06:58.531546+00:00",
+  "rootProductModified": false,
+  "files": [
+    {
+      "path": "apps/poms-api-rust/src/project_lifecycle/execution_context.rs",
+      "newFile": true,
+      "baseSHA256": null,
+      "candidateSHA256": "907f9d03e15ff6af6054bf1f6ac6cf7d4774a37630f1b10e7a5ee950851bef7b",
+      "candidateBytes": 4677,
+      "rootCurrentSHA256": null,
+      "baseMatchesRoot": true
+    },
+    {
+      "path": "apps/poms-api-rust/src/project_lifecycle/mod.rs",
+      "newFile": false,
+      "baseSHA256": "651e87f35be6b2c9cc9de77007c88ea20db013e232edc29349792b3c4ce313fc",
+      "candidateSHA256": "f893ef5084dba9a1bdbbd7b4eb057f455a5c55bb67ef98f53c5f1434878c54a8",
+      "candidateBytes": 458,
+      "rootCurrentSHA256": "651e87f35be6b2c9cc9de77007c88ea20db013e232edc29349792b3c4ce313fc",
+      "baseMatchesRoot": true
+    },
+    {
+      "path": "apps/poms-api-rust/src/projects/service.rs",
+      "newFile": false,
+      "baseSHA256": "b518722db6d380ab2b7399a0e5f3146d4fd10b1b54cfd6988a8d92ea19378951",
+      "candidateSHA256": "b31819d9e8b103f17da590a25b13ca175c1bdc538e2d0200676ff5fb7c46a1d5",
+      "candidateBytes": 43803,
+      "rootCurrentSHA256": "b518722db6d380ab2b7399a0e5f3146d4fd10b1b54cfd6988a8d92ea19378951",
+      "baseMatchesRoot": true
+    }
+  ],
+  "patchSHA256": "9057b102bfdc7cdab201ab4cc8a77dd7dd86a9cfa48842a4f524f69d8541b8b6",
+  "schemaSHA256": "f3e6294d7dd04c5a1153a0accad5ad439746b559e577905ff2cc98b4aababed5",
+  "schemaDerivation": {
+    "sourceComponent": "StartProjectExecutionRequest",
+    "omit": [
+      "inputVersion",
+      "expectedProjectVersion",
+      "reason"
+    ],
+    "kept": [
+      "handoverStageRecordId",
+      "handoverSummarySnapshotId",
+      "expectedRoleAssignmentVersion",
+      "commissionRoleAssignmentId",
+      "sourceHandoverId",
+      "sourcePayloadHash"
+    ],
+    "sourceComponentSHA256": "148a55d029bf0c57e970dfc9d59aba82e578ebb33c9473d4780527291da0749b"
+  },
+  "applyOrder": [
+    "Root freezes g2-public-delta02, registers one new ExecutionAdmissionContextView + Full required nullable field in SSOT/common/schema/OpenAPI/client; old delta01 untouched",
+    "Apply internal read-only I helper/export and surgical Root Project Full-only integration atomically",
+    "H gateway consumes new nullable field directly; no forced Role GET for EO",
+    "Root integrated build and real EO-without-commission-manage HTTP/UI/transaction faults; independent review"
+  ],
+  "behavior": [
+    "Only actual current EO with project:write in handover and all true stage/frozen role/handover chain ready gets the six verified references.",
+    "Uses actual stage verifier, require_current_frozen including true duties/receipt/current handover/summary/hash verifier, and exact existing StartExecution authorization.",
+    "Hash comes from verified confirmed handover source_payload_hash, not role-freeze payload hash.",
+    "Expected business readiness denial => null. Actual DB/Common/internal/schema/required-audit failures propagate; no new writes/pools/commit/UOW clear.",
+    "Other full actors receive null; Creator/Legacy anchor branches do not gain this property. Role GET and all four Role command global permissions unchanged."
+  ],
+  "verification": {
+    "newHelperRustfmt": "passed",
+    "surgicalProjectAndModRustParse": "passed via rustfmt emit stdout; existing Root bytes otherwise preserved",
+    "unitFailureClassifierTest": "added, integrated execution pending",
+    "integratedBuildPGHTTPUI": "Root pending; not certified"
+  },
+  "limitations": [
+    "Context is a factual projection, not an authorization token; actual command always rechecks scope/current refs/CAS.",
+    "No Role weights, monetary data, participants or frozen payload is returned.",
+    "Root Native reference required-nullable handling and generated 130-schema registry are explicit integration dependencies."
+  ]
+}

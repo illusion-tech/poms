@@ -1,0 +1,127 @@
+{
+  "kind": "independent-runtime118-complete-extracted-system-role-gates-ownIO",
+  "schemaVersion": 1,
+  "engine": {
+    "version": "v24.19.0",
+    "executable": {
+      "file": "/mnt/c/Users/ynh2/AppData/Roaming/fnm/node-versions/v24.19.0/installation/node.exe",
+      "bytes": 92825416,
+      "rawBytesSha256": "3602f2bb1a10f2cbab4c36886218a33c1ab3db87290e73b033c46c77147d0237"
+    }
+  },
+  "extracts": [
+    {
+      "source": {
+        "file": "/mnt/e/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/runtime118-reentry-control-impl01/proposed03/tools/rust-r4ghi/business/runtime-admission121.mjs",
+        "bytes": 265690,
+        "rawBytesSha256": "5a7b7cf8d0888b8905b1c5938ddfbfa57ae8c0c7d51952ce24136a98c5d4f040"
+      },
+      "gate": "reentryWindowsExecutable118",
+      "extractedBytes": 1311,
+      "rawBytesSha256": "5f64ba63b6bbcee30af1ce6293673eb8475c34b75ca8499d17a795bd4576c778"
+    },
+    {
+      "source": {
+        "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/runtime118-host-pin-code03/proposed/tools/rust-r4ghi/business/runtime-admission121.mjs",
+        "bytes": 265690,
+        "rawBytesSha256": "8cc6daf1f7fbb6f3e2e96770a26ce58f047d42c3b972bc605059ee8118873ec0"
+      },
+      "gate": "reentryWindowsExecutable118",
+      "extractedBytes": 1311,
+      "rawBytesSha256": "b0ea7d246ce34eed89220524a3a3254e5520e9a0511bf4d13220f7ca9be5d03b"
+    },
+    {
+      "source": {
+        "file": "/mnt/e/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/runtime118-reentry-tool-impl01/proposed02/tools/rust-r4ghi/runtime-recovery121/budget118/reenter-budget118-runtime.mjs",
+        "bytes": 133531,
+        "rawBytesSha256": "681b33644c551c067fd9c06c5726eb596033417ab4dc26c505728a6ae45a7966"
+      },
+      "gate": "systemExecutable",
+      "extractedBytes": 768,
+      "rawBytesSha256": "ad4bbca180dfdd3dfcb8192efe85862db2da5f38ff2966e9f042a63f97dd73ee"
+    },
+    {
+      "source": {
+        "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/runtime118-host-pin-code03/proposed/tools/rust-r4ghi/runtime-recovery121/budget118/reenter-budget118-runtime.mjs",
+        "bytes": 133531,
+        "rawBytesSha256": "b37708b88543cc4e6f25b9face76887fe5fc1b039f126ff44ba85f0f291dd8d2"
+      },
+      "gate": "systemExecutable",
+      "extractedBytes": 768,
+      "rawBytesSha256": "6d858637edd448a4a868d4504b65fd860114f7b416593738083d543810baddce"
+    }
+  ],
+  "results": [
+    {
+      "component": "Native",
+      "stage": "before",
+      "scenario": "prior-exact-role-refuses-current-host",
+      "status": "PASS",
+      "passedRoleGate": false,
+      "simulatedSpawnSentinel": 0,
+      "actualSpawn": 0,
+      "digestLeaf": "actual-current-public-byte-digest"
+    },
+    {
+      "component": "Native",
+      "stage": "after",
+      "scenario": "current-exact-role-accepts-current-host",
+      "status": "PASS",
+      "passedRoleGate": true,
+      "simulatedSpawnSentinel": 1,
+      "actualSpawn": 0,
+      "digestLeaf": "actual-current-public-byte-digest"
+    },
+    {
+      "component": "Native",
+      "stage": "after",
+      "scenario": "stale-prior-digest-refused-before-sentinel",
+      "status": "PASS",
+      "passedRoleGate": false,
+      "simulatedSpawnSentinel": 0,
+      "actualSpawn": 0,
+      "digestLeaf": "controlled-prior-digest"
+    },
+    {
+      "component": "Root-runtime",
+      "stage": "before",
+      "scenario": "prior-exact-role-refuses-current-host",
+      "status": "PASS",
+      "passedRoleGate": false,
+      "simulatedSpawnSentinel": 0,
+      "actualSpawn": 0,
+      "digestLeaf": "actual-current-public-byte-digest"
+    },
+    {
+      "component": "Root-runtime",
+      "stage": "after",
+      "scenario": "current-exact-role-accepts-current-host",
+      "status": "PASS",
+      "passedRoleGate": true,
+      "simulatedSpawnSentinel": 1,
+      "actualSpawn": 0,
+      "digestLeaf": "actual-current-public-byte-digest"
+    },
+    {
+      "component": "Root-runtime",
+      "stage": "after",
+      "scenario": "stale-prior-digest-refused-before-sentinel",
+      "status": "PASS",
+      "passedRoleGate": false,
+      "simulatedSpawnSentinel": 0,
+      "actualSpawn": 0,
+      "digestLeaf": "controlled-prior-digest"
+    }
+  ],
+  "passed": 6,
+  "failed": 0,
+  "limits": {
+    "completeGateSourceExtractedUnmodified": true,
+    "applicationModuleImported": false,
+    "onlyPhysicalReadAndHashLeavesModeled": true,
+    "priorDigestIsControlledModelNotOldBinaryClaim": true,
+    "actualWSL": false,
+    "privateIO": false,
+    "actualRuntimeG2": false
+  }
+}

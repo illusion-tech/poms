@@ -1,3 +1,4 @@
+import { CommissionRoleAssignmentFreezePayload } from '../project-cost/rust-r4ghi-entities.entity';
 import { defineEntity } from '@mikro-orm/core';
 import { COMMISSION_ROLE_ASSIGNMENT_STATUSES, type CommissionRoleAssignmentStatus } from '@poms/shared-contracts';
 import { ApprovalSummarySnapshot } from '../approval-summary/approval-summary.entity';
@@ -36,13 +37,15 @@ export const CommissionRoleAssignmentSchema = defineEntity({
             name: 'uq_commission_role_assignment_project_current',
             expression: (columns, table, indexName) =>
                 `create unique index "${indexName}" on "${table.schema}"."${table.name}" ("${columns.projectId}") where "${columns.isCurrent}" = true`
-        }
+        },
+        {"name":"uq_jghi_assignment_project","properties":["id","projectId"]}
     ],
     checks: [
         {
             name: 'chk_commission_role_assignment_status',
             expression: `"status" in (${toSqlStringList(COMMISSION_ROLE_ASSIGNMENT_STATUSES)})`
-        }
+        },
+        {"name":"cra_new_producer_qualification_check","expression":"producer_version=0 OR\n    (producer_version=1 AND weights_policy_version IS NOT NULL AND weights_policy_version='normalized-six-v1-zero-reason'\n     AND (status<>'frozen' OR (freeze_payload_id IS NOT NULL AND freeze_payload_id=id AND frozen_at IS NOT NULL AND frozen_by IS NOT NULL\n         AND source_handover_id IS NOT NULL AND contract_summary_snapshot_id IS NOT NULL\n         AND handover_summary_snapshot_id IS NOT NULL AND effective_handover_baseline_snapshot_id IS NOT NULL)))"}
     ],
     properties: {
         id: p.uuid().primary().defaultRaw('gen_random_uuid()'),
@@ -119,6 +122,10 @@ export const CommissionRoleAssignmentSchema = defineEntity({
         createdBy: p.uuid().nullable().fieldName('created_by'),
         updatedAt: p.datetime().defaultRaw('now()').onCreate(() => new Date()).onUpdate(() => new Date()).fieldName('updated_at'),
         updatedBy: p.uuid().nullable().fieldName('updated_by')
+    ,
+        producerVersion: p.smallint().default(0).fieldName("producer_version"),
+        weightsPolicyVersion: p.text().nullable().fieldName("weights_policy_version"),
+        freezePayloadId: () => p.manyToOne(CommissionRoleAssignmentFreezePayload).mapToPk().joinColumns("freeze_payload_id").referencedColumnNames("assignment_id").foreignKeyName("cra_freeze_payload_fk").deleteRule("restrict").updateRule("no action").nullable()
     }
 });
 

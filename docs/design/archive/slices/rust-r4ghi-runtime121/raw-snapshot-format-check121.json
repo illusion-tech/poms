@@ -1,0 +1,57 @@
+{
+  "kind": "Root-technical121-frozen-raw-archive-diff-classification",
+  "recordedAt": "2026-11-13T02:55:51.210Z",
+  "firstObservedGitCheck": {
+    "toolExitCode": 1,
+    "rawTextWhitespaceFailure": true,
+    "source": "Original tool transcript; no complete raw stdout capture was produced"
+  },
+  "captureToolStops": [
+    {
+      "expectedNativeStatus": 1,
+      "observedNativeStatus": 2,
+      "stoppedBeforeWritingRecord": true
+    },
+    {
+      "forcedTextProbeNativeStatus": 0,
+      "reason": "Forced text did not reproduce the earlier check after binary attributes; the probe is not presented as an original failed check",
+      "stoppedBeforeWritingRecord": true
+    }
+  ],
+  "resolution": "Preserve frozen CRLF bytes; .bin files are immutable evidence and receive -diff only. Text production/script/doc files keep normal diff checks.",
+  "affectedSnapshots": [
+    {
+      "file": "docs/design/archive/slices/rust-r4ghi-runtime121/retained-parent-inputs01/runtime121-corrective361-code-delivery-online.json.bin",
+      "bytes": 684,
+      "rawBytesSha256": "15eaef6610a3b6fc23aa1498b9203349fa31235b881062c41fe4d658f84a1728",
+      "CRLF": 16
+    },
+    {
+      "file": "docs/design/archive/slices/rust-r4ghi-runtime121/retained-parent-inputs01/runtime121-corrective361-freeze-online.json.bin",
+      "bytes": 252,
+      "rawBytesSha256": "e211dd51f8a5e94b032327c3461eeb393d16db8fcd916a673c0c6d5be95f4080",
+      "CRLF": 7
+    },
+    {
+      "file": "docs/design/archive/slices/rust-r4ghi-runtime121/retained-parent-inputs01/runtime121-G3-checkpoint360-online.json.bin",
+      "bytes": 369,
+      "rawBytesSha256": "6d0bd1cfd6cef9cc116b7e83d04604cd73838841c56a97f5043dfcb33a323afa",
+      "CRLF": 10
+    },
+    {
+      "file": "docs/design/archive/slices/rust-r4ghi-runtime121/retained-parent-inputs01/runtime121-Native361-publication-online.json.bin",
+      "bytes": 786,
+      "rawBytesSha256": "718e8a611a45dc0e2d58fbedd4a7efda7c42d981a131a1b13a5835e3393561da",
+      "CRLF": 20
+    }
+  ],
+  "originalBytesRewritten": false,
+  "currentCheck": {
+    "exitCode": 0,
+    "stdoutBytes": 0,
+    "stdoutSHA256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stderrBytes": 0,
+    "stderrSHA256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "applicationAndPrivateStateChanged": false
+}

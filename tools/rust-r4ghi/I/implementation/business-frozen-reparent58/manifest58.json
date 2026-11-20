@@ -1,0 +1,96 @@
+{
+  "schemaVersion": 1,
+  "proposal": "I-A03-frozen-participant-to-real-draft-controlled-probes58",
+  "state": "frozen-prepared-unrun",
+  "files": [
+    {
+      "file": "tools/rust-r4ghi/business/frozen-reparent-sources58.json",
+      "beforeSHA256": null,
+      "afterSHA256": "6155c6d7be1a1b5352bcff4923b88a60757de46dbbb974c2917f78afd47264e4",
+      "candidate": "proposed/tools/rust-r4ghi/business/frozen-reparent-sources58.json"
+    },
+    {
+      "file": "tools/rust-r4ghi/business/frozen-reparent58.mjs",
+      "beforeSHA256": null,
+      "afterSHA256": "51fd21ee7396d1f61af3f29be066ad095419c39baa4d0e1f272f88ca06ced224",
+      "candidate": "proposed/tools/rust-r4ghi/business/frozen-reparent58.mjs"
+    },
+    {
+      "file": "tools/rust-r4ghi/business/frozen-reparent58.test.mjs",
+      "beforeSHA256": null,
+      "afterSHA256": "28f9d8ac435f847c6925414c0ca2789a01cd4361bd84919448e25436e79ecfed",
+      "candidate": "proposed/tools/rust-r4ghi/business/frozen-reparent58.test.mjs"
+    }
+  ],
+  "sourcePins": [
+    {
+      "file": "apps/poms-api-rust/src/commission_assignment/service.rs",
+      "sha256": "f68d44bcdebcbd2bb78ce035f122fa7cbc72c55b92dcce98f6fbbebf5ac02598"
+    },
+    {
+      "file": "apps/poms-api/src/migrations/Migration20261107060000_rust_r4ghi_operating_lifecycle.ts",
+      "sha256": "8fa614a3eca1b01f744592e392cc37baab53ea102439840394b0abed316bc68d"
+    }
+  ],
+  "runtimeHelperDependencies": [
+    {
+      "file": "tools/rust-r4ghi/business/context.mjs",
+      "sha256": "9b8378d349828b8e6505a83d668a7beb77801b22c7fabc8b12469bfdffdd8470"
+    },
+    {
+      "file": "tools/rust-r4ghi/business/snapshot.mjs",
+      "sha256": "c9a72d7e763045bed175dfe16386ae9d95d683b84f1445b34b59d78934877aed"
+    },
+    {
+      "file": "tools/rust-r4ghi/business/pure.mjs",
+      "sha256": "42f1d133ad6b279235c8c2b7c3f10c129958e4aa7b42fa1da5287f160a88fa1a"
+    },
+    {
+      "file": "tools/rust-r4ghi/business/ledger.mjs",
+      "sha256": "d743d736cb3b6528214d21ca0aa152b78be8906cbcab73c40f0a3d7563e6bb5b"
+    },
+    {
+      "file": "tools/rust-r4ghi/business/fault-sweep.mjs",
+      "sha256": "986afb297db23a425d13384b312c8b80f26b2aaeba13ec66ac93b853bd064e36"
+    }
+  ],
+  "asyncAPI": "probeFrozenReparent58(ctx,{draftAssignmentId,projectId,createReceipt,createLedger}) -> Promise<actualPrivateProofPin>",
+  "integration": "H18-05b/18-05c after real UI create201, successful ledger and policy observeWrite, before forwarding response; serial original ctx/driver only",
+  "createReceipt": "actual existing browser-response originals pin including attempt/bodyBase64; no fabricated JSON authority",
+  "createLedger": "same actual request ownership-complete ledger pin",
+  "actualCases": [
+    "zero-frozen-to-real-draft",
+    "positive-frozen-to-real-draft",
+    "frozen-user-identity",
+    "frozen-role-identity",
+    "frozen-zero-weight-0-to-1"
+  ],
+  "expectedSQLSTATE": "23514",
+  "guardMessagesExact": true,
+  "DMLTransactions": "BEGIN/exact two realOwned parents and participant lock/one attempted UPDATE/ROLLBACK; no DML COMMIT",
+  "afterEach": "all two-DB139 rows SHA/xmin/catalog/sequences/objects strictly unchanged; no auth touch allowance",
+  "stateWrites": "state.consumerChecks.frozenReparent58 only; old producer fixtures/source labels unchanged",
+  "noBusinessFixture": true,
+  "noHTTPInProbe": true,
+  "SQLOrHTTPExecutedByAuthor": false,
+  "offline": {
+    "node": "v26.13.0",
+    "tests": 84,
+    "basePure": 81,
+    "newPure": 3,
+    "fail": 0,
+    "log": "offline-tests58.log",
+    "sha256": "dbb223d2e28177f05291995fb85d94236fed5035baf9bcf00b4ad506889abef4"
+  },
+  "documentation": {
+    "file": "README58.md",
+    "sha256": "f63ca554c5f9f0d1aa48e516e920c34023c56b208489bde813dae94c29dddd94"
+  },
+  "patch": {
+    "file": "new-files58.patch",
+    "sha256": "a918db62bc9bfcb094ce4a600e367b57472d0364f066142c45a55e3106805ed5",
+    "newFilesOnly": true
+  },
+  "G3Certified": false,
+  "G4Certified": false
+}

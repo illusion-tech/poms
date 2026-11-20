@@ -1,7 +1,7 @@
 import { signal } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ActivatedRoute, convertToParamMap, provideRouter, Router } from '@angular/router';
-import { ProjectStage, ProjectStatus, ProjectStore, ProjectWorkspaceStore, type ProjectDetailView, type ProjectWorkspaceGuidanceView } from '@poms/admin-data-access';
+import { AuthStore, ProjectStage, ProjectStatus, ProjectStore, ProjectWorkspaceStore, type ProjectDetailView, type ProjectWorkspaceGuidanceView } from '@poms/admin-data-access';
 import { ProjectCommissionShell } from './project-commission-shell';
 
 function createProject(overrides: Partial<ProjectDetailView> = {}): ProjectDetailView {
@@ -184,6 +184,7 @@ describe('ProjectCommissionShell', () => {
             imports: [ProjectCommissionShell],
             providers: [
                 provideRouter([]),
+                { provide: AuthStore, useValue: { hasAnyPermission: () => false } },
                 {
                     provide: ActivatedRoute,
                     useValue: {

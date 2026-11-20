@@ -1,0 +1,556 @@
+{
+  "kind": "PROPOSED-Source15-fixed-native-Tax-and-118-joint-consumer-ABI-v2",
+  "status": "PROPOSAL-ONLY-AWAIT-ROOT-G1-C",
+  "basis": {
+    "ABI15": {
+      "file": "E:/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/source14-retained-to15-G1-proposal02/ABI15-v1.json",
+      "bytes": 3883,
+      "rawBytesSha256": "91f4fcf8a267a772f835de5c3ae03042a299341ed360c0606a0792f86e82c45b"
+    },
+    "deferred": {
+      "file": "E:/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/source14-retained-to15-G1-proposal02/deferred-ABI02.json",
+      "bytes": 4121,
+      "rawBytesSha256": "ebff8b51509fd354ce6d0f8474bb748e4d1ce9c7fb1fc15d3023ba1426e0a038"
+    },
+    "H15": {
+      "file": "E:/projects/worktrees/poms-r4h-signals/poms/tools/rust-r4ghi/H/implementation/support-patches/source15-policy-security-G1-proposal01/manifest-H15-G1-proposal01.json",
+      "bytes": 2538,
+      "rawBytesSha256": "c3a283634efafed9da5a85f2a13653463da7cf07689dbae8ef94ba6ce907877d"
+    },
+    "old14Interface": {
+      "file": "E:/projects/worktrees/poms-r4i-lifecycle/poms/tools/rust-r4ghi/I/implementation/tax14-invocation118-code01/CONSUMER-API118-v2.json",
+      "bytes": 7493,
+      "rawBytesSha256": "9ea99e8cc2987e47e832eba5a43f38f694f52fd6845ce811df606b17111cec3c"
+    }
+  },
+  "productionModule": "tools/rust-r4ghi/tax15-invocation118/retained-tax-proof.mjs",
+  "export": "consumeTax15Completion",
+  "signature": "await consumeTax15Completion(ctx,{consumerId,consumerInput,registration})",
+  "parametersExactly": [
+    "consumerId",
+    "consumerInput",
+    "registration"
+  ],
+  "consumerIds": [
+    "h15-287",
+    "shared15-284",
+    "period15-270",
+    "mixed15-271",
+    "role15-setup"
+  ],
+  "newCallerInputFields": {
+    "taxExecution118Sidecar": null,
+    "tax118ConsumerRegistration": null
+  },
+  "consumerInputPolicy": "Entire exact private new caller input pin, never a selected fragment; registration must samePin its tax118ConsumerRegistration; read before/after stable; no injected functions",
+  "nativeReaderProducts": [
+    {
+      "file": "tools/rust-r4ghi/tax15-readonly/runtime15.mjs",
+      "operation": "ADD",
+      "beforeSHA256": null,
+      "afterSHA256": null,
+      "H3": false,
+      "derivationSource": {
+        "file": "E:/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/tax14-readonly270/runtime270.mjs",
+        "bytes": 19306,
+        "rawBytesSha256": "bebbaefb371f142e313fd434227d4f7e48d45c0e28799992acb1edcab73cd167"
+      },
+      "responsibility": "Native15 current/admitted/legacy/Main13/runtime/envelope verification, two fixed reader entrypoints; no reader injections"
+    },
+    {
+      "file": "tools/rust-r4ghi/tax15-readonly/facts15.mjs",
+      "operation": "ADD",
+      "beforeSHA256": null,
+      "afterSHA256": null,
+      "H3": false,
+      "derivationSource": {
+        "file": "E:/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/tax14-readonly270/facts270.mjs",
+        "bytes": 19683,
+        "rawBytesSha256": "c4803d233c2c2bfa55898abe9c57770061ea701aea9a2aec1deb9bb646124a56"
+      },
+      "responsibility": "Only Tax15 proof shape, immutable-original relations and complete FI/normal semantic assertions; no period/calendar/budget oracle copied"
+    }
+  ],
+  "nativeEntrypoints": {
+    "security": "readTax15SecurityCompletion(ctx,environmentBindings15Pin,completionPin)",
+    "shared": "assertTax15Envelope(ctx,normalizedRuntime12)"
+  },
+  "normalizedRuntime12Keys": [
+    "sourcePins",
+    "sourcePinsSHA256",
+    "sourceCount",
+    "helperPins",
+    "helperCount",
+    "helperSources",
+    "apiProcess",
+    "binarySHA256",
+    "codeAdmission15",
+    "candidate",
+    "taxRuntimeBindings",
+    "taxCompletion"
+  ],
+  "old284Runtime12Before": {
+    "file": "E:/projects/worktrees/poms-r3hijk-next28/poms/tools/rust-r4ghi/legacy-authority14-284-code02/runtime284.mjs",
+    "bytes": 5077,
+    "rawBytesSha256": "f281210f42f37fee55c2756d808155efb047db96f11ad728a7921cdec13afbd0"
+  },
+  "new284Runtime12Keys": [
+    "sourcePins",
+    "sourcePinsSHA256",
+    "sourceCount",
+    "helperH3",
+    "helperCount",
+    "codeAdmission15",
+    "candidate",
+    "apiProcess",
+    "binarySHA256",
+    "trustedSummaryBinary",
+    "taxRuntimeBindings",
+    "taxCompletion"
+  ],
+  "new284Normalization": {
+    "sourcePins": "runtime.sourcePins",
+    "sourcePinsSHA256": "runtime.sourcePinsSHA256",
+    "sourceCount": "runtime.sourceCount",
+    "helperPins": "runtime.helperH3",
+    "helperCount": "runtime.helperCount",
+    "helperSources": "ctx.helperPins",
+    "apiProcess": "runtime.apiProcess",
+    "binarySHA256": "runtime.binarySHA256",
+    "codeAdmission15": "runtime.codeAdmission15",
+    "candidate": "runtime.candidate",
+    "taxRuntimeBindings": "runtime.taxRuntimeBindings",
+    "taxCompletion": "runtime.taxCompletion"
+  },
+  "raw284ForwardingAllowed": false,
+  "fallbackAliasesAllowed": false,
+  "consumers": [
+    {
+      "consumerId": "h15-287",
+      "completionPointer": "/taxCompletion15",
+      "environmentPointer": "/environmentBindings15",
+      "readerEntry": "readTax15SecurityCompletion(ctx,callerInput.environmentBindings15,callerInput.taxCompletion15)",
+      "returnFamily": "security",
+      "gate": "After current15 runtime/retained13 partial, before new consumer record/view/API/auth/domain phase",
+      "actualInput": null,
+      "registration": null
+    },
+    {
+      "consumerId": "shared15-284",
+      "completionPointer": "/runtime/taxCompletion",
+      "taxRuntimePointer": "/runtime/taxRuntimeBindings",
+      "readerEntry": "assertTax15Envelope(ctx,exactAdapter284(callerInput.runtime,ctx))",
+      "returnFamily": "shared",
+      "applicableWhen": "Original period branch Tax prerequisite only; baseline witness/negative does not gain a Tax prerequisite",
+      "gate": "Original verifyCompletedTax284 point; keep legacy prepare/race/restore/writer/parent-lock order",
+      "normalization": {
+        "sourcePins": "runtime.sourcePins",
+        "sourcePinsSHA256": "runtime.sourcePinsSHA256",
+        "sourceCount": "runtime.sourceCount",
+        "helperPins": "runtime.helperH3",
+        "helperCount": "runtime.helperCount",
+        "helperSources": "ctx.helperPins",
+        "apiProcess": "runtime.apiProcess",
+        "binarySHA256": "runtime.binarySHA256",
+        "codeAdmission15": "runtime.codeAdmission15",
+        "candidate": "runtime.candidate",
+        "taxRuntimeBindings": "runtime.taxRuntimeBindings",
+        "taxCompletion": "runtime.taxCompletion"
+      },
+      "actualInput": null,
+      "registration": null
+    },
+    {
+      "consumerId": "period15-270",
+      "completionPointer": "/taxCompletion",
+      "taxRuntimePointer": "/taxRuntimeBindings",
+      "readerEntry": "assertTax15Envelope(ctx,exactTopLevelRuntime12(callerInput))",
+      "normalization": {
+        "sourcePins": "callerInput.sourcePins",
+        "sourcePinsSHA256": "callerInput.sourcePinsSHA256",
+        "sourceCount": "callerInput.sourceCount",
+        "helperPins": "callerInput.helperPins",
+        "helperCount": "callerInput.helperCount",
+        "helperSources": "callerInput.helperSources",
+        "apiProcess": "callerInput.apiProcess",
+        "binarySHA256": "callerInput.binarySHA256",
+        "codeAdmission15": "callerInput.codeAdmission15",
+        "candidate": "callerInput.candidate",
+        "taxRuntimeBindings": "callerInput.taxRuntimeBindings",
+        "taxCompletion": "callerInput.taxCompletion"
+      },
+      "returnFamily": "shared",
+      "gate": "Preserve each original prepare/fi-only/commit/read-verification prerequisite; no effect authority from registration",
+      "actualInput": null,
+      "registration": null
+    },
+    {
+      "consumerId": "mixed15-271",
+      "completionPointer": "/taxCompletion",
+      "taxRuntimePointer": "/taxRuntimeBindings",
+      "readerEntry": "assertTax15Envelope(ctx,exactTopLevelRuntime12(callerInput))",
+      "normalization": {
+        "sourcePins": "callerInput.sourcePins",
+        "sourcePinsSHA256": "callerInput.sourcePinsSHA256",
+        "sourceCount": "callerInput.sourceCount",
+        "helperPins": "callerInput.helperPins",
+        "helperCount": "callerInput.helperCount",
+        "helperSources": "callerInput.helperSources",
+        "apiProcess": "callerInput.apiProcess",
+        "binarySHA256": "callerInput.binarySHA256",
+        "codeAdmission15": "callerInput.codeAdmission15",
+        "candidate": "callerInput.candidate",
+        "taxRuntimeBindings": "callerInput.taxRuntimeBindings",
+        "taxCompletion": "callerInput.taxCompletion"
+      },
+      "returnFamily": "shared",
+      "gate": "Original prior period result chain, its own verificationInput/registration, then current mixed input/registration, before mixed effects",
+      "priorPeriod": {
+        "proofInputPointer": "/periodCompletion",
+        "proofDereferencePointer": "/verificationInput",
+        "consumerId": "period15-270",
+        "registrationSource": "the exact prior verificationInput.tax118ConsumerRegistration",
+        "sameRegistrationAsMixed": false,
+        "sidecarAndTaxRuntimeMustEqual": true,
+        "periodExecutionClaimed": false
+      },
+      "actualInput": null,
+      "registration": null
+    },
+    {
+      "consumerId": "role15-setup",
+      "completionPointer": "/taxCompletion",
+      "environmentPointer": "/environmentBindings15",
+      "readerEntry": "readTax15SecurityCompletion(ctx,callerInput.environmentBindings15,callerInput.taxCompletion)",
+      "returnFamily": "security",
+      "gate": "After role private input/full closure/nonce/current15 runtime, before new setup record/API/login/permission command; keep H46 prerequisite after this Tax check",
+      "upstreamH46": "Only readonly verification of the actual original h15-287 input and its own registration if required by H15 verifier; never substitute it for the Role input",
+      "actualInput": null,
+      "registration": null
+    }
+  ],
+  "envelope": {
+    "statePointer": "/taxContinuation15",
+    "kind": "actual-Source15-retained-tax-consumer-complete",
+    "requiredSweepKind": "source-bound-tax-continuation15-sweep",
+    "sourceGeneration": 15,
+    "consumerEpoch": "g2-business15",
+    "producerEpoch": "g2-business12",
+    "requiredFields": [
+      "kind",
+      "requiredSweepKind",
+      "sourceGeneration",
+      "consumerEpoch",
+      "producerEpoch",
+      "sourcePinsSHA256",
+      "runtimeBindings",
+      "codeAdmission15",
+      "apiProcess",
+      "candidate",
+      "retainedParent14",
+      "originalProducer12",
+      "retainedMain13",
+      "retainedProducerRecordsEdited",
+      "bodySHA256",
+      "scope",
+      "inventory",
+      "failures",
+      "fiComplete",
+      "fiCompletionProof",
+      "finalSuccess",
+      "afterVerifiedFrame"
+    ],
+    "constants": {
+      "fiComplete": true,
+      "retainedProducerRecordsEdited": false,
+      "finalPostconditions": "verified"
+    },
+    "proofRelations": [
+      "state.taxContinuation15.complete samePin caller completion",
+      "sweep.fiComplete is actual original FI pin; envelope.fiCompletionProof samePin it, not bool",
+      "scope/inventory/failures/bodySHA/finalSuccess deepEqual actual sweep and original FI receipt",
+      "actual native15 runtime bindings/current Reg5/B1/API/source/fullH3 agree; B0 and old14 rejected",
+      "retainedParent14 references exact Reg5.producerState and retentionIndex; do not label it13",
+      "originalProducer12 is the true registered legacy birth frame",
+      "retainedMain13 deepEqual real readRetainedCommand15 result, including c0754524 original13 and retainedThrough14",
+      "historical rows use attempt-bound raw snapshot/ledger/ownership proof, never current latest equality after legal successor writes",
+      "actual finalSuccess POST201 complete/no transport failure/bodyHash/request/ledger/full domain postconditions verified",
+      "no pending Main/Tax unknown or live Tax controls; no Main POST replay"
+    ]
+  },
+  "sidecar": {
+    "kind": "actual-Tax15-invocation118-execution-sidecar",
+    "schemaVersion": 1,
+    "namespace": "poms-r4ghi",
+    "epoch": "g2-business15",
+    "run": "main01",
+    "sourceGeneration": 15,
+    "requiredFields": [
+      "kind",
+      "schemaVersion",
+      "namespace",
+      "epoch",
+      "run",
+      "sourceGeneration",
+      "completion",
+      "fiCompletion",
+      "runtimeBindings",
+      "codeAdmission15",
+      "candidate",
+      "apiProcess",
+      "sourcePins",
+      "helperPins",
+      "sourcePinsSHA256",
+      "bodySHA256",
+      "scopeSHA256",
+      "inventorySHA256",
+      "executionSources",
+      "codeReview",
+      "technicalG1",
+      "invocations",
+      "familyResults",
+      "normalSuccess",
+      "verification",
+      "oldProducerRecordsEdited",
+      "G3",
+      "G4",
+      "afterVerifiedFrame"
+    ],
+    "constants": {
+      "oldProducerRecordsEdited": false,
+      "G3": false,
+      "G4": false
+    },
+    "sourceTuple": "exact current15 Reg5/B1/API/binary/plain sources/full H3; actual values null in proposal",
+    "invocationRequired": [
+      "actual input pin",
+      "exact Root G2 review pin",
+      "mode",
+      "nonce",
+      "pid",
+      "bootId",
+      "entryGuard proof",
+      "exitGuard proof",
+      "familyJournal pin",
+      "result pin",
+      "complete actual executor six-source closure"
+    ],
+    "journalRequired": [
+      "whole frozen ordered inventory pin/hash and unique keys",
+      "cursor/key/descriptor/body/scope/request/actor/session per phase",
+      "ready→authenticated→beforeCaptured→controlsInstalled→requestPending→responseRecorded→controlsRemoved→afterCaptured→reconciled→familyVerified",
+      "only persisted verified+removed family advances cursor by one",
+      "first anomaly stops all later POSTs; unknown cannot be prefix or automatic retry",
+      "interrupted or resumed prefix requires new exact Root recovery approval and all prior originals"
+    ],
+    "familyRequired": [
+      "one actual result per whole inventory key in original order, no trim/reorder/duplicates/extra",
+      "descriptor deepEqual inventory item; request body equals approved complete body; same complete target/scope set",
+      "fresh before/session/DB/OID/API/source/helper checks, not cached prior family",
+      "canonical actual restatement POST500 complete/no transport failure; primary1 fallback0",
+      "requestConfig/body/responseHeaders/body raw original pins and requestId closure",
+      "actual control OIDs/definitions/ACL/owner/sequence and one-hit/removal observations",
+      "actual before/after139×2 full rows/xmin/meta/seq/objects; strict rollback including audit/security/managed auth, only exact real raw session five columns or no touch",
+      "original ledger ownershipComplete/no blockers with exact request/op/before/after; recompute original delta, not bool only"
+    ],
+    "normalRequired": [
+      "separate commit-once exact G2 after closed FI complete STOP/review",
+      "canonical actual restatement POST201 exactly once, same full approved body",
+      "cached original201 receipt/response complete and before/after/ledger/domain postconditions",
+      "save committed original before later assertions; no201 replay on bookend or semantic failure",
+      "normal cannot be invoked by FI-set capability"
+    ],
+    "consumerRules": [
+      "Fixed native reader is mandatory before sidecar joining",
+      "all sidecar originals read and recomputed, no verification boolean alone",
+      "no new context/DB/HTTP/process/persist/control cleanup or invocation capability is created by reader",
+      "allow centrally verified other owned active FI for readonly verify/cleanup; only completed Tax invocation itself must be closed",
+      "no demand for fictional processBinding15 on old publicHTTP; join actual15 phase checks/process/wire/captures instead",
+      "all output data/provenance independent deep readonly copies; no alias to private expected arrays or ctx.state"
+    ]
+  },
+  "nativeReturn": {
+    "security": {
+      "completion": "actual pin",
+      "runtimeBindings": "actual Tax15 runtime pin",
+      "consumerEpoch": "g2-business15",
+      "sourceGeneration": 15,
+      "retainedMain13": "actual typed13-through14 bridge",
+      "actualTax15Verified": true
+    },
+    "shared": {
+      "manifest": "actual private Tax15 bindings data",
+      "record": "independent readonly copy of actual taxContinuation15",
+      "envelope": "actual completed envelope data",
+      "legacy": "full verified original12/retained14/Main13 proof data"
+    }
+  },
+  "jointReturn": "Preserve exactly the selected native family fields; append invocation118Sidecar={sidecar,registration,consumerInput,consumerId,interfaceContract,actualReaderSources,externalExecutorVerified:true,effectsGranted:false}, computed after every original relation passes",
+  "registrationShape": {
+    "kind": "Root-reviewed-Source15-Tax118-consumer-registration",
+    "schemaVersion": 1,
+    "consumerId": "one fixed ID",
+    "interfaceContract": null,
+    "readerSources": null,
+    "readerCodeReview": null,
+    "producerExecutionSources": null,
+    "producerCodeReview": null,
+    "prepareFactsSources": null,
+    "prepareFactsCodeReview": null,
+    "callerExecutionSources": null,
+    "callerCodeReview": null,
+    "current15": null,
+    "effectsGranted": false
+  },
+  "acyclicRegistration": "ABI/code/reviews→registration(no consumerInput backpointer)→private input references registration+sidecar→original caller exact effect review binds whole input; no self hash",
+  "sourceClosure": {
+    "nativePair": [
+      "tools/rust-r4ghi/tax15-readonly/runtime15.mjs",
+      "tools/rust-r4ghi/tax15-readonly/facts15.mjs"
+    ],
+    "executorSixRequestedForSeparateFreeze": [
+      "tools/rust-r4ghi/tax15-invocation118/run-tax15-once.mjs",
+      "tools/rust-r4ghi/tax15-invocation118/invocation-proof.mjs",
+      "tools/rust-r4ghi/tax15-invocation118/retained-tax-proof.mjs",
+      "tools/rust-r4ghi/tax15-invocation118/tax15-once-effects.mjs",
+      "tools/rust-r4ghi/tax15-invocation118/tax15-once-wire.mjs",
+      "tools/rust-r4ghi/tax15-invocation118/tax15-once-ledger.mjs"
+    ],
+    "H3": "actual complete current H3, including fixed H15 loader/templates and typed15 central, never caller-selected h",
+    "prepareFacts": "exact Root-frozen15 prepare/facts path+source+review ABI still null; no callback injection",
+    "caller": "exact independently reviewed new edition closure per each consumer; Role includes new2 plus protected old fixture",
+    "union": "same-file overlaps must have same raw SHA, full set before dynamic imports and after proof validation; code/raw JSON regular/nosymlink/realpath/nlink1; binary special stat only via central ABI"
+  },
+  "fixedReaderOrder": [
+    "strict full input/registration/sidecar shape and source closure before new imports",
+    "fixed native15 current/retained/domain reader; no old14 fallback",
+    "strict FI+201+bookend+journal sidecar joining and real original recomputation",
+    "recheck exact sources/input pins and return readonly proof, never effect capability"
+  ],
+  "notIncluded": [
+    "No four caller or Role source edits in this proposal",
+    "No H15 five-leaf edits",
+    "No #118 six-leaf or prepare/facts implementation",
+    "No actual registration/input/envelope/sidecar"
+  ],
+  "actual": {
+    "Reg5": null,
+    "B1": null,
+    "API": null,
+    "helperPins": null,
+    "readerSourcePins": null,
+    "producerSourcePins": null,
+    "prepareFactsSources": null,
+    "preparedScope": null,
+    "fullInventory": null,
+    "FIExactG2": null,
+    "normalExactG2": null,
+    "completion": null,
+    "sidecar": null,
+    "registrations": null,
+    "callerInputs": null,
+    "afterVerifiedFrame": null
+  },
+  "implementationAuthorized": false,
+  "actualG2Authorized": false,
+  "G3": false,
+  "G4": false,
+  "parentInterface": {
+    "file": "E:/projects/worktrees/poms-r4h-signals/poms/tools/rust-r4ghi/H/implementation/support-patches/source15-tax-consumer-G1C-proposal01/CONSUMER-API15-v1.PROPOSED.json",
+    "bytes": 19768,
+    "rawBytesSha256": "50a6b23424cfe24cc3db772300b8bacaa8909246b4c06f325bdbd4f056d233b0"
+  },
+  "afterVerifiedFrameProtocol": {
+    "kind": "actual-Source15-Tax118-after-verified-ownership-journal-frame",
+    "schemaVersion": 1,
+    "namespace": "poms-r4ghi",
+    "epoch": "g2-business15",
+    "run": "main01",
+    "sourceGeneration": 15,
+    "paths": {
+      "sweep": "/taxContinuation15/sweep/afterVerifiedFrame",
+      "completion": "/afterVerifiedFrame",
+      "sidecar": "/afterVerifiedFrame",
+      "returnedJointProof": "/invocation118Sidecar/afterVerifiedFrame"
+    },
+    "frameRequiredFields": [
+      "kind",
+      "schemaVersion",
+      "namespace",
+      "epoch",
+      "run",
+      "sourceGeneration",
+      "marker",
+      "prefix",
+      "sequenceAtSnapshot",
+      "current15",
+      "ownershipState",
+      "ownershipLog",
+      "observation",
+      "commandLedgers",
+      "normalResult",
+      "fiCompletion",
+      "entryGuard",
+      "exitGuard",
+      "closedJournal"
+    ],
+    "fieldSemantics": {
+      "ownershipState": "Independent wx private raw-byte copy of actual full state after real normal reconcile/postconditions/exit verification; include real owned/borrowed/object ownership, not selected synthetic projection or fake ctx",
+      "ownershipLog": "Independent complete raw-byte copy of actual D15 ownership.jsonl through this point; actual records are at/key/rowSha256/proof, not invented xmin-bearing records",
+      "observation": "Exact normalResult.finalSuccess.after full139x2 snapshot; no subsequent unobserved HTTP/domain mutation before frame; verification only after this observation, otherwise STOP for explicit revised observation contract",
+      "commandLedgers": "Every actual HTTP reconciliation from normal entry ownership anchor through observation, original order/full pins, including real allowed auth; no fabricated status field",
+      "normalResult": "Actual already-written verified normal201 outcome with raw response/ledger/before/after/postcondition source pins; no completion/sidecar pin",
+      "fiCompletion": "Actual prior closed FI proof pin, identical to sweep.fiComplete and completion.fiCompletionProof",
+      "entryGuard": "Actual normal invocation entry proof, including ownershipState and ownershipLogPrefix immutable pins",
+      "exitGuard": "Actual original full15 exit verification after reconcile/postconditions; never a self-asserted boolean",
+      "closedJournal": "Actual closed invocation journal before final output publication, containing all stages and normal verified outcome; no completion/sidecar output pin",
+      "current15": "Same real runtimeBindings/Reg5/B1/API/source/fullH3/binary/namespace tuple as actual normal/entry/exit/complete/sidecar"
+    },
+    "invocationEntryRequiredFields": [
+      "ownershipState",
+      "ownershipLogPrefix"
+    ],
+    "publicationOrder": [
+      "actual201 original saved",
+      "real after capture/reconcile and full postconditions verified",
+      "real exit guard and closed journal saved",
+      "actual ownership state/log copies and ordered ledger index sealed as frameF without C/S output pins",
+      "completionC references F plus real FI/201; C has no sidecar pin",
+      "sidecarS references C and identical F",
+      "current state finally metadata-publishes completion/sidecar and sweep.afterVerifiedFrame"
+    ],
+    "forbiddenCycles": [
+      "Frame refers completion/sidecar/self pin",
+      "Completion refers sidecar",
+      "Journal/normalResult needed by Frame already refers future completion/sidecar",
+      "Ownership state snapshot already contains newly-generated output pins"
+    ],
+    "snapshotOutputSlots": "At capture, current taxContinuation15.complete/sidecar and sweep.afterVerifiedFrame are absent or null. Real earlier FI completion pin remains permitted. Later counter/metadata progression is expected.",
+    "validation": [
+      "Every F/C/S/sweep returned-frame pin is exactly same file/rawSHA/bytes where present; all raw files regular/nosymlink/realpath/nlink1 and immutable copies, not active mutable filenames",
+      "Re-read actual frame state/log and original snapshots/ledgers; prove entry ownership log is byte-exact prefix of full after log and fold actual logged own events plus all actual reconciliation ledgers",
+      "Recompute complete before/after row sha/xmin and recorded changes/ownership, original first/birth/proof and allowed borrowed columns; no unknown or silently-unlogged mutation",
+      "Owned latestSHA/xmin at seal agrees with frame observation and latestProof actual request/op/beforeSHA/snapshot pins; borrowed xmin comes from original snapshot, not a nonexistent metadata field",
+      "Ledger status from actual wire, never nonexistent ledger.status; ownershipComplete/blockers/recorded/request/op/before/after must match actual immutable ledger JSON",
+      "Use explicit frame data pure/FS assertions; never construct a substitute ctx, replace ctx.state/owned, inject reader, or call old assertRecorded with a fake frame context",
+      "FI uses its actual invocation entry/rollback originals. Normal final map cannot retroactively grant FI ownership or produce missing historical adoption",
+      "All current source/API/registration/current completion/frame pointers still validate; historical frozen row values are not compared with later ctx.owned.latest after legitimate period/mixed writes",
+      "Reg5 original13 Main and final14 parent remain separate typed frames; never relabel historical proof15",
+      "Missing/partial frame, log truncation/reorder, changed byte prefix, mismatched raw row/xmin/proof/journal/G2, unclosed control or unknown output rejects all five consumers",
+      "C/S orphan on interruption is not state admission; preserve originals and require exact Root reconciliation, never overwrite or replay201"
+    ],
+    "returnAddition": "After all validation append the exact F pin as invocation118Sidecar.afterVerifiedFrame; retain all v1 native return fields and five-consumer mappings",
+    "actual": {
+      "frame": null,
+      "ownershipState": null,
+      "ownershipLog": null,
+      "normalResult": null,
+      "entryGuard": null,
+      "exitGuard": null,
+      "closedJournal": null,
+      "complete": null,
+      "sidecar": null,
+      "publishedState": null
+    }
+  }
+}

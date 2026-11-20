@@ -1,0 +1,14 @@
+import fs from 'node:fs';
+import assert from 'node:assert/strict';
+import { createHash } from 'node:crypto';
+const root = 'E:/projects/worktrees/poms-r3hijk-next28/poms', folder = root + '/tools/rust-r4ghi/H/implementation/support-patches/ui-integration/gh-baseline45', ui = '//wsl.localhost/Debian/home/wangzishi/.local/share/poms-r4ghi/private/ui-config/runtime14';
+const sha = value => createHash('sha256').update(value).digest('hex');
+const manifestRaw = fs.readFileSync(folder + '/manifest45.json'); assert.equal(sha(manifestRaw), 'e8492e1e25e792b8ed93256de5b717f5fb897fb9793e72c2332502c731d5361f'); const manifest = JSON.parse(manifestRaw);
+const fragmentRaw = fs.readFileSync(folder + '/gh45.fragment.json'); assert.equal(sha(fragmentRaw), 'b558b65cfb69e96a12d2c8b88f22a4b53c6f38a6d56dbc5bdd9daba6679c6123');
+const inputRaw = fs.readFileSync(ui + '/gh18-source12-04-prepare-input16.json'); assert.equal(sha(inputRaw), '0df12f1c39e317891bcbcb896cd606535a8b6e7ebeb26709ac8cc594100353cf'); const input = JSON.parse(inputRaw), fragment = JSON.parse(fragmentRaw);
+assert.equal(input.plan.uiRun, 'gh18-source12-04'); assert.equal(input.plan.sourceBases.length, 0); assert(!input.plan.metadata16); assert(!input.plan.writeActions[0].existingBaselineContinuation);
+for (const product of manifest.products) assert.equal(sha(fs.readFileSync(root + '/' + product.file)), product.afterSHA256);
+input.plan.cases = fragment.cases; input.plan.writeActions = fragment.writeActions;
+assert.equal(input.plan.writeActions[0].existingBaselineContinuation.baselineId, 'ca89ca5c-b482-4155-a327-6e56d4a4ad1a');
+const file = ui + '/gh18-source12-04-continuation-input165.json', raw = Buffer.from(JSON.stringify(input, null, 2) + '\n'); fs.writeFileSync(file, raw, { flag: 'wx', mode: 0o600 });
+console.log(JSON.stringify({ input: { file: file.replace('//wsl.localhost/Debian', ''), rawBytesSha256: sha(raw) }, businessHelperCount: 176, preservedBaseline: 'ca89ca5c-b482-4155-a327-6e56d4a4ad1a', domainCommandsReplayed: false, actualHTTPExecuted: false }));

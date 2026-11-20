@@ -1,0 +1,33 @@
+{
+  "schemaVersion": 1,
+  "kind": "source-context-addendum",
+  "stage": "G1-candidate-only",
+  "originalValidation": "validation01.json retained unchanged",
+  "sourceContextDelta": [
+    {
+      "path": "docs/design/rust-r4-scope-and-dependencies.md",
+      "originalSha256": "b70fe0d6efd6faf82dda5515e235b326a5679c3aa061e019ae3fb812c849ace0",
+      "currentSha256": "367b1484bc4ed0717c4d48265ac9ce3e357cd76a05e3ae41f8951913061609f9",
+      "change": "Root G0 append block poms-r4ghi-g0; no H business/DTO/route source change",
+      "rootReportedCommit": "45a614b9"
+    },
+    {
+      "path": "docs/design/backend-rust-migration-plan.md",
+      "originalSha256": "49de364cb9dc2a442c780ecec63a93ed03e20f18a527b7ee87b06dc36f988211",
+      "currentSha256": "430583d69884e459b621a04d68817f73fb56257ae573ef155ff1919f43400a1d",
+      "change": "Root G0 append block poms-r4ghi-g0; no H business/DTO/route source change",
+      "rootReportedCommit": "45a614b9"
+    }
+  ],
+  "unchangedBusinessContractRouteSources": 52,
+  "review": "Read appended poms-r4ghi-g0 sections; matches #110/#111/#112/#113/#114/#115 and G1Pending, Rust240/R4 67 of 92. Root confirms metadata-only update and will rebind the joint manifest.",
+  "gateEffect": "No additional gate. H remains NOT_ADMITTED solely pending already recorded joint freeze/decisions.",
+  "integrity": {
+    "uniqueOperations": 8,
+    "primarySchemas": 10,
+    "producerSearches": 6,
+    "acceptanceCases": 9,
+    "jsonParse": "all four primary JSON files parsed",
+    "technicalSourceHashMismatchCount": 0
+  }
+}

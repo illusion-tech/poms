@@ -1,0 +1,577 @@
+{
+  "refinement": 3,
+  "status": "ReviewReady-Root-joint-G1-pending",
+  "providedHead": "aaa4b16ac66092f0cb1dc6646a02cf14e80823ee",
+  "headIndependentlyVerified": false,
+  "userDecision": {
+    "safeV1Accepted": true,
+    "ownerAndDPrepareProducerGatesAccepted": true,
+    "bootstrapNeverRevives": true,
+    "creatorOnceOnlyFirstAssignment": true,
+    "historyUnknownFailClosed": true,
+    "source": "Root message; actual user Q/A receipt user-decision-scope03.json to be registered by Root"
+  },
+  "canonicalDelta": [
+    {
+      "operationId": "ProjectController_startExecution",
+      "method": "POST",
+      "parameters": {
+        "id": "ProjectId"
+      },
+      "old": "/projects/{projectId}:startExecution",
+      "target": "/projects/{id}:startExecution"
+    },
+    {
+      "operationId": "ProjectController_startAcceptance",
+      "method": "POST",
+      "parameters": {
+        "id": "ProjectId"
+      },
+      "old": "/projects/{projectId}:startAcceptance",
+      "target": "/projects/{id}:startAcceptance"
+    },
+    {
+      "operationId": "ProjectCompletionRecordController_closeCompletionCondition",
+      "method": "POST",
+      "parameters": {
+        "id": "CompletionConditionId",
+        "completionRecordId": "CompletionRecordId"
+      },
+      "old": "/project-completion-records/{id}/conditions/{conditionId}:close",
+      "target": "/project-completion-records/{completionRecordId}/conditions/{id}:close"
+    }
+  ],
+  "canonicalRules": "Runtime adds /api; keep operationIds/request DTOs/status/15-target count. New named ResourceKeys map retains both UUIDs. Legacy ABCDEF single-id APIs unchanged.",
+  "currentCapabilities": {
+    "noSeedAuthority": true,
+    "projectDataScopeSettingProducer": false,
+    "orgManagerProducer": false,
+    "registeredSettingKeys": [
+      "attachment.max-upload-size-mb"
+    ],
+    "roleMeaning": "Permission set only",
+    "noAdminStringBypass": true,
+    "managerScopeProducer": false,
+    "roleDataScopeFields": false,
+    "noNewGlobalPermission": true
+  },
+  "factDefinitions": {
+    "actor": "Actor.id == session.user.user_id == session.user_snapshot.id; authenticated request; fresh platform_user.is_active",
+    "permission": "Exact known PermissionKey in actor.session.user.permissions, produced by the existing request-local active-role/active-assignment guard; no role-name/superuser override",
+    "membership": "Fresh active nonrevoked user_org_membership primary/secondary JOIN active org_unit; cached primaryOrg/profile orgUnits alone never suffice",
+    "ownerRead": "project.owner_user_id == actor.id; old missing org only permits bounded anchor read, not new business admission",
+    "ownerWrite": "ownerRead AND active project.owner_org_id AND actor current membership contains exact ownerOrg",
+    "handover": "Exactly current producer_version=1, status draft/confirmed; basis project and salesOwner match current project; payload/hash valid; no latest fallback",
+    "participant": "Matched handover role + confirmation_record target/project + exact confirmation_participant actor; c and cp pending/confirmed",
+    "confirmedDuty": "participant AND h/c/cp all confirmed; execution-owner additionally h.execution_owner_user_id equals actor",
+    "delegatedOrg": "Project ownerOrg active and actor has current active organization membership; cross-department explicit duty is a project-bound delegation, same-org alone grants nothing",
+    "ownCondition": "Exact path completion+condition+project; true producer completion conditional-completed; condition.responsible_user_id equals actor; narrow task scope only",
+    "bootstrapSource": "Current org-owned, new verified ownership-origin initial org-owned, never any personal owner, available state, exact real creator/source/payload, actor current exact ownerOrg membership"
+  },
+  "actionMatrix": [
+    {
+      "allow": [
+        "owner-read",
+        "current-participant"
+      ],
+      "sensitive": "Still apply existing package projection",
+      "proof": "FullProject",
+      "permissions": [
+        "project:read"
+      ],
+      "action": "ReadProjectAnchorOrIList"
+    },
+    {
+      "allow": [
+        "own-condition"
+      ],
+      "filter": "Only own completion parents/own conditions; aggregate conditionStatus from all conditions",
+      "proof": "OwnConditionOnly",
+      "permissions": [
+        "project:read"
+      ],
+      "action": "ReadOwnCompletionTask"
+    },
+    {
+      "allow": [
+        "bootstrap-source"
+      ],
+      "filter": "Minimal owner-assignment context only, not G/H/R5 business data",
+      "proof": "CreatorFirstAssignmentOnly",
+      "permissions": [
+        "project:read"
+      ],
+      "action": "ReadFirstAssignmentAnchor"
+    },
+    {
+      "allow": [
+        "bootstrap-source"
+      ],
+      "operationId": "ProjectController_reassignOwner",
+      "extra": [
+        "expectedVersion required and exact",
+        "active target user with same ownerOrg active membership",
+        "project+origin lock and CAS",
+        "consume bootstrap permanently in same TX"
+      ],
+      "action": "FirstAssignOwner",
+      "permissions": [
+        "project:write"
+      ],
+      "proof": "CreatorFirstAssignmentOnly"
+    },
+    {
+      "allow": [
+        "owner-write"
+      ],
+      "operationId": "ProjectController_reassignOwner",
+      "extra": [
+        "Authorize old state, never body new owner",
+        "new owner active and true target-org member",
+        "project CAS/history/audit same TX",
+        "creator identity irrelevant after first personal assignment"
+      ],
+      "permissions": [
+        "project:write"
+      ],
+      "action": "ReassignCurrentOwner"
+    },
+    {
+      "allow": [
+        "owner-write"
+      ],
+      "operationId": "ProjectHandoverController_prepareProjectHandover",
+      "extra": [
+        "New body duty claims cannot authorize own request"
+      ],
+      "permissions": [
+        "project:write"
+      ],
+      "action": "PrepareHandover"
+    },
+    {
+      "allow": [
+        "current-participant-self"
+      ],
+      "operationId": "ProjectHandoverController_confirmProjectHandoverParticipant",
+      "action": "ConfirmHandoverSelf",
+      "permissions": [
+        "project:read"
+      ],
+      "csrf": true,
+      "extra": [
+        "draft current handover",
+        "only actor confirmation participant",
+        "all own duties, no proxy"
+      ]
+    },
+    {
+      "allow": [
+        "owner-write",
+        "delegated-org AND confirmed-business-admin"
+      ],
+      "operationId": "ProjectHandoverController_confirmProjectHandover",
+      "extra": [
+        "Domain verifies all real self confirmations and fixed source refs"
+      ],
+      "permissions": [
+        "project:write"
+      ],
+      "action": "FinalizeHandover"
+    },
+    {
+      "allow": [
+        "owner-write",
+        "delegated-org AND confirmed-business-admin"
+      ],
+      "operationId": "ProjectHandoverController_rebaselineContractHandover",
+      "extra": [
+        "Real approved amendment/rebaseline chain and CAS"
+      ],
+      "permissions": [
+        "project:write"
+      ],
+      "action": "RebaselineHandover"
+    },
+    {
+      "allow": [
+        "owner-read",
+        "current-participant"
+      ],
+      "sensitive": "Scope is separate from commission-compensation projection and existing commission:amount:sensitive:read",
+      "permissions": [
+        "commission:assignments:manage"
+      ],
+      "action": "ReadCommissionAssignment"
+    },
+    {
+      "allow": [
+        "owner-write"
+      ],
+      "operationId": "CommissionController_createRoleAssignment",
+      "extra": [
+        "No manager producer or creator fallback",
+        "Current frozen cannot be downgraded"
+      ],
+      "permissions": [
+        "commission:assignments:manage"
+      ],
+      "action": "CreateCommissionAssignmentDraft"
+    },
+    {
+      "allow": [
+        "owner-write",
+        "delegated-org AND confirmed-business-admin"
+      ],
+      "operationId": "CommissionRoleAssignmentController_freezeRoleAssignment",
+      "extra": [
+        "Current true confirmed handover/receipt freeze, same source chain; no automatic execution"
+      ],
+      "permissions": [
+        "commission:assignments:manage"
+      ],
+      "action": "FreezeCommissionAssignment"
+    },
+    {
+      "allow": [
+        "delegated-org AND confirmed-execution-owner"
+      ],
+      "operationId": "ProjectController_startExecution",
+      "extra": [
+        "Same true current frozen role/handover chain"
+      ],
+      "permissions": [
+        "project:write"
+      ],
+      "action": "StartExecution"
+    },
+    {
+      "allow": [
+        "delegated-org AND confirmed-execution-owner"
+      ],
+      "extra": [
+        "Match true execution stage source owner",
+        "Evidence/final-result/CAS checks remain domain-owned"
+      ],
+      "permissions": [
+        "project:write"
+      ],
+      "action": "StartAcceptanceConfirmAcceptanceConfirmCompletion"
+    },
+    {
+      "allow": [
+        "owner-write",
+        "delegated-org AND confirmed-execution-owner",
+        "delegated-org AND confirmed-business-admin"
+      ],
+      "extra": [
+        "Terminal source/current chain/CAS",
+        "No pending conditions"
+      ],
+      "permissions": [
+        "project:write"
+      ],
+      "action": "CreateReplaceVoidArchive"
+    },
+    {
+      "allow": [
+        "own-condition AND delegated-org"
+      ],
+      "operationId": "ProjectCompletionRecordController_closeCompletionCondition",
+      "extra": [
+        "actor strictly responsible person",
+        "two target UUIDs verified",
+        "completion and condition CAS",
+        "no manager/project-owner proxy fallback"
+      ],
+      "action": "CloseCompletionCondition",
+      "permissions": [
+        "project:write"
+      ],
+      "proof": "OwnConditionOnly"
+    }
+  ],
+  "signature": "pub async fn require(session: &mut CommonSession<_,_>, actor: &Actor, action: ProjectAction, target: ProjectActionTarget) -> Result<ProjectAccessProof, contract_support::Error>",
+  "actualFields": {
+    "CommonSession": [
+      "connection:&mut PgConnection",
+      "state:&mut CommonState",
+      "participant:Option<CommonFlushParticipant>",
+      "request_id"
+    ],
+    "Actor": [
+      "id:Uuid",
+      "request_id:Option<String>",
+      "session:ResolvedSession",
+      "request_context:ProjectionRequestContext"
+    ],
+    "absent": [
+      "actor.dataScope",
+      "role.orgScope",
+      "org.managerUserId",
+      "system project-scope setting"
+    ],
+    "ResolvedSession": [
+      "session",
+      "user",
+      "user_snapshot",
+      "role_snapshots",
+      "pending_flush"
+    ]
+  },
+  "targetKinds": [
+    "Project{id}",
+    "OwnerReassignment{project_id,expected_version,new_owner_user_id,new_owner_org_id}",
+    "Handover{id}",
+    "Assignment{id}",
+    "Archive{id}",
+    "Condition{completion_record_id,condition_id}"
+  ],
+  "proofKinds": {
+    "OwnConditionOnly": "Only relevant parent completion and own conditions/close; never full project data scope",
+    "CreatorFirstAssignmentOnly": "Only minimal assignment anchor/once first-person assignment; never valid G/H/R5 proof",
+    "FullProject": "Current owner or exact current handover role relation; still action- and field-limited"
+  },
+  "bootstrap": {
+    "writeExtra": [
+      "ProjectWrite",
+      "mandatory expectedVersion",
+      "active target individual with same ownerOrg membership",
+      "project/origin locks plus CAS/history/audit/auth flush one outer TX"
+    ],
+    "consume": "Atomic available->consumed, first personal owner/time/history ref. Once consumed forever, including current owner later returning to NULL. Creator is no longer privileged after assignment.",
+    "existingProducerAudit": [
+      {
+        "initialPersonalOwner": "actor",
+        "operationId": "ProjectController_create",
+        "originInitialization": "personal + consumed + firstPersonal actor at actual creation; no bootstrap ever",
+        "createdByReliable": true,
+        "source": "projects/service.rs158-166 + store.rs299"
+      },
+      {
+        "creator": "actual conversion operator",
+        "operationId": "LeadController_convertToProject",
+        "originInitialization": "same TX: org-owned available only if real ownerOrg, otherwise initial personal consumed",
+        "createdByReliable": true,
+        "initialOwner": "actual lead owner inherited, may be org-owned",
+        "source": "leads/service.rs1470-1477"
+      }
+    ],
+    "newGlobalPermissionDelta": 0,
+    "originTable": "poms.project_ownership_origin; proposed new-production-only provenance, not a manager configuration producer",
+    "sourceEligibility": [
+      "current owner_user_id NULL and owner_org_id present/active",
+      "verified new origin initial org-owned with exact same initial ownerOrg",
+      "origin creator equals project.created_by equals actor",
+      "origin source matches project id/direct-create or source lead/conversion",
+      "source payload/hash verified",
+      "bootstrap available and no first personal owner/time",
+      "no history previous/new personal owner ever",
+      "actor current exact ownerOrg membership"
+    ],
+    "routeDelta": 0,
+    "newOwnershipModeOrReturnToOrgRoute": false,
+    "historical": "No backfill. createdBy equality or no reassignment rows alone cannot establish never-personal ownership. Missing/unverified origin fails first assignment closed."
+  },
+  "producerGateFixes": [
+    {
+      "operationId": "ProjectController_reassignOwner",
+      "currentGap": "projects/service.rs462-565 only status/target user-org/CAS, no calling-owner check",
+      "target": "old-state current owner branch OR strict once bootstrap branch; never body target grants self authority"
+    },
+    {
+      "operationId": "ProjectHandoverController_prepareProjectHandover",
+      "currentGap": "service.rs86-90 require_write only; prepare266-315 has no actor-project check",
+      "target": "current OwnerWrite before minting duty grant; no body participant self-grant"
+    }
+  ],
+  "managerPolicy": "No data-scope/manager producer: deny manager/ancestor/same-org/system-role bypass. A manager may act only through a separately true current owner/duty relationship.",
+  "transactionAndFailure": {
+    "writeLocks": "project -> stable account/org/membership -> current handover/confirmation or own condition/origin; re-read after locks",
+    "rbac": "existing request-local resolved permission snapshot",
+    "secondPool": false,
+    "helperCommitOrFlush": false,
+    "sourceOrCasChanged": "409",
+    "actionDeniedWithinKnownScope": "403",
+    "organization": "fresh same-TX joined rows, never profile cache",
+    "DBError": "500",
+    "scopeFailure": "opaque404 same as missing",
+    "oneOuterTx": true
+  },
+  "crossGH": "Reuse FullProject facts and private proof constructors; finance permission alone grants no global scope. Domain permissions/relation map frozen per G/H action. Global no-project objects keep their own existing guard, never fabricated project scope.",
+  "formalDeltas": [
+    "Role is not data scope; direct relation safe v1 adopted by user",
+    "Creator org-owned bootstrap is explicit once-only business decision, not a general createdBy grant",
+    "Current sales owner with C is bounded draft actor mapping, not inferred sales-manager role",
+    "Cross-functional current project assignment grants project-bound duty, same organization alone grants nothing",
+    "Legacy global routes not all declared fixed; only touched/new scope plus necessary fact producers are certified"
+  ],
+  "verification": {
+    "type": "static source and proposed contract review",
+    "HTTP": "not run",
+    "SQL": "not executed",
+    "credentials": "not read",
+    "product": "not changed",
+    "sealedArtifacts": [
+      {
+        "path": "sources.json",
+        "sha256": "aca0bf5f9901e08a75a159ba38f2d08054f4f88db434fbdfdfeeebc4cd59f79a",
+        "unchanged": true
+      },
+      {
+        "path": "contracts.json",
+        "sha256": "4b91cc1b1f42a526368fdb3b4dbd29ee0b87b847305642d457a385c220459913",
+        "unchanged": true
+      },
+      {
+        "path": "ddl-proposal.sql",
+        "sha256": "b7a550b60b72f0531999788051ac29fa6752b522635c4c1190e97526b188153d",
+        "unchanged": true
+      },
+      {
+        "path": "contract.md",
+        "sha256": "8d3f220d50da87cc1411d3b41e2b60a8dc5cc510eac70b0bc3e8b439031c1786",
+        "unchanged": true
+      }
+    ],
+    "DB": "not started",
+    "Git": "not used"
+  },
+  "sources": [
+    {
+      "path": "docs/design/business-authorization-matrix.md",
+      "bytes": 69303,
+      "rawSha256": "e7b43df3298b1cf8c34d4de2fd6e928d082214d0be249c63cb1333342ad292b8"
+    },
+    {
+      "path": "docs/design/phase2-data-permission-and-sensitive-visibility-design.md",
+      "bytes": 25385,
+      "rawSha256": "a9539e575e5b2274e63017d8fab1bde412c1737cf4b97a23744bb229e1d5ab6f"
+    },
+    {
+      "path": "docs/design/platform-governance/role-permission-design.md",
+      "bytes": 15225,
+      "rawSha256": "84e0c176e9bfbf10be6c56bafc6d72aad01121d6a172d401b788945924941df3"
+    },
+    {
+      "path": "apps/poms-api/src/app/features/system-setting/system-setting.registry.ts",
+      "bytes": 1524,
+      "rawSha256": "0fc10c652bf99992536e242e8d67670265249308cec5e48207e8f57d205a1b60"
+    },
+    {
+      "path": "apps/poms-api-rust/src/system_settings/mod.rs",
+      "bytes": 1190,
+      "rawSha256": "9899d45f5cb1d31ede7be43082f82e0a6a8463927fbbc20eb274a50b2a1e2858"
+    },
+    {
+      "path": "tools/rust-r2ef/e-authority.json",
+      "bytes": 1772,
+      "rawSha256": "bba14d3b8bce83eb2df8da6fe4babd0061e2cb6f2d4ee5adaf9761dec4e385b6"
+    },
+    {
+      "path": "libs/shared/contracts/src/lib/shared-contracts.ts",
+      "bytes": 483396,
+      "rawSha256": "d962b8267030c8277f760b8bd6471e62491ee7fbd6353226f6291d3ff3a18db1"
+    },
+    {
+      "path": "apps/poms-api/src/app/features/platform/role.entity.ts",
+      "bytes": 1379,
+      "rawSha256": "6bec29616302462af68e65e1529734b1cbc9347be1f93e4411f1f219ef108877"
+    },
+    {
+      "path": "apps/poms-api/src/app/features/platform/org-unit.entity.ts",
+      "bytes": 2409,
+      "rawSha256": "e1e45d41fe21759f3605a92eebce06ef1d4a278fc1c57740e292a34e4b7ba6d3"
+    },
+    {
+      "path": "apps/poms-api/src/app/features/platform/user-role-assignment.entity.ts",
+      "bytes": 2269,
+      "rawSha256": "cbbaafd90c8ce4237314f153b09cc9fbc44138a88692c6d55c75bc66eee35ca5"
+    },
+    {
+      "path": "apps/poms-api/src/app/features/platform/user-org-membership.entity.ts",
+      "bytes": 2676,
+      "rawSha256": "5e70a10cd11deb07270affaaa831c7a1be7d1ffd01682b344c09f3a79d2a18de"
+    },
+    {
+      "path": "apps/poms-api/src/app/features/project/project.entity.ts",
+      "bytes": 4183,
+      "rawSha256": "a9429eece23ead9845ba85ab55c8e9497731f39e7cb8c0443843581c04d8f00f"
+    },
+    {
+      "path": "apps/poms-api/src/app/features/project/project-owner-reassignment-record.entity.ts",
+      "bytes": 2092,
+      "rawSha256": "1f402d15cce9287a615bfdf64cabde7061feb3a11bf326b8b76948c57c5282bd"
+    },
+    {
+      "path": "apps/poms-api-rust/src/auth/model.rs",
+      "bytes": 10433,
+      "rawSha256": "042f4418cee854566d942c5fe723a6221f4fd2e8c61bb35dcc8dbeca157d6312"
+    },
+    {
+      "path": "apps/poms-api-rust/src/auth/store.rs",
+      "bytes": 22695,
+      "rawSha256": "14ba9d8e7171e6a6fbd00fa68c25a283d53521e17921b5d0e2ac760fec1a3f40"
+    },
+    {
+      "path": "apps/poms-api-rust/src/auth/guards.rs",
+      "bytes": 12029,
+      "rawSha256": "58f7e67c075f3ee4918a0df433d0a055de81c4e99abb95ab7f0950d9c40c6082"
+    },
+    {
+      "path": "apps/poms-api-rust/src/compat/permissions.rs",
+      "bytes": 2414,
+      "rawSha256": "ec0ba1477897c74cc78a737987bfe1b84ff98ba2bca90196378f26f1ed0654e2"
+    },
+    {
+      "path": "apps/poms-api-rust/src/contract_support/mod.rs",
+      "bytes": 18888,
+      "rawSha256": "4d031a9f2a67342c9896237e499d84448173841c91698478718a7a9bb1fabdc4"
+    },
+    {
+      "path": "apps/poms-api-rust/src/approval_common/session.rs",
+      "bytes": 5265,
+      "rawSha256": "f1c29e9eaace917504af0b7cea26337f28e3c65ae81263c73ba3022f2da76c96"
+    },
+    {
+      "path": "apps/poms-api-rust/src/projects/service.rs",
+      "bytes": 32780,
+      "rawSha256": "06ee76e45d684df23de9fb7f1d3fcc4d6743bf5c7df7a3d827580e3837b16101"
+    },
+    {
+      "path": "apps/poms-api-rust/src/projects/store.rs",
+      "bytes": 15141,
+      "rawSha256": "f733e349183f8c65f5a8f4cb5985471ee5286cacb82d6770e67fedde3c187aef"
+    },
+    {
+      "path": "apps/poms-api-rust/src/project_handover/service.rs",
+      "bytes": 42969,
+      "rawSha256": "283107428b312d641a2a8330e2c684b2a77163d16bdfa9a9dc9ecead655e4fc3"
+    },
+    {
+      "path": "apps/poms-api-rust/src/project_handover/sources.rs",
+      "bytes": 31707,
+      "rawSha256": "e5d33db8ebe4cdd537f8c0006c9bb16ab6c8f1652e55c4923444a70499863ff4"
+    },
+    {
+      "path": "apps/poms-api-rust/src/leads/service.rs",
+      "bytes": 85846,
+      "rawSha256": "a59fb2e9eb07c5df40dfa4573d9431bb99dcb098ce13dc8f9525a35cafe83334"
+    },
+    {
+      "path": "apps/poms-api-rust/src/leads/store.rs",
+      "bytes": 40084,
+      "rawSha256": "b0f1eed385a18f4903ab55dc3e337a60cfb2fe61c0ee932a385c084baa8aeca8"
+    },
+    {
+      "path": "tools/rust-r4def/combined-operation-map16.json",
+      "bytes": 40235,
+      "rawSha256": "51fe8bca788218aa1f84c371f6dba782e4b1be8b48b67e2fa5c2ae1254aae0cc"
+    }
+  ],
+  "artifacts": {
+    "generator": "refinements03.ps1",
+    "review": "refinements03.md",
+    "queriesAndOriginDDL": "refinements03.sql"
+  }
+}

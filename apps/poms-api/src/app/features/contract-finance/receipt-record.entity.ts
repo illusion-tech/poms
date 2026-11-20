@@ -7,10 +7,15 @@ const p = defineEntity.properties;
 const toSqlStringList = (values: readonly string[]): string => values.map((value) => `'${value.replaceAll("'", "''")}'`).join(', ');
 
 export const ReceiptRecordSchema = defineEntity({
+    uniques: [
+        {"name":"uq_r4g_receipt_scope","properties":["id","projectId","contractId"]}
+    ],
     name: 'ReceiptRecord',
     tableName: 'receipt_record',
     schema: 'poms',
-    indexes: [{ name: 'receipt_record_project_status_idx', properties: ['projectId', 'status'] }],
+    indexes: [
+        { name: 'receipt_record_project_status_idx', properties: ['projectId', 'status'] }
+    ],
     checks: [
         {
             name: 'chk_receipt_record_status',

@@ -1,0 +1,31 @@
+// FS-only retention of the completed holder action; no service or context effects.
+import fs from 'node:fs';
+import assert from 'node:assert/strict';
+import { C, assertOperatorHost121, directory121, holderFacts, json, pin, read, verifyStates, writeWx } from './runtime-recovery121/root/facts121.mjs';
+assertOperatorHost121();assert.equal(process.platform,'linux');
+const F=C.root+'/tools/rust-r4ghi/independent/final-gates13/runtime-recovery121-A-holder-actual-readback01';
+const O=C.root+'/tools/rust-r4ghi/independent/runtime121-holder-actual01';
+const A=C.private+'/runtime121-A/holder-start/18922a5d-22d8-45c8-871a-8a0339649653';
+const checked=(file,hash,bytes)=>{const p=pin(file);assert.equal(p.rawBytesSha256,hash);if(bytes!==undefined)assert.equal(p.bytes,bytes);return p;};
+const review=checked(F+'/review-actual-holder-start121.json','559d15e0203fa1a9ad500d9fe484467e992a45f9381166b97752a169bdb92948',8896);
+const manifest=checked(F+'/manifest-actual-holder121.json','609559f7c9a22acbf63c387bf11b28a8265100ea4094e8c235c78810a64bc61a',3487);
+const r=json(review);assert.equal(r.kind,'non-author-runtime121-A-holder-start-actual-readback');assert.equal(r.verdict,'approved-actual-holder-start-readback');assert.equal(r.reviewerIsAuthor,false);
+const holderReady=checked(A+'/holder-ready.json','0961936de6be3ca430db57d1feaf0529501e58aa554326f89b75f7afd4db18d6',2416);
+const windowsLaunch=checked(A+'/windows-launch.json','de9898ee9e36566dc616b36010eb1a6fbf72fae2a062bdcbf26bd618c3e84860',1606);
+const launchCommand=checked(A+'/command-receipt.json','0fd6d100c26a3621e63aebbd5a591326a560025e58d5d6939bea84ed6eb651df',1080);
+const h=holderFacts({holder:holderReady}),w=json(windowsLaunch),c=json(launchCommand),input=json(h.input);
+assert.equal(w.kind,'actual-runtime121-A-Windows-holder-launch');assert.equal(w.nonce,h.nonce);assert.equal(w.inputFile,h.input.file);assert.equal(w.inputSha,h.input.rawBytesSha256);assert.equal(w.reviewFile,h.review.file);assert.equal(w.reviewSha,h.review.rawBytesSha256);
+assert.equal(c.kind,'actual-runtime121-A-command');assert.equal(c.mode,'holder-start');assert.equal(c.exitCode,0);assert.equal(c.signal,null);assert.equal(c.processError,null);
+const d=json(c.dispatch);assert.deepEqual(d.input,h.input);assert.deepEqual(d.RootReview,h.review);
+verifyStates(input);
+const listed=json(manifest).files.map(({file,bytes,rawBytesSha256})=>({file,bytes,rawBytesSha256}));
+const sources=[manifest,...listed,holderReady,windowsLaunch,launchCommand,h.input,h.review,h.intent,c.dispatch,c.stdout,c.stderr];
+const unique=[...new Map(sources.map(p=>[p.file,p])).values()];for(const p of unique)read(p);
+assert(!fs.existsSync(O));assert(!fs.existsSync(C.private+'/runtime121-lifetime-owner01'));
+fs.mkdirSync(O,{recursive:true});const copies=[];
+for(const p of unique){const name=p.file.split('/').at(-1);assert(!fs.existsSync(O+'/'+name));const b=read(p);fs.writeFileSync(O+'/'+name,b,{flag:'wx'});copies.push({original:p,copy:checked(O+'/'+name,p.rawBytesSha256,p.bytes)});}
+directory121(C.private+'/runtime121-lifetime-owner01',{exclusive:true});
+const owner=writeWx(C.private+'/runtime121-lifetime-owner01','bundle.json',{kind:'actual-runtime121-lifetime-owner',holderReady,windowsLaunch,launchCommand});
+verifyStates(input);holderFacts({holder:holderReady});
+writeWx(O,'raw-copies-provenance.json',{kind:'Root-retained-actual-holder-start-121',copies,lifetimeOwner:owner,PGStarted:false,APIStarted:false,nativeAuthorityGranted:false,businessCertified:0});
+console.log(JSON.stringify({retained:copies.length,lifetimeOwner:owner,PGStarted:false,APIStarted:false}));

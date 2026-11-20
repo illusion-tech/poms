@@ -1,0 +1,131 @@
+{
+  "schemaVersion": 1,
+  "formalOperationId": "PlatformController_getUser",
+  "formalResponsePointer": "#/components/schemas/PlatformUserDetail",
+  "schema": {
+    "type": "object",
+    "properties": {
+      "id": {
+        "type": "string",
+        "format": "uuid",
+        "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+      },
+      "username": {
+        "type": "string"
+      },
+      "displayName": {
+        "type": "string"
+      },
+      "email": {
+        "type": "string",
+        "format": "email",
+        "pattern": "^(?:[A-Za-z0-9_'+\\-]+\\.)*[A-Za-z0-9_'+\\-]*[A-Za-z0-9_+-]@(?:[A-Za-z0-9][A-Za-z0-9\\-]*\\.)+[A-Za-z]{2,}$",
+        "nullable": true
+      },
+      "phone": {
+        "type": "string",
+        "nullable": true
+      },
+      "isActive": {
+        "type": "boolean"
+      },
+      "primaryOrgUnitId": {
+        "type": "string",
+        "format": "uuid",
+        "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+        "nullable": true
+      },
+      "primaryOrgUnitName": {
+        "type": "string",
+        "nullable": true
+      },
+      "roleNames": {
+        "type": "array",
+        "items": {
+          "type": "string"
+        }
+      },
+      "createdAt": {
+        "type": "string",
+        "format": "date-time",
+        "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d(?:\\.\\d+)?(?:Z))$"
+      },
+      "updatedAt": {
+        "type": "string",
+        "format": "date-time",
+        "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d(?:\\.\\d+)?(?:Z))$"
+      },
+      "avatarUrl": {
+        "type": "string",
+        "format": "uri",
+        "nullable": true
+      },
+      "lastLoginAt": {
+        "type": "string",
+        "format": "date-time",
+        "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d(?:\\.\\d+)?(?:Z))$",
+        "nullable": true
+      },
+      "emailVerified": {
+        "type": "boolean"
+      },
+      "phoneVerified": {
+        "type": "boolean"
+      },
+      "orgUnits": {
+        "type": "array",
+        "items": {
+          "$ref": "#/components/schemas/UserOrgUnitSummary"
+        }
+      }
+    },
+    "required": [
+      "id",
+      "username",
+      "displayName",
+      "email",
+      "phone",
+      "isActive",
+      "primaryOrgUnitId",
+      "primaryOrgUnitName",
+      "roleNames",
+      "createdAt",
+      "updatedAt",
+      "avatarUrl",
+      "lastLoginAt",
+      "emailVerified",
+      "phoneVerified",
+      "orgUnits"
+    ]
+  },
+  "openapiSHA256": "8965393af9264e0805c3174520816673a1a56920944428bb8a9321e81da74ab0",
+  "actualPrivateRecordedDTO": {
+    "privateOriginalName": "000524-http-response-body.bin",
+    "rawBytesSha256": "68fb36ee7711344431bc7f0c6f568222c487f3a93517e9ed73862fa7ee2b3c8e",
+    "formalSchema": "PlatformUserDetail",
+    "parsed": true,
+    "privateContentsCopied": false
+  },
+  "actualObservedShape": {
+    "nested": false,
+    "present": [
+      "roleNames",
+      "orgUnits"
+    ],
+    "absent": [
+      "roles",
+      "roleIds",
+      "permissions"
+    ]
+  },
+  "offlineOriginalFKObservation": {
+    "source": "snapshot-000524-http-after.json/user_role_assignment",
+    "activePersonLinkCount": 1,
+    "sameExpectedOwnedRole": true,
+    "latestSHAEqual": true,
+    "latestXminEqual": true,
+    "executedSQL": false
+  },
+  "formerFailureWasToolDTOBug": true,
+  "roleOrProjectBusinessRowsCreatedByFirstAttempt": false
+}

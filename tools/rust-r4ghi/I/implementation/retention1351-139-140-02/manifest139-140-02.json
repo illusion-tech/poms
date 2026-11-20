@@ -1,0 +1,135 @@
+{
+  "kind": "Root-reviewable139140-order02-correction",
+  "schemaVersion": 1,
+  "original33eManifestSHA256": "33e59105aa066e61072e3e4c6dc06e73cd3beaac877c9aa8b3b8a48062002b7b",
+  "original33eUnmodified": true,
+  "candidates": [
+    {
+      "target": "tools/rust-r4ghi/package-retained-candidate140.mjs",
+      "candidate": "proposed/tools/rust-r4ghi/package-retained-candidate140.mjs",
+      "before": "before/tools/rust-r4ghi/package-retained-candidate140.mjs",
+      "beforeSHA256": "a178a5e2612fa0617884548622e598c2e522977d72aecc02c728d9c10cd6b766",
+      "afterSHA256": "5b02ca8cf6fa05b639d69f89f85ba85a339056afcc07b891c33b82bb6c6b9557",
+      "bytes": 6425,
+      "unchangedFrom33e": true
+    },
+    {
+      "target": "tools/rust-r4ghi/retain-epoch12-before-source13-139.mjs",
+      "candidate": "proposed/tools/rust-r4ghi/retain-epoch12-before-source13-139.mjs",
+      "before": "before/tools/rust-r4ghi/retain-epoch12-before-source13-139.mjs",
+      "beforeSHA256": "4dd05c337263bb5fac413b83e517cf56cc7c35706df7289c4328e4f3c399b987",
+      "afterSHA256": "2ad85e4c7ff843077cfc1d14dfcea6413a6e2bb5f5401bfd16a9dfb989056a58",
+      "bytes": 12988,
+      "unchangedFrom33e": false
+    },
+    {
+      "target": "tools/rust-r4ghi/retention-process1351-139-lib.mjs",
+      "candidate": "proposed/tools/rust-r4ghi/retention-process1351-139-lib.mjs",
+      "before": null,
+      "beforeSHA256": null,
+      "afterSHA256": "d8c3e014d5dff02ba07113d3727e47c072b306e7d0e1fb315b88b108db4298d0",
+      "bytes": 9991,
+      "unchangedFrom33e": false
+    }
+  ],
+  "deltaFrom33e": [
+    {
+      "target": "tools/rust-r4ghi/retain-epoch12-before-source13-139.mjs",
+      "before33eSHA256": "fee87f3029c832027b38b3cd180f928957203cda02a0c1dbfc5b185cb0e01446",
+      "afterSHA256": "2ad85e4c7ff843077cfc1d14dfcea6413a6e2bb5f5401bfd16a9dfb989056a58",
+      "before33e": "before33e/tools/rust-r4ghi/retain-epoch12-before-source13-139.mjs"
+    },
+    {
+      "target": "tools/rust-r4ghi/retention-process1351-139-lib.mjs",
+      "before33eSHA256": "dcacd9c35b61013e70d2b86aff949006f400e2eaa18dd0a018ac3e611b7aa002",
+      "afterSHA256": "d8c3e014d5dff02ba07113d3727e47c072b306e7d0e1fb315b88b108db4298d0",
+      "before33e": "before33e/tools/rust-r4ghi/retention-process1351-139-lib.mjs"
+    }
+  ],
+  "sidecars": [
+    {
+      "file": "README02.md",
+      "rawBytesSha256": "8a5d785d5d9b193e6d459b2785b2bcaebb3c6f246d7860799593865142f93ca2",
+      "bytes": 1698
+    },
+    {
+      "file": "validation02.json",
+      "rawBytesSha256": "2a0f64d87510fdb0acd38ffee1ae4ddcee33574bbe62285d766e9419c172ee6b",
+      "bytes": 754
+    },
+    {
+      "file": "dependencies02.json",
+      "rawBytesSha256": "81c48b39469b5ded06869bccd075e8700ab77addf6f6a3e3d85381aa8b9cc287",
+      "bytes": 529
+    },
+    {
+      "file": "packet-order02.test.mjs",
+      "rawBytesSha256": "89424d5193b3c13fbd0bc476f817feaf1608f8bb29a37ec8e8aaf78c452489a8",
+      "bytes": 4761
+    },
+    {
+      "file": "retention1351.test.mjs",
+      "rawBytesSha256": "7ebfdf5ae254807a89b0becb7cecd3ebc9831f8cb1d8a84375f7b342e5028707",
+      "bytes": 3634
+    },
+    {
+      "file": "pure02.stdout.log",
+      "rawBytesSha256": "035a101d008cf0de394f4f4a4e10e645238e61cfa9cf0133e377ffaa5abcdab1",
+      "bytes": 1872
+    },
+    {
+      "file": "pure02.stderr.log",
+      "rawBytesSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    }
+  ],
+  "validation": {
+    "kind": "I-139140-order02-pure-only-validation",
+    "nodeVersion": "v24.19.0",
+    "purePass": 7,
+    "pureFail": 0,
+    "originalFourRegressionsRetained": true,
+    "checks": [
+      {
+        "name": "syntax-package-retained-candidate140.mjs",
+        "exitCode": 0
+      },
+      {
+        "name": "syntax-retain-epoch12-before-source13-139.mjs",
+        "exitCode": 0
+      },
+      {
+        "name": "syntax-retention-process1351-139-lib.mjs",
+        "exitCode": 0
+      },
+      {
+        "name": "pure02",
+        "exitCode": 0
+      }
+    ],
+    "RootInputsStable": true,
+    "candidateInputsStable": true,
+    "RootWrites": 0,
+    "SQLConnections": 0,
+    "HTTPRequests": 0,
+    "source140Executed": false,
+    "retention139Executed": false,
+    "processStopped": false,
+    "actualPacket140": null
+  },
+  "verified140MustPrecedeAll139LockMkdirStop": true,
+  "actual140ReceiptAndFourFileHashesAndZipEveryMemberRequired": true,
+  "completedSource140ProofRetainedIn139Index": true,
+  "source140ByteForByteUnchanged": true,
+  "moduleHashSelfReferenceIntroduced": false,
+  "oldSixUiAnd135HistoryPolicyUnchanged": true,
+  "actualPacket140": null,
+  "actualRetention139": null,
+  "RootWritesByAuthor": 0,
+  "SQLConnectionsByAuthor": 0,
+  "HTTPRequestsByAuthor": 0,
+  "processStartsByAuthor": 0,
+  "processStopsByAuthor": 0,
+  "G3Certified": false,
+  "G4Certified": false
+}

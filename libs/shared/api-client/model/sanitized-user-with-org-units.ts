@@ -42,6 +42,7 @@ export enum SanitizedUserWithOrgUnitsPermissionsEnum {
     CommissionCalculationsManage = 'commission:calculations:manage',
     CommissionPayoutsManage = 'commission:payouts:manage',
     CommissionAdjustmentsManage = 'commission:adjustments:manage',
+    CommissionLowDownPaymentApprove = 'commission:low-down-payment:approve',
     ContractFinanceManage = 'contract:finance:manage',
     ContractFinanceSensitiveRead = 'contract:finance:sensitive:read',
     OperatingFinanceSensitiveRead = 'operating:finance:sensitive:read',

@@ -1,0 +1,15 @@
+import fs from 'node:fs';
+import assert from 'node:assert/strict';
+import { createHash } from 'node:crypto';
+const priorPath = 'tools/rust-r4def/combined-operation-map16.json';
+const addedPath = 'docs/design/rust-r4ghi/operation-map01.json';
+const prior = JSON.parse(fs.readFileSync(priorPath, 'utf8'));
+const added = JSON.parse(fs.readFileSync(addedPath, 'utf8'));
+assert.equal(prior.operations.length, 67); assert.equal(added.operations.length, 32);
+const operations = [...prior.operations, ...added.operations.map(item => ({ group: item.group, method: item.method, path: item.runtimePath, operationId: item.operationId, permissions: [item.permission], successStatus: item.successStatus, modernInput: item.method === 'POST', responseDto: item.responseDto, responseNullable: item.responseNullable ?? false, namedResourceKeys: item.namedResourceKeys }))];
+assert.equal(new Set(operations.map(item => item.operationId)).size, 99);
+assert.equal(new Set(operations.map(item => item.method + ' ' + item.path)).size, 99);
+const sha = bytes => createHash('sha256').update(bytes).digest('hex');
+const result = { kind: 'Root-actual-R4-99-operation-dispatch-input', sourceInputs: [{ path: priorPath, sha256: sha(fs.readFileSync(priorPath)) }, { path: addedPath, sha256: sha(fs.readFileSync(addedPath)) }], operationCount: 99, operations, runtimeAcceptancePassed: false };
+fs.writeFileSync('tools/rust-r4ghi/combined-operation-map02.json', JSON.stringify(result, null, 2) + '\n', { flag: 'wx' });
+console.log(JSON.stringify({ operations: operations.length, newBatch: 32, formalDeliveryStill: 240 }));

@@ -1,0 +1,556 @@
+{
+  "kind": "actual-prepare362-K-outer-conservation-safe-metadata",
+  "recordedAt": "2026-11-13T01:07:01.459Z",
+  "input": {
+    "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business15/main01/tax121-prepare-metadata-6458f733-0fe1-4b5e-b2ff-076908543af3/prepare-only-input118.json",
+    "bytes": 7040,
+    "rawBytesSha256": "1834a57d5d0e868422492b888df0654f1911b60bd07ea59025a56c0f3d93ae84"
+  },
+  "complete": {
+    "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business15/main01/tax118-invocation-6458f733-0fe1-4b5e-b2ff-076908543af3/complete.json",
+    "bytes": 1800,
+    "rawBytesSha256": "e0201ecbd01cf62e41fc066d5e50fc7fc7e82aa0537ef841a2832f360df3a138"
+  },
+  "K": {
+    "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business15/main01/000065-tax121-prepare-continuation.json",
+    "bytes": 367950,
+    "rawBytesSha256": "847fe81ffbc4cf4f73b369ac1466e3185e051a6d0d87ca429b444111767115e7"
+  },
+  "after": {
+    "file": "/home/wangzishi/.local/share/poms-r4ghi/private/runtime121-prepare362-completed01/6458f733-0fe1-4b5e-b2ff-076908543af3/state-after.json",
+    "bytes": 15045544,
+    "rawBytesSha256": "6c1fabbacebc43fea8636c8fd91afac81dd66e8b6200ca5a769c08ae41401b3b"
+  },
+  "bootstrapPassed": true,
+  "entry": {
+    "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business15/main01/000042-tax118-entry-guard.json",
+    "bytes": 8301,
+    "rawBytesSha256": "296e3a07ed7d550e8830ba59a4dc15bedbda1e67ca20f7e2c1702e62f58c8108"
+  },
+  "exit": {
+    "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business15/main01/000063-tax118-exit-guard.json",
+    "bytes": 6001,
+    "rawBytesSha256": "d6a9514d94d112373962a11053a7b2f49e3fb46d8e114c4113b4a9bd6868fea2"
+  },
+  "closed": {
+    "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business15/main01/000064-tax118-closed-journal.json",
+    "bytes": 18238,
+    "rawBytesSha256": "606f52ff7e6682ca2e50cc34d307261c554cf237a3cb9d8d182ba95bafbc914f"
+  },
+  "outer": {
+    "command": {
+      "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tmp/rust-r4ghi/root/fresh67-prepare362-actual01/command.json",
+      "bytes": 443,
+      "rawBytesSha256": "999aaa20d6060fe357f68b245658ddb940248d7a3bde91932c047bc6e8ba516a"
+    },
+    "invocation": {
+      "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tmp/rust-r4ghi/root/fresh67-prepare362-actual01/invocation.json",
+      "bytes": 1261,
+      "rawBytesSha256": "dc9bc4186a2f9a8e19af9a3cee2ddd121305016dce5cc31a083c688af1846d83"
+    },
+    "stdout": {
+      "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tmp/rust-r4ghi/root/fresh67-prepare362-actual01/stdout-private.log",
+      "bytes": 524,
+      "rawBytesSha256": "799d133cc3ed70b54a8632e9ce0dff5a6b269bc4be6bd8bc184dfa6c273b4dad"
+    },
+    "stderr": {
+      "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tmp/rust-r4ghi/root/fresh67-prepare362-actual01/stderr-private.log",
+      "bytes": 0,
+      "rawBytesSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  },
+  "Root9": {
+    "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business15/main01/tax121-prepare-metadata-6458f733-0fe1-4b5e-b2ff-076908543af3/Root-exact-prepare-only-review118.json",
+    "bytes": 1140,
+    "rawBytesSha256": "76e4b36bd1c444543a6416bccaa2bb0f3e4515fd5d68cf6a50aba1659c5397e4"
+  },
+  "actualInputRoot9AndOuterMatch": true,
+  "entryExitClosedIdentitiesMatch": true,
+  "liveJournalEqualsClosedPlusItsLink": true,
+  "oldTwoFailedAndAllOtherConsumerChecksPreserved": true,
+  "topLevelChangedKeys": [
+    "actors",
+    "consumerChecks",
+    "owned",
+    "sequence",
+    "taxContinuation121"
+  ],
+  "beforeSequence": 39,
+  "afterSequence": 65,
+  "actorsBefore": 14,
+  "actorsAfter": 14,
+  "actorChangedKeys": [
+    "manager"
+  ],
+  "managerChangedFields": [
+    "cookies"
+  ],
+  "ownedBefore": 3853,
+  "ownedAfter": 3854,
+  "ownedAdded": [
+    {
+      "keyHash": "347db50d0174a3d05ab4f17387ed0e77d5508cd2ebe3e30fcfe411f93c29d23a",
+      "keys": [
+        "database",
+        "table",
+        "key",
+        "firstSha256",
+        "latestSha256",
+        "latestXmin",
+        "proof",
+        "latestProof"
+      ],
+      "database": "poms_r4ghi_rust",
+      "table": "auth_session"
+    }
+  ],
+  "ownedChanged": [],
+  "recordKeys": [
+    "kind",
+    "identity",
+    "runtimeAdmission121",
+    "retainedSource15State",
+    "retainedPreparation15",
+    "originalProducer12",
+    "retainedParent14",
+    "legacyReferences",
+    "retainedMain13",
+    "mainCompletion",
+    "taxPreparation",
+    "continuation121",
+    "continuationReadback",
+    "sweep",
+    "complete",
+    "sidecar",
+    "lastServerTargetPacket"
+  ],
+  "authAndGetAttemptMetadata": [
+    {
+      "keys": [
+        "http",
+        "ledger",
+        "before",
+        "after"
+      ],
+      "operationId": "AuthController_getCsrfToken",
+      "method": "GET",
+      "status": 200,
+      "requestId": "bg21d9374c56-000044-http-6c455b1f",
+      "wireKeys": [
+        "runtimeReference121",
+        "kind",
+        "operationId",
+        "requestId",
+        "actorKey",
+        "method",
+        "canonicalTemplate",
+        "querySha256",
+        "status",
+        "expectedStatus",
+        "responseComplete",
+        "transportFailure",
+        "originals",
+        "bodyByteBoundary",
+        "secretsHeadersAndPayloadPublished"
+      ],
+      "http": {
+        "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tmp/rust-r4ghi/business/g2-business15/main01/000044-http-http.json",
+        "rawBytesSha256": "0a03eecc58cb682b9d4412fc17305afac31fb193d6e43770bf75fcf257aa3fe1"
+      },
+      "ledger": {
+        "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business15/main01/000045-ledger.json",
+        "bytes": 740,
+        "rawBytesSha256": "9cff9937f06865615bbc9c49d28022ca3e0425e7603c519adf00a0e167283be6"
+      },
+      "before": {
+        "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business15/main01/snapshot-000044-http-before.json",
+        "bytes": 3138053,
+        "rawBytesSha256": "a7e0ab0e02f1b3522830f3c5897de244742f06cdffdbb575c57f142d2ca8cb42"
+      },
+      "after": {
+        "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business15/main01/snapshot-000044-http-after.json",
+        "bytes": 3137774,
+        "rawBytesSha256": "85d6bf9784338cf7a7c2ae9b160fdf23447172c34aa1a9e6d0fb4122eb148cb0"
+      },
+      "ledgerKeys": [
+        "requestId",
+        "operationId",
+        "transport",
+        "before",
+        "after",
+        "recorded",
+        "blockers",
+        "ownershipComplete",
+        "responseStatusIsAcceptance"
+      ],
+      "times": {}
+    },
+    {
+      "keys": [
+        "http",
+        "ledger",
+        "before",
+        "after"
+      ],
+      "operationId": "AuthController_createPasswordAuthSession",
+      "method": "POST",
+      "status": 200,
+      "requestId": "bg21d9374c56-000046-http-fbf9afbb",
+      "wireKeys": [
+        "runtimeReference121",
+        "kind",
+        "operationId",
+        "requestId",
+        "actorKey",
+        "method",
+        "canonicalTemplate",
+        "querySha256",
+        "status",
+        "expectedStatus",
+        "responseComplete",
+        "transportFailure",
+        "originals",
+        "bodyByteBoundary",
+        "secretsHeadersAndPayloadPublished"
+      ],
+      "http": {
+        "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tmp/rust-r4ghi/business/g2-business15/main01/000046-http-http.json",
+        "rawBytesSha256": "61d25bada183797f88289e2b6f46dcf5ae084d8aefc7e809a0869961740c8ba6"
+      },
+      "ledger": {
+        "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business15/main01/000047-ledger.json",
+        "bytes": 936,
+        "rawBytesSha256": "b1ea3a9d01e2430fdc1057e1113e32944a0f0df08573394ac04b55bd4c88a92a"
+      },
+      "before": {
+        "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business15/main01/snapshot-000046-http-before.json",
+        "bytes": 3138053,
+        "rawBytesSha256": "f84de3d5757a0d3b24c501ebda03d6c1423266b26f5d702cbdbda84af6f0cedb"
+      },
+      "after": {
+        "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business15/main01/snapshot-000046-http-after.json",
+        "bytes": 3137774,
+        "rawBytesSha256": "4d184f611ac097cf2907758f744295e79233f43598c345c66db13189bec5afd5"
+      },
+      "ledgerKeys": [
+        "requestId",
+        "operationId",
+        "transport",
+        "before",
+        "after",
+        "recorded",
+        "blockers",
+        "ownershipComplete",
+        "responseStatusIsAcceptance"
+      ],
+      "times": {}
+    },
+    {
+      "keys": [
+        "http",
+        "ledger",
+        "before",
+        "after"
+      ],
+      "operationId": "AuthController_getCurrentAuthSession",
+      "method": "GET",
+      "status": 200,
+      "requestId": "bg21d9374c56-000048-http-c80de0b8",
+      "wireKeys": [
+        "runtimeReference121",
+        "kind",
+        "operationId",
+        "requestId",
+        "actorKey",
+        "method",
+        "canonicalTemplate",
+        "querySha256",
+        "status",
+        "expectedStatus",
+        "responseComplete",
+        "transportFailure",
+        "originals",
+        "bodyByteBoundary",
+        "secretsHeadersAndPayloadPublished"
+      ],
+      "http": {
+        "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tmp/rust-r4ghi/business/g2-business15/main01/000048-http-http.json",
+        "rawBytesSha256": "b60fa25b990f8ddd92db1e4122200ea2a64d39f749a3efcf23d5ac2fdf6df62f"
+      },
+      "ledger": {
+        "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business15/main01/000049-ledger.json",
+        "bytes": 895,
+        "rawBytesSha256": "cf6bf3379c5ef0d04b83d5f22eed5dbce303b1617f7a14e2e2b4e855f4478b2c"
+      },
+      "before": {
+        "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business15/main01/snapshot-000048-http-before.json",
+        "bytes": 3138053,
+        "rawBytesSha256": "58f0df79e24e0edf2ef27eb67bd857a3a2401128976d4f886bb844466df2897f"
+      },
+      "after": {
+        "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business15/main01/snapshot-000048-http-after.json",
+        "bytes": 3137774,
+        "rawBytesSha256": "a30230ee1554f479ee5d978b3984d027d1e1ea45765dd2e220d85bb238b347b2"
+      },
+      "ledgerKeys": [
+        "requestId",
+        "operationId",
+        "transport",
+        "before",
+        "after",
+        "recorded",
+        "blockers",
+        "ownershipComplete",
+        "responseStatusIsAcceptance"
+      ],
+      "times": {}
+    },
+    {
+      "keys": [
+        "http",
+        "ledger",
+        "before",
+        "after"
+      ],
+      "operationId": "ProjectCostController_getProjectUnifiedAccounting",
+      "method": "GET",
+      "status": 200,
+      "requestId": "bg21d9374c56-000051-http-1fb1d9dd",
+      "wireKeys": [
+        "runtimeReference121",
+        "kind",
+        "operationId",
+        "requestId",
+        "actorKey",
+        "method",
+        "canonicalTemplate",
+        "querySha256",
+        "status",
+        "expectedStatus",
+        "responseComplete",
+        "transportFailure",
+        "originals",
+        "bodyByteBoundary",
+        "secretsHeadersAndPayloadPublished"
+      ],
+      "http": {
+        "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tmp/rust-r4ghi/business/g2-business15/main01/000051-http-http.json",
+        "rawBytesSha256": "a0972e9f5c0fc82933cf38586f04aed0fff14237c84f0d69046ad57d1b917cfa"
+      },
+      "ledger": {
+        "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business15/main01/000052-ledger.json",
+        "bytes": 908,
+        "rawBytesSha256": "3613cf3949b4ed8a56d8b36fc80a68b82398d997e3bb3fa1060db750c08b95d4"
+      },
+      "before": {
+        "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business15/main01/snapshot-000051-http-before.json",
+        "bytes": 3138053,
+        "rawBytesSha256": "d0e1d1268ca6a6841dd17bf3c7fe06ec147989d4fa694bcba7e261de65962678"
+      },
+      "after": {
+        "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business15/main01/snapshot-000051-http-after.json",
+        "bytes": 3137774,
+        "rawBytesSha256": "2718379ee6444c325aa876804da6cc37f6c984cce9ab2cce725604a10c36f811"
+      },
+      "ledgerKeys": [
+        "requestId",
+        "operationId",
+        "transport",
+        "before",
+        "after",
+        "recorded",
+        "blockers",
+        "ownershipComplete",
+        "responseStatusIsAcceptance"
+      ],
+      "times": {}
+    },
+    {
+      "keys": [
+        "http",
+        "ledger",
+        "before",
+        "after"
+      ],
+      "operationId": "ProjectCostController_getProjectUnifiedAccounting",
+      "method": "GET",
+      "status": 200,
+      "requestId": "bg21d9374c56-000053-http-04300746",
+      "wireKeys": [
+        "runtimeReference121",
+        "kind",
+        "operationId",
+        "requestId",
+        "actorKey",
+        "method",
+        "canonicalTemplate",
+        "querySha256",
+        "status",
+        "expectedStatus",
+        "responseComplete",
+        "transportFailure",
+        "originals",
+        "bodyByteBoundary",
+        "secretsHeadersAndPayloadPublished"
+      ],
+      "http": {
+        "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tmp/rust-r4ghi/business/g2-business15/main01/000053-http-http.json",
+        "rawBytesSha256": "3bcc44b4a3961a9abc7593da27dc6c1875298345509f305f031c758cabc89a34"
+      },
+      "ledger": {
+        "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business15/main01/000054-ledger.json",
+        "bytes": 908,
+        "rawBytesSha256": "be111dc98025a07cdfa859e7e10dad7960e621e21013023afdc9490f97028eb7"
+      },
+      "before": {
+        "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business15/main01/snapshot-000053-http-before.json",
+        "bytes": 3138053,
+        "rawBytesSha256": "bf534945cd6ea4fae04ae6e6a4f77b9dea17b9efbe61663d1e439e930bf3678f"
+      },
+      "after": {
+        "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business15/main01/snapshot-000053-http-after.json",
+        "bytes": 3137774,
+        "rawBytesSha256": "946bd72bf53b29826dc8e62621119bd2b2a686ef0b0f9f8c627808c807904318"
+      },
+      "ledgerKeys": [
+        "requestId",
+        "operationId",
+        "transport",
+        "before",
+        "after",
+        "recorded",
+        "blockers",
+        "ownershipComplete",
+        "responseStatusIsAcceptance"
+      ],
+      "times": {}
+    },
+    {
+      "keys": [
+        "http",
+        "ledger",
+        "before",
+        "after"
+      ],
+      "operationId": "ProjectCostController_getProjectUnifiedAccounting",
+      "method": "GET",
+      "status": 200,
+      "requestId": "bg21d9374c56-000055-http-b908528f",
+      "wireKeys": [
+        "runtimeReference121",
+        "kind",
+        "operationId",
+        "requestId",
+        "actorKey",
+        "method",
+        "canonicalTemplate",
+        "querySha256",
+        "status",
+        "expectedStatus",
+        "responseComplete",
+        "transportFailure",
+        "originals",
+        "bodyByteBoundary",
+        "secretsHeadersAndPayloadPublished"
+      ],
+      "http": {
+        "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tmp/rust-r4ghi/business/g2-business15/main01/000055-http-http.json",
+        "rawBytesSha256": "f0a54a41769abf3d82a1db7fdce5df461fca62df80ea903aac1f6645a3a87d60"
+      },
+      "ledger": {
+        "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business15/main01/000056-ledger.json",
+        "bytes": 908,
+        "rawBytesSha256": "d7524e9cb8fe12ca365bdf5dd315822a83645957abef8bf4d3b2d541640e748c"
+      },
+      "before": {
+        "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business15/main01/snapshot-000055-http-before.json",
+        "bytes": 3138053,
+        "rawBytesSha256": "9316582cf461a6421669c8f08826eb77f01f0ca121b9acd127991943e9386320"
+      },
+      "after": {
+        "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business15/main01/snapshot-000055-http-after.json",
+        "bytes": 3137774,
+        "rawBytesSha256": "5ed7a0b1eca5013f249d3784bde92fb3ba2edca2c651f72a997413b0c3e35c78"
+      },
+      "ledgerKeys": [
+        "requestId",
+        "operationId",
+        "transport",
+        "before",
+        "after",
+        "recorded",
+        "blockers",
+        "ownershipComplete",
+        "responseStatusIsAcceptance"
+      ],
+      "times": {}
+    },
+    {
+      "keys": [
+        "http",
+        "ledger",
+        "before",
+        "after"
+      ],
+      "operationId": "ProjectCostController_getProjectUnifiedAccounting",
+      "method": "GET",
+      "status": 200,
+      "requestId": "bg21d9374c56-000057-http-2ffd57a4",
+      "wireKeys": [
+        "runtimeReference121",
+        "kind",
+        "operationId",
+        "requestId",
+        "actorKey",
+        "method",
+        "canonicalTemplate",
+        "querySha256",
+        "status",
+        "expectedStatus",
+        "responseComplete",
+        "transportFailure",
+        "originals",
+        "bodyByteBoundary",
+        "secretsHeadersAndPayloadPublished"
+      ],
+      "http": {
+        "file": "/mnt/e/projects/worktrees/poms-r3hijk-next28/poms/tmp/rust-r4ghi/business/g2-business15/main01/000057-http-http.json",
+        "rawBytesSha256": "4d88dc18c34165c94751f0d55bbd04c523199a9ad11edde9ed73166dc0e3f104"
+      },
+      "ledger": {
+        "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business15/main01/000058-ledger.json",
+        "bytes": 908,
+        "rawBytesSha256": "90b2c8f263f8f6cd9d73ce095e9d86f4e6cf12efd8bedd8ebcb718f7e23473b4"
+      },
+      "before": {
+        "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business15/main01/snapshot-000057-http-before.json",
+        "bytes": 3138053,
+        "rawBytesSha256": "4dcac45c94352117af7efcafeaa081eb53aa9f34f20c1b94b0b837f3d91320c7"
+      },
+      "after": {
+        "file": "/home/wangzishi/.local/share/poms-r4ghi/private/business/g2-business15/main01/snapshot-000057-http-after.json",
+        "bytes": 3137774,
+        "rawBytesSha256": "1f5213e7ae3a747a2ed291f4c916bfc032658ef41270a4bd806b08f794951ad0"
+      },
+      "ledgerKeys": [
+        "requestId",
+        "operationId",
+        "transport",
+        "before",
+        "after",
+        "recorded",
+        "blockers",
+        "ownershipComplete",
+        "responseStatusIsAcceptance"
+      ],
+      "times": {}
+    }
+  ],
+  "entryHasMode": false,
+  "exitHasMode": false,
+  "journalHasMode": true,
+  "physicalPassed": false,
+  "acceptanceIssued": false,
+  "RootOrPrivateWritten": false,
+  "appModeSQLHTTPInvoked": false
+}

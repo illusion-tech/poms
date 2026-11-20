@@ -1,0 +1,86 @@
+{
+  "kind": "Root additive execution admission context proposal; not frozen G2 delta02",
+  "base": "g2-public-delta01.json preserved unchanged plus actual StartProjectExecutionRequest",
+  "operationCountChanged": false,
+  "newHttpOperations": 0,
+  "addSchemas": {
+    "ExecutionAdmissionContextView": {
+      "additionalProperties": false,
+      "required": [
+        "commissionRoleAssignmentId",
+        "expectedRoleAssignmentVersion",
+        "handoverStageRecordId",
+        "handoverSummarySnapshotId",
+        "sourceHandoverId",
+        "sourcePayloadHash"
+      ],
+      "type": "object",
+      "properties": {
+        "handoverStageRecordId": {
+          "format": "uuid",
+          "type": "string"
+        },
+        "handoverSummarySnapshotId": {
+          "format": "uuid",
+          "type": "string"
+        },
+        "expectedRoleAssignmentVersion": {
+          "minimum": 1,
+          "maximum": 2147483647,
+          "type": "integer"
+        },
+        "commissionRoleAssignmentId": {
+          "format": "uuid",
+          "type": "string"
+        },
+        "sourceHandoverId": {
+          "format": "uuid",
+          "type": "string"
+        },
+        "sourcePayloadHash": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        }
+      },
+      "description": "Actual same-transaction execution admission references for the current real execution owner only; no role weights, amounts or access to Role GET."
+    }
+  },
+  "components": {
+    "FullProjectDetailView": {
+      "addProperties": {
+        "executionAdmissionContext": {
+          "anyOf": [
+            {
+              "$ref": "#/components/schemas/ExecutionAdmissionContextView"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "addRequired": [
+        "executionAdmissionContext"
+      ]
+    }
+  },
+  "derive": {
+    "sourceComponent": "StartProjectExecutionRequest",
+    "omit": [
+      "inputVersion",
+      "expectedProjectVersion",
+      "reason"
+    ],
+    "kept": [
+      "handoverStageRecordId",
+      "handoverSummarySnapshotId",
+      "expectedRoleAssignmentVersion",
+      "commissionRoleAssignmentId",
+      "sourceHandoverId",
+      "sourcePayloadHash"
+    ],
+    "sourceComponentSHA256": "148a55d029bf0c57e970dfc9d59aba82e578ebb33c9473d4780527291da0749b"
+  },
+  "G3Certified": false,
+  "actualAcceptancePassed": false
+}
